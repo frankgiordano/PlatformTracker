@@ -1,0 +1,49 @@
+package us.com.plattrk.api.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Platform")
+public class Platform {
+	
+	private Long id;
+	private String name;
+//	private Set<Product> products;
+	
+	public Platform() {
+	}
+	
+	public Platform(String name) {
+		this.name = name;
+	}
+	
+	@Id
+	@Column(name = "platform_id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	@Column(name = "name", columnDefinition="VARCHAR(50)", nullable = true)
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+//	@OneToMany(mappedBy = "platform")
+//	public Set<Product> getProducts() {
+//		return products;
+//	}
+//	public void setProducts(Set<Product> products) {
+//		this.products = products;
+//	}
+
+}

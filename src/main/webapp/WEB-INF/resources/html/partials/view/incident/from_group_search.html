@@ -1,0 +1,90 @@
+
+<div data-ng-controller="IncidentGroupController" data-ng-init="init()">
+
+  <div ng-hide="selectedIncident">
+  
+  <div>
+       <h2>Incident Group Search</h2>
+  </div>
+  <div style="clear:both;">&nbsp;</div>
+  <form class="form-horizontal" name="helpForm" novalidate role="form"> 
+    <div class="form-group">
+             <label class="col-sm-2 control-label">Current Selected Group</label>
+             <div class="col-sm-6 form-control-static">
+               				{{selectedGroup.name}}
+             </div>
+   </div>
+   	<div class="form-group">
+       <label class="col-sm-2 control-label">Group Name</label>
+          <div class="col-sm-6">
+          	<select ng-change="changedGroup();tableParams.sorting({})" ng-model="selectedGroup" class="form-control" ng-options="group.name for group in groups | orderBy: 'name'">
+   			</select>
+          </div>
+  	 </div>
+   </form>
+   
+   <div class="form-group">
+             <label class="control-label pull-left">Count Total:</label>
+             <div class="col-sm-7 form-control-static">
+               				{{tableParams.total()}}
+             </div>
+   </div>
+
+   <div style="clear:both;">&nbsp;</div>
+   <div>
+        <button ng-click="tableParams.sorting({})" class="btn btn-primary pull-right">Clear sorting</button>
+        <button ng-click="tableParams.filter({})" class="btn btn-primary pull-right">Clear filter</button>
+        <p><strong>Sorting:</strong> {{tableParams.sorting()|json}}
+        <p><strong>Filter:</strong> {{tableParams.filter()|json}}
+        <table ng-table="tableParams" show-filter="true" class="table table-striped table-hover table-condensed">
+          <tbody>
+            <tr class="btn-link" ng-repeat="group in $data" ng-click="select('incident', group)">
+              <td data-title="'Id'" sortable="'id'">{{group.id}}</td>
+              <td data-title="'Tag'" sortable="'tag'" filter="{ 'tag': 'text' }">{{group.tag}}</td>
+              <td data-title="'Status'" sortable="'status'" >{{group.status | closed}}</td>
+              <td data-title="'Sev'" sortable="'severity'" >{{group.severity}}</td>
+              <td data-title="'Description'" sortable="'description'" filter="{ 'description': 'text'}"> 
+                 <div my-qtip qtip-content="{{group.description + ' ' + group.summary}}" >
+                      {{group.description + " " + group.summary | addEllipsis}} 
+                 </div>
+              </td>
+              <td data-title="'Error'" sortable="'error'" >{{group.error.name}}</td>
+              <td data-title="'Locus'" sortable="'locus'" >{{group.locus}}</td>
+              <td data-title="'Start Time'" sortable="'startTime'" >{{group.startTime | dateFormat}}</td>
+              <td data-title="'End Time'" sortable="'endTime'" >{{group.endTime | dateFormat}}</td>
+              <td data-title="'Users Imped'" sortable="'usersImpacted'" >{{group.usersImpacted | percentage}}</td>
+<!--          <td data-title="'Trans ID Imped'" sortable="'transactionIdsImpacted'" >{{group.transactionIdsImpacted}}</td>  -->
+              <td data-title="'Calls'" sortable="'callsReceived'" >{{group.callsReceived}}</td>
+              <td data-title="'AlertedBy'" sortable="'alertedBy'" >{{group.alertedBy}}</td>
+<!--          <td data-title="'iReport'" sortable="'incidentReport'" >{{group.incidentReport}}</td> --> 
+            </tr>
+          </tbody>
+        </table>
+    </div>
+   </div>
+    
+   <form class="form-horizontal" ng-show="selectedIncident">
+    	<div ng-include="'resources/html/partials/view/incident/edit.html'" ng-if="show">        	
+     		<!-- The actual modal template, just a bit o bootstrap -->
+     		<script type="text/ng-template" id="modal.html">
+         		<div class="modal fade">
+          			<div class="modal-dialog">
+            			<div class="modal-content">
+              				<div class="modal-header">
+                					<button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                					<h4 class="modal-title">Deletion confirmation:</h4>
+             				</div>
+              				<div class="modal-body">
+               						<p>Are you sure you want to delete the incident?</p>
+             				</div>
+              		 		<div class="modal-footer">
+               			 			<button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">No</button>
+               			 			<button type="button" ng-click="close('Yes')" class="btn btn-primary" data-dismiss="modal">Yes</button>
+              				</div>
+           			 	</div>
+          			 </div>
+        		    </div>
+     		</script>
+	  	</div>                
+    </form>
+</div>

@@ -1,0 +1,380 @@
+<div>
+  <a class="" ng-click="cancel('selectedIncident')" >
+    <img src="/plattrk/resources/images/back.jpg" width="50" height="50" />
+  </a>
+</div>
+
+<div>
+  <h2>Incident Detail</h2>
+</div>
+
+<div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+<div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
+<div id="messages" class="alert alert-danger" data-ng-show="errormessages2" data-ng-bind="errormessages2"></div>
+
+<div class="form-group">
+  <label class="col-sm-2 control-label">Tag</label>
+  <div class="col-sm-3 form-control-static">
+    {{selectedIncident.tag}}
+  </div>
+  <label class="col-sm-1 control-label">Recorded By</label>
+  <div class="col-sm-3 form-control-static">
+    {{selectedIncident.recordedBy}}
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="control-label col-md-2">Current Group</label>
+  <div class="col-md-3 form-control-static">
+    	{{groupModel.currentGroupName}}
+  </div>
+  <label class="col-sm-1 control-label">Reassign Grp</label>
+  <div class="col-sm-3">
+        <input type="text" ng-model="groupModel.selectedNewGroup" typeahead="group.name for group in groups | filter:$viewValue | orderBy: 'name'" class="form-control" >
+  </div>
+</div>
+
+<!--  
+<div class="form-group">
+  <label class="col-sm-2 control-label">Reassign Group</label>
+  <div class="col-sm-7">
+    <select class="form-control" class="form-control" ng-model="groupModel.selectedNewGroup" ng-options="group.name for group in groups | orderBy: 'name'"></select>
+  </div>
+</div>
+-->
+
+<div class="form-group">
+  <label class="col-sm-2 control-label">Status</label>
+  <div class="col-sm-3">
+    <select class="form-control" ng-model="selectedIncident.status" ng-options="c.name as c.name for c in incidentstatuss"></select>
+  </div>  
+  <label class="col-sm-1 control-label">Email RCPT</label>
+  <div class="col-sm-3">
+    <select class="form-control" ng-model="selectedIncident.emailRecipents" ng-options="c.name as c.name for c in recipents"></select>
+  </div>
+</div>
+
+<div class="form-group">
+         <label class="col-sm-2 control-label">Start Date Time</label>
+         <div class="col-md-3">
+            <p class="input-group">
+                <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm" ng-model="selectedIncident.startTime" is-open="open.startTime" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'startTime')"><i class="fa fa-calendar"></i></button>
+                </span>
+            </p>
+         </div>
+         <label class="col-sm-1 control-label">End Date Time</label>
+         <div class="col-md-3">
+            <p class="input-group">
+                <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm" ng-model="selectedIncident.endTime" is-open="open.endTime" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'endTime')"><i class="fa fa-calendar"></i></button>
+                </span>
+            </p>
+         </div>   
+</div>
+
+<!--  
+<div class="form-group">
+  <label for="dtp_input1" class="col-sm-2 control-label">Start Date Time</label>
+  <div class="col-md-3">
+    <my-date-picker-start ng-model="selectedIncident.startTime"></my-date-picker-start>
+  </div>
+  <label for="dtp_input1" class="col-sm-1 control-label">End Date Time</label>
+  <div class="col-md-3">
+    <my-date-picker-end ng-model="selectedIncident.endTime"></my-date-picker-end>
+  </div>
+</div>
+-->
+
+<div class="form-group">
+  <label class="col-sm-2 control-label">Severity</label>
+  <div class="col-sm-3">
+    <select class="form-control" ng-model="selectedIncident.severity" ng-options="c.name as c.name for c in options"></select>
+  </div>
+  <label class="col-sm-1 control-label">Name</label>
+  <div class="col-sm-3">
+    <input type="text" class="form-control" ng-model="selectedIncident.name">
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-sm-2 control-label">Owner</label>
+  <div class="col-sm-3">
+    <input type="text" class="form-control" ng-model="selectedIncident.reportOwner">
+  </div>
+  <label class="col-sm-1 control-label">Application Status</label>
+  <div class="col-sm-3">
+    <select class="form-control" ng-model="selectedIncident.applicationStatus" ng-options="c.displayName as c.displayName for c in applicationStatuses"></select>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-sm-2 control-label">Error Condition</label>
+  <div class="col-sm-3">
+    <select class="form-control" ng-model="selectedIncident.error" ng-options="c.name as c.name for c in errors"></select>
+  </div>
+  <label class="col-sm-1 control-label">Locus</label>
+  <div class="col-sm-3">
+    <select class="form-control" ng-model="selectedIncident.locus" ng-options="c.name as c.name for c in locuss"></select>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-sm-2 control-label">Business Description</label>
+  <div class="col-sm-7">
+    <textarea type="text" class="form-control" rows="5" ng-model="selectedIncident.summary"></textarea>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-sm-2 control-label">Technical Description</label>
+  <div class="col-sm-7">
+    <textarea type="text" class="form-control" rows="5" ng-model="selectedIncident.description"></textarea>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-sm-2 control-label">Alerted By</label>
+  <div class="col-sm-3">
+    <select class="form-control" ng-model="selectedIncident.alertedBy" ng-options="c.name as c.name for c in alerted_bys"></select>
+  </div>
+  <label class="col-sm-1 control-label">Reviewed By</label>
+  <div class="col-sm-3">
+    <input type="text" class="form-control" ng-model="selectedIncident.reviewedBy">
+  </div>
+</div>
+
+<hr>
+
+<tabset vertical="true" type="pills">
+  <tab heading="Chronology">
+    <div>
+
+      <div>
+        <hr>
+        <h2>Chronology</h2>
+      </div>
+
+      <div id="messages" class="alert alert-success" data-ng-show="chronmessages" data-ng-bind="chronmessages"></div>
+      <div id="messages" class="alert alert-danger" data-ng-show="chronerrormessages" data-ng-bind="chronerrormessages"></div>
+
+      <div class="form-group">
+        <label class="control-label col-md-2">Tag</label>
+        <div class="col-md-7 form-control-static">
+          {{selectedIncident.tag}}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-md-2">Description</label>
+        <div class="col-md-7 form-control-static">
+          {{selectedIncident.description + " " + selectedIncident.summary}}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2">TimeLine</label>
+        <div class="col-sm-7">
+          <table class="table table-bordered table-striped">
+
+            <thead>
+              <tr>
+                <td>
+                  Date Time
+                </td>
+                <td>
+                  Description
+                </td>
+                <td>
+                  Recorded By
+                </td>
+                <td>
+                  Delete
+                </td>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr ng-repeat="item in selectedChronologies | orderBy: 'dateTime'">
+                <td>{{item.dateTime | dateFormat}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.recordedBy}}</td>
+                <td>
+                  <a ng-click="remove(selectedChronologies, item)"><span class="glyphicon glyphicon-trash" />
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+
+      <div ng-hide="createChronology">
+
+        <div style="clear:both;">&nbsp;</div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button class="btn btn-primary" ng-disabled="disableButton" ng-click="select('chronology')">
+              Add Timeline Entry
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div ng-show="createChronology">
+
+        <div>
+          <h2>Add Timeline Entry</h2>
+        </div>
+<!--  
+        <div class="form-group">
+          <label for="dtp_input1" class="col-sm-2 control-label">Date Time</label>
+          <div class="col-md-7">
+            <my-date-picker-time ng-model="createChronology.chronologyDateTime"></my-date-picker-time>
+          </div>
+        </div>
+-->       
+        <div class="form-group">
+         	<label class="col-sm-2 control-label">Date Time</label>
+         	<div class="col-md-7">
+            	<p class="input-group">
+                <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm" ng-model="createChronology.chronologyDateTime" is-open="open.dateTime" />
+               	 <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'dateTime')"><i class="fa fa-calendar"></i></button>
+               	 </span>
+            	</p>
+         	</div> 
+		</div>
+        
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Description</label>
+          <div class="col-sm-7">
+            <textarea type="text" class="form-control" rows="3" ng-model="createChronology.chronDescription"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button class="btn btn-primary" ng-disabled="disableButton" ng-click="submitChronology()">
+              Save
+            </button>
+            <button class="btn btn-primary" ng-click="cancel('createChronology')">
+              Cancel
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </tab>
+  
+  <tab heading="Corrective Action">
+    <div>
+      <hr>
+      <h2>Corrective Action</h2>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Issue</label>
+      <div class="col-sm-7">
+        <textarea type="text" class="form-control" rows="2" ng-model="selectedIncident.issue"></textarea>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Corrective Action</label>
+      <div class="col-sm-7">
+        <textarea type="text" class="form-control" rows="4" ng-model="selectedIncident.correctiveAction"></textarea>
+      </div>
+    </div>
+    
+    <div class="form-group">
+	  <label class="col-sm-2 control-label">Related Actions</label>
+		<div class="col-sm-7">
+			<div class="panel-content">
+				<div>
+					<table class="table table-responsive" class="form-control">
+						<tr ng-repeat="action in actions | filter:filterAction">
+							<td class="editable-content table-responsive"><textarea
+								type="text" class="form-control" rows="3"
+								ng-model="action.name"></textarea></td>
+
+							<td><button type="button"
+								ng-click="deleteAction(action.id)"
+								class="btn btn-primary pull-right form-control">Delete
+								Action</button></td>
+							</tr>
+					</table>
+					<button type="button" ng-disabled="tableform.$waiting"
+								ng-click="addAction()" class="btn btn-primary ">Add
+								Action</button>
+					<br /> <br>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+  </tab>
+  
+  <tab heading="Impact">
+    <div>
+      <hr>
+      <h2>Impact</h2>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Product(s) Impacted</label>
+      <div class="col-sm-7">
+        <bs-select required ng-model="selectedProducts" default-text="Select Associated Product(s).." text-field="shortName" value-field="id" items="myProducts">
+        </bs-select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Customer Impact</label>
+      <div class="col-sm-7">
+        <textarea type="text" class="form-control" rows="5" ng-model="selectedIncident.customerImpact"></textarea>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">% of Users Impacted</label>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" ng-model="selectedIncident.usersImpacted">
+      </div>
+      <label class="col-sm-1 control-label">Calls Rec'd</label>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" ng-model="selectedIncident.callsReceived">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Transaction IDs Impacted</label>
+      <div class="col-sm-7">
+        <input type="text" class="form-control" ng-model="selectedIncident.transactionIdsImpacted">
+      </div>
+    </div>
+
+  </tab>
+   
+</tabset>
+
+<hr>
+<div style="clear:both;">&nbsp;</div>
+<div style="clear:both;">&nbsp;</div>
+<div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+    <button class="btn btn-primary" ng-disabled="disableButton" ng-click="updateInSearch()">
+      Save
+    </button>
+    <button class="btn btn-primary" ng-disabled="disableButton" ng-click="showOnDelete('incident')">
+      Delete
+    </button>
+    <button class="btn btn-primary" ng-click="cancel('selectedIncident')">
+      Back
+    </button>
+  </div>
+</div>

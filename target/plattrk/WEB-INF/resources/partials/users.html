@@ -1,0 +1,7 @@
+<h3>Users</h3>
+<p>DEBUG: {{pagingOptions | json}}</p>
+
+<div class="gridStyle" ng-grid="gridOptions"></div>
+
+<h2>Selected: <a href="{{gridOptions.selectedItems[0].links[0].href}}">{{gridOptions.selectedItems[0].firstName}}  {{gridOptions.selectedItems[0].lastName}}</a></h2>
+
