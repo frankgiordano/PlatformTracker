@@ -10,7 +10,7 @@ may have deployed to production. From the incidents, trends can be identifed whi
 As such, this application has a very small project management component. 
 
 Overall, this project was more of a POC and tech stack learning exercise. You may find this application useful and you are welcome to use it.
-The basic incident management should be generic enough to adpated to any incident tracking you may want to do. 
+The basic incident management should be generic enough to adpat to any incident tracking you may need. 
 
 I am posting this project for educational proposes, and I intend to continue to develop this project in my spare time if any :) I have areas I may
 polish. I may rewrite the UI with a new version of angular, and I may rewrite the back end in kotlin. As such, I may evolve the project as a place
@@ -18,11 +18,11 @@ to learn and experiment.
 
 Setup, Installation, and running the application:
 
-1 - Install Java
+1 - Install Java 8
 
 2 - Install Maven
 
-3 - Install Apache Tomcat
+3 - Install Apache Tomcat 7
 
 4 - Within tomcat's directory location for example: C:\Users\giofr\Downloads\tools\apache-tomcat-7.0.99\conf, 
     edit context.xml file and add the following reource xml tag info between context xml tag:
@@ -58,6 +58,8 @@ Setup, Installation, and running the application:
 
 	mvn clean install
 
+     Note: everytime you rebuild you will need to delete the plattrk directory under tomcat's webapps directory before step 12	
+
 12 - From tomcat's bin directory, execute the following command to deploy the war deliverable within the tomcat server
 
 	startup
@@ -65,3 +67,38 @@ Setup, Installation, and running the application:
 13 - From the browser, type in the following url http://localhost:8080/plattrk
 
 14 - To login into the application UI enter in username as 'guest' and password as 'password'
+
+Alernative build and deploy method:
+
+1 - Add the following to tomcat's tomcat-users.txt file located in tomcat's conf directory:
+
+	<?xml version='1.0' encoding='utf-8'?>
+	<tomcat-users>
+  	<role rolename="manager-script"/>
+  	<role rolename="manager-gui"/>
+  	<user username="admin" password="admin" roles="manager-gui,manager-script"/>
+	</tomcat-users>
+
+2 - Add the following to maven's settings.xml file located in maven's conf directory:
+
+	<server>
+		<id>TomcatServer</id>
+		<username>admin</username>
+		<password>password</password>
+	</server>
+
+3 - Check the project's pom.xml and make sure the following are set in org.apache.tomcat.maven plugin under <configuration> tag:
+
+	<username>admin</username>
+        <password>admin</password>
+
+    If not there please add.
+
+4 - From tomcat's bin directory, execute the following command to deploy the war deliverable within the tomcat server
+
+	startup
+
+5 - Now you can automatcially deploy to tomcat without the need to delete the project directory in tomcat, see step 11
+
+	mvn tomcat7:deploy
+	mvn tomcat7:undeploy
