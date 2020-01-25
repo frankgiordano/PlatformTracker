@@ -126,6 +126,7 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
     };
 
     $scope.submit = function(form) {
+        $scope.clearMsg();
         // Trigger validation flag.
         $scope.submitted = true;
 
@@ -162,7 +163,7 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
                 }
             },
             function error() {
-                $scope.messages = "Save operation failure, make sure the following required fields are filled: Platform, Incident Name, Client Name, Short Name (10 character field), Start Date and Max Weekly Uptime, please try again";
+                $scope.errormessages = "Save operation failure, make sure the following required fields are filled: Platform, Incident Name, Client Name, Short Name (10 character field), Start Date and Max Weekly Uptime, please try again";
             });
     };
 });
