@@ -16,7 +16,7 @@ I am posting this project for educational proposes, and I intend to continue to 
 polish. I may rewrite the UI with a new version of angular, and I may rewrite the back end in kotlin. As such, I may evolve the project as a place
 to learn and experiment. 
 
-##Setup, Installation, and running the application:
+## Setup, Installation, and running the application:
 
 1 - Install Java 8
 
@@ -68,7 +68,7 @@ to learn and experiment.
 
 14 - To login into the application UI enter in username as 'guest' and password as 'password'
 
-#Alernative build and deploy method:
+# Alernative build and deploy method:
 
 1 - Add the following to tomcat's tomcat-users.txt file located in tomcat's conf directory:
 
