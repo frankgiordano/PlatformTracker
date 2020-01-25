@@ -22,7 +22,6 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
         $scope.selectedProduct.startDate = moment($scope.selectedProduct.startDate).format('YYYY-MM-DD'); 
         $scope.selectedProduct.endDate = moment($scope.selectedProduct.endDate).format('YYYY-MM-DD'); 
         $scope.disableButton = false;
-        
     };
     
     $scope.cancelP = function () {
@@ -111,6 +110,7 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
                         $scope.messages = "Product with incident name " + product.incidentName + " has been saved.";
                         console.info("Product with incident name " + product.incidentName + " has been saved.");
                         clear();
+                        $scope.refreshData();
                     } else {
                         console.error("Product with incident name " + product.incidentName + " was unable to be saved.")
                     }
