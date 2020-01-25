@@ -135,12 +135,17 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
         //  	  return;
         //    }
 
-        var	revenueValue = $scope.revenue; 
-        var usersValue = $scope.users;
+        var platform;
+
+        if ($scope.selectedPlatform == null || $scope.selectedPlatform == undefined) {
+            platform = null;
+        } else {
+            platform = $scope.selectedPlatform.value;
+        }
         
         var product = {
             "incidentName": $scope.incidentName,
-            "platform": $scope.selectedPlatform.value,
+            "platform": platform,
             "clientName": $scope.clientName,
             "shortName": $scope.shortName,
             "owner": $scope.owner,
