@@ -200,4 +200,22 @@ public class Product {
 		this.platform = platform;
 	}
 
+	@Override
+	public String toString() {
+		return "Product{" +
+				"id=" + id +
+				", incidentName='" + incidentName + '\'' +
+				", clientName='" + clientName + '\'' +
+				", shortName='" + shortName + '\'' +
+				", owner='" + owner + '\'' +
+				", startDate=" + startDate +
+				", endDate=" + endDate +
+				", maxWeeklyUptime=" + maxWeeklyUptime +
+				", revenue=" + revenue +
+				", users=" + users +
+				", productUsers=" + productUsers +
+				", productComponents=" + productComponents +
+				", platform='" + platform + '\'' +
+				'}';
+	}
 }

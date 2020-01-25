@@ -116,10 +116,11 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
                     }
                 },
                 function error() {
-                    $rootScope.errors.push({
-                        code: "PRODUCT_SAVE_FAILURE",
-                        message: "Save operation failure, make sure the following required fields are filled: Platform, Incident Name, Client Name, Short Name (10 character field), Start Date and Max Weekly Uptime, please try again"
-                    });
+                    $scope.errormessages = "Save operation failure, make sure the following required fields are filled: Platform, Incident Name, Client Name, Short Name (10 character field), Start Date and Max Weekly Uptime, please try again";
+                    // $rootScope.errors.push({
+                    //     code: "PRODUCT_SAVE_FAILURE",
+                    //     message: "Save operation failure, make sure the following required fields are filled: Platform, Incident Name, Client Name, Short Name (10 character field), Start Date and Max Weekly Uptime, please try again"
+                    // });
                 });
 
     };
