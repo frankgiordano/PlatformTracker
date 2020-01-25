@@ -17,18 +17,16 @@
 		<br />
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Incident Group Name</label>
-			<div class="col-sm-7">
+			<div class="col-sm-6">
 				<select class="form-control" ng-model="resolution.incidentGroup"
 					ng-options="group.name for group in groups | orderBy: 'name'">
 				</select>
 			</div>
 		</div>
 
-
-
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Horizon</label>
-			<div class="col-sm-7">
+			<div class="col-sm-6">
 				<select class="form-control" ng-model="resolution.horizon"
 					ng-options="item.displayName for item in horizons">
 				</select>
@@ -37,7 +35,7 @@
 
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Owner</label>
-			<div class="col-sm-7">
+			<div class="col-sm-6">
 				<div multi-select input-model="owners" button-label="userName"
 					helper-elements="filter" output-model="ownerlist"
 					item-label="userName" tick-property="ticked"></div>
@@ -47,7 +45,7 @@
 
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Status</label>
-			<div class="col-sm-7">
+			<div class="col-sm-6">
 				<select class="form-control" ng-model="resolution.status"
 					ng-options="item.displayName for item in status">
 				</select>
@@ -58,7 +56,7 @@
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Estimated Completion
 				Date</label>
-			<div class="col-sm-7">
+			<div class="col-sm-6">
 				<input type="date" class="form-control"
 					ng-model="resolution.estCompletionDate">
 			</div>
@@ -66,19 +64,15 @@
 
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Actual Completion Date</label>
-			<div class="col-sm-7">
+			<div class="col-sm-6">
 				<input type="date" class="form-control"
 					ng-model="resolution.actualCompletionDate">
 			</div>
 		</div>
 
-
-
-
-
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Type</label>
-			<div class="col-sm-7">
+			<div class="col-sm-6">
 				<select class="form-control" ng-model="resolution.type"
 					ng-options="item.displayName for item in types">
 				</select>
@@ -87,7 +81,7 @@
 
 		<div class="form-group">
 			<label class="col-sm-2 control-label">SRI Artifact</label>
-			<div class="col-sm-7">
+			<div class="col-sm-6">
 				<input type="text" class="form-control"
 					ng-model="resolution.sriArtifact">
 			</div>
@@ -96,7 +90,7 @@
 <!--
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Issue</label>
-			<div class="col-sm-7">
+			<div class="col-sm-6">
 				<textarea type="text" class="form-control" rows="3"
 					ng-model="resolution.issue"></textarea>
 			</div>
@@ -105,7 +99,7 @@
 
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Description</label>
-			<div class="col-sm-7">
+			<div class="col-sm-6">
 				<textarea type="text" class="form-control" rows="5"
 					ng-model="resolution.description"></textarea>
 			</div>
@@ -113,7 +107,7 @@
 <!--  
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Related Action's?</label>
-			<div class="col-sm-7">
+			<div class="col-sm-6">
 
 				<div class="panel-content">
 
