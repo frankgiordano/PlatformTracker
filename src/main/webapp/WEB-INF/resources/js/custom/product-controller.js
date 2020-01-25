@@ -19,6 +19,8 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
     
     $scope.select = function(product) {
         $scope.selectedProduct = product;
+        $scope.selectedProduct.startDate = moment($scope.selectedProduct.startDate).format('YYYY-MM-DD'); 
+        $scope.selectedProduct.endDate = moment($scope.selectedProduct.endDate).format('YYYY-MM-DD'); 
         $scope.disableButton = false;
         
     };
@@ -38,8 +40,8 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
         $scope.clientName = null;
         $scope.shortName = null;
         $scope.owner = null;
-        $scope.startTime = null;
-        $scope.endTime = null;
+        $scope.startDate = null;
+        $scope.endDate = null;
         $scope.maxWeeklyUptime = null;
     };
     
@@ -86,9 +88,6 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
     
     $scope.updateInSearch = function() {
         $scope.clearMsg();
-        
-        var	revenueValue = $scope.selectedProduct.revenue; 
-        var usersValue = $scope.selectedProduct.users;
         
         var product = {
             "id": $scope.selectedProduct.id,
