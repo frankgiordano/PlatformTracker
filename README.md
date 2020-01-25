@@ -68,7 +68,7 @@ to learn and experiment.
 
 14 - To login into the application UI enter in username as 'guest' and password as 'password'
 
-# Alernative build and deploy method:
+## Alernative build and deploy method:
 
 1 - Add the following to tomcat's tomcat-users.txt file located in tomcat's conf directory:
 
