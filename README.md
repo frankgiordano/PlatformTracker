@@ -74,9 +74,9 @@ Alernative build and deploy method:
 
 	<?xml version='1.0' encoding='utf-8'?>
 	<tomcat-users>
-  	<role rolename="manager-script"/>
-  	<role rolename="manager-gui"/>
-  	<user username="admin" password="admin" roles="manager-gui,manager-script"/>
+  		<role rolename="manager-script"/>
+  		<role rolename="manager-gui"/>
+  		<user username="admin" password="admin" roles="manager-gui,manager-script"/>
 	</tomcat-users>
 
 2 - Add the following to maven's settings.xml file located in maven's conf directory:
@@ -90,7 +90,7 @@ Alernative build and deploy method:
 3 - Check the project's pom.xml and make sure the following are set in org.apache.tomcat.maven plugin under <configuration> tag:
 
 	<username>admin</username>
-        <password>admin</password>
+	<password>admin</password>
 
     If not there please add.
 
