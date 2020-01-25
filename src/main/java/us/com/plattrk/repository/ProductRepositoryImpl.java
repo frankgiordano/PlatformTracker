@@ -18,78 +18,65 @@ import us.com.plattrk.api.model.Product;
 
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
-	
-	private static Logger log = LoggerFactory.getLogger(IncidentRepositoryImpl.class);
 
-	@PersistenceContext
-	private EntityManager em;
-	
-	@Override
-	public Set<Product> getProducts() {
-		
-//		TypedQuery<Product> query = em.createNamedQuery(Product.FIND_ALL_PRODUCTS, Product.class);
-//		List<Product> myResult = query.getResultList();
-//	
-//		Set<Product> products = new HashSet<Product>(myResult);
-		
-		@SuppressWarnings("unchecked")
-		List<Product> myResult = em.createNamedQuery(Product.FIND_ALL_PRODUCTS).getResultList();
-		Set<Product> products = new HashSet<Product>(myResult);
-		
-		return products;
-	}
+    private static Logger log = LoggerFactory.getLogger(ProductRepositoryImpl.class);
 
-	@Override
-	public boolean deleteProduct(Long id) {
-		try {
-			Product product = em.find(Product.class, id);
-//			if (incident.getIncidentGroup() != null)
-//				incident.setIncidentGroup(null);
-			em.remove(product);
-			em.flush();
-		} catch (PersistenceException e) {
-			e.printStackTrace();
-			return false;
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-			return false;
-		}
-		
-		return true;
-	}
+    @PersistenceContext
+    private EntityManager em;
 
-	@Override
-	public boolean saveProduct(Product product) {
-		if (product.getId() == null) {
-			em.persist(product);
-			em.flush();
-		}
-		else 
-		{
-			em.merge(product);
-		}
-		return true;
-		
-	}
+    @Override
+    public Set<Product> getProducts() {
+        List<Product> myResult = em.createNamedQuery(Product.FIND_ALL_PRODUCTS).getResultList();
+        Set<Product> products = new HashSet<Product>(myResult);
+        return products;
+    }
 
-	@Override
-	public Product getProduct(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public boolean deleteProduct(Long id) {
+        try {
+            Product product = em.find(Product.class, id);
+            em.remove(product);
+            em.flush();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            return false;
+        }
 
-	@Override
-	public Incident getIncident(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        return true;
+    }
 
-	@Override
-	public List<Product> getActiveProducts() {
-		
-		TypedQuery<Product> query = em.createNamedQuery(Product.FIND_ALL_ACTIVE_PRODUCTS, Product.class);
-		List<Product> myResult = query.getResultList();
-		return myResult;
-	}
+    @Override
+    public boolean saveProduct(Product product) {
+        if (product.getId() == null) {
+            em.persist(product);
+            em.flush();
+        } else {
+            em.merge(product);
+        }
+        return true;
+
+    }
+
+    @Override
+    public Product getProduct(Long id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Incident getIncident(Long id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Product> getActiveProducts() {
+        TypedQuery<Product> query = em.createNamedQuery(Product.FIND_ALL_ACTIVE_PRODUCTS, Product.class);
+        List<Product> myResult = query.getResultList();
+        return myResult;
+    }
 
 }
