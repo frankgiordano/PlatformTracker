@@ -187,8 +187,8 @@ app.service('IncidentService', function ($http, $q) {
             .success(function (response) {
                 d.resolve(response);
             })
-            .error(function () {
-                d.reject();
+            .error(function (data) {
+                d.reject(data);
             });
 
         return d.promise;

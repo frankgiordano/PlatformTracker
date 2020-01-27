@@ -59,9 +59,7 @@ public class Product {
 	private Double users;
 	private Set<ProductUsers> productUsers = new HashSet<ProductUsers>();
 	private Set<ProductComponent> productComponents = new HashSet<ProductComponent>();
-//	private Platform platform;
 	private String platform;
-//	private Set<Incident> incidents = new HashSet<Incident>();
 	
 	public Product() {
 	}
@@ -88,109 +86,116 @@ public class Product {
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	@Column(name = "incident_name", columnDefinition="VARCHAR(50)" , nullable = false)
 	public String getIncidentName() {
 		return incidentName;
 	}
+
 	public void setIncidentName(String incidentName) {
 		this.incidentName = incidentName;
 	}
+
 	@Column(name = "client_name", columnDefinition="VARCHAR(50)", nullable = false)
 	public String getClientName() {
 		return clientName;
 	}
+
 	public void setClientName(String clientName) {
 		this.clientName = clientName;
 	}
+
 	@Column(name = "short_name", columnDefinition="VARCHAR(10)", nullable = false)
 	public String getShortName() {
 		return shortName;
 	}
+
 	public void setShortName(String shortName) {
 		this.shortName = shortName;
 	}
+
 	@Column(name = "owner", columnDefinition="VARCHAR(50)", nullable = true)
 	public String getOwner() {
 		return owner;
 	}
+
 	public void setOwner(String owner) {
 		this.owner = owner;
 	}
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "start_date",  nullable = false)
 	@JsonDeserialize(using=JsonDateDeserializer.class)	
 	public Date getStartDate() {
 		return startDate;
 	}
+
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
+
 	@Temporal(TemporalType.DATE)	
 	@Column(name = "end_date",  nullable = true)
 	@JsonDeserialize(using=JsonDateDeserializer.class)	
 	public Date getEndDate() {
 		return endDate;
 	}
+
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+
 	@Column(name = "max_weekly_uptime", nullable = false)
 	public int getMaxWeeklyUptime() {
 		return maxWeeklyUptime;
 	}
+
 	public void setMaxWeeklyUptime(int maxWeeklyUptime) {
 		this.maxWeeklyUptime = maxWeeklyUptime;
 	}
+
 	@Column(name = "revenue", columnDefinition="Decimal(10,3) default '0'", nullable = true)
 	public Double getRevenue() {
 		return revenue;
 	}
+
 	public void setRevenue(Double revenue) {
 		this.revenue = revenue;
 	}
+
 	@Column(name = "users", columnDefinition="Decimal(10,3) default '0'", nullable = true)
 	public Double getUsers() {
 		return users;
 	}
+
 	public void setUsers(Double users) {
 		this.users = users;
 	}
+
 	@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	public Set<ProductUsers> getProductUsers() {
 		return productUsers;
 	}
+
 	public void setProductUsers(Set<ProductUsers> productUsers) {
 		this.productUsers = productUsers;
 	}
+
 	@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	public Set<ProductComponent> getProductComponents() {
 		return productComponents;
 	}
+
 	public void setProductComponents(Set<ProductComponent> productComponents) {
 		this.productComponents = productComponents;
 	}
-	
-//	@ManyToOne
-//	@JoinColumn(name = "platform_id")
-//	public Platform getPlatform() {
-//		return platform;
-//	}
-//	public void setPlatform(Platform platform) {
-//		this.platform = platform;
-//	}
-//	@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-//	@ManyToMany(mappedBy = "products", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-//	public Set<Incident> getIncidents() {
-//		return incidents;
-//	}
-//	public void setIncidents(Set<Incident> incidents) {
-//		this.incidents = incidents;
-//	}
+
 	@Column(name = "platform", columnDefinition="VARCHAR(50)", nullable = false)
 	public String getPlatform() {
 		return platform;

@@ -5,11 +5,7 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.TemporalType;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +28,6 @@ public class IncidentRepositoryImpl implements IncidentRepository {
 
 	@Override
 	public Set<Incident> getIncidents() {
-		@SuppressWarnings("unchecked")
 		List<Incident> myResult = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS).getResultList();
 		Set<Incident> incidents = new HashSet<Incident>(myResult);
 		return incidents;
@@ -56,7 +51,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
 	}
 
 	@Override
-	public boolean saveIncident(Incident incident) {
+	public boolean saveIncident(Incident incident) throws OptimisticLockException {
 
 		Set<Product> products = new HashSet<Product>();
 		ErrorCondition errorCode = new ErrorCondition();
@@ -109,18 +104,23 @@ public class IncidentRepositoryImpl implements IncidentRepository {
 					}
 				}
 			}
-			em.merge(incident);
+			try {
+				em.merge(incident);
+			} catch (OptimisticLockException e) {
+				e.printStackTrace();
+				throw e;
+			}
 		}
 		
 		// check if there were incoming products attached during incident create
-		if(!products.isEmpty()) { 
+		if (!products.isEmpty()) {
 			Incident incidentSaved = em.find(Incident.class, incident.getId());
 			incidentSaved.setProducts(products);
 			em.merge(incidentSaved);
 		}
 		
 		// do the same for error condition
-		if(incident.getError() == null) { 
+		if (incident.getError() == null) {
 			Incident incidentSaved = em.find(Incident.class, incident.getId());
 			ErrorCondition errorCodeSaved = em.find(ErrorCondition.class, errorCode.getId());
 			incidentSaved.setError(errorCodeSaved);
@@ -128,7 +128,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
 		}
 		
 		// do the same for applicationStatus
-		if(incident.getApplicationStatus() == null) { 
+		if (incident.getApplicationStatus() == null) {
 			Incident incidentSaved = em.find(Incident.class, incident.getId());
 			if (applicationStatus != null) {
 				ReferenceData applicationStatusSaved = em.find(ReferenceData.class, applicationStatus.getId());
@@ -138,7 +138,6 @@ public class IncidentRepositoryImpl implements IncidentRepository {
 		}
 		
 		return true;
-		
 	}
 	
 	public List<IncidentGroup> CheckIncidentGroup (Incident incident, String name) {

@@ -571,6 +571,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         
         var incident = {
             "id": $scope.selectedIncident.id,
+            "version": $scope.selectedIncident.version,
             "tag": $scope.selectedIncident.tag,
             "severity": $scope.selectedIncident.severity,
             "locus": $scope.selectedIncident.locus,
@@ -626,7 +627,8 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
 						console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with newly created group " + groupCurrentORNew.name + ".");
 						$scope.refreshData(); 
 						$scope.errormessages = null;
-						$scope.errormessages2 = null;
+                        $scope.errormessages2 = null;
+                        $scope.selectedIncident.version++; 
 					} else {
 						$scope.errormessages = "Save operation failure, make sure the following required fields are filled: Description, Locus, Error Condition, and Start Time, please try again";
 						console.error("Incident tag " + incident.tag + " with id " + incident.id +  " was unable to be saved with newly created group " + groupCurrentORNew.name + ".");
@@ -648,13 +650,19 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         					console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with group " + groupCurrentORNew + ".");
         					$scope.refreshData();
         					$scope.errormessages = null;
-        					$scope.errormessages2 = null;
+                            $scope.errormessages2 = null;
+                            $scope.selectedIncident.version++; 
         				} else {
         					$scope.errormessages = "Save operation failure, make sure the following required fields are filled: Description, Locus, Error Condition, and Start Time, please try again";
         					console.error("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with group " + groupCurrentORNew + ".");
         				}
         			},
-        			function error() {
+        			function error(data) {
+                        if (data.includes("OptimisticLockException")) {
+                            $scope.errormessages = "Save operation failure, incident detail has been updated by another user since you have opened this incident for editing, please reload incident detail from search page and try again.";
+                            $scope.refreshData();
+                            return;
+                        }
         				$scope.errormessages = "Save operation failure, make sure the following required fields are filled: Description, Locus, Error Condition, and Start Time, please try again";
 //             		    $rootScope.errors.push({ code: "INCIDENT_SAVE_FAILURE", message: "Save operation failure, make sure the following required fields are filled: Description, Locus, Error Condition, and Start Time, please try again" });
         			});

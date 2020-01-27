@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.OptimisticLockException;
 import java.util.List;
 import java.util.Set;
 
@@ -47,7 +48,7 @@ public class IncidentController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
-    public boolean saveIncident(@RequestBody Incident incident) {
+    public boolean saveIncident(@RequestBody Incident incident) throws OptimisticLockException {
         return incidentService.saveIncident(incident);
     }
     

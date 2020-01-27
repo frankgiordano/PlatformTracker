@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 				query = "Select i from Incident i", 
 				hints={@QueryHint(name="org.hibernate.cacheable", value="true")}),
 	@NamedQuery(name = Incident.FIND_ALL_INCIDENTS, 
-				query = "Select new us.com.plattrk.api.model.Incident(i.id, i.tag, i.name, i.reportOwner, i.summary, i.customerImpact, i.severity, i.description, e.name, a.displayName, i.locus, i.startTime, i.endTime, i.usersImpacted, i.transactionIdsImpacted, i.callsReceived, i.alertedBy, i.reviewedBy, i.status, i.correctiveAction, i.relatedActions, i.emailRecipents, i.recordedBy, i.issue) from Incident as i inner join i.error e inner join i.applicationStatus a",
+				query = "Select new us.com.plattrk.api.model.Incident(i.id, i.version, i.tag, i.name, i.reportOwner, i.summary, i.customerImpact, i.severity, i.description, e.name, a.displayName, i.locus, i.startTime, i.endTime, i.usersImpacted, i.transactionIdsImpacted, i.callsReceived, i.alertedBy, i.reviewedBy, i.status, i.correctiveAction, i.relatedActions, i.emailRecipents, i.recordedBy, i.issue) from Incident as i inner join i.error e inner join i.applicationStatus a",
 				hints={@QueryHint(name="org.hibernate.cacheable", value="true")}),
 	@NamedQuery(name = Incident.FIND_INCIDENT_GROUP, query = "Select g FROM IncidentGroup g where g.name = (:name)"),
 	@NamedQuery(name = Incident.FIND_ALL_GROUPS,
@@ -41,8 +41,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 				query = "Select i from Incident i inner join i.applicationStatus a where i.startTime >= (:startDate) and i.startTime < (:endDate) and a.displayName = (:applicationStatus)")
 })
 public class Incident  {
-	
-//	private static Logger log = LoggerFactory.getLogger(Incident.class);
+
 	public static final String FIND_ALL_INCIDENTS = "findAllIncidents";
 	public static final String FIND_INCIDENT_GROUP = "findIncidentGroup";
 	public static final String FIND_ALL_INCIDENTS_RELATIONS = "findAllIncidentsRelations";
@@ -54,6 +53,7 @@ public class Incident  {
 	public static final String FIND_ALL_OPEN_INCIDENTS_BY_RANGE_AND_APPLICATIONSTATUS_RELATIONS = "findAllOpeIncidentsByRangeAndApplicationStatusRelations";
 	
 	private Long id;
+	private Long version;
 	private String tag;
 	private String name;
 	private String reportOwner;
@@ -90,13 +90,14 @@ public class Incident  {
 	public Incident() {
 	}
 	
-	public Incident(Long id, String tag, String name, String reportOwner,
+	public Incident(Long id, Long version, String tag, String name, String reportOwner,
 			String summary, String customerImpact, String severity,
 			String description, String errorName, String applicationStatusName, String locus, Date startTime,
 			Date endTime, double usersImpacted, int transactionIdsImpacted,
 			int callsReceived, String alertedBy, String reviewedBy, String status, 
 			String correctiveAction, String relatedActions, String emailRecipents, String recordedBy, String issue) {
 		this.id = id;
+		this.version = version;
 		this.tag = tag;
 		this.name = name;
 		this.reportOwner = reportOwner;
@@ -133,166 +134,34 @@ public class Incident  {
 		this.emailRecipents = emailRecipents;
 	}
 
-	@JsonManagedReference
-	@OneToMany(targetEntity = IncidentChronology.class, fetch = FetchType.LAZY, mappedBy = "incident", cascade=CascadeType.ALL)
-	public Set<IncidentChronology> getChronologies() {
-		
-		return chronologies;
-	}
-
-	public void setChronologies(Set<IncidentChronology> chronologies) {
-		this.chronologies = chronologies;
-	}
-
-	@Column(name = "alerted_by",  nullable = false)
-	public String getAlertedBy() {
-		return alertedBy;
-	}
-
-	@Column(name = "calls_received", nullable = false)
-	public int getCallsReceived() {
-		return callsReceived;
-	};
-	@Column(name = "description", columnDefinition="VARCHAR(1000)" , nullable = true)
-    public String getDescription() {
-		return description;
-	}
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "end_time",  nullable = true)
-	@JsonSerialize(using=JsonDateSerializer.class)
-	@JsonDeserialize(using=JsonDateTimeDeserializer.class)	
-	public Date getEndTime() {
-		return endTime;
-	}
-
 	@Id
 	@Column(name = "incident_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
-	@Column(name = "incident_report", columnDefinition="VARCHAR(500)", nullable = true)
-	public String getIncidentReport() {
-		return incidentReport;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	@Column(name = "locus",  nullable = false)
-	public String getLocus() {
-		return locus;
+	@Version
+	@Column(name = "version")
+	public Long getVersion() {
+		return version;
 	}
 
-	@OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "error_id", nullable = true)
-	public ErrorCondition getError() {
-		return error;
+	public void setVersion(Long version) {
+		this.version = version;
 	}
-	@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-	@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch=FetchType.EAGER)
-	@JoinTable(name="Incident_Product",
-				joinColumns={@JoinColumn(name="incident_id")},
-				inverseJoinColumns={@JoinColumn(name="product_id")})
-	public Set<Product> getProducts() {
-		return products;
-	}
-	@Column(name = "severity",  nullable = false)
-	public String getSeverity() {
-		return severity;
-	}
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "start_time",  nullable = false)
-	@JsonSerialize(using=JsonDateSerializer.class)	
-	public Date getStartTime() {
-		return startTime;
-	}
-	
+
 	@Column(name = "tag", nullable = false)
 	public String getTag() {
 		return tag;
 	}
-	@Column(name = "transaction_ids_impacted", nullable = false)
-	public int getTransactionIdsImpacted() {
-		return transactionIdsImpacted;
-	}
-	@Column(name = "users_impacted", nullable = false)
-	public double getUsersImpacted() {
-		return usersImpacted;
-	}
-	
-	public void setAlertedBy(String alertedBy) {
-		this.alertedBy = alertedBy;
-	}
-	
-	public void setCallsReceived(int callsReceived) {
-		this.callsReceived = callsReceived;
-	}
-	
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
-	
-	public void setError(ErrorCondition error) {
-		this.error = error;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public void setIncidentReport(String incidentReport) {
-		this.incidentReport = incidentReport;
-	}
 
-	public void setLocus(String locus) {
-		this.locus = locus;
-	}
-	
-	public void setProducts(Set<Product> products) {
-		this.products = products;
-	}
-	
-	public void setSeverity(String severity) {
-		this.severity = severity;
-	}
-	
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-	
 	public void setTag(String tag) {
 		this.tag = tag;
-	}
-	
-	public void setTransactionIdsImpacted(int transactionIdsImpacted) {
-		this.transactionIdsImpacted = transactionIdsImpacted;
-	}
-	
-	public void setUsersImpacted(double usersImpacted) {
-		this.usersImpacted = usersImpacted;
-	}
-	
-	public void setIncidentGroup(IncidentGroup incidentGroup) {
-		this.incidentGroup = incidentGroup;
-	}
-
-	@Override
-    public String toString() {
-        return "IncidentEntity{" +
-                "id=" + id +
-                ", tag='" + tag + '\'' +
-                ", severity='" + severity + '\'' +
-                '}';
-    }
-	@JsonBackReference
-	@ManyToOne(cascade = CascadeType.PERSIST) //(cascade = CascadeType.ALL)  this cause a delete to go and delete its parent group also - hence, removed.
-    @JoinColumn(name = "group_id")			  // used Persist so that parent group can be update during persist this is the case where in incident 
-	public IncidentGroup getIncidentGroup() { // create screen specifying a non existing Group will create the group and take the incident description
-		return incidentGroup;				  // for group description which is required to be filled. 
 	}
 
 	@Column(name = "name", columnDefinition="VARCHAR(80)", nullable = true)
@@ -330,7 +199,140 @@ public class Incident  {
 	public void setCustomerImpact(String customerImpact) {
 		this.customerImpact = customerImpact;
 	}
-	
+
+	@Column(name = "severity",  nullable = false)
+	public String getSeverity() {
+		return severity;
+	}
+
+	public void setSeverity(String severity) {
+		this.severity = severity;
+	}
+
+	@Column(name = "description", columnDefinition="VARCHAR(1000)" , nullable = true)
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "error_id", nullable = true)
+	public ErrorCondition getError() {
+		return error;
+	}
+
+	public void setError(ErrorCondition error) {
+		this.error = error;
+	}
+
+	@Transient
+	public String getErrorName() {
+		return errorName;
+	}
+
+	public void setErrorName(String errorName) {
+		this.errorName = errorName;
+	}
+
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "in_status_id", nullable = true)
+	public ReferenceData getApplicationStatus() {
+		return applicationStatus;
+	}
+
+	public void setApplicationStatus(ReferenceData applicationStatus ) {
+		this.applicationStatus = applicationStatus;
+	}
+
+	@Transient
+	public String getApplicationStatusName() {
+		return applicationStatusName;
+	}
+
+	public void setApplicationStatusName(String applicationStatusName) {
+		this.applicationStatusName = applicationStatusName;
+	}
+
+	@Column(name = "locus",  nullable = false)
+	public String getLocus() {
+		return locus;
+	}
+
+	public void setLocus(String locus) {
+		this.locus = locus;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "start_time",  nullable = false)
+	@JsonSerialize(using=JsonDateSerializer.class)
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "end_time",  nullable = true)
+	@JsonSerialize(using=JsonDateSerializer.class)
+	@JsonDeserialize(using=JsonDateTimeDeserializer.class)
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	@Column(name = "users_impacted", nullable = false)
+	public double getUsersImpacted() {
+		return usersImpacted;
+	}
+
+	public void setUsersImpacted(double usersImpacted) {
+		this.usersImpacted = usersImpacted;
+	}
+
+	@Column(name = "transaction_ids_impacted", nullable = false)
+	public int getTransactionIdsImpacted() {
+		return transactionIdsImpacted;
+	}
+
+	public void setTransactionIdsImpacted(int transactionIdsImpacted) {
+		this.transactionIdsImpacted = transactionIdsImpacted;
+	}
+
+	@Column(name = "calls_received", nullable = false)
+	public int getCallsReceived() {
+		return callsReceived;
+	}
+
+	public void setCallsReceived(int callsReceived) {
+		this.callsReceived = callsReceived;
+	}
+
+	@Column(name = "alerted_by",  nullable = false)
+	public String getAlertedBy() {
+		return alertedBy;
+	}
+
+	public void setAlertedBy(String alertedBy) {
+		this.alertedBy = alertedBy;
+	}
+
+	@Column(name = "incident_report", columnDefinition="VARCHAR(500)", nullable = true)
+	public String getIncidentReport() {
+		return incidentReport;
+	}
+
+	public void setIncidentReport(String incidentReport) {
+		this.incidentReport = incidentReport;
+	}
+
 	@Column(name = "reviewed_by", columnDefinition="VARCHAR(64)", nullable = true)
 	public String getReviewedBy() {
 		return reviewedBy;
@@ -375,7 +377,7 @@ public class Incident  {
 	public void setEmailRecipents(String emailRecipents) {
 		this.emailRecipents = emailRecipents;
 	}
-	
+
 	@Column(name = "recorded_by", columnDefinition="VARCHAR(64)", nullable = true)
 	public String getRecordedBy() {
 		return recordedBy;
@@ -393,33 +395,54 @@ public class Incident  {
 	public void setIssue(String issue) {
 		this.issue = issue;
 	}
-	
-	@Transient
-	public String getErrorName() {
-		return errorName;
+
+	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.PERSIST) //(cascade = CascadeType.ALL)  this cause a delete to go and delete its parent group also - hence, removed.
+	@JoinColumn(name = "group_id")			  // used Persist so that parent group can be update during persist this is the case where in incident
+	public IncidentGroup getIncidentGroup() { // create screen specifying a non existing Group will create the group and take the incident description
+		return incidentGroup;				  // for group description which is required to be filled.
 	}
 
-	public void setErrorName(String errorName) {
-		this.errorName = errorName;
+	public void setIncidentGroup(IncidentGroup incidentGroup) {
+		this.incidentGroup = incidentGroup;
 	}
 
-	@OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "in_status_id", nullable = true)
-	public ReferenceData getApplicationStatus() {
-		return applicationStatus;
+	@JsonManagedReference
+	@OneToMany(targetEntity = IncidentChronology.class, fetch = FetchType.LAZY, mappedBy = "incident", cascade=CascadeType.ALL)
+	public Set<IncidentChronology> getChronologies() {
+		return chronologies;
 	}
 
-	public void setApplicationStatus(ReferenceData applicationStatus ) {
-		this.applicationStatus = applicationStatus;
+	public void setChronologies(Set<IncidentChronology> chronologies) {
+		this.chronologies = chronologies;
 	}
 
-	@Transient
-	public String getApplicationStatusName() {
-		return applicationStatusName;
+	@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+	@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch=FetchType.EAGER)
+	@JoinTable(name="Incident_Product",
+			joinColumns={@JoinColumn(name="incident_id")},
+			inverseJoinColumns={@JoinColumn(name="product_id")})
+	public Set<Product> getProducts() {
+		return products;
 	}
 
-	public void setApplicationStatusName(String applicationStatusName) {
-		this.applicationStatusName = applicationStatusName;
+	public void setProducts(Set<Product> products) {
+		this.products = products;
 	}
 
+	@Override
+	public String toString() {
+		return "Incident{" +
+				"id=" + id +
+				", version=" + version +
+				", tag='" + tag + '\'' +
+				", name='" + name + '\'' +
+				", reportOwner='" + reportOwner + '\'' +
+				", summary='" + summary + '\'' +
+				", customerImpact='" + customerImpact + '\'' +
+				", severity='" + severity + '\'' +
+				", description='" + description + '\'' +
+				'}';
+	}
 }
