@@ -87,6 +87,9 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
     
     $scope.updateInSearch = function() {
         $scope.clearMsg();
+
+        if (!($scope.selectedProduct.endDate instanceof Date))
+            $scope.selectedProduct.endDate = null;
         
         var product = {
             "id": $scope.selectedProduct.id,
