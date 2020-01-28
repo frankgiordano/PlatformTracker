@@ -20,7 +20,8 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
     $scope.select = function(product) {
         $scope.selectedProduct = product;
         $scope.selectedProduct.startDate = moment($scope.selectedProduct.startDate).format('YYYY-MM-DD'); 
-        $scope.selectedProduct.endDate = moment($scope.selectedProduct.endDate).format('YYYY-MM-DD'); 
+        if ($scope.selectedProduct.endDate)
+            $scope.selectedProduct.endDate = moment($scope.selectedProduct.endDate).format('YYYY-MM-DD'); 
         $scope.disableButton = false;
     };
     
@@ -87,9 +88,6 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
     
     $scope.updateInSearch = function() {
         $scope.clearMsg();
-
-        if (!($scope.selectedProduct.endDate instanceof Date))
-            $scope.selectedProduct.endDate = null;
         
         var product = {
             "id": $scope.selectedProduct.id,

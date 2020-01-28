@@ -104,7 +104,7 @@ public class Project implements Searchable {
     }
 
     @Temporal(TemporalType.DATE)
-    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @JsonDeserialize(using = JsonDateMinusTimeDeserializer.class)
     public Date getActualCompletionDate() {
         return actualCompletionDate;
     }
@@ -127,7 +127,7 @@ public class Project implements Searchable {
     }
 
     @Temporal(TemporalType.DATE)
-    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @JsonDeserialize(using = JsonDateMinusTimeDeserializer.class)
     @Column(name = "ESTCOMPLETIONDATE", nullable = false)
     public Date getEstcompletionDate() {
         return estcompletionDate;
@@ -165,7 +165,7 @@ public class Project implements Searchable {
     }
 
     @Temporal(TemporalType.DATE)
-    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @JsonDeserialize(using = JsonDateMinusTimeDeserializer.class)
     @Column(name = "RECORDINGDATE", nullable = false)
     public Date getRecordingDate() {
         return recordingDate;
@@ -184,7 +184,7 @@ public class Project implements Searchable {
     }
 
     @Temporal(TemporalType.DATE)
-    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @JsonDeserialize(using = JsonDateMinusTimeDeserializer.class)
     public Date getStatusChangeDate() {
         return statusChangeDate;
     }

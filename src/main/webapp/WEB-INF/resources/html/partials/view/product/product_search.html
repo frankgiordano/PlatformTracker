@@ -46,10 +46,10 @@
 			<td>{{product.id}}</td>
 			<td>{{product.incidentName}}</td>
 			<td>{{product.clientName}}</td>
-		    <td>{{product.shortName}}</td> 
+		       <td>{{product.shortName}}</td> 
 			<td>{{product.owner}}</td>
-			<td>{{product.startDate | date}}</td>
-			<td>{{product.endDate | date}}</td>
+			<td>{{product.startDate | dateFormatMinusTime}}</td>
+			<td>{{product.endDate | dateFormatMinusTime}}</td>
 			<td>{{product.maxWeeklyUptime}}</td>
 			<td>{{product.platform}}</td>
 			<td>{{product.revenue | percentage}}</td>

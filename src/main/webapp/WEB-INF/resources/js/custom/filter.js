@@ -32,3 +32,12 @@ app.filter('dateFormat', function() {
 		return moment(input).format("MM-DD-YYYY HH:mm");
 	}	
 });
+
+app.filter('dateFormatMinusTime', function() {
+	return function(input) {
+		if (input === null || input === undefined) {
+			return null;
+		}
+		return moment(input).format("MM-DD-YYYY");
+	}	
+});

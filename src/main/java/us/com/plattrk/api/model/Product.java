@@ -129,7 +129,7 @@ public class Product {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "start_date",  nullable = false)
-	@JsonDeserialize(using=JsonDateDeserializer.class)	
+	@JsonDeserialize(using=JsonDateMinusTimeDeserializer.class)
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -140,7 +140,7 @@ public class Product {
 
 	@Temporal(TemporalType.DATE)	
 	@Column(name = "end_date",  nullable = true)
-	@JsonDeserialize(using=JsonDateDeserializer.class)	
+	@JsonDeserialize(using=JsonDateMinusTimeDeserializer.class)
 	public Date getEndDate() {
 		return endDate;
 	}

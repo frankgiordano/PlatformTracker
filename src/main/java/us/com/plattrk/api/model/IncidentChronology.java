@@ -48,11 +48,9 @@ public class IncidentChronology {
 	private Incident incident;
 	
 	public IncidentChronology () {
-		
 	}
 	
 	public IncidentChronology(Long id, Date dateTime, String description, String recordedBy) {
-
 		this.id = id;
 		this.dateTime = dateTime;
 		this.description = description;
@@ -72,12 +70,12 @@ public class IncidentChronology {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_time",  nullable = false)
-	@JsonSerialize(using=JsonDateSerializer.class)
 	@JsonDeserialize(using=JsonDateTimeDeserializer.class)	
 	public Date getDateTime() {
 		return dateTime;
 	}
 
+	@JsonSerialize(using=JsonDateTimeSerializer.class)
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
 	}

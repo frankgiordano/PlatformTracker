@@ -267,23 +267,24 @@ public class Incident  {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "start_time",  nullable = false)
-	@JsonSerialize(using=JsonDateSerializer.class)
+	@JsonDeserialize(using=JsonDateTimeDeserializer.class)
 	public Date getStartTime() {
 		return startTime;
 	}
 
+	@JsonSerialize(using=JsonDateTimeSerializer.class)
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "end_time",  nullable = true)
-	@JsonSerialize(using=JsonDateSerializer.class)
 	@JsonDeserialize(using=JsonDateTimeDeserializer.class)
 	public Date getEndTime() {
 		return endTime;
 	}
 
+	@JsonSerialize(using=JsonDateTimeSerializer.class)
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
