@@ -1,7 +1,7 @@
 # PlatformTracker
 A rudimentary helpdesk type application. 
 
-![Farmers Market Finder Demo](https://github.com/frankgiordano/PlatformTracker/demo/demo.gif)
+![Demo](http://github.com/frankgiordano/PlatformTracker/demo/demo.gif)
 
 The following project was developed in 2015. It was my first Java/Spring MVC/AngularJS/Bootstrap application that I developed. This was used
 as a starter project to build up knowledge with the tech stack for future projects. This was a short lived application used to mostly 
