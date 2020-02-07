@@ -1,6 +1,8 @@
 # PlatformTracker
 A rudimentary helpdesk type application. 
 
+![Demo](https://github.com/frankgiordano/PlatformTracker/blob/master/demo/demo.gif)
+
 The following project was developed in 2015. It was my first Java/Spring MVC/AngularJS/Bootstrap application that I developed. This was used
 as a starter project to build up knowledge with the tech stack for future projects. This was a short lived application used to mostly 
 provide some way to track incoming product related issues in a very custom/niche way.  
