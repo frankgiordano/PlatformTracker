@@ -16,9 +16,12 @@ public class OwnerInfo {
 		this.displayName = displayName;
 	}
 
-
 	public String getUserName() {
 		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getDisplayName() {
@@ -27,11 +30,6 @@ public class OwnerInfo {
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
-	}
-
-
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 
 	public static Comparator<OwnerInfo> OwnerComparator = new Comparator<OwnerInfo>() {
