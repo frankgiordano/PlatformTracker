@@ -33,6 +33,7 @@ public class OwnerServiceImpl implements OwnerService {
 
 	public List<OwnerInfo> getOwnerList() throws NamingException, IOException {
 
+		owners.clear();
 		OwnerInfo owner = new OwnerInfo("guest", "guest");
 		owners.add(owner);
 
