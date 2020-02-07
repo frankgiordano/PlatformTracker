@@ -17,7 +17,7 @@ I am posting this project for educational proposes, and I intend to continue to 
 
 ## Setup, Installation, and running the application:
 
-1 - Install Java 7 and above
+1 - Install Java 8
 
 2 - Install Maven
 
@@ -37,7 +37,7 @@ I am posting this project for educational proposes, and I intend to continue to 
 	maxActive="15"
 	maxIdle="3"/>
 
-5 - Install MySql server
+5 - Install MySql server 8
 
 6 - Within MySql Workbench create db schema named 'plattrk'
 
