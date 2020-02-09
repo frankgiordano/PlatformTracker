@@ -1,7 +1,7 @@
 # PlatformTracker
 A rudimentary helpdesk type application. 
 
-![Demo](https://github.com/frankgiordano/PlatformTracker/blob/master/demo/demo.gif)
+![Demo](https://github.com/frankgiordano/PlatformTracker/blob/master/demo/demo2.gif)
 
 The following project was developed in 2015. It was my first Java/Spring MVC/AngularJS/JavaScript/HTML/Bootstrap application that I developed. This was used
 as a starter project to build up knowledge with the tech stack for future projects. This was a short lived application used to mostly 
@@ -17,7 +17,7 @@ I am posting this project for educational proposes, and I intend to continue to 
 
 ## Setup, Installation, and running the application:
 
-1 - Install Java 7 and above
+1 - Install Java 8
 
 2 - Install Maven
 
@@ -37,7 +37,7 @@ I am posting this project for educational proposes, and I intend to continue to 
 	maxActive="15"
 	maxIdle="3"/>
 
-5 - Install MySql server
+5 - Install MySql server 8
 
 6 - Within MySql Workbench create db schema named 'plattrk'
 
