@@ -30,13 +30,9 @@ import us.com.plattrk.api.model.Product;
 import us.com.plattrk.api.model.ProductComparator;
 import us.com.plattrk.repository.IncidentChronologyRepository;
 import us.com.plattrk.repository.ProductRepository;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 
 @Service("Report")
 public class ReportImpl implements Report {
-	
-//	private static Logger log = LoggerFactory.getLogger(IncidentServiceImpl.class);
 	
 	@Autowired
 	private MailFormat mailFormat;
@@ -60,8 +56,7 @@ public class ReportImpl implements Report {
 	private List<Long> totalDowntimeTRIVINALL = new ArrayList<Long>();
 	private List<Long> totalDowntimeEXTALL = new ArrayList<Long>();
 	
-	public ReportImpl(){
-		
+	public ReportImpl() {
 	}
 	
 	@Override
@@ -129,7 +124,6 @@ public class ReportImpl implements Report {
 		}
 		
 		mailService.sendDailyReport(appProperties, body.toString(), subject);
-		
 	}
 	
 	@Override
@@ -437,7 +431,6 @@ public class ReportImpl implements Report {
 	    	e.printStackTrace();
 	    	return false;
 	    }
-		
 	}
 	
 	@Override
@@ -908,7 +901,6 @@ public class ReportImpl implements Report {
 		{
 			cell.setCellValue(decimalFormat.format(total));
 		}
-			
    	}
 	
 	private void fillRowStatsCumulative(boolean matchFound, boolean byPercentage, Row row, List<Long> totalDowntimeExternal, List<Long> totalDowntimeCLOUD, List<Long> totalDowntimeInternal, Map<String, CellStyle> styles, Product product) {
@@ -938,7 +930,6 @@ public class ReportImpl implements Report {
 			cell.setCellValue(decimalFormat.format(total));
 			totalDowntimeALL.add(total);
 		}
-   		
    	 }
 	
 	private void fillRowStatsCumulativeUptime(boolean matchFound, Row row, List<Long> totalDowntimeExternal, List<Long> totalDowntimeCLOUD, List<Long> totalDowntimeInternal, Map<String, CellStyle> styles, Product product) {
@@ -961,7 +952,6 @@ public class ReportImpl implements Report {
 		
 		String num = decimalFormatPercent.format(100.0000-((total/product.getMaxWeeklyUptime())*100)) + "%";
 		cell.setCellValue(num);
-
    	 }
 	
 	private static Map<String, CellStyle> createStyles(Workbook wb){

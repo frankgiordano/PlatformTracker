@@ -28,19 +28,16 @@ public class RCAServiceImpl implements RCAService {
 	public boolean deleteRCA(Long id) {
 		return rcaRepository.deleteRCA(id);
 	}
-	
-	
+
 	@Override
 	public RCA getRCA(Long id) {
 		return rcaRepository.getRCA(id);
 	}
-	
-	
+
 	@Override
 	public Set<RCAVO> getRCAs() {
 		return rcaRepository.getRCAs();
 	}
-	
 	
 	@Override
 	public Set<RCA> getRCAs(RCA rca) {
@@ -52,9 +49,5 @@ public class RCAServiceImpl implements RCAService {
 	public boolean saveRCA(RCA rca) {
 		return rcaRepository.saveRCA(rca);
 	}
-	
-	
-	
-
 
 }

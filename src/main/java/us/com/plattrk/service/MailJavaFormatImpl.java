@@ -18,8 +18,6 @@ import us.com.plattrk.api.model.Product;
 import us.com.plattrk.api.model.ProductComparator;
 import us.com.plattrk.repository.IncidentChronologyRepository;
 import us.com.plattrk.service.Mail.Type;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 
 public class MailJavaFormatImpl implements MailFormat {
 	
@@ -28,11 +26,13 @@ public class MailJavaFormatImpl implements MailFormat {
 	
 	@Autowired
 	private Properties appProperties;
-	
-//	private static Logger log = LoggerFactory.getLogger(IncidentServiceImpl.class);
+
 	private Incident incident;
+
 	private StringBuilder productsString = new StringBuilder();
+
 	private LinkedList<IncidentChronology> chronologiesSortedByStartTime = new LinkedList<IncidentChronology>();
+
 	private String testmsg = ""; // used to put special message indicator i.e. TEST MSG
 	
 	public MailJavaFormatImpl(){

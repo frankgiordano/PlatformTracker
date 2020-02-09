@@ -21,7 +21,6 @@ public class RCARepositoryImpl implements RCARepository {
 	@PersistenceContext
 	private EntityManager em;
 
-	
 /*	public Set<RCA> getRCAsNew() {
 		@SuppressWarnings("rawtypes")
 		
@@ -33,23 +32,18 @@ public class RCARepositoryImpl implements RCARepository {
 		return rcas;
 	}
 */
-	
-	
+
 	@Override
 	public Set<RCAVO> getRCAs() {
 		@SuppressWarnings("rawtypes")
-		
 		List<RCAVO> myResult = em.createNamedQuery(RCA.FIND_ALL_RCAS).getResultList();
 
 		Set<RCAVO> rcas = new HashSet<RCAVO>(myResult);
 		return rcas;
 	}
 
-	
-	
 	@Override
 	public Set<RCA> getRCAs(RCA rca) {
-		;
 		return null;
 	}
 
@@ -87,14 +81,12 @@ public class RCARepositoryImpl implements RCARepository {
 		}
 
 		return true;
-
 	}
 
 	@Override
 	public RCA getRCA(Long id) {
 		RCA incidentRCA = em.find(RCA.class, id);
 		return incidentRCA;
-
 	}
 
 }

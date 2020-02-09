@@ -18,9 +18,7 @@ import us.com.plattrk.service.Mail.Type;
 
 @Service(value = "IncidentChronologyService")
 public class IncidentChronologyServiceImpl implements IncidentChronologyService {
-	
-//	private static Logger log = LoggerFactory.getLogger(IncidentRepositoryImpl.class);
-	
+
 	@Autowired
 	private ServletContext servletContext;
 	

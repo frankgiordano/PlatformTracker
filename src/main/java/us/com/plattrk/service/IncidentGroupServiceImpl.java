@@ -24,8 +24,7 @@ public class IncidentGroupServiceImpl implements IncidentGroupService {
 	public Set<Incident> getGroupIncidents(Long id) {
 		return incidentGroupRepository.getGroupIncidents(id);
 	}
-	
-	
+
 	public IncidentGroup getGroup(Long id) {
 		return incidentGroupRepository.getGroup(id);
 	}

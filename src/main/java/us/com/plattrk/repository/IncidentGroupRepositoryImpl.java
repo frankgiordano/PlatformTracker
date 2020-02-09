@@ -19,23 +19,16 @@ import us.com.plattrk.api.model.IncidentGroup;
 @Repository
 public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
 	
-	private static Logger log = LoggerFactory.getLogger(IncidentRepositoryImpl.class);
+	private static Logger log = LoggerFactory.getLogger(IncidentGroupRepositoryImpl.class);
 	
 	@PersistenceContext
 	private EntityManager em;
 
 	@Override
 	public Set<IncidentGroup> getGroups() {
-
-//		TypedQuery<IncidentGroup> query = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS, IncidentGroup.class);
-//		
-//		List<IncidentGroup> myResult = query.getResultList();
-//		Set<IncidentGroup> groups = new HashSet<IncidentGroup>(myResult);
-		
 		@SuppressWarnings("unchecked")
 		List<IncidentGroup> myResult = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS).getResultList();
 		Set<IncidentGroup> groups = new HashSet<IncidentGroup>(myResult);
-		
 		return groups;
 	}
 
@@ -43,7 +36,6 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
 	public Set<Incident> getGroupIncidents(Long id) {
 		IncidentGroup incidentGroup = em.find(IncidentGroup.class, id);
 		return incidentGroup.getIncidents();
-
 	}
 	
 	@Override
@@ -55,9 +47,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
 	@Override
 	public boolean deleteGroup(Long id) {
 		try {
-//			log.error("inside deleteGroup");
 			IncidentGroup group = em.find(IncidentGroup.class, id);
-//			log.error("group name = " + group.getName() + " group id " + group.getId());
 			em.remove(group);
 			em.flush();
 		} catch (PersistenceException e) {
@@ -81,11 +71,9 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
 
 	@Override
 	public boolean saveGroup(IncidentGroup group) {
-		
 		try {
 			if (group.getId() == null) {
 				em.persist(group);
-//				log.info("incident id = " + group.getId() + " created");
 				em.flush();	
 			}
 			else {

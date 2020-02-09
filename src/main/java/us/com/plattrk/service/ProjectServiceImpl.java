@@ -26,14 +26,12 @@ public class ProjectServiceImpl implements ProjectService {
 	public Set<Project> getProjects() {
 		return projectRepository.getProjects();
 	}
-	
-	
+
 	@Override
 	public Project getProject(Long id) {
 		return projectRepository.getProject(id);
 	}
-	
-	
+
 	@Override
 	@Transactional
 	public boolean deleteProject(Long id) {
@@ -43,47 +41,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	@Transactional
 	public boolean saveProject(Project project) {
-/*		Long incidentGroupId = project.getIncidentGroupId();
-		if(incidentGroupId != null){
-			IncidentGroup incidentGroup = incidentGroupService.getGroup(incidentGroupId);
-			if(incidentGroup != null)
-				project.setIncidentGroup(incidentGroup);
-			else
-				throw new RuntimeException("no incident existed with id "+incidentGroupId);
-		}
-		Long statusId = project.getStatusId();
-		if(  statusId  != null){
-			 ReferenceData status =  refRepository.getReferenceData(statusId);
-			 if(status != null)
-				project.setStatus(status);
-			else
-				throw new RuntimeException("no incident existed with id "+statusId);
-		}
-		Long categoryId = project.getCategoryId();
-		if(  categoryId  != null){
-			 ReferenceData category =  refRepository.getReferenceData(categoryId);
-			 if(category != null)
-				project.setCategory(category);
-			else
-				throw new RuntimeException("no incident existed with id "+categoryId);
-		}
-		
-		
-		Long resourceId = project.getResourceId();
-		if(  resourceId  != null){
-			 ReferenceData resource =  refRepository.getReferenceData(resourceId);
-			 if(resource != null)
-				project.setResource(resource);
-			else
-				throw new RuntimeException("no incident existed with id "+resourceId);
-		}*/
-		
-		
 		return projectRepository.saveProject(project);
 	}
-	
-	
-	
-
 
 }

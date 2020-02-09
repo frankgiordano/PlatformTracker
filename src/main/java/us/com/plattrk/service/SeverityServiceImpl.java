@@ -16,7 +16,6 @@ public class SeverityServiceImpl implements SeverityService {
 	
 	@Override
 	public List<Severity> getSeverities() {
-
 		return severityRepository.getSeverities();
 	}
 
