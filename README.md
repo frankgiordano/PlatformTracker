@@ -19,9 +19,9 @@ I am posting this project for educational proposes, and I intend to continue to 
 
 1 - Install Java 8
 
-2 - Install Maven
+2 - Install Maven 3.6.3
 
-3 - Install Apache Tomcat 7
+3 - Install Apache Tomcat 7.0.99
 
 4 - Within tomcat's directory location for example: C:\Users\giofr\Downloads\tools\apache-tomcat-7.0.99\conf, 
     edit context.xml file and add the following reource xml tag info between context xml tag:
@@ -41,7 +41,7 @@ I am posting this project for educational proposes, and I intend to continue to 
 
 6 - Within MySql Workbench create db schema named 'plattrk'
 
-7 - Update tomcat's context.xml file with MySql username and password defined during MySql installation, see step 4
+7 - Update tomcat's context.xml file with MySql root's username and password defined during MySql installation, see step 4
 
 8 - GIT clone this project to your local directory
 
