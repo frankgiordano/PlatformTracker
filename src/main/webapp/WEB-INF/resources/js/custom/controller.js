@@ -113,7 +113,13 @@ app.value('alerted_bys', [{
     value: 'Unknown'
 }]);
 
-app.controller('MainController', function($rootScope, $scope, $location) {
+app.controller('MainController', function($route, $rootScope, $scope, $location) {
+
+    $scope.linkClicked = function(link){
+       $route.reload();
+       $location.path(link);
+    };
+
     $scope.logout = function() {
         $scope.$emit('event:logoutRequest');
 

@@ -23,8 +23,8 @@ app.factory('responseObserver', function responseObserver($q, $window, $rootScop
         });
     };
 });
-app
-    .config(function($routeProvider, $httpProvider) {
+
+app.config(function($routeProvider, $httpProvider) {
         $httpProvider.responseInterceptors.push('responseObserver');
     })
     .config(

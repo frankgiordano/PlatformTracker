@@ -360,15 +360,11 @@
         };
 
         clear = function() {
-
             $location.path('/project/search');
-
         };
 
         $scope.new = function() {
-
             $location.path('/project/create');
-
         };
 
         $scope.linkResolutions = function(project) {
@@ -390,15 +386,10 @@
             return false;
         }
 
-
-
         $scope.cancel = function() {
             $location.path('/project/search');
         };
-
-
     });
-
 
     app.controller('ComplexController', [
         '$scope', '$element', 'title', 'name', 'close',
@@ -415,9 +406,6 @@
 
         }
     ]);
-
-
-
 
     app.controller('ResolutionProjectLinkingController', function($http, $rootScope, $scope, ResolutionService, limitToFilter, $location, $routeParams, IncidentGroupService, ReferenceDataService) {
 
@@ -479,9 +467,6 @@
                 });
         };
 
-
-
-
         $scope.getIncidentResolution = function() {
             ResolutionService.getIncidentResolution($routeParams.id).then(
                 function success(response) {
@@ -526,9 +511,6 @@
 
 
         };
-
-
-
 
         $scope.update = function() {
 
@@ -577,10 +559,8 @@
                 });
         };
 
-
         $scope.$on('ngGridEventData', function() {
             // $scope.gridOptions.selectRow(0, true);
-
         });
 
         $scope.getSelectedRows = function() {
