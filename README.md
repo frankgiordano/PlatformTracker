@@ -1,4 +1,4 @@
-# PlatformTracker
+# Platform Tracker
 A rudimentary helpdesk type application. 
 
 ![Demo](https://github.com/frankgiordano/PlatformTracker/blob/master/demo/demo2.gif)
@@ -19,9 +19,9 @@ I am posting this project for educational proposes, and I intend to continue to 
 
 1 - Install Java 8
 
-2 - Install Maven 3.6.3
+2 - Install Maven 3.6.3 or higher
 
-3 - Install Apache Tomcat 7.0.99
+3 - Install Apache Tomcat 7.0.99 or higher
 
 4 - Within tomcat's directory location for example: C:\Users\giofr\Downloads\tools\apache-tomcat-7.0.99\conf, 
     edit context.xml file and add the following reource xml tag info between context xml tag:
@@ -67,7 +67,7 @@ I am posting this project for educational proposes, and I intend to continue to 
 
 14 - To login into the application UI enter in username as 'guest' and password as 'password'
 
-## Alernative build and deploy method:
+## Alernate build and deploy method:
 
 1 - Add the following to tomcat's tomcat-users.txt file located in tomcat's conf directory:
 
