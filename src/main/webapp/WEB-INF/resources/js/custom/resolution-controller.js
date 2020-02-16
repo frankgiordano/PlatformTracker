@@ -344,7 +344,7 @@ app.controller('ResolutionRetrieveController', function($http, $rootScope, $scop
             }
         }).then(function(modal) {
            // $scope.name = id.id;
-            modal.element.modal();
+            modal.element.modal({backdrop: 'static'});
             modal.close.then(function(result) {
                 if (result.answer === 'Yes') {
                     ResolutionService.deleteResolution(id).then(

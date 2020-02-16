@@ -50,7 +50,7 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
             templateUrl: 'modal.html',
             controller: "ModalController"
         }).then(function(modal) {
-            modal.element.modal();
+            modal.element.modal({backdrop: 'static'});
             modal.close.then(function(result) {
                 if (result == 'Yes') {
                     $scope.deleteP($scope.selectedProduct.id);

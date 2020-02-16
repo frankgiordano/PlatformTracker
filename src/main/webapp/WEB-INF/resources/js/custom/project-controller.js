@@ -260,7 +260,7 @@
                 }
             }).then(function(modal) {
                 $scope.name = id.name;
-                modal.element.modal();
+                modal.element.modal({backdrop: 'static'});
                 modal.close.then(function(result) {
                     if (result.answer === 'Yes') {
                         ProjectService.deleteProject(id).then(

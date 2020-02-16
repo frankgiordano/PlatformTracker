@@ -82,7 +82,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             templateUrl: 'modal.html',
             controller: "ModalController"
         }).then(function(modal) {
-            modal.element.modal();
+            modal.element.modal({backdrop: 'static'});
             modal.close.then(function(result) {
                 if (result == 'Yes') {
                     $scope.deleteI($scope.selectedIncident.id);

@@ -259,7 +259,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
             templateUrl: 'modal.html',
             controller: "ModalController"
         }).then(function(modal) {
-            modal.element.modal();
+            modal.element.modal({backdrop: 'static'});
             modal.close.then(function(result) {
                 if (result === 'Yes' && type === "incident") {
                     $scope.deleteI($scope.selectedIncident.id);
