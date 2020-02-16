@@ -1,7 +1,6 @@
 app.controller('RootCauseController', function($http, $rootScope, $scope, RcaService, limitToFilter, $location, $routeParams, IncidentGroupService, ReferenceDataService, $filter, $q, ModalService, OwnersService) {
 
     $scope.rca = {};
-
     $scope.whys = [];
 
     $scope.filterWhy = function(why) {
@@ -50,7 +49,6 @@ app.controller('RootCauseController', function($http, $rootScope, $scope, RcaSer
     	   	
     	 $scope.clearMsg();
     	
-
         (function() {
             IncidentGroupService.getGroups().then(
                 function success(response) {
@@ -95,12 +93,9 @@ app.controller('RootCauseController', function($http, $rootScope, $scope, RcaSer
             });
     }
   
-    
     $scope.saveFilter = function() {
     	$rootScope.resolutionFilterText = $scope.filterOptions.filterText;
-        };    
-
-    
+    };    
 
     $scope.filterOptions = {
         filterText: ''
@@ -183,7 +178,6 @@ app.controller('RootCauseController', function($http, $rootScope, $scope, RcaSer
             });
     };
 
-
     $scope.search = function(rca) {
         RcaService.getRcas(rca).then(
             function success(response, status, headers, config) {
@@ -205,7 +199,6 @@ app.controller('RootCauseController', function($http, $rootScope, $scope, RcaSer
                 });
             });
     };
-
 
     $scope.getRca = function() {
         RcaService.getRca($routeParams.id).then(
@@ -281,9 +274,6 @@ app.controller('RootCauseController', function($http, $rootScope, $scope, RcaSer
                     message: "Operation failure, Resolution may not exist, please try again"
                 });
             });
-
-
-
     };
 
     $scope.showComplex = function(id) {
@@ -324,12 +314,10 @@ app.controller('RootCauseController', function($http, $rootScope, $scope, RcaSer
 
     };
 
-
     $scope.delete = function(id) {
         $scope.showComplex(id);
 
     };
-    
     
     $scope.delete1 = function(id) {
 
@@ -356,7 +344,6 @@ app.controller('RootCauseController', function($http, $rootScope, $scope, RcaSer
         $scope.messages2 = null;
         $scope.errormessages2 = null;
     }
-
 
     $scope.update = function() {
         $scope.clearMsg();
@@ -422,25 +409,18 @@ app.controller('RootCauseController', function($http, $rootScope, $scope, RcaSer
     };
 
     clear = function() {
-
         $location.path('/rootcause/search');
-
     };
 
-
     $scope.new = function() {
-
         $location.path('/rootcause/create');
-
     };
 
     $scope.createResolution = function() {
         $scope.resolution = {};
         $routeParams.incidentGroup = $scope.rca.incidentGroup;
         popitup('/pst/#/resolution/create/' + $scope.rca.incidentGroup.id);
-
     };
-
 
     function popitup(url) {
         params = 'width=' + screen.width;
@@ -455,10 +435,8 @@ app.controller('RootCauseController', function($http, $rootScope, $scope, RcaSer
         return false;
     }
 
-
     $scope.cancel = function() {
         $location.path('/rootcause/search');
     };
-
 
 });

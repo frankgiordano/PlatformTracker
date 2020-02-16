@@ -136,7 +136,7 @@ app.controller('MainController', function($route, $rootScope, $scope, $location)
 //        var error = "Login failed.";
         if (status == 401) {
 //          error = "Invalid Username or Password.";
-        }else if(status == 403) {
+        } else if (status == 403) {
           error = "You don't have permission to access.";
         }
 //        $scope.errormessages = error;

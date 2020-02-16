@@ -67,8 +67,7 @@ app.controller('IncidentReportController', function($http, $rootScope, $filter, 
                 		var endTime;
                 		if (selectedIncident.endTime) {
                 		     endTime = moment(selectedIncident.endTime).format('MM-DD-YYYY HH:mm'); 
-                		}
-                		else {
+                		} else {
                 			endTime = "";
                 		}
                 		// loop through chronologies and convert from UTC to local times. 
@@ -92,27 +91,31 @@ app.controller('IncidentReportController', function($http, $rootScope, $filter, 
                 			var end = moment(endTime);
                 			var start = moment(startTime);
                 			$scope.outageMinutes = (end.hour()*60 + end.minute()) - (start.hour()*60 + start.minute());               			
-                		}
-                		else {
+                		} else {
                 			$scope.outageMinutes = "";	
                 		}
                 		
                 		// blank out falsely values for visual output otherwise it would show undefined instead
                 		if (!selectedIncident.name) {
                 			selectedIncident.name = "";
-                		}
+						}
+						
                 		if (!selectedIncident.summary) {
                 			selectedIncident.summary = "";
-                		}
+						}
+						
                 		if (!selectedIncident.reportOwner) {
                 			selectedIncident.reportOwner = "";
-                		}
+						}
+						
                 		if (!selectedIncident.customerImpact) {
                 			selectedIncident.customerImpact = "";
-                		}
+						}
+						
                 		if (!selectedIncident.issue) {
                 			selectedIncident.issue = "";
-                		}
+						}
+						
                 		if (!selectedIncident.correctiveAction) {
                 			selectedIncident.correctiveAction = "";
                 		}

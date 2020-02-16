@@ -657,8 +657,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
 						$scope.errormessages = null;
 						$scope.errormessages2 = null;
 						return IncidentService.saveIncident(incident);
-					}
-					else {
+					} else {
 						$scope.errormessages = "Save operation failure, creating new group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.";
 						console.error("Save operation failure, creating new group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.");
 						return $q.reject(); 

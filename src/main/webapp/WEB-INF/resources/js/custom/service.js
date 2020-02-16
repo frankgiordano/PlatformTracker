@@ -205,7 +205,6 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
         return d.promise;
     };
     
-    
     this.getIncidentResolution = function (id){
 
     	var deferred = $q.defer();
@@ -223,7 +222,6 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
             return deferred.promise;
             };
     
-    
     this.getResolution = function (id) {
         var d = $q.defer();
 
@@ -237,7 +235,6 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
 
         return d.promise;
     };
-    
     
     this.saveResolution = function (resolution) {
         var d = $q.defer();
@@ -267,7 +264,6 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
         return d.promise;
     };
     
-
 });
 
 app.service('ReferenceDataService', function ($http, $q) {

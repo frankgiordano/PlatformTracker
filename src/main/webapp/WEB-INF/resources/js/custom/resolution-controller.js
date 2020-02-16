@@ -3,7 +3,6 @@ app.controller('ResolutionRetrieveController', function($http, $rootScope, $scop
 
 //    $scope.actions = [];
 
-
 //    $scope.filterAction = function(action) {
 //        return action.isDeleted !== true;
 //    };
@@ -62,8 +61,6 @@ app.controller('ResolutionRetrieveController', function($http, $rootScope, $scop
                 });
         })();
 
-
-
         $scope.types1 = ReferenceDataService.getTypes().then(
             function success(response) {
                 $scope.types = response;
@@ -105,17 +102,13 @@ app.controller('ResolutionRetrieveController', function($http, $rootScope, $scop
             });
     }
 
-
     $scope.filterOptions = {
         filterText: ''
     };
     
-    
     $scope.getHeader = function () {
     	return $scope.gridOptions.columnDefs.displayName;
     	};
-
-
 
     $scope.myData = [];
     $scope.init = function() {
@@ -276,8 +269,6 @@ app.controller('ResolutionRetrieveController', function($http, $rootScope, $scop
 
     };
 
-
-
     $scope.getResolution = function() {
         ResolutionService.getResolution($routeParams.id).then(
             function success(response) {
@@ -328,9 +319,6 @@ app.controller('ResolutionRetrieveController', function($http, $rootScope, $scop
 
     };
     
-    
-    
-    
     $scope.showComplex = function(id) {
     	
     	$scope.name = " Incident Resolution ID "+id.id;
@@ -369,10 +357,8 @@ app.controller('ResolutionRetrieveController', function($http, $rootScope, $scop
 
     };
 
-
     $scope.delete = function(id) {
         $scope.showComplex(id);
-
     };
 
     $scope.delete1 = function(id) {
@@ -398,7 +384,6 @@ app.controller('ResolutionRetrieveController', function($http, $rootScope, $scop
         $scope.messages2 = null;
         $scope.errormessages2 = null;
     }
-
 
     $scope.update = function() {
     	 $scope.back = false;
@@ -432,9 +417,7 @@ app.controller('ResolutionRetrieveController', function($http, $rootScope, $scop
             return item.id === $scope.resolution.incidentGroup.id;
         });
 
-        $scope.resolution.incidentGroup = incidentGroupId[0];
-
-        
+        $scope.resolution.incidentGroup = incidentGroupId[0];  
         
         if ($scope.resolution.actualCompletionDate != null) {
             var d = new Date($scope.resolution.actualCompletionDate.toString());
@@ -450,8 +433,6 @@ app.controller('ResolutionRetrieveController', function($http, $rootScope, $scop
             d = null;
         }
         
-        
-
         var resolution = {
             "id": $scope.resolution.id,
             "horizon": horizonId[0],
@@ -467,9 +448,6 @@ app.controller('ResolutionRetrieveController', function($http, $rootScope, $scop
             "issue": $scope.resolution.issue
 //            "relatedActions": actions
         };
-
-
-
 
         ResolutionService.saveResolution(resolution).then(
             function success(response) {
@@ -494,20 +472,16 @@ app.controller('ResolutionRetrieveController', function($http, $rootScope, $scop
     };
 
     clear = function() {
-
         $location.path('/resolution/search');
-
     };
 
     $scope.cancel = function() {
         $location.path('/resolution/search');
     };
 
-
     $scope.new = function() {
         $location.path('/resolution/create');
     };
-
 
 });
 
@@ -521,18 +495,14 @@ var resolutionCtrl = app.controller('ResolutionReportController', function($http
     $scope.filterOptions = {
         filterText: ''
     };
-    
-    
+
     $scope.saveFilter = function() {
     	$rootScope.resolutionFilterText = $scope.filterOptions.filterText;
         };    
 
-
     $scope.getHeader = function() {
         return $scope.gridOptions.columnDefs.displayName;
     };
-
-
 
     $scope.myData = [];
     $scope.init = function() {
@@ -607,13 +577,11 @@ var resolutionCtrl = app.controller('ResolutionReportController', function($http
 			displayName: 'SRI Artifact',
 			width: '6%'
 		}]
-};
-
+    };
 
     $scope.new = function() {
         $location.path('/resolution/create');
     };
-
 
 });
 

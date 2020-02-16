@@ -26,8 +26,7 @@ app.controller('IncidentWeeklyReportController', function($http, $rootScope, $fi
        			"address": $scope.recipent
           };
           $scope.errormessages = null;
-       }
-       else {
+       } else {
     	   $scope.errormessages = "Specify an email recipent.";
     	   return;
        }
@@ -58,39 +57,35 @@ app.controller('IncidentWeeklyReportController', function($http, $rootScope, $fi
     
        if ($scope.recipent)	{
           $scope.errormessages = null;
-       }
-       else {
+       } else {
     	   $scope.errormessages = "Specify an email recipent.";
     	   return;
-       }
-       
+       } 
+
        if ($scope.selectedProducts)	{
            $scope.errormessages = null;
-       }
-       else {
+       } else {
      	   $scope.errormessages = "Specify a Product.";
      	   return;
        }
        
        if ($scope.startDate)	{
            $scope.errormessages = null;
-       }
-       else {
+       } else {
      	   $scope.errormessages = "Specify a Start Date.";
      	   return;
        }
        
        if ($scope.endDate)	{
            $scope.errormessages = null;
-       }
-       else {
+       } else {
      	   $scope.errormessages = "Specify a End Date.";
      	   return;
        }
        
        for (var i = 0; i < $scope.selectedProducts.length; i++) {
            products += $scope.selectedProducts[i].incidentName + ",";
-         }
+       }
        
        incidentReport = {
     		   "products": products,

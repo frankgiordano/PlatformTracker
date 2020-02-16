@@ -83,5 +83,4 @@ app.service('IncidentGroupService', function ($http, $q) {
         return d.promise;
     };
     
-
 });

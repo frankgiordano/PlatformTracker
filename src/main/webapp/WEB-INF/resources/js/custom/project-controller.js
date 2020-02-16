@@ -62,7 +62,6 @@
                 });
         }
         
-        
         $scope.saveFilter = function() {
         	$rootScope.resolutionFilterText = $scope.filterOptions.filterText;
         	console.log($scope.gridOptions.sortInfo);
@@ -178,7 +177,6 @@
                 });
         };
 
-
         $scope.getProject = function() { 
             ProjectService.getProject($routeParams.id).then(
                 function success(response) { 
@@ -247,7 +245,6 @@
 
         };
 
-
         $scope.showComplex = function(id) {
             $scope.name = " Project " + id.name;
 
@@ -284,7 +281,6 @@
             });
 
         };
-
 
         $scope.delete = function(id) {
             $scope.showComplex(id);
@@ -372,7 +368,6 @@
             popitup('/pst/#/resolution/linkProject/' + project.id);
         };
 
-
         function popitup(url) {
             params = 'width=' + screen.width;
             params += ', height=' + screen.height;
@@ -444,7 +439,6 @@
 
         $scope.myData = [];
 
-
         $scope.linkResolutions = function() {
 
             ResolutionService.getResolutions().then(
@@ -507,9 +501,6 @@
                         message: "Operation failure, Resolution may not exist, please try again"
                     });
                 });
-
-
-
         };
 
         $scope.update = function() {
@@ -544,9 +535,7 @@
                         else {
                             alert("Resolution " + resolution.id + " has been saved.");
                         }
-
                         $location.path('/resolution/search');
-
                     } else {
                         console.error("Resolution " + resolution.id + " was unable to be saved.")
                     }
@@ -605,7 +594,6 @@
             function success(response) {
                 if (response) {
                     $scope.messages = "Project/Resolution linking saved."
-
                 } else {
                     $scope.errormessages = "Project/Resolution linking failed."
                 }

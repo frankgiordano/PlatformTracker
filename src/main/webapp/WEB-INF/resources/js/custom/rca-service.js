@@ -14,51 +14,48 @@ app.service('RcaService', function ($http, $q, ReferenceDataService, IncidentGro
     };
 
 
-	    this.getRcas = function (rca) {
+    this.getRcas = function (rca) {
         var d = $q.defer();
 
-		   if (undefined == rca){
-        $http.get('rootcause/search')
-            .success(function (response) {
-                d.resolve(response);
-            })
-            .error(function () {
-                d.reject();
-            });
-		   }
-		   else{
-
-
-       $http.post('rootcause/searchby', rca)
-            .success(function (response) {
-                d.resolve(response);
-            })
-            .error(function () {
-                d.reject();
-            });
-		   }
+        if (undefined == rca) {
+            $http.get('rootcause/search')
+                .success(function (response) {
+                    d.resolve(response);
+                })
+                .error(function () {
+                    d.reject();
+                });
+        } else {
+            $http.post('rootcause/searchby', rca)
+                .success(function (response) {
+                    d.resolve(response);
+                })
+                .error(function () {
+                    d.reject();
+                });
+        }
 
         return d.promise;
     };
-    
-    this.getRca = function (id){
 
-    	var deferred = $q.defer();
-    	var promise1 = IncidentGroupService.getGroups();
-    	var promise2 = ReferenceDataService.getCategories();
-    	var promise3 = ReferenceDataService.getStatus();
-    	var promise4 = ReferenceDataService.getResources(); 
-    	var promise5 = this.getRca1(id);
-    	$q.all([promise1, promise2, promise3, promise4, promise5]).then(function(data) {
-            deferred.resolve(data); 
-            },
-            function(errors) {
+    this.getRca = function (id) {
+
+        var deferred = $q.defer();
+        var promise1 = IncidentGroupService.getGroups();
+        var promise2 = ReferenceDataService.getCategories();
+        var promise3 = ReferenceDataService.getStatus();
+        var promise4 = ReferenceDataService.getResources();
+        var promise5 = this.getRca1(id);
+        $q.all([promise1, promise2, promise3, promise4, promise5]).then(function (data) {
+            deferred.resolve(data);
+        },
+            function (errors) {
                 deferred.reject(errors);
             });
-            return deferred.promise;
-            };
-    
-     this.getRca1 = function (id) {
+        return deferred.promise;
+    };
+
+    this.getRca1 = function (id) {
         var d = $q.defer();
 
         $http.get('rootcause/get/' + id)
@@ -71,8 +68,7 @@ app.service('RcaService', function ($http, $q, ReferenceDataService, IncidentGro
 
         return d.promise;
     };
-    
-    
+
     this.saveRca = function (rca) {
         var d = $q.defer();
 
