@@ -1,5 +1,5 @@
 <div>
-  <a class="" ng-click="cancel('selectedIncident')" >
+  <a class="" ng-click="cancel('selectedIncident')">
     <img src="/plattrk/resources/images/back.jpg" width="50" height="50" />
   </a>
 </div>
@@ -26,11 +26,12 @@
 <div class="form-group">
   <label class="control-label col-md-2">Current Group</label>
   <div class="col-md-3 form-control-static">
-    	{{groupModel.currentGroupName}}
+    {{groupModel.currentGroupName}}
   </div>
   <label class="col-sm-1 control-label">Reassign Grp</label>
   <div class="col-sm-3">
-        <input type="text" ng-model="groupModel.selectedNewGroup" typeahead="group.name for group in groups | filter:$viewValue | orderBy: 'name'" class="form-control" >
+    <input type="text" ng-model="groupModel.selectedNewGroup"
+      typeahead="group.name for group in groups | filter:$viewValue | orderBy: 'name'" class="form-control">
   </div>
 </div>
 
@@ -46,33 +47,39 @@
 <div class="form-group">
   <label class="col-sm-2 control-label">Status</label>
   <div class="col-sm-3">
-    <select class="form-control" ng-model="selectedIncident.status" ng-options="c.name as c.name for c in incidentstatuss"></select>
-  </div>  
+    <select class="form-control" ng-model="selectedIncident.status"
+      ng-options="c.name as c.name for c in incidentstatuss"></select>
+  </div>
   <label class="col-sm-1 control-label">Email RCPT</label>
   <div class="col-sm-3">
-    <select class="form-control" ng-model="selectedIncident.emailRecipents" ng-options="c.name as c.name for c in recipents"></select>
+    <select class="form-control" ng-model="selectedIncident.emailRecipents"
+      ng-options="c.name as c.name for c in recipents"></select>
   </div>
 </div>
 
 <div class="form-group">
-         <label class="col-sm-2 control-label">Start Date Time</label>
-         <div class="col-md-3">
-            <p class="input-group">
-                <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm" ng-model="selectedIncident.startTime" is-open="open.startTime" />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'startTime')"><i class="fa fa-calendar"></i></button>
-                </span>
-            </p>
-         </div>
-         <label class="col-sm-1 control-label">End Date Time</label>
-         <div class="col-md-3">
-            <p class="input-group">
-                <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm" ng-model="selectedIncident.endTime" is-open="open.endTime" />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'endTime')"><i class="fa fa-calendar"></i></button>
-                </span>
-            </p>
-         </div>   
+  <label class="col-sm-2 control-label">Start Date Time</label>
+  <div class="col-md-3">
+    <p class="input-group">
+      <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm" ng-model="selectedIncident.startTime"
+        is-open="open.startTime" />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'startTime')"><i
+            class="fa fa-calendar"></i></button>
+      </span>
+    </p>
+  </div>
+  <label class="col-sm-1 control-label">End Date Time</label>
+  <div class="col-md-3">
+    <p class="input-group">
+      <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm" ng-model="selectedIncident.endTime"
+        is-open="open.endTime" />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'endTime')"><i
+            class="fa fa-calendar"></i></button>
+      </span>
+    </p>
+  </div>
 </div>
 
 <!--  
@@ -91,7 +98,8 @@
 <div class="form-group">
   <label class="col-sm-2 control-label">Severity</label>
   <div class="col-sm-3">
-    <select class="form-control" ng-model="selectedIncident.severity" ng-options="c.name as c.name for c in options"></select>
+    <select class="form-control" ng-model="selectedIncident.severity"
+      ng-options="c.name as c.name for c in options"></select>
   </div>
   <label class="col-sm-1 control-label">Name</label>
   <div class="col-sm-3">
@@ -106,18 +114,21 @@
   </div>
   <label class="col-sm-1 control-label">Application Status</label>
   <div class="col-sm-3">
-    <select class="form-control" ng-model="selectedIncident.applicationStatus" ng-options="c.displayName as c.displayName for c in applicationStatuses"></select>
+    <select class="form-control" ng-model="selectedIncident.applicationStatus"
+      ng-options="c.displayName as c.displayName for c in applicationStatuses"></select>
   </div>
 </div>
 
 <div class="form-group">
   <label class="col-sm-2 control-label">Error Condition</label>
   <div class="col-sm-3">
-    <select class="form-control" ng-model="selectedIncident.error" ng-options="c.name as c.name for c in errors"></select>
+    <select class="form-control" ng-model="selectedIncident.error"
+      ng-options="c.name as c.name for c in errors"></select>
   </div>
   <label class="col-sm-1 control-label">Locus</label>
   <div class="col-sm-3">
-    <select class="form-control" ng-model="selectedIncident.locus" ng-options="c.name as c.name for c in locuss"></select>
+    <select class="form-control" ng-model="selectedIncident.locus"
+      ng-options="c.name as c.name for c in locuss"></select>
   </div>
 </div>
 
@@ -138,7 +149,8 @@
 <div class="form-group">
   <label class="col-sm-2 control-label">Alerted By</label>
   <div class="col-sm-3">
-    <select class="form-control" ng-model="selectedIncident.alertedBy" ng-options="c.name as c.name for c in alerted_bys"></select>
+    <select class="form-control" ng-model="selectedIncident.alertedBy"
+      ng-options="c.name as c.name for c in alerted_bys"></select>
   </div>
   <label class="col-sm-1 control-label">Reviewed By</label>
   <div class="col-sm-3">
@@ -158,7 +170,8 @@
       </div>
 
       <div id="messages" class="alert alert-success" data-ng-show="chronmessages" data-ng-bind="chronmessages"></div>
-      <div id="messages" class="alert alert-danger" data-ng-show="chronerrormessages" data-ng-bind="chronerrormessages"></div>
+      <div id="messages" class="alert alert-danger" data-ng-show="chronerrormessages" data-ng-bind="chronerrormessages">
+      </div>
 
       <div class="form-group">
         <label class="control-label col-md-2">Tag</label>
@@ -229,26 +242,28 @@
         <div>
           <h2>Add Timeline Entry</h2>
         </div>
-<!--  
+        <!--  
         <div class="form-group">
           <label for="dtp_input1" class="col-sm-2 control-label">Date Time</label>
           <div class="col-md-7">
             <my-date-picker-time ng-model="createChronology.chronologyDateTime"></my-date-picker-time>
           </div>
         </div>
--->       
+-->
         <div class="form-group">
-         	<label class="col-sm-2 control-label">Date Time</label>
-         	<div class="col-md-7">
-            	<p class="input-group">
-                <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm" ng-model="createChronology.chronologyDateTime" is-open="open.dateTime" />
-               	 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'dateTime')"><i class="fa fa-calendar"></i></button>
-               	 </span>
-            	</p>
-         	</div> 
-		</div>
-        
+          <label class="col-sm-2 control-label">Date Time</label>
+          <div class="col-md-7">
+            <p class="input-group">
+              <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm"
+                ng-model="createChronology.chronologyDateTime" is-open="open.dateTime" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'dateTime')"><i
+                    class="fa fa-calendar"></i></button>
+              </span>
+            </p>
+          </div>
+        </div>
+
         <div class="form-group">
           <label class="col-sm-2 control-label">Description</label>
           <div class="col-sm-7">
@@ -270,13 +285,13 @@
       </div>
     </div>
   </tab>
-  
+
   <tab heading="Corrective Action">
     <div>
       <hr>
       <h2>Corrective Action</h2>
     </div>
-    
+
     <div class="form-group">
       <label class="col-sm-2 control-label">Issue</label>
       <div class="col-sm-7">
@@ -290,35 +305,32 @@
         <textarea type="text" class="form-control" rows="4" ng-model="selectedIncident.correctiveAction"></textarea>
       </div>
     </div>
-    
-    <div class="form-group">
-	  <label class="col-sm-2 control-label">Related Actions</label>
-		<div class="col-sm-7">
-			<div class="panel-content">
-				<div>
-					<table class="table table-responsive" class="form-control">
-						<tr ng-repeat="action in actions | filter:filterAction">
-							<td class="editable-content table-responsive"><textarea
-								type="text" class="form-control" rows="3"
-								ng-model="action.name"></textarea></td>
 
-							<td><button type="button"
-								ng-click="deleteAction(action.id)"
-								class="btn btn-primary pull-right form-control">Delete
-								Action</button></td>
-							</tr>
-					</table>
-					<button type="button" ng-disabled="tableform.$waiting"
-								ng-click="addAction()" class="btn btn-primary ">Add
-								Action</button>
-					<br /> <br>
-				</div>
-			</div>
-		</div>
-	</div>
-    
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Related Actions</label>
+      <div class="col-sm-7">
+        <div class="panel-content">
+          <div>
+            <table class="table table-responsive" class="form-control">
+              <tr ng-repeat="action in actions | filter:filterAction">
+                <td class="editable-content table-responsive"><textarea type="text" class="form-control" rows="3"
+                    ng-model="action.name"></textarea></td>
+
+                <td><button type="button" ng-click="deleteAction(action.id)"
+                    class="btn btn-primary pull-right form-control">Delete
+                    Action</button></td>
+              </tr>
+            </table>
+            <button type="button" ng-disabled="tableform.$waiting" ng-click="addAction()" class="btn btn-primary ">Add
+              Action</button>
+            <br /> <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </tab>
-  
+
   <tab heading="Impact">
     <div>
       <hr>
@@ -328,7 +340,8 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Product(s) Impacted</label>
       <div class="col-sm-7">
-        <bs-select required ng-model="selectedProducts" default-text="Select Associated Product(s).." text-field="shortName" value-field="id" items="myProducts">
+        <bs-select required ng-model="selectedProducts" default-text="Select Associated Product(s).."
+          text-field="shortName" value-field="id" items="myProducts">
         </bs-select>
       </div>
     </div>
@@ -359,7 +372,7 @@
     </div>
 
   </tab>
-   
+
 </tabset>
 
 <hr>

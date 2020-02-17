@@ -1,13 +1,13 @@
 <div>
 	<h2>Search Projects</h2>
 </div>
+
 <link rel="stylesheet" type="text/css" href="resources/css/ng-grid/styles.css">
 <link rel="stylesheet" type="text/css" href="resources/css/ng-grid/ng-grid.css">
 <link rel="stylesheet" type="text/css" href="resources/css/ng-grid/jquery-ui.css">
 
 <div data-ng-init="init()">
 	<table class="table table-responsive" class="form-control">
-
 		<tr>
 			<td class="editable-content table-responsive">
 				<div class="pull-left">
@@ -15,15 +15,13 @@
 						ng-model="filterOptions.filterText" />
 				</div>
 			</td>
-			<td><br/>
+			<td><br />
 				<div class="pull-right">
 					<button data-ng-disabled="progress.active()" data-ng-click="new()"
 						class="btn btn-default pull-right">Create</button>
-			</td>
 				</div>
+			</td>
 		</tr>
 	</table>
-
 	<div class="gridStyle" ng-grid="gridOptions"></div>
-
 </div>

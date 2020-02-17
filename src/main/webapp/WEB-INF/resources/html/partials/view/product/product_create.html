@@ -1,95 +1,95 @@
 <div>
-       <h2>Create Product</h2>
+      <h2>Create Product</h2>
 </div>
 
 <div data-ng-controller="ProductController" class="table table-condensed">
-  <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-  <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
-  <div data-ng-show="progress.active()" style="color: red; font-size: 50px;">Sending&hellip;</div>
-  
-  <form class="form-horizontal" name="helpForm" novalidate role="form">
-  
-   <br/><br/>
-   <div class="form-group">
-       <label class="col-sm-2 control-label">Platform</label>
-            <div class="col-sm-6">
-            	<select ng-model="selectedPlatform" class="form-control" ng-options="platform.name for platform in platforms">
-   				</select>
-            </div>
-   </div>
-   
-   <div class="form-group">
-       <label class="col-sm-2 control-label">Incident Name</label>
-           <div class="col-sm-6">
-				<input type="text" name="incidentName" data-ng-model="incidentName" class="form-control">
-           </div>
-   </div>
+      <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+      <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
+      <div data-ng-show="progress.active()" style="color: red; font-size: 50px;">Sending&hellip;</div>
 
-   <div class="form-group">
-       <label class="col-sm-2 control-label">Start Date</label>
-          <div class="col-sm-6">
-     		 <input type="date" name="startDate" data-ng-model="startDate" class="form-control">  
-          </div>
-    </div>
-   
-   <div class="form-group">
-       <label class="col-sm-2 control-label">End Time</label>
-             <div class="col-sm-6">
-       			<input type="date" name="endDate" data-ng-model="endDate" class="form-control">  
-             </div>
-   </div>
-                
-   <div class="form-group">
-       <label class="col-sm-2 control-label">Client Name</label>
-             <div class="col-sm-6">
-      			<input type="text" name="clientName" data-ng-model="clientName" class="form-control">  
-             </div>
-   </div>
-                
-   <div class="form-group">
-       <label class="col-sm-2 control-label">Short Name</label>
-            <div class="col-sm-6">
-      			<input type="text" name="shortName" data-ng-model="shortName" class="form-control">  
+      <form class="form-horizontal" name="helpForm" novalidate role="form">
+            <br/><br/>
+            <div class="form-group">
+                  <label class="col-sm-2 control-label">Platform</label>
+                  <div class="col-sm-6">
+                        <select ng-model="selectedPlatform" class="form-control"
+                              ng-options="platform.name for platform in platforms">
+                        </select>
+                  </div>
             </div>
-   </div>
-                
-   <div class="form-group">
-       <label class="col-sm-2 control-label">Owner</label>
-            <div class="col-sm-6">
-      			<input type="text" name="owner" data-ng-model="owner" class="form-control"> 
+
+            <div class="form-group">
+                  <label class="col-sm-2 control-label">Incident Name</label>
+                  <div class="col-sm-6">
+                        <input type="text" name="incidentName" data-ng-model="incidentName" class="form-control">
+                  </div>
             </div>
-   </div>
-   
-   <div class="form-group">
-      <label class="col-sm-2 control-label">Max Weekly Up Time</label>
-            <div class="col-sm-6">
-      <input type="text" name="maxWeeklyUptime" data-ng-model="maxWeeklyUptime" class="form-control" required />  
+
+            <div class="form-group">
+                  <label class="col-sm-2 control-label">Start Date</label>
+                  <div class="col-sm-6">
+                        <input type="date" name="startDate" data-ng-model="startDate" class="form-control">
+                  </div>
             </div>
-   </div>
-   
-   <div class="form-group">
-      <label class="col-sm-2 control-label">Revenue %</label>
-            <div class="col-sm-6">
-      		<input type="text" name="revenue" data-ng-model="revenue" class="form-control" required />  
+
+            <div class="form-group">
+                  <label class="col-sm-2 control-label">End Time</label>
+                  <div class="col-sm-6">
+                        <input type="date" name="endDate" data-ng-model="endDate" class="form-control">
+                  </div>
             </div>
-   </div>
-   
-   <div class="form-group">
-      <label class="col-sm-2 control-label">User %</label>
-            <div class="col-sm-6">
-      		<input type="text" name="users" data-ng-model="users" class="form-control" required />  
+
+            <div class="form-group">
+                  <label class="col-sm-2 control-label">Client Name</label>
+                  <div class="col-sm-6">
+                        <input type="text" name="clientName" data-ng-model="clientName" class="form-control">
+                  </div>
             </div>
-   </div>
-   
-    <div class="form-group">
-             <div class="col-sm-offset-2 col-sm-10">
-                   <button class="btn btn-primary" data-ng-disabled="progress.active()" 
-                        		data-ng-click="submit(helpForm)">
-                            Submit
-                   </button>
-                   <a href="#/main" class="btn btn-primary">Back</a>
-             </div>
-     </div>
-       
-  </form>
+
+            <div class="form-group">
+                  <label class="col-sm-2 control-label">Short Name</label>
+                  <div class="col-sm-6">
+                        <input type="text" name="shortName" data-ng-model="shortName" class="form-control">
+                  </div>
+            </div>
+
+            <div class="form-group">
+                  <label class="col-sm-2 control-label">Owner</label>
+                  <div class="col-sm-6">
+                        <input type="text" name="owner" data-ng-model="owner" class="form-control">
+                  </div>
+            </div>
+
+            <div class="form-group">
+                  <label class="col-sm-2 control-label">Max Weekly Up Time</label>
+                  <div class="col-sm-6">
+                        <input type="text" name="maxWeeklyUptime" data-ng-model="maxWeeklyUptime" class="form-control"
+                              required />
+                  </div>
+            </div>
+
+            <div class="form-group">
+                  <label class="col-sm-2 control-label">Revenue %</label>
+                  <div class="col-sm-6">
+                        <input type="text" name="revenue" data-ng-model="revenue" class="form-control" required />
+                  </div>
+            </div>
+
+            <div class="form-group">
+                  <label class="col-sm-2 control-label">User %</label>
+                  <div class="col-sm-6">
+                        <input type="text" name="users" data-ng-model="users" class="form-control" required />
+                  </div>
+            </div>
+
+            <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                        <button class="btn btn-primary" data-ng-disabled="progress.active()"
+                              data-ng-click="submit(helpForm)">
+                              Submit
+                        </button>
+                        <a href="#/main" class="btn btn-primary">Back</a>
+                  </div>
+            </div>
+      </form>
 </div>

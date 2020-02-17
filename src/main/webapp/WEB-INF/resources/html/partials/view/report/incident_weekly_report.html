@@ -1,34 +1,31 @@
 <div data-ng-controller="IncidentWeeklyReportController">
-  
-   <div>
-       <h2>Incident Weekly Report Generation</h2>
-   </div>
-   
-   <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>  
-   <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
-   <div style="clear:both;">&nbsp;</div>
-   <p>Click on the button to generate an incident weekly report excel document.</p>
-   <p>Specify an email address to send the generated report.</p>
-   <div style="clear:both;">&nbsp;</div>
 
-   
-   <form class="form-horizontal" name="helpForm" novalidate role="form">
-   
-      	<div class="form-group">
-      	   		<label class="col-sm-2 control-label">Email Address</label>
-   				<div class="col-sm-7">
-  					<input type="text"  ng-model="recipent" class="form-control" >
-   				</div>
-   		</div>
-   		<div class="form-group">
-             <div class="col-sm-offset-2 col-sm-10">
-                   <button class="btn btn-primary" data-ng-disabled="progress.active()" 
-                        		data-ng-click="submit()">
-                            Generate
-                   </button>
-             </div>
-   		</div>
-   </form>
-   
+  <div>
+    <h2>Incident Weekly Report Generation</h2>
+  </div>
+
+  <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+  <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
+  <div style="clear:both;">&nbsp;</div>
+
+  <p>Click on the button to generate an incident weekly report excel document.</p>
+  <p>Specify an email address to send the generated report.</p>
+  <div style="clear:both;">&nbsp;</div>
+
+  <form class="form-horizontal" name="helpForm" novalidate role="form">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Email Address</label>
+      <div class="col-sm-7">
+        <input type="text" ng-model="recipent" class="form-control">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="submit()">
+          Generate
+        </button>
+      </div>
+    </div>
+  </form>
+
 </div>
-   
