@@ -118,16 +118,9 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button class="btn btn-primary" data-ng-disabled="progress.active()"
-						data-ng-click="update(resolution)">Save</button>
-
+						data-ng-click="update(resolution)" ng-show="!back">Save</button>
 					<button class="btn btn-primary" data-ng-disabled="progress.active()"
-						data-ng-click="delete(resolution)">Delete</button>
-
-					<!-- 
-					<button class="btn btn-primary"
-						data-ng-disabled="progress.active()" data-ng-click="cancel()"
-						ng-show="!back">Cancel</button>
--->
+						data-ng-click="delete(resolution)" ng-show="!back">Delete</button>
 					<button class="btn btn-primary" data-ng-disabled="progress.active()"
 						data-ng-click="cancel()">Back</button>
 				</div>
