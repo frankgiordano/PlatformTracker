@@ -253,17 +253,36 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         } else {}
     };
     // END OF - add related actions stuff
-    
+
     $scope.showOnDelete = function(type) {
+        var title = '';
+        var name = '';
+        if (type === "incident") {
+            title = "Incident";
+            name = "Incident Detail ID " + $scope.selectedIncident.id;
+        } else if (type === "group") {
+            title = "Group";
+            name = "Group Detail ID " + $scope.selectedGroup.id;
+        }
+
+        if (title === '' || name === '') {
+            console.error("No valid modal type input provided.");
+            return;
+        }
+
         ModalService.showModal({
-            templateUrl: 'modal.html',
-            controller: "ModalController"
+            templateUrl: "resources/html/templates/complex.html",
+            controller: "ComplexController",
+            inputs: {
+                title: "Delete " + title + " Confirmation:",
+                name: name
+            }
         }).then(function(modal) {
             modal.element.modal({backdrop: 'static'});
             modal.close.then(function(result) {
-                if (result === 'Yes' && type === "incident") {
+                if (result.answer === 'Yes' && type === "incident") {
                     $scope.deleteI($scope.selectedIncident.id);
-                } else if (result === 'Yes' && type === "group") {
+                } else if (result.answer === 'Yes' && type === "group") {
                     $scope.deleteG($scope.selectedGroup.id);
                 }
             });
@@ -828,11 +847,12 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         IncidentService.deleteIncident(id).then(
             function success(response) {
                 if (response) {
-                    $scope.messages = "Incident " + id + " has been deleted.";
-                    console.info("Incident " + id + " has been deleted.")
+                    $scope.messages = "Incident ID " + id + " has been deleted.";
+                    console.info("Incident ID " + id + " has been deleted.");
                     $scope.changedGroup();
                 } else {
-                    console.error("Incident " + id + " was unable to be deleted.");
+                    $scope.errormessages = "Delete operation failure, check logs or invalid incident.";
+                    console.error("Incident ID " + id + " was unable to be deleted.");
                 }
                 $scope.disableButton = true;
             },
@@ -850,20 +870,20 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                 if (response) {
                 	if (response === "false") {              		
                 		// group was not deleted a false was returned..
-                		$scope.errormessages = "Delete operation failure, check logs, or child associated incidents still exist.";
-                		console.error("Group " + id + " was unable to be deleted.");
+                		$scope.errormessages = "Delete operation failure, check logs or child associated entities still exist.";
+                		console.error("Group ID " + id + " was unable to be deleted.");
                 		return;               		
                 	}
-                    $scope.messages = "Group " + id + " has been deleted.";
-                    console.info("Group " + id + " has been deleted.");
+                    $scope.messages = "Group ID " + id + " has been deleted.";
+                    console.info("Group ID " + id + " has been deleted.");
                     $scope.disableButton = true;
                     $scope.refreshData();
                 } else {
-                    console.error("Group " + id + " was unable to be deleted.");
+                    console.error("Group ID " + id + " was unable to be deleted.");
                 }
             },
             function error() {
-                $scope.errormessages = "Delete operation failure, check logs, or child associated incidents still exist.";
+                $scope.errormessages = "Delete operation failure, check logs or child associated entities still exist.";
 //              $rootScope.errors.push({ code: "GROUP_DELETE_FAILURE", message: "Delete operation failure, check logs or child associated incidents still exist." });
             });
     };

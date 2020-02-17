@@ -44,18 +44,24 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
         $scope.endDate = null;
         $scope.maxWeeklyUptime = null;
     };
-    
+
     $scope.showOnDelete = function() {
+        var title = "Product";
+        var name = "Product Detail ID " + $scope.selectedProduct.id;
+
         ModalService.showModal({
-            templateUrl: 'modal.html',
-            controller: "ModalController"
+            templateUrl: "resources/html/templates/complex.html",
+            controller: "ComplexController",
+            inputs: {
+                title: "Delete " + title + " Confirmation:",
+                name: name
+            }
         }).then(function(modal) {
             modal.element.modal({backdrop: 'static'});
             modal.close.then(function(result) {
-                if (result == 'Yes') {
+                if (result.answer == 'Yes') {
                     $scope.deleteP($scope.selectedProduct.id);
                 }
-                $scope.message = "You said " + result;
             });
         });
     };
@@ -70,14 +76,14 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
         ProductService.deleteProduct(id).then(
             function success(response) {
                 if (response) {
-                    $scope.messages = "Product " + id + " has been deleted.";
-                    console.info("Product " + id + " has been deleted.");
+                    $scope.messages = "Product ID " + id + " has been deleted.";
+                    console.info("Product ID " + id + " has been deleted.");
                     $scope.refreshData();
                     $scope.errormessages = null;
                     $scope.disableButton = true;
                 } else {
                     $scope.errormessages = "Delete operation failure, check logs or invalid product.";
-                    console.error("Product " + id + " was unable to be deleted.")
+                    console.error("Product ID " + id + " was unable to be deleted.");
                 }
             },
             function error() {

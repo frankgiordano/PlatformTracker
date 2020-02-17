@@ -78,16 +78,22 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
     getGroups();
 
     $scope.showOnDelete = function() {
+        var title = "Incident";
+        var name = "Incident Detail ID " + $scope.selectedIncident.id;
+
         ModalService.showModal({
-            templateUrl: 'modal.html',
-            controller: "ModalController"
+            templateUrl: "resources/html/templates/complex.html",
+            controller: "ComplexController",
+            inputs: {
+                title: "Delete " + title + " Confirmation:",
+                name: name
+            }
         }).then(function(modal) {
             modal.element.modal({backdrop: 'static'});
             modal.close.then(function(result) {
-                if (result == 'Yes') {
+                if (result.answer == 'Yes') {
                     $scope.deleteI($scope.selectedIncident.id);
                 }
-                $scope.message = "You said " + result;
             });
         });
     };
@@ -462,13 +468,13 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         IncidentService.deleteIncident(id).then(
             function success(response) {
                 if (response) {
-                    $scope.messages = "Incident " + id + " has been deleted.";
-                    console.info("Incident " + id + " has been deleted.");
+                    $scope.messages = "Incident ID " + id + " has been deleted.";
+                    console.info("Incident ID " + id + " has been deleted.");
                     $scope.refreshData();
                     $scope.errormessages = null;
                 } else {
                     $scope.errormessages = "Delete operation failure, check logs or invalid incident.";
-                    console.error("Incident " + id + " was unable to be deleted.")
+                    console.error("Incident ID " + id + " was unable to be deleted.")
                 }
                 $scope.disableButton = true;
             },

@@ -245,33 +245,35 @@
 
         };
 
-        $scope.showComplex = function(id) {
-            $scope.name = " Project " + id.name;
+        $scope.showComplex = function(project) {
+            var title = "Project";
+            var name = "Project Detail ID " + project.id;
 
             ModalService.showModal({
                 templateUrl: "resources/html/templates/complex.html",
                 controller: "ComplexController",
                 inputs: {
-                    title: "Delete Resolution Project Confirmation:",
-                    name: $scope.name
+                    title: "Delete " + title + " Confirmation:",
+                    name: name
                 }
             }).then(function(modal) {
-                $scope.name = id.name;
                 modal.element.modal({backdrop: 'static'});
                 modal.close.then(function(result) {
                     if (result.answer === 'Yes') {
-                        ProjectService.deleteProject(id).then(
+                        ProjectService.deleteProject(project).then(
                             function success(response) {
                                 if (response) {
-                                    $scope.messages = "Project " + id + " has been deleted.";
+                                    $scope.messages = "Project ID " + project.id + " has been deleted.";
+                                    console.info("Project ID " + project.id + " has been deleted.");
                                 } else {
-                                    $scope.messages = ("Project " + id + " was unable to be deleted.");
+                                    $scope.errormessages = "Delete operation failure, check logs or invalid project.";
+                                    console.error("Project ID " + project.id + " was unable to be deleted.");
                                 }
                                 $scope.back = true;
                                 return;
                             },
                             function error() {
-                                $scope.errormessages = "Operation failure, Project may not exist, please try again";
+                                $scope.errormessages = "Delete operation failure, check logs or invalid project.";
                                 return;
                             });
                     } else {
@@ -282,9 +284,8 @@
 
         };
 
-        $scope.delete = function(id) {
-            $scope.showComplex(id);
-
+        $scope.delete = function(project) {
+            $scope.showComplex(project);
         };
 
         $scope.update = function() {
