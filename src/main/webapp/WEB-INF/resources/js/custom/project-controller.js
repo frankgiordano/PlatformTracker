@@ -345,8 +345,7 @@
                             $scope.messages = "Project " + $scope.project.name + " has been saved.";
                         }
                         $scope.back = true;
-
-
+                        return;
                     } else {
                         $scope.errormessages = "Project " + $scope.project.id + " was unable to be saved.";
                     }

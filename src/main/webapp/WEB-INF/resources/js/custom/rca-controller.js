@@ -398,14 +398,13 @@ app.controller('RootCauseController', function($http, $rootScope, $scope, RcaSer
                     }
                     $scope.back = true;
                     return;
-
                 } else {
                    	$scope.errormessages =("Root Cause was unable to be saved, incident group name, owner is required")
                 }
             },
             function error() {
               	$scope.errormessages =("Root Cause was unable to be saved, incident group name, owner is required")
-              	             });
+            });
     };
 
     clear = function() {

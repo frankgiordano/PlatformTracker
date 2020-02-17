@@ -372,8 +372,7 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                 owners = owners + "|" + $scope.ownerlist[i].userName;
             }
             if (owners.length > 1)
-                $scope.resolution.owner = owners.substring(1, owners.length);;
-
+                $scope.resolution.owner = owners.substring(1, owners.length);
         }
 
         //        var actions = $scope.actions.map(function(x) {
@@ -436,9 +435,7 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                     }
                     $scope.back = true;
                     return;
-
                 } else {
-
                     $scope.errormessages = ("Resolution was unable to be saved, description, owner and estimated completion date are required")
                 }
             },
