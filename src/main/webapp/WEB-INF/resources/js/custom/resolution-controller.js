@@ -263,7 +263,6 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
             function error() {
                 $scope.errormessages = "Failed in resolution detail";
             });
-
     };
 
     $scope.getResolution = function () {
@@ -302,8 +301,6 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                     //
                     //                    }
                     //                    $scope.actions = newActions;
-
-
                 } else {
                     console.error("Unable to retrieve resolution for resolution " + id);
                 }
@@ -311,7 +308,6 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
             function error() {
                 $scope.errormessages = "Failed in get resolution detail";
             });
-
     };
 
     $scope.showComplex = function (resolution) {
@@ -348,7 +344,6 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                 }
             });
         });
-
     };
 
     $scope.delete = function (resolution) {
@@ -436,12 +431,11 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                     $scope.back = true;
                     return;
                 } else {
-                    $scope.errormessages = ("Resolution was unable to be saved, description, owner and estimated completion date are required")
+                    $scope.errormessages = "Resolution was unable to be saved, description, owner and estimated completion date are required.";
                 }
             },
             function error() {
-
-                $scope.errormessages = ("Resolution was unable to be saved, description, owner and estimated completion date are required")
+                $scope.errormessages = "Resolution was unable to be saved, description, owner and estimated completion date are required.";
             });
     };
 
@@ -479,8 +473,8 @@ var resolutionCtrl = app.controller('ResolutionReportController', function ($htt
     };
 
     $scope.myData = [];
-    $scope.init = function () {
 
+    $scope.init = function () {
         if ($rootScope.resolutionFilterText != null) {
             $scope.filterOptions.filterText = $rootScope.resolutionFilterText;
         }
@@ -488,7 +482,6 @@ var resolutionCtrl = app.controller('ResolutionReportController', function ($htt
         var i, resolution;
         var projects = {};
         $scope.myData = gridData;
-
     };
 
     $scope.gridOptions = {

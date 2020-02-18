@@ -48,12 +48,15 @@
 					<div>
 						<table class="table table-responsive" class="form-control">
 							<tr ng-repeat="why in whys | filter:filterWhy">
-								<td class=" editable-content table-responsive"><textarea type="text"
-										class="form-control" rows="3" ng-model="why.name"></textarea></td>
-
-								<td><button type="button" ng-click="deleteWhy(why.id)"
+								<td class=" editable-content table-responsive">
+									<textarea type="text" class="form-control" rows="3" ng-model="why.name"></textarea>
+								</td>
+								<td>
+									<button type="button" ng-click="deleteWhy(why.id)"
 										class="btn btn-primary pull-right form-control">Delete
-										Why</button></td>
+										Why
+									</button>
+								</td>
 							</tr>
 						</table>
 						<button type="button" ng-disabled="tableform.$waiting" ng-click="addWhy()"
