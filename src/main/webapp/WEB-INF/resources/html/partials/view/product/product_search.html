@@ -149,17 +149,9 @@
 
               <div class="form-group">
                      <div class="col-sm-offset-2 col-sm-10">
-                            <button class="btn btn-primary" ng-disabled="disableButton"
-                                    ng-click="updateInSearch()">
-                                   Save
-                            </button>
-                            <button class="btn btn-primary" ng-disabled="disableButton"
-                                   ng-click="showOnDelete()">
-                                   Delete
-                            </button>
-                            <button class="btn btn-primary" ng-click="cancelP()">
-                                   Back
-                            </button>
+                            <button class="btn btn-primary" ng-show="!disableButton" ng-click="updateInSearch()">Save</button>
+                            <button class="btn btn-primary" ng-show="!disableButton" ng-click="showOnDelete()">Delete</button>
+                            <button class="btn btn-primary" ng-click="cancelP()">Back</button>
                      </div>
               </div>
 

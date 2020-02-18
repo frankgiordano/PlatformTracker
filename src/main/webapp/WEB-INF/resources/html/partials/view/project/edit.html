@@ -132,14 +132,11 @@
 				<button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="update(project)"
 					ng-show="!back">Save</button>
 				<button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="delete(project)"
-					ng-show="!back">Delete
-				</button>
-				<button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="cancel()">
-					Back
-				</button>
+					ng-show="!back">Delete</button>
 				<button class="btn btn-primary" data-ng-disabled="progress.active()"
-					data-ng-click="linkResolutions(project)" ng-show="!back">Link Resolutions
-				</button>
+					data-ng-click="cancel()">Back</button>
+				<button class="btn btn-primary" data-ng-disabled="progress.active()"
+					data-ng-click="linkResolutions(project)" ng-show="!back">Link Resolutions</button>
 			</div>
 		</div>
 	</form>
