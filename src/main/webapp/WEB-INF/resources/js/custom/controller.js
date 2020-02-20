@@ -113,45 +113,43 @@ app.value('alerted_bys', [{
     value: 'Unknown'
 }]);
 
-app.controller('MainController', function($route, $rootScope, $scope, $location) {
+app.controller('MainController', function ($route, $rootScope, $scope, $location) {
 
-    $scope.linkClicked = function(link){
-       $route.reload();
-       $location.path(link);
+    $scope.linkClicked = function (link) {
+        $route.reload();
+        $location.path(link);
     };
 
-    $scope.logout = function() {
+    $scope.logout = function () {
         $scope.$emit('event:logoutRequest');
-
         $location.path("/main");
     };
 
-    $scope.login = function(credentials) {
+    $scope.login = function (credentials) {
         $scope.$emit('event:loginRequest', credentials.email, credentials.password);
-
         $location.path($rootScope.navigateTo);
     };
-    
-    $scope.$on('event:auth-login-failed', function(e, status) {
-//        var error = "Login failed.";
+
+    $scope.$on('event:auth-login-failed', function (e, status) {
+        //        var error = "Login failed.";
         if (status == 401) {
-//          error = "Invalid Username or Password.";
+            //          error = "Invalid Username or Password.";
         } else if (status == 403) {
-          error = "You don't have permission to access.";
+            error = "You don't have permission to access.";
         }
-//        $scope.errormessages = error;
-      });
-    
-    $scope.clearMsg = function() {
+        //        $scope.errormessages = error;
+    });
+
+    $scope.clearMsg = function () {
         $scope.messages = null;
         $scope.errormessages = null;
-    };    
-    
+    };
+
 });
 
-app.controller('ModalController', function($scope, close) {
+app.controller('ModalController', function ($scope, close) {
 
-    $scope.close = function(result) {
+    $scope.close = function (result) {
         close(result, 500); // close, but give 500ms for bootstrap to animate
     };
 

@@ -53,25 +53,23 @@ app.run(function ($rootScope, $http, $location, Base64Service, AuthenticationSer
         AuthenticationService.login().then(
             function success() {
                 $rootScope.user = localStorageService.get('localStorageUser');
-
                 $rootScope.$broadcast('event:loginConfirmed');
-
                 console.log("You have been successfully logged in.")
             },
             function error() {
                 $rootScope.errors.push({ code: "LOGIN_FAILED", message: $rootScope.errormessages });
             });
     });
-    
-    $rootScope.$on('event:auth-login-failed', function(e, status) {
-//      var error = "Login failed.";
+
+    $rootScope.$on('event:auth-login-failed', function (e, status) {
+        //      var error = "Login failed.";
         if (status == 401) {
-//          error = "Invalid Username or Password.";
-        }else if(status == 403) {
-          error = "You don't have permission to access.";
+            //          error = "Invalid Username or Password.";
+        } else if (status == 403) {
+            error = "You don't have permission to access.";
         }
-//        $rootScope.errormessages = error;
-      });
+        //        $rootScope.errormessages = error;
+    });
 
     /**
      * On 'logoutRequest' invoke logout on the server.
@@ -82,7 +80,6 @@ app.run(function ($rootScope, $http, $location, Base64Service, AuthenticationSer
         AuthenticationService.logout().then(
             function success() {
                 $rootScope.user = localStorageService.get('localStorageUser');
-
                 console.log("You have been successfully logged out.")
             },
             function error() {
