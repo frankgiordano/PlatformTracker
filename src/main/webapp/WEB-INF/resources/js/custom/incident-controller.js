@@ -37,7 +37,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             function success(response) {
             	// console.log("getErrorConditions = " + JSON.stringify(response));
             	$scope.errors = response;
-            	$scope.selectedError = $scope.errors[2];  // default error dropdown for create screen
+            	$scope.selectedError = $scope.errors[0];  // default error dropdown for create screen
             },
             function error() {
                 $rootScope.errors.push({
@@ -675,8 +675,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         	
         	$scope.generateTag();
         	if (!$scope.tag) {	
-                	$scope.errormessages = "Save operation failure, Tag field not generated yet! Please fill in Products and Start Time fields.";
-                	console.log("inside else");
+                	$scope.errormessages = "Save operation failure, Tag field not generated yet! Please fill in Products, Description and Start Time fields.";
                 	return;   				
         	} 
         }
@@ -693,26 +692,31 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         		return;
         	}
         } 	
-        
-        var group = null;
-        if ($scope.incidentGroup) {
-        	group = {
-                "name": $scope.incidentGroup,
-                "description": $scope.description + " " + $scope.summary,
-            }	
-        } else {
-        	var myNameString = $scope.description + " " + $scope.summary;
-        	group = {
-                    "name": myNameString.substring(0,120),
-                    "description": $scope.description + " " + $scope.summary,
-                }
+
+        if (!$scope.description) {
+            $scope.errormessages = "Save operation failure, please fill in description field.";
+            return;   	
         }
-        
+
         var summary = "";
         if ($scope.summary) {
         	summary = $scope.summary;
         } else {
         	summary = " ";
+        }
+        
+        var group = null;
+        if ($scope.incidentGroup) {
+        	group = {
+                "name": $scope.incidentGroup,
+                "description": $scope.description + " " + summary,
+            }	
+        } else {
+        	var myNameString = $scope.description + " " + summary;
+        	group = {
+                    "name": myNameString.substring(0,120),
+                    "description": $scope.description + " " + summary,
+                }
         }
         
         var incident = {

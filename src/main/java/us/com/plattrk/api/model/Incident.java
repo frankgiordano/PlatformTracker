@@ -209,7 +209,7 @@ public class Incident  {
 		this.severity = severity;
 	}
 
-	@Column(name = "description", columnDefinition="VARCHAR(1000)" , nullable = true)
+	@Column(name = "description", columnDefinition="VARCHAR(1000)" , nullable = false)
 	public String getDescription() {
 		return description;
 	}
