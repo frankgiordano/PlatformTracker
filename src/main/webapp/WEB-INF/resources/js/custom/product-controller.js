@@ -6,8 +6,8 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
             },
             function error() {
                 $rootScope.errors.push({
-                    code: "GROUPS_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    code: "PRODUCTS_GET_FAILURE",
+                    message: "Error retrieving products."
                 });
             });
     };
@@ -88,7 +88,7 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
             },
             function error() {
                 $scope.errormessages = "Delete operation failure, check logs or invalid product.";
-                //              $rootScope.errors.push({ code: "INCIDENT_DELETE_FAILURE", message: "Delete operation failed, check logs or invalid incident." });
+                // $rootScope.errors.push({ code: "INCIDENT_DELETE_FAILURE", message: "Delete operation failed, check logs or invalid incident." });
             });
     };
     

@@ -1,27 +1,6 @@
 app.controller('ResolutionRetrieveController', function ($http, $rootScope, $scope, OwnersService, ResolutionService, limitToFilter, $location, $routeParams, IncidentGroupService, ReferenceDataService, $filter, ModalService) {
     $scope.resolution = {};
 
-    //    $scope.actions = [];
-
-    //    $scope.filterAction = function(action) {
-    //        return action.isDeleted !== true;
-    //    };
-    //
-    //    $scope.deleteAction = function(id) {
-    //        var filtered = $filter('filter')($scope.actions, {
-    //            id: id
-    //        });
-    //        if (filtered.length) {
-    //            filtered[0].isDeleted = true;
-    //        }
-    //        for (var i = $scope.actions.length; i--;) {
-    //            var action = $scope.actions[i];
-    //            if (action.isDeleted || action.name.trim().length == 0) {
-    //                $scope.actions.splice(i, 1);
-    //            }
-    //        }
-    //    };
-
     (function () {
         OwnersService.getOwners().then(
             function success(response) {
@@ -30,20 +9,10 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
             function error() {
                 $rootScope.errors.push({
                     code: "OWNERS_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    message: "Error retrieving owners."
                 });
             });
     })();
-
-    //    $scope.addAction = function() {
-    //        if ($scope.actions.length < 5) {
-    //            $scope.actions.push({
-    //                id: $scope.actions.length + 1,
-    //                name: '',
-    //                isNew: true
-    //            });
-    //        } else {}
-    //    };
 
     if ($routeParams.id == null) {
         $scope.clearMsg();
@@ -56,7 +25,7 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                 function error() {
                     $rootScope.errors.push({
                         code: "GROUPS_GET_FAILURE",
-                        message: "Oooooops something went wrong, please try again"
+                        message: "Error retrieving groups."
                     });
                 });
         })();
@@ -71,33 +40,31 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
             function error() {
                 $rootScope.errors.push({
                     code: "TYPES_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    message: "Error retrieving types."
                 });
             });
 
         $scope.status1 = ReferenceDataService.getStatus().then(
             function success(response) {
                 $scope.status = response;
-
                 $scope.resolution.status = response[0];
             },
             function error() {
                 $rootScope.errors.push({
                     code: "STATUS_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    message: "Error retrieving statuses."
                 });
             });
 
         $scope.horizons1 = ReferenceDataService.getHorizons().then(
             function success(response) {
                 $scope.horizons = response;
-
                 $scope.resolution.horizon = response[0];
             },
             function error() {
                 $rootScope.errors.push({
                     code: "HORIZONS_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    message: "Error retrieving horizons."
                 });
             });
     }
@@ -216,25 +183,9 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                         function error() {
                             $rootScope.errors.push({
                                 code: "OWNERS_GET_FAILURE",
-                                message: "Oooooops something went wrong, please try again"
+                                message: "Error retrieving owners."
                             });
                         });
-
-                    //                    var actions = $scope.resolution.relatedActions;
-                    //                    var actionsList = [];
-                    //                    if (actions != null) {
-                    //                        actionsList = actions.split("|");
-                    //                    }
-                    //                    var newActions = [];
-                    //                    for (var i in actionsList) {
-                    //                        newActions.push({
-                    //                            id: $scope.actions.length + 1,
-                    //                            name: actionsList[i],
-                    //                            isNew: true
-                    //                        });
-                    //
-                    //                    }
-                    //                    $scope.actions = newActions;
 
                     var statusId = $scope.status.filter(function (item) {
                         return item.id === $scope.resolution.status.id;
@@ -255,13 +206,15 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                         return item.id === $scope.resolution.incidentGroup.id;
                     });
                     $scope.resolution.incidentGroup = incidentGroupId[0];
-
                 } else {
                     console.error("Unable to retrieve resolution for resolution " + id);
                 }
             },
             function error() {
-                $scope.errormessages = "Failed in resolution detail";
+                $rootScope.errors.push({
+                    code: "INCIDENT_RESOLUTION_GET_FAILURE",
+                    message: "Error retrieving incident resolution.."
+                });
             });
     };
 
@@ -270,43 +223,37 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
             function success(response) {
                 if (response) {
                     resolution = response;
-                    // alert(JSON.stringify(resolution));
                     var statusId = $scope.status.filter(function (item) {
                         return item.value === resolution.statusId.toString();
                     });
+
                     var typeId = $scope.types.filter(function (item) {
                         return item.value === resolution.typeId.toString();
                     });
+
                     var horizonId = $scope.horizons.filter(function (item) {
                         return item.value === resolution.horizonId.toString();
                     });
+
                     var groupId = $scope.groups.filter(function (item) {
                         console.log(item.id === resolution.incidentId);
                         return item.id === resolution.incidentId;
                     });
+
                     resolution.statusId = statusId[0];
                     resolution.typeId = typeId[0];
                     resolution.horizonId = horizonId[0];
                     resolution.incidentGroup = groupId[0];
                     $scope.resolution = resolution;
-                    //                    var actions = $scope.resolution.relatedActions;
-                    //                    var actionsList = actions.split("|");
-                    //                    var newActions = [];
-                    //                    for (var i in actionsList) {
-                    //                        newActions.push({
-                    //                            id: $scope.actions.length + 1,
-                    //                            name: actionsList[i],
-                    //                            isNew: true
-                    //                        });
-                    //
-                    //                    }
-                    //                    $scope.actions = newActions;
                 } else {
                     console.error("Unable to retrieve resolution for resolution " + id);
                 }
             },
             function error() {
-                $scope.errormessages = "Failed in get resolution detail";
+                $rootScope.errors.push({
+                    code: "RESOLUTION_GET_FAILURE",
+                    message: "Error retrieving resolution."
+                });
             });
     };
 
@@ -370,10 +317,6 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                 $scope.resolution.owner = owners.substring(1, owners.length);
         }
 
-        //        var actions = $scope.actions.map(function(x) {
-        //            return x.name
-        //        }).join('|');
-
         var statusId = $scope.status.filter(function (item) {
             return item.id === $scope.resolution.status.id;
         });
@@ -417,7 +360,7 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
             "status": statusId[0],
             "type": typeId[0],
             "issue": $scope.resolution.issue
-            //            "relatedActions": actions
+            // "relatedActions": actions
         };
 
         ResolutionService.saveResolution(resolution).then(
@@ -425,9 +368,8 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                 if (response) {
                     if (!$scope.resolution.id)
                         $scope.messages = "New Resolution has been saved.";
-                    else {
+                    else 
                         $scope.messages = "Resolution " + resolution.id + " has been saved.";
-                    }
                     $scope.back = true;
                     return;
                 } else {

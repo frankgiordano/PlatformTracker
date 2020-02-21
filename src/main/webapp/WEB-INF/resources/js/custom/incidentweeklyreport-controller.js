@@ -5,14 +5,14 @@ app.controller('IncidentWeeklyReportController', function($http, $rootScope, $fi
     (function() {
         ProductService.getProducts().then(
             function success(response) {
-//                console.log(JSON.stringify(response));
+                // console.log(JSON.stringify(response));
             	response = helperService.sortByKey(response, 'shortName');
                 $scope.myProducts = response;
             },
             function error() {
                 $rootScope.errors.push({
                     code: "PRODUCTS_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    message: "Error retrieving products."
                 });
             });
     }()); 

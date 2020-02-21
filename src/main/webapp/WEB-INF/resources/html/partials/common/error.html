@@ -2,6 +2,6 @@
     <div class="alert alert-danger alert-dismissible" role="alert" ng-repeat="error in errors">
         <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span
                 class="sr-only">Close</span></button>
-        <strong>Error</strong> {{error.message}}.
+        <strong>{{error.code}}</strong> - {{error.message}}
     </div>
 </div>

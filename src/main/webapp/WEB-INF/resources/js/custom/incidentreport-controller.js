@@ -12,14 +12,15 @@ app.controller('IncidentReportController', function($http, $rootScope, $filter, 
             function error() {
                 $rootScope.errors.push({
                     code: "INCIDENTS_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    message: "Error retrieving incidents."
                 });
             });
     };
     
     $scope.getGroup = function(id) {
         $scope.clearMsg();
-        if (id == null) return;
+		if (id == null) 
+			return;
         IncidentService.getGroup(id).then(
             function success(response) {
                 console.log(JSON.stringify(response));
@@ -32,7 +33,7 @@ app.controller('IncidentReportController', function($http, $rootScope, $filter, 
             },
             function error() {
                 $scope.errormessages = "Search operation failure, Group may not exist, please try again";
-                //                  $rootScope.errors.push({ code: "GROUP_GET_FAILURE", message: "Operation failure, Group may not exist, please try again" });
+                // $rootScope.errors.push({ code: "GROUP_GET_FAILURE", message: "Operation failure, Group may not exist, please try again" });
             });
     };
         
@@ -69,7 +70,8 @@ app.controller('IncidentReportController', function($http, $rootScope, $filter, 
                 		     endTime = moment(selectedIncident.endTime).format('MM-DD-YYYY HH:mm'); 
                 		} else {
                 			endTime = "";
-                		}
+						}
+						
                 		// loop through chronologies and convert from UTC to local times. 
                 		for (var index in $scope.selectedChronologies) { 
                 			var dateTime = moment($scope.selectedChronologies[index].dateTime).format('MM-DD-YYYY HH:mm'); 
@@ -164,7 +166,6 @@ app.controller('IncidentReportController', function($http, $rootScope, $filter, 
                 			saveAs(out,"IncidentReport_" + selectedIncident.tag + ".docx")
                 		});
                 });
-    	
     };
 
     // this method is not currently being used
@@ -180,7 +181,7 @@ app.controller('IncidentReportController', function($http, $rootScope, $filter, 
             function error() {
                 $rootScope.errors.push({
                     code: "GROUPS_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    message: "Error retrieving groups."
                 });
             });
     };
@@ -195,16 +196,16 @@ app.controller('IncidentReportController', function($http, $rootScope, $filter, 
         total: data.length, // length of data
         getData: function($defer, params) {
             // use build-in angular filter
-
             var filteredData = params.filter() ?
                 $filter('filter')(data, params.filter()) :
-                data;
+				data;
+				
             var orderedData = params.sorting() ?
                 $filter('orderBy')(filteredData, params.orderBy()) :
-                data;
+				data;
+				
             params.total(orderedData.length); // set total for recalc pagination
             $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-
         }
     });
     

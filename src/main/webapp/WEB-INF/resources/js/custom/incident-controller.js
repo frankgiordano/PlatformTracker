@@ -8,7 +8,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             function error() {
                 $rootScope.errors.push({
                     code: "INCIDENTS_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    message: "Error retrieving incidents."
                 });
             });
     };
@@ -20,14 +20,14 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
     (function() {
         ProductService.getActiveProducts().then(
             function success(response) {
-//              console.log(JSON.stringify(response));
-//            	response = helperService.sortByKey(response, 'shortName');
+                // console.log(JSON.stringify(response));
+            	// response = helperService.sortByKey(response, 'shortName');
                 $scope.myProducts = response;
             },
             function error() {
                 $rootScope.errors.push({
                     code: "PRODUCTS_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    message: "Error retrieving products."
                 });
             });
     }());
@@ -35,14 +35,14 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
     (function() {
         IncidentService.getErrorConditions().then(
             function success(response) {
-//            	console.log("getErrorConditions = " + JSON.stringify(response));
+            	// console.log("getErrorConditions = " + JSON.stringify(response));
             	$scope.errors = response;
             	$scope.selectedError = $scope.errors[2];  // default error dropdown for create screen
             },
             function error() {
                 $rootScope.errors.push({
                     code: "ERROR_CONDITION_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    message: "Error retrieving error conditions."
                 });
             });
     }());
@@ -50,14 +50,14 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
     (function() {
     	ReferenceDataService.getApplicationStatus().then(
             function success(response) {
-//            	console.log("getIncidentStatus = " + JSON.stringify(response));
+            	// console.log("getIncidentStatus = " + JSON.stringify(response));
                 $scope.applicationStatuses = response;
                 $scope.selectedApplicationStatus = $scope.applicationStatuses[0];
             },
             function error() {
                 $rootScope.errors.push({
-                    code: "STATUS_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    code: "APPLICATION_STATUSES_GET_FAILURE",
+                    message: "Error retrieving application statuses."
                 });
             });
     }());
@@ -71,7 +71,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             function error() {
                 $rootScope.errors.push({
                     code: "GROUPS_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    message: "Error retrieving groups."
                 });
             });
     };
@@ -194,7 +194,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             function error() {
                 $rootScope.errors.push({
                     code: "PRODUCTS_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    message: "Error retrieving products."
                 });
             });
     };
@@ -209,7 +209,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             function error() {
                 $rootScope.errors.push({
                     code: "CHRONOLOGIES_GET_FAILURE",
-                    message: "Oooooops something went wrong, please try again"
+                    message: "Error retrieving chronologies."
                 });
             });
     };
@@ -218,7 +218,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
     $scope.options = options;
     $scope.locuss = locuss;
     $scope.alerted_bys = alerted_bys;
-//  $scope.errors = errors;   // uses the hard coded errors constant
+    // $scope.errors = errors;   // uses the hard coded errors constant
     $scope.errors = $scope.errorNames;
     $scope.statuss = statuss;
     $scope.incidentstatuss = incidentstatuss;
@@ -227,7 +227,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
     $scope.selectedOption = $scope.options[0];
     $scope.selectedLocus = $scope.locuss[2];
     $scope.selectedAlertedBy = $scope.alerted_bys[1];
-//  $scope.selectedError = $scope.errors[8];   // uses the hard coded errors constant for setting default for create screen
+    // $scope.selectedError = $scope.errors[8];   // uses the hard coded errors constant for setting default for create screen
     $scope.selectedGroupStatus = $scope.statuss[0];
     $scope.selectedStatus = $scope.incidentstatuss[0];
     $scope.selectedRecipents = $scope.recipents[1];
@@ -289,7 +289,6 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         		default:
         			$scope.tag = "MULTI_" + tag;
         	}
-
     	}	
     };
     
@@ -308,7 +307,6 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         		default:
         			$scope.selectedIncident.tag = "MULTI_" + tag;
         	}
-
     	}	
     };
     
@@ -369,7 +367,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             case "group":
                 $scope.selectedGroupName = null;
                 $scope.selectedGroupDescription = null;
-//              $scope.$scope.selectedGroupStatus = $scope.statuss[0];
+                // $scope.$scope.selectedGroupStatus = $scope.statuss[0];
                 break;
         }  
     };
@@ -412,9 +410,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
     $scope.$watch("selectedStatus", function(val) {
     	if ($scope.selectedStatus.name === "Closed") {// this needs to be a truthy test 	
     		$scope.showResolution = true;
-    	}
-    	else 
-    	{
+    	} else {
     		$scope.showResolution = false;
     	}
     }, true);
@@ -442,14 +438,13 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
                 $scope.errormessages = "Search operation failure, Group may not exist, please try again";
                 //                  $rootScope.errors.push({ code: "GROUP_GET_FAILURE", message: "Operation failure, Group may not exist, please try again" });
             });
-
     };
 
     $scope.getIncident = function(id) {
         $scope.clearMsg();
         IncidentService.getIncident(id).then(
             function success(response) {
-//              console.log(JSON.stringify(response));
+                // console.log(JSON.stringify(response));
                 if (response) {
                     $scope.incident = response;
                     console.info("Incident retrieved for incident " + id);
@@ -497,7 +492,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             function error() {
                 $rootScope.errors.push({
                     code: "INCIDENT_SAVE_FAILURE",
-                    message: "Save operation failure, make sure the following required fields are filled: Tag, Technical Description, Locus, Error Condition, and Start Time, please try again"
+                    message: "Error saving incident."
                 });
             });
     };
@@ -542,15 +537,13 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
                     "description": $scope.selectedIncident.description + " " + $scope.selectedIncident.summary,
                     "status": $scope.selectedGroupStatus.value
                 };
-        }
-        else {
+        } else {
         	// if an existing group specified in the Reassign Group field then use selectedNewGroup
         	// value don't form a new group variable for group creation
         	// or else if Reassign Group is empty use the current group value
         	if ($scope.groupModel.selectedNewGroup) {
         	   groupCurrentORNew = $scope.groupModel.selectedNewGroup;
-        	}
-        	else {
+        	} else {
         		groupCurrentORNew = $scope.groupModel.currentGroupName;
         	}
         }        
@@ -643,8 +636,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
 					$scope.errormessages2 = "Save operation failure, make sure the following required fields are filled: Description, Locus, Error Condition, and Start Time, please try again";
 					console.error("Incident tag " + incident.tag + " with id " + incident.id +  " was unable to be saved with newly created group " + groupCurrentORNew.name + ".");
 				});
-        }
-        else {
+        } else {
         	// An existing current group is still there with no new group specified.
         	// As such, go ahead and save the incident.. 
         	console.log("inside updateInSearch with existing group " +  JSON.stringify(incident));
@@ -670,10 +662,9 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
                             return;
                         }
         				$scope.errormessages = "Save operation failure, make sure the following required fields are filled: Description, Locus, Error Condition, and Start Time, please try again";
-//             		    $rootScope.errors.push({ code: "INCIDENT_SAVE_FAILURE", message: "Save operation failure, make sure the following required fields are filled: Description, Locus, Error Condition, and Start Time, please try again" });
+             		    // $rootScope.errors.push({ code: "INCIDENT_SAVE_FAILURE", message: "Save operation failure, make sure the following required fields are filled: Description, Locus, Error Condition, and Start Time, please try again" });
         			});
         }
-
     };
 
     $scope.submit = function() {
@@ -709,8 +700,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
                 "name": $scope.incidentGroup,
                 "description": $scope.description + " " + $scope.summary,
             }	
-        }
-        else {
+        } else {
         	var myNameString = $scope.description + " " + $scope.summary;
         	group = {
                     "name": myNameString.substring(0,120),
@@ -721,8 +711,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         var summary = "";
         if ($scope.summary) {
         	summary = $scope.summary;
-        }
-        else {
+        } else {
         	summary = " ";
         }
         
@@ -774,7 +763,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             function error() {
             	document.body.style.cursor = "default";
                 $scope.errormessages = "Save operation failure, make sure the following required fields are filled: Technical Description, Locus, Error Condition, and Start Time, please try again";
-//              $rootScope.errors.push({ code: "INCIDENT_SAVE_FAILURE", message: "Save operation failure, make sure the following required fields are filled: Description, Locus, Error Condition, and Start Time, please try again" });
+            //   $rootScope.errors.push({ code: "INCIDENT_SAVE_FAILURE", message: "Save operation failure, make sure the following required fields are filled: Description, Locus, Error Condition, and Start Time, please try again" });
             });
     };
 
@@ -812,7 +801,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         	   document.body.style.cursor = "default";
                $scope.chronerrormessages = "Save operation failure, check logs or try again.";
                $scope.chronmessages = null;
-//             $rootScope.errors.push({ code: "CHRONOLOGY_SAVE_FAILURE", message: "Save operation failure, check logs and make sure the following required fields are filled: Date Time and Description." });
+            //  $rootScope.errors.push({ code: "CHRONOLOGY_SAVE_FAILURE", message: "Save operation failure, check logs and make sure the following required fields are filled: Date Time and Description." });
            });
    };
    
@@ -835,8 +824,8 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
            function error() {
                $scope.chronerrormessages = "Delete operation failure, check logs or try again.";
                $scope.chronmessages = null;
-//             $rootScope.errors.push({ code: "CHRONOLOGY_SAVE_FAILURE", message: "Save operation failure, check logs and make sure the following required fields are filled: Date Time and Description." });
+            //    $rootScope.errors.push({ code: "CHRONOLOGY_SAVE_FAILURE", message: "Save operation failure, check logs and make sure the following required fields are filled: Date Time and Description." });
            });
-	   
    };
+
 });

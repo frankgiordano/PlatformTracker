@@ -78,7 +78,6 @@ app.config(function($routeProvider, $httpProvider) {
                             resolve: {
                                 gridData: resolutionCtrl.getResolutions
                             }
-
                         })
                     .when(
                         '/resolution/create/:incidentGroup', {
