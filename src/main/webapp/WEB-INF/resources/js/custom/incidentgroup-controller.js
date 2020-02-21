@@ -636,6 +636,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         
         var incident = {
             "id": $scope.selectedIncident.id,
+            "version": $scope.selectedIncident.version,
             "tag": $scope.selectedIncident.tag,
             "severity": $scope.selectedIncident.severity,
             "locus": $scope.selectedIncident.locus,
@@ -691,7 +692,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
 						console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with newly created group " + groupCurrentORNew.name + ".");
 						$scope.errormessages = null;
 						$scope.errormessages2 = null;
-					
+                        $scope.selectedIncident.version++; 
 						var currentGroupSelected = {
 				    			id: $scope.selectedGroup.id,
 				    			name: $scope.selectedGroup.name
@@ -721,7 +722,8 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         					console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with group " + groupCurrentORNew + ".");
         					$scope.refreshData();
         					$scope.errormessages = null;
-        					$scope.errormessages2 = null;
+                            $scope.errormessages2 = null;
+                            $scope.selectedIncident.version++; 
         					$scope.changedGroup();
         				} else {
         					$scope.errormessages = "Save operation failure, make sure the following required fields are filled: Technical Description, Locus, Error Condition, and Start Time, please try again";
