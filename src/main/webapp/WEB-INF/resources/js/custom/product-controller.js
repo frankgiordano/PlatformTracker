@@ -168,7 +168,7 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
                 if (response) {
                     $scope.messages = "New product with incident name " + product.incidentName + " has been saved.";
                     console.info("New product with incident name " + product.incidentName + " has been saved.");
-                    clear();
+                    $scope.disableButton = true;
                 } else {
                     console.error("New Product with incident name " + product.incidentName + " was unable to be saved.")
                 }

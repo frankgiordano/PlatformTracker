@@ -8,7 +8,7 @@
       <div data-ng-show="progress.active()" style="color: red; font-size: 50px;">Sending&hellip;</div>
 
       <form class="form-horizontal" name="helpForm" novalidate role="form">
-            <br/><br/>
+            <br /><br />
             <div class="form-group">
                   <label class="col-sm-2 control-label">Platform</label>
                   <div class="col-sm-6">
@@ -84,7 +84,7 @@
 
             <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
-                        <button class="btn btn-primary" data-ng-disabled="progress.active()"
+                        <button class="btn btn-primary" data-ng-disabled="progress.active()" ng-show="!disableButton"
                               data-ng-click="submit(helpForm)">
                               Submit
                         </button>

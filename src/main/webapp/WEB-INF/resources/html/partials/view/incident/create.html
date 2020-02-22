@@ -177,13 +177,13 @@
 
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="submit(helpForm)">
+        <button class="btn btn-primary" data-ng-disabled="progress.active()" ng-show="!disableButton"
+          data-ng-click="submit(helpForm)">
           Submit
         </button>
         <a href="#/main" class="btn btn-primary">Back</a>
       </div>
     </div>
 
-    <!-- <button data-ng-disabled="progress.active()" data-ng-click="submit(helpForm)" class="btn btn-default">Submit</button> -->
   </form>
 </div>

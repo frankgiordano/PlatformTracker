@@ -760,8 +760,9 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
                 if (response) {
                     $scope.messages = "Incident with tag " + incident.tag + " created.";
                     console.info("New Incident tag " + incident.tag + " has been saved.");
-                    $scope.clear('incident');
+                    // $scope.clear('incident');
                     $scope.errormessages = null;
+                    $scope.disableButton = true;
                 } else {
                     $scope.errormessages = "Save operation failure, make sure the following required fields are filled: Technical Description, Locus, Error Condition, and Start Time, please try again";
                     console.error("New Incident tag " + incident.tag + " was unable to be saved.")
