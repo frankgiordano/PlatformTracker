@@ -116,7 +116,7 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
                     if (response) {
                         $scope.messages = "Product with incident name " + product.incidentName + " has been saved.";
                         console.info("Product with incident name " + product.incidentName + " has been saved.");
-                        clear();
+                        $scope.disableButton = true;
                         $scope.refreshData();
                     } else {
                         console.error("Product with incident name " + product.incidentName + " was unable to be saved.")
@@ -129,7 +129,6 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
                     //     message: "Save operation failure, make sure the following required fields are filled: Platform, Incident Name, Client Name, Short Name (10 character field), Start Date and Max Weekly Uptime, please try again"
                     // });
                 });
-
     };
 
     $scope.submit = function(form) {

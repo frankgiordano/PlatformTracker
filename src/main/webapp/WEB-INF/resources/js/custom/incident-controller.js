@@ -628,6 +628,8 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
 						$scope.errormessages = null;
                         $scope.errormessages2 = null;
                         $scope.selectedIncident.version++; 
+                        $scope.disableButton = true; 
+                        $scope.groupModel.selectedNewGroup = null;
 					} else {
 						$scope.errormessages = "Save operation failure, make sure the following required fields are filled: Description, Locus, Error Condition, and Start Time, please try again";
 						console.error("Incident tag " + incident.tag + " with id " + incident.id +  " was unable to be saved with newly created group " + groupCurrentORNew.name + ".");
@@ -649,7 +651,9 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         					$scope.refreshData();
         					$scope.errormessages = null;
                             $scope.errormessages2 = null;
-                            $scope.selectedIncident.version++; 
+                            $scope.selectedIncident.version++;
+                            $scope.disableButton = true; 
+                            $scope.groupModel.selectedNewGroup = null;
         				} else {
         					$scope.errormessages = "Save operation failure, make sure the following required fields are filled: Description, Locus, Error Condition, and Start Time, please try again";
         					console.error("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with group " + groupCurrentORNew + ".");

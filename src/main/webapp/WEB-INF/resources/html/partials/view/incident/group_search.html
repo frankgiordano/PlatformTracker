@@ -198,11 +198,10 @@
 
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="submitRes()">
+				<button class="btn btn-primary" data-ng-disabled="progress.active()" ng-show="!disableButton" data-ng-click="submitRes()">
 					Submit
 				</button>
-				<button class="btn btn-primary" data-ng-disabled="progress.active()"
-					data-ng-click="cancel('resolution')">
+				<button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="cancel('resolution')">
 					Back
 				</button>
 			</div>
@@ -306,7 +305,7 @@
 
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="submitRCA()">
+				<button class="btn btn-primary" data-ng-disabled="progress.active()" ng-show="!disableButton" data-ng-click="submitRCA()">
 					Submit
 				</button>
 				<button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="cancel('rca')">

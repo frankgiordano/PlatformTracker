@@ -356,9 +356,11 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         		break;
             case "resolution":
                 $scope.createResolution = false;
+                $scope.disableButton = false;
                 break;
             case "rca":
                 $scope.createRootCA = false;
+                $scope.disableButton = false;
                 break;
             case "group":
                 $scope.selectedGroup = false;
@@ -687,21 +689,16 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
 				})
 				.then(function (response) {
 					if (response) {
-                        // $scope.getGroup(incident.id);
+                        $scope.getGroup(incident.id);
 						$scope.messages = "Incident tag " + incident.tag + " with id " + incident.id + " has been saved with newly created group " + groupCurrentORNew.name + ".";
 						console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with newly created group " + groupCurrentORNew.name + ".");
+                        $scope.refreshData(); 
 						$scope.errormessages = null;
-						$scope.errormessages2 = null;
+                        $scope.errormessages2 = null;
                         $scope.selectedIncident.version++; 
-						var currentGroupSelected = {
-				    			id: $scope.selectedGroup.id,
-				    			name: $scope.selectedGroup.name
-				    	};
-						$scope.refreshData();
-				    	$scope.selectedGroup.id = currentGroupSelected.id;
-				    	$scope.selectedGroup.name = currentGroupSelected.name;
-				
-    					$scope.changedGroup();
+                        $scope.disableButton = true; 
+                        $scope.groupModel.selectedNewGroup = null;
+                        $scope.changedGroup();
 					} else {
 						$scope.errormessages = "Save operation failure, make sure the following required fields are filled: Technical Description, Locus, Error Condition, and Start Time, please try again";
 						console.error("Incident tag " + incident.tag + " with id " + incident.id +  " was unable to be saved with newly created group " + groupCurrentORNew.name + ".");
@@ -717,14 +714,16 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         	IncidentService.saveIncident(incident).then(
         			function success(response) {
         				if (response) {
-                            // $scope.getGroup(incident.id);
+                            $scope.getGroup(incident.id);
         					$scope.messages = "Incident tag " + incident.tag + " with id " + incident.id + " has been saved with group " + groupCurrentORNew + ".";
         					console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with group " + groupCurrentORNew + ".");
-        					$scope.refreshData();
-        					$scope.errormessages = null;
+                            $scope.refreshData(); 
+                            $scope.errormessages = null;
                             $scope.errormessages2 = null;
                             $scope.selectedIncident.version++; 
-        					$scope.changedGroup();
+                            $scope.disableButton = true; 
+                            $scope.groupModel.selectedNewGroup = null;
+                            $scope.changedGroup();
         				} else {
         					$scope.errormessages = "Save operation failure, make sure the following required fields are filled: Technical Description, Locus, Error Condition, and Start Time, please try again";
         					console.error("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with group " + groupCurrentORNew + ".");
@@ -735,6 +734,30 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                         // $rootScope.errors.push({ code: "INCIDENT_SAVE_FAILURE", message: "Save operation failure, make sure the following required fields are filled: Description, Locus, Error Condition, Start and End Times, please try again" });
         			});
         }
+    };
+
+    $scope.getGroup = function(id) {
+        $scope.clearMsg();
+        if (id == null) return;
+        IncidentService.getGroup(id).then(
+            function success(response) {
+                console.log("Group detail " + JSON.stringify(response));
+                if (response) {
+                    $scope.groupModel.currentGroupName = response.name;
+                    // paid attention this is used for the ng-if on the ng-include div.. we need to wait for this callback to complete
+                    // before displaying the included form.. as the included form creates a child scope.
+                    // ng-include will copy at this moment all the data in the scope and set it to the sub\child scope.. 
+                    // otherwise, current group field will be blank even though group is retrieved later on.. with this async call
+                    $scope.show = true;  
+                    console.info("Group retrieved for incident " + id);
+                } else {
+                    console.error("Unable to retrieve group for incident " + id);
+                }
+            },
+            function error() {
+                $scope.errormessages = "Search operation failure, Group may not exist, please try again";
+                // $rootScope.errors.push({ code: "GROUP_GET_FAILURE", message: "Operation failure, Group may not exist, please try again" });
+            });
     };
 
     $scope.updateInGroupSearch = function() {
@@ -755,6 +778,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     $scope.messages = "Group " + group.id + " has been saved.";
                     console.info("Group " + group.id + " has been saved.");
                     $scope.errormessages = null;
+                    $scope.disableButton = true;
                 } else {
                     $scope.errormessages = "Save operation failure, make sure the following required fields are filled: Name and Description, please try again.";
                     console.error("Group " + group.id + " was unable to be saved.")
@@ -796,6 +820,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     $scope.messages = $scope.selectedHorizon.displayName + " resolution created for group " + '"' + $scope.selectedGroup.name + '".';
                     $scope.clear('resoluton');
                     $scope.errormessages = null;
+                    $scope.disableButton = true;
                 } else {
                     $scope.errormessages = "Create resolution failure, check logs or make sure the following fields are filled: Incident Group name, Horizon, Owner, Status, Description, and Estimated Comp Date.";
                     console.error("Create resolution failure, check logs or make sure the following fields are filled: ");
@@ -829,6 +854,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     $scope.messages = $scope.selectedCategory.displayName + " RCA created for group " + '"' + $scope.selectedGroup.name + '".';
                     $scope.clear('rca');
                     $scope.errormessages = null;
+                    $scope.disableButton = true;
                 } else {
                     $scope.errormessages = "Create RCA failure, check logs or try again.";
                     console.error("Create resolution failure, check logs or try again.");
