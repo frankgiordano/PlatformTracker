@@ -436,7 +436,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             },
             function error() {
                 $scope.errormessages = "Search operation failure, Group may not exist, please try again";
-                //                  $rootScope.errors.push({ code: "GROUP_GET_FAILURE", message: "Operation failure, Group may not exist, please try again" });
+                // $rootScope.errors.push({ code: "GROUP_GET_FAILURE", message: "Operation failure, Group may not exist, please try again" });
             });
     };
 
@@ -454,7 +454,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             },
             function error() {
                 $scope.errormessages = "Search operation failure, Incident may not exist, please try again";
-                //    			$rootScope.errors.push({ code: "INCIDENT_GET_FAILURE", message: "Search operation failure, Incident may not exist, please try again" });
+                // $rootScope.errors.push({ code: "INCIDENT_GET_FAILURE", message: "Search operation failure, Incident may not exist, please try again" });
             });
     };
 
@@ -475,7 +475,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             },
             function error() {
                 $scope.errormessages = "Delete operation failure, check logs or invalid incident.";
-                //              $rootScope.errors.push({ code: "INCIDENT_DELETE_FAILURE", message: "Delete operation failed, check logs or invalid incident." });
+                // $rootScope.errors.push({ code: "INCIDENT_DELETE_FAILURE", message: "Delete operation failed, check logs or invalid incident." });
             });
     };
 
@@ -716,7 +716,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         	group = {
                     "name": myNameString.substring(0,120),
                     "description": $scope.description + " " + summary,
-                }
+            }
         }
         
         var incident = {
@@ -755,7 +755,6 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             	document.body.style.cursor = "default";
                 if (response) {
                     $scope.messages = "Incident with tag " + incident.tag + " created.";
-                    //    	            	  alert("Incident with tag " + incident.tag + " created.");
                     console.info("New Incident tag " + incident.tag + " has been saved.");
                     $scope.clear('incident');
                     $scope.errormessages = null;
@@ -810,7 +809,6 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
    };
    
    $scope.remove = function(selectedChronologies, item) {
-	   
 	   console.log("inside remove " + JSON.stringify(item));
        ChronologyService.deleteChronology(item.id).then(
            function success(response) {

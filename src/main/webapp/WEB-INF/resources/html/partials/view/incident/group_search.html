@@ -97,17 +97,17 @@
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button class="btn btn-primary" data-ng-disabled="disableButton"
+					<button class="btn btn-primary" ng-show="!disableButton"
 						data-ng-click="updateInGroupSearch()">
 						Save
 					</button>
-					<button class="btn btn-primary" data-ng-disabled="disableButton" ng-click="showOnDelete('group')">
+					<button class="btn btn-primary" ng-show="!disableButton" ng-click="showOnDelete('group')">
 						Delete
 					</button>
-					<button class="btn btn-primary" data-ng-disabled="disableButton" ng-click="createRes()">
+					<button class="btn btn-primary" ng-show="!disableButton" ng-click="createRes()">
 						Create Resolution
 					</button>
-					<button class="btn btn-primary" data-ng-disabled="disableButton" ng-click="createRCA()">
+					<button class="btn btn-primary" ng-show="!disableButton" ng-click="createRCA()">
 						Create RCA
 					</button>
 					<button class="btn btn-primary" ng-click="cancel('group')">
@@ -173,34 +173,7 @@
 				<input type="date" class="form-control" ng-model="selectedActualCompletionDate">
 			</div>
 		</div>
-		<!--    		
-   		<div class="form-group">
-			<label class="col-sm-2 control-label">Related Action's?</label>
-			<div class="col-sm-7">
 
-				<div class="panel-content">
-
-					<div>
-
-						<table class="table table-responsive" class="form-control">
-
-							<tr ng-repeat="action in actions | filter:filterAction">
-								<td class="editable-content table-responsive"><textarea
-											type="text" class="form-control" rows="3" ng-model="action.name"></textarea></td>
-
-								<td><button type="button" ng-click="deleteAction(action.id)"
-										class="btn btn-primary pull-right form-control">Delete
-										Action</button></td>
-							</tr>
-						</table>
-						<button type="button" ng-disabled="tableform.$waiting"
-							ng-click="addAction()" class="btn btn-primary ">Add Action</button>
-						<br /> <br>
-					</div>
-				</div>
-			</div>
-		</div>
- -->
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Type</label>
 			<div class="col-sm-7">
@@ -275,17 +248,7 @@
 				<textarea type="text" class="form-control" rows="5" ng-model="selectedProblem"></textarea>
 			</div>
 		</div>
-		<!--              
-      	<div class="form-group">
-    		 <label class="col-sm-2 control-label">Why's?</label>
-            	<div class="col-sm-7">
-                	<textarea type="text"
-                                  class="form-control"
-                                  rows="5"
-                                  ng-model="selectedWhys"></textarea>
-            	</div>
-   		</div>
--->
+
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Why's?</label>
 			<div class="col-sm-7">
