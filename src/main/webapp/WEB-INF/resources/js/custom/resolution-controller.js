@@ -340,18 +340,12 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
             $scope.resolution.incidentGroup = null;
         }
 
-        if ($scope.resolution.actualCompletionDate != null) {
-            var d = new Date($scope.resolution.actualCompletionDate.toString());
-            d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
-            $scope.resolution.actualCompletionDate = d;
-            d = null;
+        if ($scope.resolution.actualCompletionDate === "Invalid date") {
+            $scope.resolution.actualCompletionDate = null;
         }
 
-        if ($scope.resolution.estCompletionDate != null) {
-            var d = new Date($scope.resolution.estCompletionDate.toString());
-            d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
-            $scope.resolution.estCompletionDate = d;
-            d = null;
+        if ($scope.resolution.estcompletionDate === "Invalid date") {
+            $scope.resolution.estcompletionDate = null;
         }
 
         var resolution = {
