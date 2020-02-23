@@ -332,9 +332,10 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
             var incidentGroupId = $scope.groups.filter(function (item) {
                 return item.id === $scope.resolution.incidentGroup.id;
             });
+            $scope.resolution.incidentGroup = incidentGroupId[0];
+        } else {
+            $scope.resolution.incidentGroup = null;
         }
-
-        $scope.resolution.incidentGroup = incidentGroupId[0];
 
         if ($scope.resolution.actualCompletionDate != null) {
             var d = new Date($scope.resolution.actualCompletionDate.toString());
