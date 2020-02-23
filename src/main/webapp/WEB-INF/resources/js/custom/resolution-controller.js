@@ -161,6 +161,9 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                     $scope.horizons = response[1];
                     $scope.status = response[2];
                     $scope.types = response[3];
+                    response[4].estCompletionDate = moment(response[4].estcompletionDate).format('YYYY-MM-DD');
+                    if (response[4].actualCompletionDate) 
+                        response[4].actualCompletionDate = moment(response[4].actualCompletionDate).format('YYYY-MM-DD');
                     $scope.resolution = response[4];
 
                     OwnersService.getOwners().then(
