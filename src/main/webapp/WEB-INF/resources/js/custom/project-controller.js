@@ -493,7 +493,7 @@ app.controller('ResolutionProjectLinkingController', function ($http, $rootScope
                     $scope.resolution.incidentGroup = incidentGroupId[0];
 
                 } else {
-                    console.error("Unable to retrieve Resolution for resolution " + id);
+                    console.error("Unable to retrieve Resolution ID " + id);
                 }
             },
             function error() {
