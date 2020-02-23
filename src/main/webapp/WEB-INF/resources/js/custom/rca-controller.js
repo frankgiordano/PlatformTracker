@@ -398,7 +398,7 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
                     if (!$scope.rca.id)
                         $scope.messages = "New Root Cause has been saved.";
                     else {
-                        $scope.messages = "Root Cause has been saved.";
+                        $scope.messages = "Root Cause ID " + $scope.rca.id + " has been saved.";
                     }
                     $scope.back = true;
                     return;

@@ -344,7 +344,7 @@ app.controller('ProjectController', function ($http, $rootScope, $scope, Project
                     if (!$scope.project.id)
                         $scope.messages = "New Project has been saved.";
                     else 
-                        $scope.messages = "Project has been saved.";
+                        $scope.messages = "Project ID " + $scope.project.id + " has been saved.";
                     $scope.back = true;
                     return;
                 } else {
@@ -536,10 +536,9 @@ app.controller('ResolutionProjectLinkingController', function ($http, $rootScope
             function success(response) {
                 if (response) {
                     if (!$scope.resolution.id)
-                        alert("New Resolution has been saved.")
-                    else {
-                        alert("Resolution has been saved.");
-                    }
+                        $scope.messages = "New Resolution has been saved.";
+                    else 
+                        $scope.messages = "Resolutiuon ID " + $scope.resolution.id + " has been saved.";
                     $location.path('/resolution/search');
                 } else {
                     console.error("Resolution " + resolution.id + " was unable to be saved.")

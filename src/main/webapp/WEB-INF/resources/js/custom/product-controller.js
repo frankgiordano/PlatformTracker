@@ -114,7 +114,7 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
         ProductService.saveProduct(product).then(
                 function success(response) {
                     if (response) {
-                        $scope.messages = "Product has been saved.";
+                        $scope.messages = "Product ID " + product.id + " has been saved.";
                         console.info("Product with Incident Name " + product.incidentName + " has been saved.");
                         $scope.disableButton = true;
                         $scope.refreshData();

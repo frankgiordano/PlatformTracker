@@ -690,7 +690,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
 				.then(function (response) {
 					if (response) {
                         $scope.getGroup(incident.id);
-						$scope.messages = "Incident has been saved.";
+						$scope.messages = "Incident ID " + incident.id + " has been saved.";
 						console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with newly created Group " + groupCurrentORNew.name + ".");
                         $scope.refreshData(); 
 						$scope.errormessages = null;
@@ -715,7 +715,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         			function success(response) {
         				if (response) {
                             $scope.getGroup(incident.id);
-        					$scope.messages = "Incident has been saved.";
+        					$scope.messages = "Incident ID " + incident.id + " has been saved.";
         					console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with Group " + groupCurrentORNew + ".");
                             $scope.refreshData(); 
                             $scope.errormessages = null;

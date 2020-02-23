@@ -484,9 +484,9 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         IncidentService.saveIncident(incident).then(
             function success(response) {
                 if (response) {
-                    console.info("Incident " + incident.id + " has been saved.")
+                    console.info("Incident ID " + incident.id + " has been saved.")
                 } else {
-                    console.error("Incident " + incident.id + " was unable to be saved.")
+                    console.error("Incident ID " + incident.id + " was unable to be saved.")
                 }
             },
             function error() {
@@ -622,7 +622,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
 				.then(function (response) {
 					if (response) {
 						$scope.getGroup(incident.id);
-						$scope.messages = "Incident has been saved.";
+						$scope.messages = "Incident ID " + incident.id + " has been saved.";
 						console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with newly created Group " + groupCurrentORNew.name + ".");
 						$scope.refreshData(); 
 						$scope.errormessages = null;
@@ -646,7 +646,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         			function success(response) {
         				if (response) {
         					$scope.getGroup(incident.id);
-        					$scope.messages = "Incident has been saved.";
+        					$scope.messages = "Incident ID " + incident.id + " has been saved.";
         					console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with Group " + groupCurrentORNew + ".");
         					$scope.refreshData();
         					$scope.errormessages = null;

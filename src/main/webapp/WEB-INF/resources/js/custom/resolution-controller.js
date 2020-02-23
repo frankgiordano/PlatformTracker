@@ -370,7 +370,7 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                     if (!$scope.resolution.id)
                         $scope.messages = "New Resolution has been saved.";
                     else 
-                        $scope.messages = "Resolution has been saved.";
+                        $scope.messages = "Resolution ID " + $scope.resolution.id + " has been saved.";
                     $scope.back = true;
                     return;
                 } else {
