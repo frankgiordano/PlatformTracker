@@ -1,5 +1,5 @@
 package us.com.plattrk.api.controller;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +26,7 @@ public class ProjectController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json")
-	public Set<Project> getProjects() {
+	public List<Project> getProjects() {
 		return projectService.getProjects();
 	}	
 	

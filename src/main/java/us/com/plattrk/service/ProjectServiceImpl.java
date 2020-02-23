@@ -1,6 +1,6 @@
 package us.com.plattrk.service;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class ProjectServiceImpl implements ProjectService {
 	private ReferenceDataRepository refRepository;
 
 	@Override
-	public Set<Project> getProjects() {
+	public List<Project> getProjects() {
 		return projectRepository.getProjects();
 	}
 

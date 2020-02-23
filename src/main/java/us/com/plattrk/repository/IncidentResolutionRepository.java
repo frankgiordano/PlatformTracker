@@ -1,14 +1,13 @@
 package us.com.plattrk.repository;
 
 import java.util.List;
-import java.util.Set;
 
 import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.api.model.Status;
 
 public interface IncidentResolutionRepository {
 	
-    Set<IncidentResolution> getResolutions();
+    List<IncidentResolution> getResolutions();
 
     boolean deleteResolution(Long id);
 
@@ -16,10 +15,10 @@ public interface IncidentResolutionRepository {
 
 	IncidentResolution getResolution(Long id);
 
-	Set<Status> getStatusList();
+	List<Status> getStatusList();
 	
 	boolean saveResolutions(List<IncidentResolution> resolutions);
 
-	Set<IncidentResolution> getGroupResolutions(Long id);
+	List<IncidentResolution> getGroupResolutions(Long id);
 
 }

@@ -1,7 +1,6 @@
 package us.com.plattrk.repository;
 
 import java.util.List;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -21,11 +20,9 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     private EntityManager em;
 
     @Override
-    public Set<Project> getProjects() {
-        @SuppressWarnings("unchecked")
+    public List<Project> getProjects() {
         List<Project> myResult = em.createNamedQuery(Project.FIND_ALL_PROJECTS).getResultList();
-        Set<Project> projects = new HashSet<Project>(myResult);
-        return projects;
+        return myResult;
     }
 
     @Override

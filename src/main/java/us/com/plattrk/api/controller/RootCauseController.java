@@ -1,5 +1,6 @@
 package us.com.plattrk.api.controller;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class RootCauseController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json")
-	public Set<RCAVO> getRootCauses() {
+	public List<RCAVO> getRootCauses() {
 		return rootCauseService.getRCAs();
 	}	
 	

@@ -2,7 +2,6 @@ package us.com.plattrk.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,12 +38,12 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
     }
 
     @Override
-    public Set<IncidentResolution> getIncidentResolutions() {
+    public List<IncidentResolution> getIncidentResolutions() {
         return resolutionRepository.getResolutions();
     }
 
     @Override
-    public Set<Status> getStatusList() {
+    public List<Status> getStatusList() {
         return resolutionRepository.getStatusList();
     }
 
@@ -75,7 +74,7 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
     }
 
     @Override
-    public Set<IncidentResolution> getGroupResolutions(Long id) {
+    public List<IncidentResolution> getGroupResolutions(Long id) {
         return resolutionRepository.getGroupResolutions(id);
     }
 

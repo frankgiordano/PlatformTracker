@@ -28,7 +28,7 @@ import javax.persistence.Transient;
 	@NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS, query = " Select new us.com.plattrk.api.model.IncidentResolution(i.id, i.owner, i.description, i.actualCompletionDate, h.displayName,  i.estCompletionDate, p.name, "
 		+ " s.displayName, t.displayName, i.sriArtifact,  ig.name, p.id )from IncidentResolution as i"
 		+ " left outer join i.resolutionProject p inner join i.incidentGroup ig"
-		+ " inner join i.status s inner join i.horizon h inner join i.type t", hints = { @QueryHint(name = "org.hibernate.cacheable", value = "true")}), 
+		+ " inner join i.status s inner join i.horizon h inner join i.type t order by ig.name", hints = { @QueryHint(name = "org.hibernate.cacheable", value = "true")}),
     @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_PER_GROUP, query = "Select new us.com.plattrk.api.model.IncidentResolution(r.id, r.description, r.actualCompletionDate, h.displayName, r.estCompletionDate) from IncidentResolution as r inner join r.horizon h where r.incidentGroup.id = :pid",
     	hints = { @QueryHint(name = "org.hibernate.cacheable", value = "true")}) 
 })

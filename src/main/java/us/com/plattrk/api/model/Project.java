@@ -32,7 +32,7 @@ import us.com.plattrk.search.Searchable;
 @NamedQueries({@NamedQuery(name = Project.FIND_ALL_PROJECTS, query = "Select new us.com.plattrk.api.model.Project(i.id, i.name, i.owners, i.description, i.eceId,"
         + " i.status, i.estEffort, i.actualEffort, i.actualCompletionDate, i.estcompletionDate, i.pdlcStatus, "
         + " i.recordingDate, i.statusChangeDate, i.wikiType, i.jiraId, i.conflenceId "
-        + ") from Project as i", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")})
+        + ") from Project as i order by i.name", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")})
 })
 
 

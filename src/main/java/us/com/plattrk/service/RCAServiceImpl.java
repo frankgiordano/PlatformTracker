@@ -1,5 +1,6 @@
 package us.com.plattrk.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class RCAServiceImpl implements RCAService {
 	}
 
 	@Override
-	public Set<RCAVO> getRCAs() {
+	public List<RCAVO> getRCAs() {
 		return rcaRepository.getRCAs();
 	}
 	

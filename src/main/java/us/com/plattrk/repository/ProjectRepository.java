@@ -1,12 +1,12 @@
 package us.com.plattrk.repository;
 
-import java.util.Set;
-import us.com.plattrk.api.model.Project;
+import java.util.List;
 
+import us.com.plattrk.api.model.Project;
 
 public interface ProjectRepository {
 	
-    Set<Project> getProjects();
+    List<Project> getProjects();
 
     boolean deleteProject(Long id);
 

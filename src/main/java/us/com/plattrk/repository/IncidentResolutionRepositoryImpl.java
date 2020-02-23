@@ -1,8 +1,6 @@
 package us.com.plattrk.repository;
 
 import java.util.List;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import us.com.plattrk.api.model.Status;
 import us.com.plattrk.api.model.IncidentResolution;
 
-
 @Repository
 public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepository {
 
@@ -22,12 +19,9 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
     private EntityManager em;
 
     @Override
-    public Set<IncidentResolution> getResolutions() {
-        @SuppressWarnings("unchecked")
-        List<IncidentResolution> myResult = em.createNamedQuery(
-                IncidentResolution.FIND_ALL_RESOLUTIONS).getResultList();
-        Set<IncidentResolution> incidentResolutions = new HashSet<IncidentResolution>(myResult);
-        return incidentResolutions;
+    public List<IncidentResolution> getResolutions() {
+        List<IncidentResolution> myResult = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS).getResultList();
+        return myResult;
     }
 
     @Override
@@ -86,23 +80,18 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
     public IncidentResolution getResolution(Long id) {
         IncidentResolution incidentResolution = em.find(IncidentResolution.class, id);
         return incidentResolution;
-
     }
 
     @Override
-    public Set<Status> getStatusList() {
-        @SuppressWarnings("unchecked")
+    public List<Status> getStatusList() {
         List<Status> myResult = em.createNamedQuery(IncidentResolution.FIND_ALL_STATUS).getResultList();
-        Set<Status> list = new HashSet<Status>(myResult);
-        return list;
+        return myResult;
     }
 
     @Override
-    public Set<IncidentResolution> getGroupResolutions(Long id) {
-        @SuppressWarnings("unchecked")
+    public List<IncidentResolution> getGroupResolutions(Long id) {
         List<IncidentResolution> myResult = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_PER_GROUP).setParameter("pid", id).getResultList();
-        Set<IncidentResolution> resolutions = new HashSet<IncidentResolution>(myResult);
-        return resolutions;
+        return myResult;
     }
 
 }

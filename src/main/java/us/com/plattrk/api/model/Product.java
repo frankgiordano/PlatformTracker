@@ -37,7 +37,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 				query = "Select new us.com.plattrk.api.model.Product(i.id, i.incidentName, i.clientName, i.shortName, i.owner, i.startDate, i.endDate, i.maxWeeklyUptime, i.platform, i.revenue, i.users) from Product as i",
 				hints={@QueryHint(name="org.hibernate.cacheable", value="true")}),
 	@NamedQuery(name = Product.FIND_ALL_ACTIVE_PRODUCTS, 
-				query = "Select new us.com.plattrk.api.model.Product(i.id, i.incidentName, i.clientName, i.shortName, i.owner, i.startDate, i.endDate, i.maxWeeklyUptime, i.platform, i.revenue, i.users) from Product as i where i.endDate IS NULL order by i.shortName",
+				query = "Select new us.com.plattrk.api.model.Product(i.id, i.incidentName, i.clientName, i.shortName, i.owner, i.startDate, i.endDate, i.maxWeeklyUptime, i.platform, i.revenue, i.users) from Product as i where i.endDate IS NULL",
 				hints={@QueryHint(name="org.hibernate.cacheable", value="true")}),
 })
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Product.class)

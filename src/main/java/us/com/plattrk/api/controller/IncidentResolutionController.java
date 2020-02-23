@@ -1,7 +1,6 @@
 package us.com.plattrk.api.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,7 +35,7 @@ public class IncidentResolutionController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/resolutions/retrieve", method = RequestMethod.GET, produces = "application/json")
-	public Set<IncidentResolution> getResolutions() {
+	public List<IncidentResolution> getResolutions() {
 		return incidentResolutionService.getIncidentResolutions();
 	}
 
@@ -53,7 +52,7 @@ public class IncidentResolutionController {
     
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/retrieve/resolutions/{id}", method = RequestMethod.GET, produces = "application/json")
-	public Set<IncidentResolution> getGroupResolutions(@PathVariable Long id) {
+	public List<IncidentResolution> getGroupResolutions(@PathVariable Long id) {
 		return incidentResolutionService.getGroupResolutions(id);
 	}
     
