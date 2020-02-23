@@ -327,9 +327,12 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
             return item.id === $scope.resolution.horizon.id;
         });
 
-        var incidentGroupId = $scope.groups.filter(function (item) {
-            return item.id === $scope.resolution.incidentGroup.id;
-        });
+        var incidentGroupId = null;
+        if ($scope.resolution.incidentGroup) {
+            var incidentGroupId = $scope.groups.filter(function (item) {
+                return item.id === $scope.resolution.incidentGroup.id;
+            });
+        }
 
         $scope.resolution.incidentGroup = incidentGroupId[0];
 
