@@ -3,17 +3,14 @@ A rudimentary helpdesk type application.
 
 ![Demo](https://github.com/frankgiordano/PlatformTracker/blob/master/demo/demo2.gif)
 
-The following project was developed in 2015. It was my first Java/Spring MVC/AngularJS/JavaScript/HTML/Bootstrap application that I developed. This was used
-as a starter project to build up knowledge with the tech stack for future projects. This was a short lived application used to mostly 
-provide some way to track incoming product related issues in a very custom/niche way.  
+The following project was developed in 2015. It was my first Java/Spring MVC/JPA/AngularJS/JavaScript/HTML/Bootstrap application that I developed. This was used as a starter project to build up knowledge with the tech stack for future projects. This was a short lived application used to mostly provide some way to track incoming product related issues in a very custom/niche way.  
 
 The goal of this application was to build an Incident management system to track incidents related to a set of products that a company
-may have deployed to production. From the incidents, trends can be identifed which may lead to root cause solutions and enhancement projects. 
-As such, this application has a very small project management component. 
+may have deployed to production. From the incidents, trends can be identifed which may lead to root cause solutions and enhancement projects. As such, this application has a very small project management component. 
 
 You may find this application useful and you are welcome to use it. The basic incident management provided may be generic enough to adapt for any incident tracking needs. 
 
-I am posting this project for educational proposes, and I intend to continue to develop this project in my spare time. I may evolve the project as a place to learn and experiment. 
+I am posting this project for educational proposes, and I intend to continue to polish and work out all the kinks of this application on my spare time. I may evolve the project as a place to learn and experiment. 
 
 ## Setup, Installation, and running the application:
 
