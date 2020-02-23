@@ -11,7 +11,7 @@ app.controller('IncidentReportSettingsController', function($http, $rootScope, $
                     }
                 },
                 function error() {
-                    $scope.errormessages = "Retrieving toggle status failed, contact administrator.";
+                    $scope.errormessages = "GET_SETTING_FAILURE - Retrieving toggle status failed, check logs or try again.";
                 });	
     };
     
@@ -32,7 +32,7 @@ app.controller('IncidentReportSettingsController', function($http, $rootScope, $
                     }
                 },
                 function error() {
-                    $scope.errormessages = "Save operation failure, contact administrator.";
+                    $scope.errormessages = "SETTING_SAVE_FAILURE - Error saving toggle setting, check logs or try again.";
                 });	
     };
     

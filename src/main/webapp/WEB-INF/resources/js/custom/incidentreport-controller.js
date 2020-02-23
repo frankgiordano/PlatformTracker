@@ -32,8 +32,8 @@ app.controller('IncidentReportController', function($http, $rootScope, $filter, 
                 }
             },
             function error() {
-                $scope.errormessages = "Search operation failure, Group may not exist, please try again";
-                // $rootScope.errors.push({ code: "GROUP_GET_FAILURE", message: "Operation failure, Group may not exist, please try again" });
+                $scope.errormessages = "GROUP_GET_FAILURE - group may not exist, please try again.";
+                // $rootScope.errors.push({ code: "GROUP_GET_FAILURE", message: "Group may not exist, please try again." });
             });
     };
         

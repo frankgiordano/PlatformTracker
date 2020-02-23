@@ -82,13 +82,13 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
                     $scope.errormessages = null;
                     $scope.disableButton = true;
                 } else {
-                    $scope.errormessages = "Delete operation failure, check logs or invalid product.";
+                    $scope.errormessages = "PRODUCT_DELETE_FAILURE - Check logs or invalid product.";
                     console.error("Product ID " + id + " was unable to be deleted.");
                 }
             },
             function error() {
-                $scope.errormessages = "Delete operation failure, check logs or invalid product.";
-                // $rootScope.errors.push({ code: "INCIDENT_DELETE_FAILURE", message: "Delete operation failed, check logs or invalid incident." });
+                $scope.errormessages =  "PRODUCT_DELETE_FAILURE - Check logs or invalid product.";
+                // $rootScope.errors.push({ code: "PRODUCT_DELETE_FAILURE", message: "Check logs or invalid incident." });
             });
     };
     
@@ -123,10 +123,10 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
                     }
                 },
                 function error() {
-                    $scope.errormessages = "Save operation failure, make sure the following required fields are filled: Platform, Incident Name, Client Name, Short Name (10 character field), Start Date and Max Weekly Uptime, please try again";
+                    $scope.errormessages = $rootScope.PRODUCT_SAVE_ERROR_MSG;
                     // $rootScope.errors.push({
                     //     code: "PRODUCT_SAVE_FAILURE",
-                    //     message: "Save operation failure, make sure the following required fields are filled: Platform, Incident Name, Client Name, Short Name (10 character field), Start Date and Max Weekly Uptime, please try again"
+                    //     message: $rootScope.REQUIRED_FIELDS_PRODUCT_MSG
                     // });
                 });
     };
@@ -174,7 +174,7 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
                 }
             },
             function error() {
-                $scope.errormessages = "Save operation failure, make sure the following required fields are filled: Platform, Incident Name, Client Name, Short Name (10 character field), Start Date and Max Weekly Uptime, please try again";
+                $scope.errormessages = $rootScope.PRODUCT_SAVE_ERROR_MSG;
             });
     };
 });

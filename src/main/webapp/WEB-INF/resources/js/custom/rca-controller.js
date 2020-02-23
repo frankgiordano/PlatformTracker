@@ -269,7 +269,7 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
                     });
                     $scope.rca.incidentGroup = incidentGroupId[0];
                 } else {
-                    console.error("Unable to retrieve resolution for resolution " + id);
+                    console.error("Unable to retrieve resolution id " + id);
                 }
             },
             function error() {
@@ -306,7 +306,7 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
                             return;
                         },
                         function error() {
-                            $scope.errormessages = "Operation failure, Rca may not exist, please try again";
+                            $scope.errormessages = "ROOT_CAUSE_DELETE_FAILURE - Check logs or invalid RCA.";
                         });
                 } else {
                     return;
@@ -396,18 +396,18 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
             function success(response) {
                 if (response) {
                     if (!$scope.rca.id)
-                        $scope.messages = "New Rca has been saved.";
+                        $scope.messages = "New Root Cause has been saved.";
                     else {
                         $scope.messages = "Rca " + $scope.rca.id + " has been saved.";
                     }
                     $scope.back = true;
                     return;
                 } else {
-                    $scope.errormessages = ("Root Cause was unable to be saved, incident group name, owner is required")
+                    $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
                 }
             },
             function error() {
-                $scope.errormessages = ("Root Cause was unable to be saved, incident group name, owner is required")
+                $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
             });
     };
 

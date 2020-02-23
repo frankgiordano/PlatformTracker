@@ -83,7 +83,7 @@ app.run(function ($rootScope, $http, $location, Base64Service, AuthenticationSer
                 console.log("You have been successfully logged out.")
             },
             function error() {
-                $rootScope.errors.push({ code: "LOGOUT_FAILED", message: "Oooooops something went wrong, please try again" });
+                $rootScope.errors.push({ code: "LOGOUT_FAILED", message: "Please try again." });
             })
     });
 });

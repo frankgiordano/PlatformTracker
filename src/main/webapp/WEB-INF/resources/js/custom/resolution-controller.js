@@ -212,8 +212,8 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
             },
             function error() {
                 $rootScope.errors.push({
-                    code: "INCIDENT_RESOLUTION_GET_FAILURE",
-                    message: "Error retrieving incident resolution.."
+                    code: "RESOLUTION_GET_FAILURE",
+                    message: "Error retrieving resolution."
                 });
             });
     };
@@ -277,14 +277,14 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                             if (response) {
                                 $scope.messages = "Resolution ID " + resolution.id + " has been deleted.";
                             } else {
-                                $scope.errormessages = "Delete operation failure, check logs or child associated entities still exist.";
+                                $scope.errormessages = "RESOLUTION_DELETE_FAILURE - Check logs or child associated entities still exist.";
                 		        console.error("Resolution ID " + resolution.id + " was unable to be deleted.");
                             }
                             $scope.back = true;
                             return;
                         },
                         function error() {
-                            $scope.errormessages = "Delete operation failure, check logs or child associated entities still exist.";
+                            $scope.errormessages = "RESOLUTION_DELETE_FAILURE - Check logs or child associated entities still exist.";
                         });
                 } else {
                     return;
@@ -373,11 +373,11 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                     $scope.back = true;
                     return;
                 } else {
-                    $scope.errormessages = "Resolution was unable to be saved, description, owner and estimated completion date are required.";
+                    $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
                 }
             },
             function error() {
-                $scope.errormessages = "Resolution was unable to be saved, description, owner and estimated completion date are required.";
+                $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
             });
     };
 

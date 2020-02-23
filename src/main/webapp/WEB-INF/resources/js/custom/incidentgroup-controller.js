@@ -470,15 +470,15 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     $scope.chronerrormessages = null;
                     getRelatedChronologies($scope.selectedIncident.id);
                 } else {
-                    $scope.chronerrormessages = "Save operation failure, check logs and make sure the following required fields are filled: Date Time and Description.";
+                    $scope.chronerrormessages = $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG;
                     console.error("Chronology timeline for incident tag " + $scope.selectedIncident.tag + " was unable to be saved.");
                     $scope.chronmessages = null;
                 }
             },
             function error() {
-                $scope.chronerrormessages = "Save operation failure, check logs or try again.";
+                $scope.chronerrormessages = $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG;
                 $scope.chronmessages = null;
-                // $rootScope.errors.push({ code: "CHRONOLOGY_SAVE_FAILURE", message: "Save operation failure, check logs and make sure the following required fields are filled: Date Time and Description." });
+                // $rootScope.errors.push({ code: "CHRONOLOGY_SAVE_FAILURE", message: $rootScope.REQUIRED_FILEDS_CHRONOLOGY_MSG });
             });
     };
     
@@ -492,15 +492,15 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     $scope.chronerrormessages = null;
                     getRelatedChronologies($scope.selectedIncident.id);
                 } else {
-                    $scope.chronerrormessages = "Delete operation failure, check logs or try again.";
+                    $scope.chronerrormessages = "CHRONOLOGY_DELETE_FAILURE - Check logs or try again.";
                     console.error("Chronology timeline for incident tag " + $scope.selectedIncident.tag + " with id " + item.id + " was unable to be deleted.");
                     $scope.chronmessages = null;
                 }
             },
             function error() {
-                $scope.chronerrormessages = "Delete operation failure, check logs or try again.";
+                $scope.chronerrormessages = "CHRONOLOGY_DELETE_FAILURE - Check logs or try again.";
                 $scope.chronmessages = null;
-                // $rootScope.errors.push({ code: "CHRONOLOGY_SAVE_FAILURE", message: "Save operation failure, check logs and make sure the following required fields are filled: Date Time and Description." });
+                // $rootScope.errors.push({ code: "CHRONOLOGY_DELETE_FAILURE", message: "Check logs or try again." });
             }); 
     };
 
@@ -572,7 +572,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         // generate tag again just in case the products and start-time were changed
         $scope.generateUpdatedTag();
         if (!$scope.selectedIncident.tag) {	
-                $scope.errormessages = "Save operation failure, problem with generating tag. Please fill in Products and Start Time.";
+                $scope.errormessages = "INCIDENT_SAVE_FAILURE - problem with generating tag. Please fill in Start Date Time and Products.";
                 return;   				 
         }
         
@@ -678,13 +678,13 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
 						$scope.errormessages2 = null;
 						return IncidentService.saveIncident(incident);
 					} else {
-						$scope.errormessages = "Save operation failure, creating new group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.";
-						console.error("Save operation failure, creating new group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.");
+						$scope.errormessages = "GROUP_SAVE_FAILURE - Creating new group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.";
+						console.error("GROUP_SAVE_FAILURE - Creating new group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.");
 						return $q.reject(); 
 					}
 				}, function(response) {
-					$scope.errormessages = "Save operation failure, creating new group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.";
-					console.error("Save operation failure, creating new group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.");
+					$scope.errormessages = "GROUP_SAVE_FAILURE - Creating new group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.";
+					console.error("GROUP_SAVE_FAILURE - Creating new group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.");
 					return $q.reject(); 
 				})
 				.then(function (response) {
@@ -700,11 +700,11 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                         $scope.groupModel.selectedNewGroup = null;
                         $scope.changedGroup();
 					} else {
-						$scope.errormessages = "Save operation failure, make sure the following required fields are filled: Technical Description, Locus, Error Condition, and Start Time, please try again";
+						$scope.errormessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
 						console.error("Incident tag " + incident.tag + " with id " + incident.id +  " was unable to be saved with newly created group " + groupCurrentORNew.name + ".");
 					}
 				}, function(response) {
-					$scope.errormessages2 = "Save operation failure, make sure the following required fields are filled: Technical Description, Locus, Error Condition, and Start Time, please try again";
+					$scope.errormessages2 = $rootScope.INCIDENT_SAVE_ERROR_MSG;
 					console.error("Incident tag " + incident.tag + " with id " + incident.id +  " was unable to be saved with newly created group " + groupCurrentORNew.name + ".");
 				});
         } else {
@@ -725,13 +725,13 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                             $scope.groupModel.selectedNewGroup = null;
                             $scope.changedGroup();
         				} else {
-        					$scope.errormessages = "Save operation failure, make sure the following required fields are filled: Technical Description, Locus, Error Condition, and Start Time, please try again";
+        					$scope.errormessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
         					console.error("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with group " + groupCurrentORNew + ".");
         				}
         			},
         			function error() {
-        				$scope.errormessages = "Save operation failure, make sure the following required fields are filled: Technical Description, Locus, Error Condition, and Start Time, please try again";
-                        // $rootScope.errors.push({ code: "INCIDENT_SAVE_FAILURE", message: "Save operation failure, make sure the following required fields are filled: Description, Locus, Error Condition, Start and End Times, please try again" });
+        				$scope.errormessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
+                        // $rootScope.errors.push({ code: "INCIDENT_SAVE_FAILURE", message: $rootScope.REQUIRED_FILEDS_INCIDENT_MSG });
         			});
         }
     };
@@ -755,8 +755,8 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                 }
             },
             function error() {
-                $scope.errormessages = "Search operation failure, Group may not exist, please try again";
-                // $rootScope.errors.push({ code: "GROUP_GET_FAILURE", message: "Operation failure, Group may not exist, please try again" });
+                $scope.errormessages = "GROUP_GET_FAILURE - Group may not exist, please try again.";
+                // $rootScope.errors.push({ code: "GROUP_GET_FAILURE", message: "Group may not exist, please try again." });
             });
     };
 
@@ -780,13 +780,13 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     $scope.errormessages = null;
                     $scope.disableButton = true;
                 } else {
-                    $scope.errormessages = "Save operation failure, make sure the following required fields are filled: Name and Description, please try again.";
+                    $scope.errormessages = $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG;
                     console.error("Group " + group.id + " was unable to be saved.")
                 }
             },
             function error() {
-                $scope.errormessages = "Save operation failure, make sure the following required fields are filled: Name and Description, please try again.";
-                // $rootScope.errors.push({ code: "INCIDENT_SAVE_FAILURE", message: "Save operation failure, make sure the following required fields are filled: Name and Description, please try again." });
+                $scope.errormessages = $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG;
+                // $rootScope.errors.push({ code: "GROUP_SAVE_FAILURE", message: $rootScope.REQUIRED_FILEDS_GROUP_MSG });
             });
     };
 
@@ -822,13 +822,13 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     $scope.errormessages = null;
                     $scope.disableButton = true;
                 } else {
-                    $scope.errormessages = "Create resolution failure, check logs or make sure the following fields are filled: Incident Group name, Horizon, Owner, Status, Description, and Estimated Comp Date.";
-                    console.error("Create resolution failure, check logs or make sure the following fields are filled: ");
+                    $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
+                    console.error($rootScope.RESOLUTION_SAVE_ERROR_MSG);
                 }
             },
             function error() {
-                $scope.errormessages = "Create resolution failure, check logs or make sure the following fields are filled: Incident Group name, Horizon, Owner, Status, Description, and Estimated Comp Date. ";
-                // $rootScope.errors.push({ code: "RESOLUTION_CREATE_FAILURE", message: "Create resolution failure, check logs or make sure the following fields are filled: Incident Group name, Horizon, Status, Description, and Estimated Comp Date. "});
+                $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
+                // $rootScope.errors.push({ code: "RESOLUTION_SAVE_FAILURE", message: $rootScope.REQUIRED_FILEDS_RESOLUTION_MSG });
             });
     };
 
@@ -851,18 +851,18 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         RcaService.saveRca(rca).then(
             function success(response) {
                 if (response) {
-                    $scope.messages = $scope.selectedCategory.displayName + " RCA created for group " + '"' + $scope.selectedGroup.name + '".';
+                    $scope.messages = $scope.selectedCategory.displayName + " Root Cause created for group " + '"' + $scope.selectedGroup.name + '".';
                     $scope.clear('rca');
                     $scope.errormessages = null;
                     $scope.disableButton = true;
                 } else {
-                    $scope.errormessages = "Create RCA failure, check logs or try again.";
-                    console.error("Create resolution failure, check logs or try again.");
+                    $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
+                    console.error($rootScope.RC_SAVE_ERROR_MSG);
                 }
             },
             function error() {
-                $scope.errormessages = "Create resolution failure, check logs or try again.";
-                // $rootScope.errors.push({ code: "RCA_CREATE_FAILURE", message: "Create resolution failure, check logs or try again."});
+                $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
+                // $rootScope.errors.push({ code: "ROOT_CAUSE_SAVE_FAILURE", message: $rootScope.REQUIRED_FILEDS_RC_MSG });
             });
     };
 
@@ -875,14 +875,14 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     console.info("Incident ID " + id + " has been deleted.");
                     $scope.changedGroup();
                 } else {
-                    $scope.errormessages = "Delete operation failure, check logs or invalid incident.";
+                    $scope.errormessages = "INCIDENT_DELETE_FAILURE - Check logs or invalid incident.";
                     console.error("Incident ID " + id + " was unable to be deleted.");
                 }
                 $scope.disableButton = true;
             },
             function error() {
-                $scope.errormessages = "Delete operation failure, check logs or invalid incident.";
-                // $rootScope.errors.push({ code: "INCIDENT_DELETE_FAILURE", message: "Delete operation failed, check logs or invalid incident." });
+                $scope.errormessages = "INCIDENT_DELETE_FAILURE - Check logs or invalid incident.";
+                // $rootScope.errors.push({ code: "INCIDENT_DELETE_FAILURE", message: "Check logs or invalid incident." });
             });
     };
 
@@ -894,7 +894,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                 if (response) {
                 	if (response === "false") {              		
                 		// group was not deleted a false was returned..
-                		$scope.errormessages = "Delete operation failure, check logs or child associated entities still exist.";
+                		$scope.errormessages = "GROUP_DELETE_FAILURE - Check logs or child associated entities still exist.";
                 		console.error("Group ID " + id + " was unable to be deleted.");
                 		return;               		
                 	}
@@ -907,8 +907,8 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                 }
             },
             function error() {
-                $scope.errormessages = "Delete operation failure, check logs or child associated entities still exist.";
-                // $rootScope.errors.push({ code: "GROUP_DELETE_FAILURE", message: "Delete operation failure, check logs or child associated incidents still exist." });
+                $scope.errormessages = "GROUP_DELETE_FAILURE - Check logs or child associated entities still exist.";
+                // $rootScope.errors.push({ code: "GROUP_DELETE_FAILURE", message: "Check logs or child associated incidents still exist." });
             });
     };
     
@@ -921,8 +921,8 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                 if (response) {
                 	if (response === "false") {              		
                 		// group was not deleted a false was returned..
-                		$scope.errormessages = "Delete operation failure, check logs, or no orphan groups to delete or problem deleting existing orphan groups.";
-                		console.error("Delete operation failure, check logs, or no orphan groups to delete or problem deleting existing orphan groups.");
+                		$scope.errormessages = "GROUP_ORPHANS_DELETE_FAILURE - Check logs, or no orphan groups to delete or problem deleting existing orphan groups.";
+                		console.error("GROUP_ORPHANS_DELETE_FAILURE - Check logs, or no orphan groups to delete or problem deleting existing orphan groups.");
                 		document.body.style.cursor = "default";
                 		return;               		
                 	}
@@ -932,14 +932,14 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     document.body.style.cursor = "default";
                     $scope.refreshData();
                 } else {
-                    console.error("Delete operation failure, check logs, or no orphan groups to delete or problem deleting existing orphan groups.");
+                    console.error("GROUP_ORPHANS_DELETE_FAILURE - Check logs, or no orphan groups to delete or problem deleting existing orphan groups.");
                     document.body.style.cursor = "default";
                 }
             },
             function error() {
-                $scope.errormessages = "Delete operation failure, check logs, or no orphan groups to delete or problem deleting existing orphan groups.";
+                $scope.errormessages = "GROUP_ORPHANS_DELETE_FAILURE - Check logs, or no orphan groups to delete or problem deleting existing orphan groups.";
                 document.body.style.cursor = "default";
-                // $rootScope.errors.push({ code: "GROUP_ORPHANS_DELETE_FAILURE", message: "Delete operation failure, check logs, or no orphan groups exist." });
+                // $rootScope.errors.push({ code: "GROUP_ORPHANS_DELETE_FAILURE", message: "Check logs, or no orphan groups exist." });
             });
     };
     

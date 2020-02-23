@@ -172,7 +172,7 @@ app.controller('ProjectController', function ($http, $rootScope, $scope, Project
                 $scope.myData = response;
             },
             function error() {
-                $scope.errormessages = "Search Project failed, please try again";
+                $scope.errormessages = "PROJECT_GET_FAILURE - Retrieving projects failed, check logs or try again.";
             });
     };
 
@@ -235,11 +235,11 @@ app.controller('ProjectController', function ($http, $rootScope, $scope, Project
                     });
                     $scope.project.wikiType = wikiTypesId[0];
                 } else {
-                    $scope.errormessages = "View Project failed, please try again";
+                    $scope.errormessages = "PROJECT_GET_FAILURE - Retrieving project failed, check logs or try again.";
                 }
             },
             function error() {
-                $scope.errormessages = "View Project failed, please try again";
+                $scope.errormessages = "PROJECT_GET_FAILURE - Retrieving project failed, check logs or try again.";
             });
 
     };
@@ -265,14 +265,14 @@ app.controller('ProjectController', function ($http, $rootScope, $scope, Project
                                 $scope.messages = "Project ID " + project.id + " has been deleted.";
                                 console.info("Project ID " + project.id + " has been deleted.");
                             } else {
-                                $scope.errormessages = "Delete operation failure, check logs or invalid project.";
+                                $scope.errormessages = "PROJECT_DELETE_FAILURE - Check logs or invalid project.";
                                 console.error("Project ID " + project.id + " was unable to be deleted.");
                             }
                             $scope.back = true;
                             return;
                         },
                         function error() {
-                            $scope.errormessages = "Delete operation failure, check logs or invalid project.";
+                            $scope.errormessages = "PROJECT_DELETE_FAILURE - Check logs or invalid project.";
                             return;
                         });
                 } else {
@@ -352,7 +352,7 @@ app.controller('ProjectController', function ($http, $rootScope, $scope, Project
                 }
             },
             function error() {
-                $scope.errormessages = "Save Project failed. Name, Recording Date, Owner, Description and Due Date are required.";
+                $scope.errormessages = $rootScope.PROJECT_SAVE_ERROR_MSG;
             });
     };
 
@@ -547,8 +547,8 @@ app.controller('ResolutionProjectLinkingController', function ($http, $rootScope
             },
             function error() {
                 $rootScope.errors.push({
-                    code: "INCIDENT_SAVE_FAILURE",
-                    message: "Save operation failure, make sure the following required fields are filled: Tag, Description, Locus, Error Condition, Start and End Times, please try again"
+                    code: "RESOLUTION_SAVE_FAILURE",
+                    message: $rootScope.REQUIRED_FILEDS_RESOLUTION_MSG
                 });
             });
     };
@@ -606,8 +606,8 @@ app.controller('ResolutionProjectLinkingController', function ($http, $rootScope
             },
             function error() {
                 $rootScope.errors.push({
-                    code: "INCIDENT_SAVE_FAILURE",
-                    message: "Save operation failure, make sure the following required fields are filled: Tag, Description, Locus, Error Condition, Start and End Times, please try again"
+                    code: "RESOLUTION_SAVE_FAILURE",
+                    message: $rootScope.REQUIRED_FILEDS_RESOLUTION_MSG
                 });
             });
     }
