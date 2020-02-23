@@ -26,13 +26,13 @@ app.controller('IncidentReportController', function($http, $rootScope, $filter, 
                 console.log(JSON.stringify(response));
                 if (response) {
                     $scope.groupID = response.id;
-                    console.info("Group retrieved for incident " + id);
+                    console.info("Group retrieved for Incident ID " + id);
                 } else {
-                    console.error("Unable to retrieve group for incident " + id);
+                    console.error("Unable to retrieve group for Incident ID " + id);
                 }
             },
             function error() {
-                $scope.errormessages = "GROUP_GET_FAILURE - group may not exist, please try again.";
+                $scope.errormessages = "GROUP_GET_FAILURE - Group may not exist, please try again.";
                 // $rootScope.errors.push({ code: "GROUP_GET_FAILURE", message: "Group may not exist, please try again." });
             });
     };

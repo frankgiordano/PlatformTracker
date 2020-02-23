@@ -82,13 +82,13 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
                     $scope.errormessages = null;
                     $scope.disableButton = true;
                 } else {
-                    $scope.errormessages = "PRODUCT_DELETE_FAILURE - Check logs or invalid product.";
+                    $scope.errormessages = "PRODUCT_DELETE_FAILURE - Check logs or invalid Product.";
                     console.error("Product ID " + id + " was unable to be deleted.");
                 }
             },
             function error() {
-                $scope.errormessages =  "PRODUCT_DELETE_FAILURE - Check logs or invalid product.";
-                // $rootScope.errors.push({ code: "PRODUCT_DELETE_FAILURE", message: "Check logs or invalid incident." });
+                $scope.errormessages =  "PRODUCT_DELETE_FAILURE - Check logs or invalid Product.";
+                // $rootScope.errors.push({ code: "PRODUCT_DELETE_FAILURE", message: "Check logs or invalid Product." });
             });
     };
     
@@ -114,12 +114,12 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
         ProductService.saveProduct(product).then(
                 function success(response) {
                     if (response) {
-                        $scope.messages = "Product with incident name " + product.incidentName + " has been saved.";
-                        console.info("Product with incident name " + product.incidentName + " has been saved.");
+                        $scope.messages = "Product has been saved.";
+                        console.info("Product with Incident Name " + product.incidentName + " has been saved.");
                         $scope.disableButton = true;
                         $scope.refreshData();
                     } else {
-                        console.error("Product with incident name " + product.incidentName + " was unable to be saved.")
+                        console.error("Product with Incident Name " + product.incidentName + " was unable to be saved.")
                     }
                 },
                 function error() {
@@ -166,8 +166,8 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
         ProductService.saveProduct(product).then(
             function success(response) {
                 if (response) {
-                    $scope.messages = "New product with incident name " + product.incidentName + " has been saved.";
-                    console.info("New product with incident name " + product.incidentName + " has been saved.");
+                    $scope.messages = "New Product has been saved.";
+                    console.info("New Product with incident name " + product.incidentName + " has been saved.");
                     $scope.disableButton = true;
                 } else {
                     console.error("New Product with incident name " + product.incidentName + " was unable to be saved.")

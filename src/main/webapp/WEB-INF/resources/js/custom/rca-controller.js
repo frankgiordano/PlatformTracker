@@ -83,7 +83,7 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
             function error() {
                 $rootScope.errors.push({
                     code: "STATUS_GET_FAILURE",
-                    message: "Error retrieving status."
+                    message: "Error retrieving Status."
                 });
             });
 
@@ -180,7 +180,7 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
             function error() {
                 $rootScope.errors.push({
                     code: "ROOT_CAUSES_GET_FAILURE",
-                    message: "Error retrieving root causes."
+                    message: "Error retrieving Root Causes."
                 });
             });
     };
@@ -201,7 +201,7 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
             function error() {
                 $rootScope.errors.push({
                     code: "ROOT_CAUSE_GET_FAILURE",
-                    message: "Error retrieving root cause."
+                    message: "Error retrieving Root Cause."
                 });
             });
     };
@@ -269,13 +269,13 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
                     });
                     $scope.rca.incidentGroup = incidentGroupId[0];
                 } else {
-                    console.error("Unable to retrieve resolution id " + id);
+                    console.error("Unable to retrieve Resolution ID " + id);
                 }
             },
             function error() {
                 $rootScope.errors.push({
                     code: "ROOT_CAUSE_GET_FAILURE",
-                    message: "Error retrieving root cause."
+                    message: "Error retrieving Root Cause."
                 });
             });
     };
@@ -324,9 +324,9 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
         RcaService.deleteRca(id).then(
             function success(response) {
                 if (response) {
-                    console.info("Rca " + id + " has been deleted.")
+                    console.info("Root Cause ID " + id + " has been deleted.")
                 } else {
-                    console.error("Rca " + id + " was unable to be deleted.")
+                    console.error("Root Cause ID " + id + " was unable to be deleted.")
                 }
                 clear();
             },
@@ -398,7 +398,7 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
                     if (!$scope.rca.id)
                         $scope.messages = "New Root Cause has been saved.";
                     else {
-                        $scope.messages = "Rca " + $scope.rca.id + " has been saved.";
+                        $scope.messages = "Root Cause has been saved.";
                     }
                     $scope.back = true;
                     return;

@@ -428,12 +428,12 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                 $scope.show = true;
         		break;
         	case "group":
-        		console.log("inside selected group");
+        		console.log("inside selected Group");
                 $scope.selectedGroup = object;
                 $scope.disableButton = false;
         		break;
             case "chronology":
-            	console.log("inside selected chronology");
+            	console.log("inside selected Chronology");
             	$scope.createChronology = new Object();	
                 break;
         }
@@ -464,14 +464,14 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         ChronologyService.saveChronology(chronology).then(
             function success(response) {
                 if (response) {
-                    $scope.chronmessages = "Chronology timeline for incident tag " + $scope.selectedIncident.tag + " created.";
-                    console.info("Chronology for incident tag " + $scope.selectedIncident.tag + " created.");
+                    $scope.chronmessages = "Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " created.";
+                    console.info("Chronology for Incident tag " + $scope.selectedIncident.tag + " created.");
                     $scope.clear('chronology');
                     $scope.chronerrormessages = null;
                     getRelatedChronologies($scope.selectedIncident.id);
                 } else {
                     $scope.chronerrormessages = $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG;
-                    console.error("Chronology timeline for incident tag " + $scope.selectedIncident.tag + " was unable to be saved.");
+                    console.error("Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " was unable to be saved.");
                     $scope.chronmessages = null;
                 }
             },
@@ -487,13 +487,13 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         ChronologyService.deleteChronology(item.id).then(
             function success(response) {
                 if (response) {
-                    $scope.chronmessages = "Chronology timeline for incident tag " + $scope.selectedIncident.tag + " with id " + item.id + " deleted.";
-                    console.info("Chronology timeline for incident tag " + $scope.selectedIncident.tag + " with chronology timeline id " + item.id + " deleted.");
+                    $scope.chronmessages = "Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " with id " + item.id + " deleted.";
+                    console.info("Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " with Chronology timeline id " + item.id + " deleted.");
                     $scope.chronerrormessages = null;
                     getRelatedChronologies($scope.selectedIncident.id);
                 } else {
                     $scope.chronerrormessages = "CHRONOLOGY_DELETE_FAILURE - Check logs or try again.";
-                    console.error("Chronology timeline for incident tag " + $scope.selectedIncident.tag + " with id " + item.id + " was unable to be deleted.");
+                    console.error("Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " with id " + item.id + " was unable to be deleted.");
                     $scope.chronmessages = null;
                 }
             },
@@ -507,7 +507,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
     var data = [];
 
     $scope.changedGroup = function() {
-        console.log("inside changedGroup, group id " + $scope.selectedGroup.id);
+        console.log("inside changedGroup, Group id " + $scope.selectedGroup.id);
         IncidentGroupService.getGroupIncidents($scope.selectedGroup.id).then(
             function success(response) {
                 data = response;
@@ -673,25 +673,25 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         	IncidentGroupService.saveGroup(groupCurrentORNew)
 				.then(function (response) {
 					if (response === "true") {
-						console.log("inside updateInSearch with new group " +  JSON.stringify(incident));
+						console.log("inside updateInSearch with new Group " +  JSON.stringify(incident));
 						$scope.errormessages = null;
 						$scope.errormessages2 = null;
 						return IncidentService.saveIncident(incident);
 					} else {
-						$scope.errormessages = "GROUP_SAVE_FAILURE - Creating new group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.";
-						console.error("GROUP_SAVE_FAILURE - Creating new group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.");
+						$scope.errormessages = "GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.";
+						console.error("GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.");
 						return $q.reject(); 
 					}
 				}, function(response) {
-					$scope.errormessages = "GROUP_SAVE_FAILURE - Creating new group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.";
-					console.error("GROUP_SAVE_FAILURE - Creating new group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.");
+					$scope.errormessages = "GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.";
+					console.error("GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.");
 					return $q.reject(); 
 				})
 				.then(function (response) {
 					if (response) {
                         $scope.getGroup(incident.id);
-						$scope.messages = "Incident tag " + incident.tag + " with id " + incident.id + " has been saved with newly created group " + groupCurrentORNew.name + ".";
-						console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with newly created group " + groupCurrentORNew.name + ".");
+						$scope.messages = "Incident has been saved.";
+						console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with newly created Group " + groupCurrentORNew.name + ".");
                         $scope.refreshData(); 
 						$scope.errormessages = null;
                         $scope.errormessages2 = null;
@@ -701,22 +701,22 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                         $scope.changedGroup();
 					} else {
 						$scope.errormessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
-						console.error("Incident tag " + incident.tag + " with id " + incident.id +  " was unable to be saved with newly created group " + groupCurrentORNew.name + ".");
+						console.error("Incident tag " + incident.tag + " with id " + incident.id +  " was unable to be saved with newly created Group " + groupCurrentORNew.name + ".");
 					}
 				}, function(response) {
 					$scope.errormessages2 = $rootScope.INCIDENT_SAVE_ERROR_MSG;
-					console.error("Incident tag " + incident.tag + " with id " + incident.id +  " was unable to be saved with newly created group " + groupCurrentORNew.name + ".");
+					console.error("Incident tag " + incident.tag + " with id " + incident.id +  " was unable to be saved with newly created Group " + groupCurrentORNew.name + ".");
 				});
         } else {
         	// An existing current group is still there with no new group specified.
         	// As such, go ahead and save the incident.. 
-        	console.log("inside updateInSearch with existing group " +  JSON.stringify(incident));
+        	console.log("inside updateInSearch with existing Group " +  JSON.stringify(incident));
         	IncidentService.saveIncident(incident).then(
         			function success(response) {
         				if (response) {
                             $scope.getGroup(incident.id);
-        					$scope.messages = "Incident tag " + incident.tag + " with id " + incident.id + " has been saved with group " + groupCurrentORNew + ".";
-        					console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with group " + groupCurrentORNew + ".");
+        					$scope.messages = "Incident has been saved.";
+        					console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with Group " + groupCurrentORNew + ".");
                             $scope.refreshData(); 
                             $scope.errormessages = null;
                             $scope.errormessages2 = null;
@@ -726,7 +726,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                             $scope.changedGroup();
         				} else {
         					$scope.errormessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
-        					console.error("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with group " + groupCurrentORNew + ".");
+        					console.error("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with Group " + groupCurrentORNew + ".");
         				}
         			},
         			function error() {
@@ -749,9 +749,9 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     // ng-include will copy at this moment all the data in the scope and set it to the sub\child scope.. 
                     // otherwise, current group field will be blank even though group is retrieved later on.. with this async call
                     $scope.show = true;  
-                    console.info("Group retrieved for incident " + id);
+                    console.info("Group retrieved for Incident ID " + id);
                 } else {
-                    console.error("Unable to retrieve group for incident " + id);
+                    console.error("Unable to retrieve Group for Incident ID " + id);
                 }
             },
             function error() {
@@ -775,13 +775,13 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         IncidentGroupService.saveGroup(group).then(
             function success(response) {
                 if (response) {
-                    $scope.messages = "Group " + group.id + " has been saved.";
-                    console.info("Group " + group.id + " has been saved.");
+                    $scope.messages = "Group ID " + group.id + " has been saved.";
+                    console.info("Group ID " + group.id + " has been saved.");
                     $scope.errormessages = null;
                     $scope.disableButton = true;
                 } else {
                     $scope.errormessages = $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG;
-                    console.error("Group " + group.id + " was unable to be saved.")
+                    console.error("Group ID " + group.id + " was unable to be saved.")
                 }
             },
             function error() {
@@ -817,7 +817,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         ResolutionService.saveResolution(resolution).then(
             function success(response) {
                 if (response) {
-                    $scope.messages = $scope.selectedHorizon.displayName + " resolution created for group " + '"' + $scope.selectedGroup.name + '".';
+                    $scope.messages = $scope.selectedHorizon.displayName + " Resolution created for Group " + '"' + $scope.selectedGroup.name + '".';
                     $scope.clear('resoluton');
                     $scope.errormessages = null;
                     $scope.disableButton = true;
@@ -851,7 +851,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         RcaService.saveRca(rca).then(
             function success(response) {
                 if (response) {
-                    $scope.messages = $scope.selectedCategory.displayName + " Root Cause created for group " + '"' + $scope.selectedGroup.name + '".';
+                    $scope.messages = $scope.selectedCategory.displayName + " Root Cause created for Group " + '"' + $scope.selectedGroup.name + '".';
                     $scope.clear('rca');
                     $scope.errormessages = null;
                     $scope.disableButton = true;
@@ -875,14 +875,14 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     console.info("Incident ID " + id + " has been deleted.");
                     $scope.changedGroup();
                 } else {
-                    $scope.errormessages = "INCIDENT_DELETE_FAILURE - Check logs or invalid incident.";
+                    $scope.errormessages = "INCIDENT_DELETE_FAILURE - Check logs or invalid Incident.";
                     console.error("Incident ID " + id + " was unable to be deleted.");
                 }
                 $scope.disableButton = true;
             },
             function error() {
-                $scope.errormessages = "INCIDENT_DELETE_FAILURE - Check logs or invalid incident.";
-                // $rootScope.errors.push({ code: "INCIDENT_DELETE_FAILURE", message: "Check logs or invalid incident." });
+                $scope.errormessages = "INCIDENT_DELETE_FAILURE - Check logs or invalid Incident.";
+                // $rootScope.errors.push({ code: "INCIDENT_DELETE_FAILURE", message: "Check logs or invalid Incident." });
             });
     };
 

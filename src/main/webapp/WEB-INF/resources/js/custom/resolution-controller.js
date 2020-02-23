@@ -207,13 +207,13 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                     });
                     $scope.resolution.incidentGroup = incidentGroupId[0];
                 } else {
-                    console.error("Unable to retrieve resolution for resolution " + id);
+                    console.error("Unable to retrieve Resolution ID " + id);
                 }
             },
             function error() {
                 $rootScope.errors.push({
                     code: "RESOLUTION_GET_FAILURE",
-                    message: "Error retrieving resolution."
+                    message: "Error retrieving Resolution."
                 });
             });
     };
@@ -246,13 +246,13 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                     resolution.incidentGroup = groupId[0];
                     $scope.resolution = resolution;
                 } else {
-                    console.error("Unable to retrieve resolution for resolution " + id);
+                    console.error("Unable to retrieve Resolution ID " + id);
                 }
             },
             function error() {
                 $rootScope.errors.push({
                     code: "RESOLUTION_GET_FAILURE",
-                    message: "Error retrieving resolution."
+                    message: "Error retrieving Resolution."
                 });
             });
     };
@@ -373,7 +373,7 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                     if (!$scope.resolution.id)
                         $scope.messages = "New Resolution has been saved.";
                     else 
-                        $scope.messages = "Resolution " + resolution.id + " has been saved.";
+                        $scope.messages = "Resolution has been saved.";
                     $scope.back = true;
                     return;
                 } else {

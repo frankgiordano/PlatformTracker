@@ -342,9 +342,9 @@ app.controller('ProjectController', function ($http, $rootScope, $scope, Project
             function success(response) {
                 if (response) {
                     if (!$scope.project.id)
-                        $scope.messages = "New Project " + $scope.project.name + "has been created.";
+                        $scope.messages = "New Project has been saved.";
                     else 
-                        $scope.messages = "Project " + $scope.project.name + " has been saved.";
+                        $scope.messages = "Project has been saved.";
                     $scope.back = true;
                     return;
                 } else {
@@ -493,13 +493,13 @@ app.controller('ResolutionProjectLinkingController', function ($http, $rootScope
                     $scope.resolution.incidentGroup = incidentGroupId[0];
 
                 } else {
-                    console.error("Unable to retrieve resolution for resolution " + id);
+                    console.error("Unable to retrieve Resolution for resolution " + id);
                 }
             },
             function error() {
                 $rootScope.errors.push({
                     code: "INCIDENT_RESOLUTION_GET_FAILURE",
-                    message: "Error retrieving incident resolution."
+                    message: "Error retrieving Incident Resolution."
                 });
             });
     };
@@ -538,7 +538,7 @@ app.controller('ResolutionProjectLinkingController', function ($http, $rootScope
                     if (!$scope.resolution.id)
                         alert("New Resolution has been saved.")
                     else {
-                        alert("Resolution " + resolution.id + " has been saved.");
+                        alert("Resolution has been saved.");
                     }
                     $location.path('/resolution/search');
                 } else {
