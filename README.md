@@ -10,7 +10,7 @@ may have deployed to production. From the incidents, trends can be identifed whi
 
 You may find this application useful and you are welcome to use it. The basic incident management provided may be generic enough to adapt for any incident tracking needs. 
 
-I am posted this project for educational proposes, and I intend to continue to polish and work out all the kinks on my spare time. I may evolve the project as a place to learn and experiment. 
+I posted this project for educational proposes, and I intend to continue to polish and work out all the kinks on my spare time. I may evolve the project as a place to learn and experiment. 
 
 ## Setup, Installation, and running the application:
 
