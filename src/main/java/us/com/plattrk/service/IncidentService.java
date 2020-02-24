@@ -14,41 +14,43 @@ import java.util.List;
 import java.util.Set;
 
 public interface IncidentService {
-	Set<Incident> getIncidents();
 
-    boolean deleteIncident(Long id);
+	public Set<Incident> getIncidents();
 
-    boolean saveIncident(Incident incident);
+	public boolean deleteIncident(Long id);
 
-	Incident getIncident(Long id);
+	public boolean saveIncident(Incident incident);
 
-	IncidentGroup getGroup(Long id);
+	public Incident getIncident(Long id);
 
-	Set<IncidentGroup> getGroups();
-	
-	Set<IncidentChronology> getChronologies(Long id);
-	
-	Set<Product> getProducts(Long id);
-	
-	void notificationCheck();
-	
-	void dailyReport();
-	
-	void weekEndReport();
-	
-	void weeklyReport();
+	public IncidentGroup getGroup(Long id);
 
-	boolean generateWeeklyReport(EmailAddress address);
+	public Set<IncidentGroup> getGroups();
 
-	boolean generateIncidentReportByProduct(IncidentReportByProduct report);
+	public Set<IncidentChronology> getChronologies(Long id);
 
-	List<Incident> getOpenIncidents();
+	public Set<Product> getProducts(Long id);
 
-	boolean toggleAutoWeeklyReport(ToggleSwitch action);
+	public void notificationCheck();
 
-	boolean isToggleAutoWeeklyReport();
+	public void dailyReport();
 
-	ErrorCondition getErrorCode(Long id);
+	public void weekEndReport();
 
-	ReferenceData getApplicationStatus(Long id);
+	public void weeklyReport();
+
+	public boolean generateWeeklyReport(EmailAddress address);
+
+	public boolean generateIncidentReportByProduct(IncidentReportByProduct report);
+
+	public List<Incident> getOpenIncidents();
+
+	public boolean toggleAutoWeeklyReport(ToggleSwitch action);
+
+	public boolean isToggleAutoWeeklyReport();
+
+	public ErrorCondition getErrorCode(Long id);
+
+	public ReferenceData getApplicationStatus(Long id);
+
 }

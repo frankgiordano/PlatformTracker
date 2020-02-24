@@ -39,11 +39,6 @@ public class RCAServiceImpl implements RCAService {
 	public List<RCAVO> getRCAs() {
 		return rcaRepository.getRCAs();
 	}
-	
-	@Override
-	public Set<RCA> getRCAs(RCA rca) {
-		return rcaRepository.getRCAs(rca);
-	}
 
 	@Override
 	@Transactional

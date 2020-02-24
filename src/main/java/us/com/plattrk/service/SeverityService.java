@@ -6,6 +6,6 @@ import us.com.plattrk.api.model.Severity;
 
 public interface SeverityService {
 
-	List<Severity> getSeverities();
+	public List<Severity> getSeverities();
 
 }

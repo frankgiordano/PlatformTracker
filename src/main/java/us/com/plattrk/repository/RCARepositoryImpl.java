@@ -1,9 +1,7 @@
 package us.com.plattrk.repository;
 
 import java.util.List;
-import java.util.Set;
 
-//import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
@@ -36,11 +34,6 @@ public class RCARepositoryImpl implements RCARepository {
     public List<RCAVO> getRCAs() {
         List<RCAVO> myResult = em.createNamedQuery(RCA.FIND_ALL_RCAS).getResultList();
         return myResult;
-    }
-
-    @Override
-    public Set<RCA> getRCAs(RCA rca) {
-        return null;
     }
 
     @Override

@@ -14,29 +14,29 @@ public interface Mail {
 	public enum Type {
 		INCIDENTSTART, INCIDENTUPDATE, INCIDENT55NOUPDATE, INCIDENT1HNOUPDATE, INCIDENT2HNOUPDATE, INCIDENTCHRONOLOGYSTART, INCIDENTEND, INCIDENTCREATEEND
 	}
-	
-	void send() throws SendFailedException;
-	
-	String getAllEmailAddresses(List<String> allEmailAddresses);
-	
-	List<String> generateEmailProductDistroList(Set<Product> products);
-	
-	void generateEmailString();
 
-	void setType(Type type);
+	public void send() throws SendFailedException;
 
-	void setIncident(Incident incident);
+	public String getAllEmailAddresses(List<String> allEmailAddresses);
 
-	void setProperties(Properties appProperties);
-	
-	void setBody(String body);
+	public List<String> generateEmailProductDistroList(Set<Product> products);
 
-	void setSubject(String subject);
-	
-	void setAllEmailAddresses(List<String> allEmailAddresses);
+	public void generateEmailString();
 
-	void setFileName(String fileName);
+	public void setType(Type type);
 
-	void setFile(String file);
+	public void setIncident(Incident incident);
+
+	public void setProperties(Properties appProperties);
+
+	public void setBody(String body);
+
+	public void setSubject(String subject);
+
+	public void setAllEmailAddresses(List<String> allEmailAddresses);
+
+	public void setFileName(String fileName);
+
+	public void setFile(String file);
 
 }

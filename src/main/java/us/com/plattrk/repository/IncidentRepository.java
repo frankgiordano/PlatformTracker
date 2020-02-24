@@ -12,35 +12,35 @@ import us.com.plattrk.api.model.Product;
 import us.com.plattrk.api.model.ReferenceData;
 
 public interface IncidentRepository {
-	
-    Set<Incident> getIncidents();
 
-    boolean deleteIncident(Long id);
+	public Set<Incident> getIncidents();
 
-    boolean saveIncident(Incident incident);
+	public boolean deleteIncident(Long id);
 
-	Incident getIncident(Long id);
+	public boolean saveIncident(Incident incident);
 
-	IncidentGroup getGroup(Long id);
+	public Incident getIncident(Long id);
 
-	Set<IncidentGroup> getGroups();
+	public IncidentGroup getGroup(Long id);
 
-	Set<IncidentChronology> getChronologies(Long id);
+	public Set<IncidentGroup> getGroups();
 
-	Set<Product> getProducts(Long id);
+	public Set<IncidentChronology> getChronologies(Long id);
 
-	List<Incident> getOpenIncidents();
+	public Set<Product> getProducts(Long id);
 
-	boolean isIncidentOpen(Long id);
+	public List<Incident> getOpenIncidents();
 
-	List<Incident> getDateRangeIncidents(Date start, Date end);
+	public boolean isIncidentOpen(Long id);
 
-	List<Incident> getDateRangeIncidentsByPriority(Date start, Date end, String priority);
+	public List<Incident> getDateRangeIncidents(Date start, Date end);
 
-	List<Incident> getDateRangeIncidentsByApplicationStatus(Date start, Date end, String applicationStatus);
+	public List<Incident> getDateRangeIncidentsByPriority(Date start, Date end, String priority);
 
-	ErrorCondition getErrorCode(Long id);
+	public List<Incident> getDateRangeIncidentsByApplicationStatus(Date start, Date end, String applicationStatus);
 
-	ReferenceData getApplicationStatus(Long id);
+	public ErrorCondition getErrorCode(Long id);
+
+	public ReferenceData getApplicationStatus(Long id);
 
 }

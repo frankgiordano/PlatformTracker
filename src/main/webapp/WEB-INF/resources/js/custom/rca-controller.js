@@ -185,27 +185,6 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
             });
     };
 
-    $scope.search = function (rca) {
-        RcaService.getRcas(rca).then(
-            function success(response, status, headers, config) {
-                var i, rca;
-                // console.log(JSON.stringify(response));
-                for (i = 0; i < response.length; ++i) {
-                    rca = response[i];
-                    rca.statusId = rca.status.displayName;
-                    rca.resourceId = rca.resource.displayName;
-                    rca.categoryId = rca.category.displayName;
-                }
-                $scope.myData = response;
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "ROOT_CAUSE_GET_FAILURE",
-                    message: "Error retrieving Root Cause."
-                });
-            });
-    };
-
     $scope.getRca = function () {
         RcaService.getRca($routeParams.id).then(
             function success(response) {

@@ -6,12 +6,12 @@ import us.com.plattrk.api.model.IncidentChronology;
 
 public interface IncidentChronologyService {
 
-	boolean deleteIncidentChronology(Long id);
+	public boolean deleteIncidentChronology(Long id);
 
-	boolean saveIncidentChronology(IncidentChronology chronology);
+	public boolean saveIncidentChronology(IncidentChronology chronology);
 
-	Set<IncidentChronology> getChronologies();
+	public Set<IncidentChronology> getChronologies();
 
-	IncidentChronology getIncidentChronology(Long id);
+	public IncidentChronology getIncidentChronology(Long id);
 	
 }

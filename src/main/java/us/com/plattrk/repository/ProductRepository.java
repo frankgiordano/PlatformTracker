@@ -8,16 +8,16 @@ import us.com.plattrk.api.model.Product;
 
 public interface ProductRepository {
 
-	    Set<Product> getProducts();
+    public Set<Product> getProducts();
 
-	    boolean deleteProduct(Long id);
+	public boolean deleteProduct(Long id);
 
-	    boolean saveProduct(Product product);
+	public boolean saveProduct(Product product);
 
-		Product getProduct(Long id);
+	public Product getProduct(Long id);
 
-		Incident getIncident(Long id);
+	public Incident getIncident(Long id);
 
-		List<Product> getActiveProducts();
-	
+	public List<Product> getActiveProducts();
+
 }

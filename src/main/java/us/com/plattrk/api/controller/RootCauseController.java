@@ -40,12 +40,6 @@ public class RootCauseController {
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json")
 	public List<RCAVO> getRootCauses() {
 		return rootCauseService.getRCAs();
-	}	
-	
-    @PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/searchby", method = RequestMethod.POST, produces = "application/json")
-	public Set<RCA> getRootCauses(@RequestBody RCA rca) {
-		return rootCauseService.getRCAs(rca);
 	}
 
     @PreAuthorize("isAuthenticated()")

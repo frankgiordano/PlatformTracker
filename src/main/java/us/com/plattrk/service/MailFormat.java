@@ -4,9 +4,11 @@ import us.com.plattrk.api.model.Incident;
 
 public interface MailFormat {
 
-	String generateBodyFormat(boolean DailyReport);
-	String generateSubjectFormat(Mail.Type type);
-	void initialize(Incident incident);
+	public String generateBodyFormat(boolean DailyReport);
+
+	public String generateSubjectFormat(Mail.Type type);
+
+	public void initialize(Incident incident);
 	
 }
 

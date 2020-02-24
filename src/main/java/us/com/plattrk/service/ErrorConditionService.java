@@ -5,7 +5,7 @@ import java.util.List;
 import us.com.plattrk.api.model.ErrorCondition;
 
 public interface ErrorConditionService {
-	
-	List <ErrorCondition> getErrorConditions();
+
+	public List <ErrorCondition> getErrorConditions();
 
 }

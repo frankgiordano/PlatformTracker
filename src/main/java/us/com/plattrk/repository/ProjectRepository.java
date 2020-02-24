@@ -6,12 +6,12 @@ import us.com.plattrk.api.model.Project;
 
 public interface ProjectRepository {
 	
-    List<Project> getProjects();
+    public List<Project> getProjects();
 
-    boolean deleteProject(Long id);
+    public boolean deleteProject(Long id);
 
-    boolean saveProject(Project project);
+    public boolean saveProject(Project project);
 
-	Project getProject(Long id);
+	public Project getProject(Long id);
 
 }

@@ -7,14 +7,12 @@ import us.com.plattrk.api.model.RCAVO;
 
 public interface RCAService {
 
-	List<RCAVO> getRCAs();
+	public List<RCAVO> getRCAs();
 	
-	Set<RCA> getRCAs(RCA rca);
+	public boolean deleteRCA(Long id);
 	
-	boolean deleteRCA(Long id);
+	public boolean saveRCA(RCA rca);
 	
-	boolean saveRCA(RCA rca);
-	
-	RCA getRCA(Long id);
+	public RCA getRCA(Long id);
 	
 }
