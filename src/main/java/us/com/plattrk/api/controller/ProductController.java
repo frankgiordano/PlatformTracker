@@ -1,7 +1,6 @@
 package us.com.plattrk.api.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +23,7 @@ public class ProductController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/products/retrieve", method = RequestMethod.GET, produces = "application/json")
-	public Set<Product> getProducts() {
+	public List<Product> getProducts() {
 		return productService.getProducts();
 	}
 	

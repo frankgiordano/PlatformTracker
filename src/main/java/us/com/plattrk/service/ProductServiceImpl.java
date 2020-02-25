@@ -1,7 +1,6 @@
 package us.com.plattrk.service;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional
-	public Set<Product> getProducts() {
+	public List<Product> getProducts() {
 		return productRepository.getProducts();
 	}
 

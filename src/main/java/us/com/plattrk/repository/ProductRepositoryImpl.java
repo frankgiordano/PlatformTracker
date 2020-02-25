@@ -1,16 +1,12 @@
 package us.com.plattrk.repository;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import us.com.plattrk.api.model.Incident;
@@ -19,16 +15,13 @@ import us.com.plattrk.api.model.Product;
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
-    private static Logger log = LoggerFactory.getLogger(ProductRepositoryImpl.class);
-
     @PersistenceContext
     private EntityManager em;
 
     @Override
-    public Set<Product> getProducts() {
+    public List<Product> getProducts() {
         List<Product> myResult = em.createNamedQuery(Product.FIND_ALL_PRODUCTS).getResultList();
-        Set<Product> products = new HashSet<Product>(myResult);
-        return products;
+        return myResult;
     }
 
     @Override

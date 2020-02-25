@@ -8,7 +8,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -230,9 +229,7 @@ public class ReportImpl implements Report {
 	         cell.setCellValue("Ext");
 	         cell.setCellStyle(styles.get("item_left_title"));
 	         
-	         Set<Product> myProducts = productRepository.getProducts();
-	         List<Product> products = new ArrayList<Product>();
-	         products.addAll(myProducts);
+	         List<Product> products = productRepository.getProducts();
 	         Collections.sort(products, new ProductComparator());
 	         
 	         int sectionCount = 3;
@@ -419,7 +416,7 @@ public class ReportImpl implements Report {
 	        	 totalDowntimeCLOUD.clear();
 	        }
 	        
-	        fillFooter(sheet, sectionCount, styles, myProducts);
+	        fillFooter(sheet, sectionCount, styles, products);
 	
 	        FileOutputStream fos = new FileOutputStream(file);
 	        wb.write(fos);
@@ -537,9 +534,7 @@ public class ReportImpl implements Report {
 	         cell.setCellValue("Ext");
 	         cell.setCellStyle(styles.get("item_left_title"));
 	         
-	         Set<Product> myProducts = productRepository.getProducts();
-	         List<Product> products = new ArrayList<Product>();
-	         products.addAll(myProducts);
+	         List<Product> products = productRepository.getProducts();
 	         Collections.sort(products, new ProductComparator());
 	         
 	         int sectionCount = 3;
@@ -547,7 +542,7 @@ public class ReportImpl implements Report {
 	         String compareCurrent = null;
 	         String compareIncoming = null;
 	         HashMap<String, Boolean> cacheIncomingProducts = new HashMap<String, Boolean>();
-	         Set<Product> summaryProducts = new HashSet<Product>();
+	         List<Product> summaryProducts = new ArrayList<Product>();
 	         
 	         String[] incomingProducts = incidentReport.getProducts().split(",");
 	         for (String product: incomingProducts) {
@@ -794,7 +789,7 @@ public class ReportImpl implements Report {
 		
 	}
 	
-	private void fillFooter(Sheet sheet, int sectionCount, Map<String, CellStyle> styles, Set<Product> myProducts) {
+	private void fillFooter(Sheet sheet, int sectionCount, Map<String, CellStyle> styles, List<Product> myProducts) {
 		
    	 	double totalProduct = 0;
    	 	double totalDown = 0;
