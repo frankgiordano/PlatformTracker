@@ -465,24 +465,19 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
             function success(response) {
                 if (response) {
                     $scope.chronmessages = "Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " created.";
-                    console.info("Chronology for Incident tag " + $scope.selectedIncident.tag + " created.");
+                    console.info("Chronology for Incident tag " + $scope.selectedIncident.tag + " created = " + JSON.stringify(response));
                     $scope.clear('chronology');
                     $scope.chronerrormessages = null;
                     getRelatedChronologies($scope.selectedIncident.id);
-                } else {
-                    $scope.chronerrormessages = $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG;
-                    console.error("Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " was unable to be saved.");
-                    $scope.chronmessages = null;
-                }
+                } 
             },
             function error() {
                 $scope.chronerrormessages = $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG;
                 $scope.chronmessages = null;
-                // $rootScope.errors.push({ code: "CHRONOLOGY_SAVE_FAILURE", message: $rootScope.REQUIRED_FILEDS_CHRONOLOGY_MSG });
             });
     };
     
-    $scope.remove = function(selectedChronologies, item) {
+    $scope.remove = function(item) {
  	    console.log("inside remove " + JSON.stringify(item));
         ChronologyService.deleteChronology(item.id).then(
             function success(response) {
@@ -491,16 +486,11 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     console.info("Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " with Chronology timeline id " + item.id + " deleted.");
                     $scope.chronerrormessages = null;
                     getRelatedChronologies($scope.selectedIncident.id);
-                } else {
-                    $scope.chronerrormessages = "CHRONOLOGY_DELETE_FAILURE - Check logs or try again.";
-                    console.error("Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " with id " + item.id + " was unable to be deleted.");
-                    $scope.chronmessages = null;
-                }
+                } 
             },
             function error() {
                 $scope.chronerrormessages = "CHRONOLOGY_DELETE_FAILURE - Check logs or try again.";
                 $scope.chronmessages = null;
-                // $rootScope.errors.push({ code: "CHRONOLOGY_DELETE_FAILURE", message: "Check logs or try again." });
             }); 
     };
 
@@ -724,14 +714,10 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                             $scope.disableButton = true; 
                             $scope.groupModel.selectedNewGroup = null;
                             $scope.changedGroup();
-        				} else {
-        					$scope.errormessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
-        					console.error("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with Group " + groupCurrentORNew + ".");
-        				}
+        				} 
         			},
         			function error() {
         				$scope.errormessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
-                        // $rootScope.errors.push({ code: "INCIDENT_SAVE_FAILURE", message: $rootScope.REQUIRED_FILEDS_INCIDENT_MSG });
         			});
         }
     };
@@ -821,14 +807,10 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     $scope.clear('resoluton');
                     $scope.errormessages = null;
                     $scope.disableButton = true;
-                } else {
-                    $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
-                    console.error($rootScope.RESOLUTION_SAVE_ERROR_MSG);
-                }
+                } 
             },
             function error() {
                 $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
-                // $rootScope.errors.push({ code: "RESOLUTION_SAVE_FAILURE", message: $rootScope.REQUIRED_FILEDS_RESOLUTION_MSG });
             });
     };
 
@@ -855,14 +837,10 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     $scope.clear('rca');
                     $scope.errormessages = null;
                     $scope.disableButton = true;
-                } else {
-                    $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
-                    console.error($rootScope.RC_SAVE_ERROR_MSG);
-                }
+                } 
             },
             function error() {
                 $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
-                // $rootScope.errors.push({ code: "ROOT_CAUSE_SAVE_FAILURE", message: $rootScope.REQUIRED_FILEDS_RC_MSG });
             });
     };
 
@@ -872,17 +850,13 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
             function success(response) {
                 if (response) {
                     $scope.messages = "Incident ID " + id + " has been deleted.";
-                    console.info("Incident ID " + id + " has been deleted.");
+                    console.info("Incident has been deleted = " + JSON.stringify(response));
                     $scope.changedGroup();
-                } else {
-                    $scope.errormessages = "INCIDENT_DELETE_FAILURE - Check logs or invalid Incident.";
-                    console.error("Incident ID " + id + " was unable to be deleted.");
-                }
+                } 
                 $scope.disableButton = true;
             },
             function error() {
                 $scope.errormessages = "INCIDENT_DELETE_FAILURE - Check logs or invalid Incident.";
-                // $rootScope.errors.push({ code: "INCIDENT_DELETE_FAILURE", message: "Check logs or invalid Incident." });
             });
     };
 
@@ -931,15 +905,11 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                     $scope.disableButton = true;
                     document.body.style.cursor = "default";
                     $scope.refreshData();
-                } else {
-                    console.error("GROUP_ORPHANS_DELETE_FAILURE - Check logs, or no orphan groups to delete or problem deleting existing orphan groups.");
-                    document.body.style.cursor = "default";
-                }
+                } 
             },
             function error() {
                 $scope.errormessages = "GROUP_ORPHANS_DELETE_FAILURE - Check logs, or no orphan groups to delete or problem deleting existing orphan groups.";
                 document.body.style.cursor = "default";
-                // $rootScope.errors.push({ code: "GROUP_ORPHANS_DELETE_FAILURE", message: "Check logs, or no orphan groups exist." });
             });
     };
     

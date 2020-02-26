@@ -62,15 +62,15 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
 	@Override
 	@Transactional
-	public boolean deleteIncident(Long id) {
+	public Incident deleteIncident(Long id) {
 		return incidentRepository.deleteIncident(id);
 	}
 
 	@Override
 	@Transactional
-	public boolean saveIncident(Incident incident) {
+	public Incident saveIncident(Incident incident) {
 		
-		if ((incident.getId() == null) && incidentRepository.saveIncident(incident)) {
+		if ((incident.getId() == null) && (incidentRepository.saveIncident(incident) != null)) {
 			WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 			MailService mailService = (MailService) wac.getBean("mailService");
 			if (incident.getStatus().equals("Open")) {
@@ -82,7 +82,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 		}
 		else incidentRepository.saveIncident(incident);
 		
-		return true;
+		return incident;
 	}
 	
 //	@Scheduled(cron="*/10 * * * * ?")

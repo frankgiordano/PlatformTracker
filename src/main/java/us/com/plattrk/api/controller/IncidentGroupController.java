@@ -24,7 +24,7 @@ public class IncidentGroupController {
 	private static Logger log = LoggerFactory.getLogger(IncidentRepositoryImpl.class);
 	
 	@Autowired 
-	IncidentGroupService incidentGroupService;
+	private IncidentGroupService incidentGroupService;
 	
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/groups/retrieve", method = RequestMethod.GET, produces = "application/json")

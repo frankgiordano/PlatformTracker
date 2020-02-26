@@ -34,113 +34,113 @@ public class IncidentRepositoryImpl implements IncidentRepository {
 	}
 
 	@Override
-	public boolean deleteIncident(Long id) {
+	public Incident deleteIncident(Long id) {
+		Incident incident = null;
 		try {
-			Incident incident = em.find(Incident.class, id);
+			incident = em.find(Incident.class, id);
 			em.remove(incident);
 			em.flush();
 		} catch (PersistenceException e) {
-			e.printStackTrace();
-			return false;
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-			return false;
+			log.error("IncidentRepositoryImpl::deleteIncident - failure deleting incident id " + id + ", msg = " + e.getMessage());
+			throw (e);
 		}
 		
-		return true;
+		return incident;
 	}
 
 	@Override
-	public boolean saveIncident(Incident incident) throws OptimisticLockException {
+	public Incident saveIncident(Incident incident) throws OptimisticLockException {
+
+		Incident incomingIncident = incident;
 
 		Set<Product> products = new HashSet<Product>();
 		ErrorCondition errorCode = new ErrorCondition();
 		ReferenceData applicationStatus = new ReferenceData();
-		
-		if (incident.getId() == null) {
 
-			// check to see if newly incoming incident has products attached.
-			// The entity I am saving is new, but it has a relationship with
-			// an existing entity (manytomany).  The solution is to use persist to save the
-			// entity without the relationship, then add the relationship and call merge.
-			products = incident.getProducts(); 
-			if (!products.isEmpty())  {
-				incident.setProducts(null);
-			}
-			
-			// this is a detach entity remove from incoming new incident and add it later for merge 
-			errorCode = incident.getError();
-			incident.setError(null);
-			
-			// this is a detach entity remove from incoming new incident and add it later for merge 
-			applicationStatus = incident.getApplicationStatus();
-			incident.setApplicationStatus(null);
+		try {
+			if (incident.getId() == null) {
 
-			// check to see if newly incoming incident has a group attached and see if this group exists or does not.  If not, 
-			// allow the persist to create a new incident group.  If it does exist, attached the existing group id to this
-			// incident for reuse.
-			if (incident.getIncidentGroup() != null) {
-				List<IncidentGroup> incidentGroup = CheckIncidentGroup(incident, incident.getIncidentGroup().getName());
-				if (!incidentGroup.isEmpty()) {
-					incident.setIncidentGroup(incidentGroup.get(0));
+				// check to see if newly incoming incident has products attached.
+				// The entity I am saving is new, but it has a relationship with
+				// an existing entity (manytomany).  The solution is to use persist to save the
+				// entity without the relationship, then add the relationship and call merge.
+				products = incident.getProducts();
+				if (!products.isEmpty())  {
+					incident.setProducts(null);
 				}
-			}
-			em.persist(incident);
-			log.info("incident id = " + incident.getId() + " created");
-			em.flush();
-		}
-		else 
-		{ 
-			// Due to the problem with bidirectional mapping between two tables, i.e.:incident and incident_group,
-			// updating an existing incident from the UI is handled as a separate JSON request. As such,
-			// for incoming update of an existing incident we need to check the group specified as done above and
-			// proceed in a similar manner. 
-			if (incident.getIncidentGroup() != null) {
-				
-				if (incident.getIncidentGroup().getId() == null) {
-					List<IncidentGroup> incidentGroup = CheckIncidentGroup(incident, incident.getIncidentGroup().getName());
+
+				// this is a detach entity remove from incoming new incident and add it later for merge
+				errorCode = incident.getError();
+				incident.setError(null);
+
+				// this is a detach entity remove from incoming new incident and add it later for merge
+				applicationStatus = incident.getApplicationStatus();
+				incident.setApplicationStatus(null);
+
+				// check to see if newly incoming incident has a group attached and see if this group exists or does not.  If not,
+				// allow the persist to create a new incident group.  If it does exist, attached the existing group id to this
+				// incident for reuse.
+				if (incident.getIncidentGroup() != null) {
+					List<IncidentGroup> incidentGroup = CheckIncidentGroup(incident.getIncidentGroup().getName());
 					if (!incidentGroup.isEmpty()) {
 						incident.setIncidentGroup(incidentGroup.get(0));
 					}
 				}
+				em.persist(incident);
+				log.info("incident id = " + incident.getId() + " created");
+				em.flush();
 			}
-			try {
+			else
+			{
+				// Due to the problem with bidirectional mapping between two tables, i.e.:incident and incident_group,
+				// updating an existing incident from the UI is handled as a separate JSON request. As such,
+				// for incoming update of an existing incident we need to check the group specified as done above and
+				// proceed in a similar manner.
+				if (incident.getIncidentGroup() != null) {
+
+					if (incident.getIncidentGroup().getId() == null) {
+						List<IncidentGroup> incidentGroup = CheckIncidentGroup(incident.getIncidentGroup().getName());
+						if (!incidentGroup.isEmpty()) {
+							incident.setIncidentGroup(incidentGroup.get(0));
+						}
+					}
+				}
 				em.merge(incident);
-			} catch (OptimisticLockException e) {
-				e.printStackTrace();
-				throw e;
 			}
-		}
-		
-		// check if there were incoming products attached during incident create
-		if (!products.isEmpty()) {
-			Incident incidentSaved = em.find(Incident.class, incident.getId());
-			incidentSaved.setProducts(products);
-			em.merge(incidentSaved);
-		}
-		
-		// do the same for error condition
-		if (incident.getError() == null) {
-			Incident incidentSaved = em.find(Incident.class, incident.getId());
-			ErrorCondition errorCodeSaved = em.find(ErrorCondition.class, errorCode.getId());
-			incidentSaved.setError(errorCodeSaved);
-			em.merge(incidentSaved);
-		}
-		
-		// do the same for applicationStatus
-		if (incident.getApplicationStatus() == null) {
-			Incident incidentSaved = em.find(Incident.class, incident.getId());
-			if (applicationStatus != null) {
-				ReferenceData applicationStatusSaved = em.find(ReferenceData.class, applicationStatus.getId());
-				incidentSaved.setApplicationStatus(applicationStatusSaved);
+
+			// check if there were incoming products attached during incident create
+			if (!products.isEmpty()) {
+				Incident incidentSaved = em.find(Incident.class, incident.getId());
+				incidentSaved.setProducts(products);
 				em.merge(incidentSaved);
 			}
+
+			// do the same for error condition
+			if (incident.getError() == null) {
+				Incident incidentSaved = em.find(Incident.class, incident.getId());
+				ErrorCondition errorCodeSaved = em.find(ErrorCondition.class, errorCode.getId());
+				incidentSaved.setError(errorCodeSaved);
+				em.merge(incidentSaved);
+			}
+
+			// do the same for applicationStatus
+			if (incident.getApplicationStatus() == null) {
+				Incident incidentSaved = em.find(Incident.class, incident.getId());
+				if (applicationStatus != null) {
+					ReferenceData applicationStatusSaved = em.find(ReferenceData.class, applicationStatus.getId());
+					incidentSaved.setApplicationStatus(applicationStatusSaved);
+					em.merge(incidentSaved);
+				}
+			}
+		} catch (PersistenceException e) {
+			log.error("IncidentRepositoryImpl::saveIncident - failure saving product = " + incomingIncident.toString() + ", msg = " + e.getMessage());
+			throw (e);
 		}
-		
-		return true;
+
+		return incomingIncident;
 	}
 	
-	public List<IncidentGroup> CheckIncidentGroup (Incident incident, String name) {
+	public List<IncidentGroup> CheckIncidentGroup (String name) {
 		TypedQuery<IncidentGroup> query = em.createNamedQuery(Incident.FIND_INCIDENT_GROUP, IncidentGroup.class).setParameter("name", name);
 		return query.getResultList();
 	}
@@ -189,8 +189,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
 	
 	@Override
 	public Incident getIncident(Long id) {
-		Incident incident = em.find(Incident.class, id);
-		return incident;
+		return em.find(Incident.class, id);
 	}
 
 	@Override

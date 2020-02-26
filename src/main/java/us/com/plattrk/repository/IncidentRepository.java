@@ -15,9 +15,9 @@ public interface IncidentRepository {
 
 	public Set<Incident> getIncidents();
 
-	public boolean deleteIncident(Long id);
+	public Incident deleteIncident(Long id);
 
-	public boolean saveIncident(Incident incident);
+	public Incident saveIncident(Incident incident);
 
 	public Incident getIncident(Long id);
 

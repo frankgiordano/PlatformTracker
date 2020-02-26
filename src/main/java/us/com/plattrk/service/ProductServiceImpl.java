@@ -24,13 +24,13 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional
-	public boolean deleteProduct(Long id) {
+	public Product deleteProduct(Long id) {
 		return productRepository.deleteProduct(id);
 	}
 
 	@Override
 	@Transactional
-	public boolean saveProduct(Product product) {
+	public Product saveProduct(Product product) {
 		return productRepository.saveProduct(product);
 	}
 

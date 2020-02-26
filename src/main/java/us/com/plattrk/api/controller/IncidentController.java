@@ -42,13 +42,13 @@ public class IncidentController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
-    public boolean deleteIncident(@PathVariable Long id) {
+    public Incident deleteIncident(@PathVariable Long id) {
         return incidentService.deleteIncident(id);
     }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
-    public boolean saveIncident(@RequestBody Incident incident) throws OptimisticLockException {
+    public Incident saveIncident(@RequestBody Incident incident) throws OptimisticLockException {
         return incidentService.saveIncident(incident);
     }
     

@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,20 +17,21 @@ import us.com.plattrk.api.model.RCAVO;
 @Repository
 public class RCARepositoryImpl implements RCARepository {
 
+    private static Logger log = LoggerFactory.getLogger(RCARepositoryImpl.class);
+
     @PersistenceContext
     private EntityManager em;
 
-/*	public Set<RCA> getRCAsNew() {
-		@SuppressWarnings("rawtypes")
+	// public Set<RCA> getRCAsNew() {
+	// 	@SuppressWarnings("rawtypes")
 		
-		List<RCA> myResult = em.createNamedQuery(RCA.FIND_ALL_RCAS)
-		        .setHint("javax.persistence.fetchgraph", em.getEntityGraph("rcaWithIncidentGroups"))
-				.getResultList();
+	// 	List<RCA> myResult = em.createNamedQuery(RCA.FIND_ALL_RCAS)
+	// 	        .setHint("javax.persistence.fetchgraph", em.getEntityGraph("rcaWithIncidentGroups"))
+	// 			.getResultList();
 
-		Set<RCA> rcas = new HashSet<RCA>(myResult);
-		return rcas;
-	}
-*/
+	// 	Set<RCA> rcas = new HashSet<RCA>(myResult);
+	// 	return rcas;
+	// }
 
     @Override
     public List<RCAVO> getRCAs() {
@@ -37,25 +40,23 @@ public class RCARepositoryImpl implements RCARepository {
     }
 
     @Override
-    public boolean deleteRCA(Long id) {
+    public RCA deleteRCA(Long id) {
+        RCA rca = null;
         try {
-            RCA rca = em.find(RCA.class, id);
+            rca = em.find(RCA.class, id);
             em.remove(rca);
             em.flush();
         } catch (PersistenceException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            return false;
+            log.error("RCARepositoryImpl::deleteRCA - failure deleting root cause id " + id + ", msg = " + e.getMessage());
+            throw (e);
         }
 
-        return true;
+        return rca;
     }
 
     @Transactional
     @Override
-    public boolean saveRCA(RCA rca) {
+    public RCA saveRCA(RCA rca) {
         try {
             if (rca.getId() == null) {
                 em.persist(rca);
@@ -63,11 +64,12 @@ public class RCARepositoryImpl implements RCARepository {
             } else {
                 em.merge(rca);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (PersistenceException e) {
+            log.error("RCARepositoryImpl::saveRCA - failure saving root cause = " + rca.toString() + ", msg = " + e.getMessage());
+            throw (e);
         }
 
-        return true;
+        return rca;
     }
 
     @Override

@@ -26,8 +26,8 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
 
     @Transactional
     @Override
-    public boolean saveIncidentChronology(IncidentChronology chronology) {
-        log.info("inside save chronology");
+    public IncidentChronology saveIncidentChronology(IncidentChronology chronology) {
+        log.info("IncidentChronologyRepositoryImpl::saveIncidentChronology");
 
         try {
             Incident incident = em.find(Incident.class, chronology.getIncident().getId());
@@ -36,30 +36,27 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
 			// because the associated incident exist when persist is done.. needs to be a merge instead..
             em.merge(chronology);
         } catch (PersistenceException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            return false;
+            log.error("IncidentChronologyRepositoryImpl::saveIncidentChronology - failure saving chronology " + chronology.toString() + ", msg = " + e.getMessage());
+            throw (e);
         }
-        return true;
+
+        return chronology;
     }
 
     @Override
-    public boolean deleteIncidentChronology(Long id) {
+    public IncidentChronology deleteIncidentChronology(Long id) {
+        IncidentChronology chronology = null;
         try {
-            IncidentChronology chronology = em.find(IncidentChronology.class, id);
+            chronology = em.find(IncidentChronology.class, id);
             chronology.setIncident(null);    // need to remove the reference to the other side of this mapping or else it will delete the incident along with the chronology...
             em.remove(chronology);
             em.flush();
         } catch (PersistenceException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            return false;
+            log.error("IncidentChronologyRepositoryImpl::deleteIncidentChronology - failure deleting chronology id " + id + ", msg = " + e.getMessage());
+            throw (e);
         }
-        return true;
+
+        return chronology;
     }
 
     @Override
@@ -80,8 +77,7 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
 
     @Override
     public Incident getIncidentOfChronology(Long id) {
-        Incident incident = em.find(Incident.class, id);
-        return incident;
+        return em.find(Incident.class, id);
     }
 
 }

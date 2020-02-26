@@ -7,14 +7,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.api.model.Project;
 
 @Repository
 public class ProjectRepositoryImpl implements ProjectRepository {
+
+    private static Logger log = LoggerFactory.getLogger(ProjectRepositoryImpl.class);
 
     @PersistenceContext
     private EntityManager em;
@@ -26,9 +29,10 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public boolean deleteProject(Long id) {
+    public Project deleteProject(Long id) {
+        Project project = null;
         try {
-            Project project = em.find(Project.class, id);
+            project = em.find(Project.class, id);
             Set<IncidentResolution> resolutions = project.getResolutions();
             for (IncidentResolution item : resolutions) {
                 item.setResolutionProject(null);
@@ -36,19 +40,15 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             em.remove(project);
             em.flush();
         } catch (PersistenceException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            return false;
+            log.error("ProjectRepositoryImpl::deleteProject - failure deleting project id " + id + ", msg = " + e.getMessage());
+            throw (e);
         }
 
-        return true;
+        return project;
     }
 
-    @Transactional
     @Override
-    public boolean saveProject(Project project) {
+    public Project saveProject(Project project) {
         try {
             if (project.getId() == null) {
                 em.persist(project);
@@ -56,12 +56,12 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             } else {
                 em.merge(project);
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (PersistenceException e) {
+            log.error("ProductRepositoryImpl::saveProject - failure saving product = " + project.toString() + ", msg = " + e.getMessage());
+            throw (e);
         }
 
-        return true;
+        return project;
     }
 
     @Override

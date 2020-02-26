@@ -28,7 +28,7 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
 
     @Override
     @Transactional
-    public boolean deleteResolution(Long id) {
+    public IncidentResolution deleteResolution(Long id) {
         return resolutionRepository.deleteResolution(id);
     }
 
@@ -69,7 +69,7 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
 
     @Override
     @Transactional
-    public boolean saveResolution(IncidentResolution incidentResolution) {
+    public IncidentResolution saveResolution(IncidentResolution incidentResolution) {
         return resolutionRepository.saveResolution(incidentResolution);
     }
 

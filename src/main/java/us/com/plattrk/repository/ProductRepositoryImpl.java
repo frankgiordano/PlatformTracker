@@ -7,6 +7,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import us.com.plattrk.api.model.Incident;
@@ -14,6 +16,8 @@ import us.com.plattrk.api.model.Product;
 
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
+
+    private static Logger log = LoggerFactory.getLogger(ProductRepositoryImpl.class);
 
     @PersistenceContext
     private EntityManager em;
@@ -25,32 +29,35 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public boolean deleteProduct(Long id) {
+    public Product deleteProduct(Long id) {
+        Product product = null;
         try {
-            Product product = em.find(Product.class, id);
+            product = em.find(Product.class, id);
             em.remove(product);
             em.flush();
         } catch (PersistenceException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            return false;
+            log.error("ProductRepositoryImpl::deleteProduct - failure deleting product id " + id + ", msg = " + e.getMessage());
+            throw (e);
         }
 
-        return true;
+        return product;
     }
 
     @Override
-    public boolean saveProduct(Product product) {
-        if (product.getId() == null) {
-            em.persist(product);
-            em.flush();
-        } else {
-            em.merge(product);
+    public Product saveProduct(Product product) {
+        try {
+            if (product.getId() == null) {
+                em.persist(product);
+                em.flush();
+            } else {
+                em.merge(product);
+            }
+        } catch (PersistenceException e) {
+            log.error("ProductRepositoryImpl::saveProduct - failure saving product = " + product.toString() + ", msg = " + e.getMessage());
+            throw (e);
         }
-        return true;
 
+        return product;
     }
 
     @Override

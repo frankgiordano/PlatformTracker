@@ -20,7 +20,7 @@ public class ProjectController {
 	
 	@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
-    public boolean deleteProject(@PathVariable Long id) {
+    public Project deleteProject(@PathVariable Long id) {
         return projectService.deleteProject(id);
     }
 	
@@ -38,7 +38,7 @@ public class ProjectController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
-    public boolean saveProject(@RequestBody Project project) {
+    public Project saveProject(@RequestBody Project project) {
         return projectService.saveProject(project);
     }
 

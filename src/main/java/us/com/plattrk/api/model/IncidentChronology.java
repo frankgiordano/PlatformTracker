@@ -108,5 +108,15 @@ public class IncidentChronology {
 	public void setRecordedBy(String recordedBy) {
 		this.recordedBy = recordedBy;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "IncidentChronology{" +
+				"id=" + id +
+				", dateTime=" + dateTime +
+				", description='" + description + '\'' +
+				", recordedBy='" + recordedBy + '\'' +
+				'}';
+	}
+
 }

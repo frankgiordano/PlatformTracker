@@ -16,10 +16,11 @@ import javax.persistence.Table;
 public class ReferenceData implements Serializable{
 	
 	public static final String FIND_REFERENCES_BY_GROUP_ID = "findReferencesByGroupId";
+
+	private Long id;
 	private String description;
 	private String displayName;
 	private Long groupId;
-	private Long id;
 	
 	public ReferenceData() {
 	}
@@ -38,9 +39,17 @@ public class ReferenceData implements Serializable{
 		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	@Column(name = "description", columnDefinition="VARCHAR(100)", nullable = true)
 	public String getDescription() {
 		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Column(name = "display_name", columnDefinition="VARCHAR(50)", nullable = true)
@@ -48,24 +57,27 @@ public class ReferenceData implements Serializable{
 		return displayName;
 	}
 
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
 	@Column(name = "group_id",  nullable = true)
 	public Long getGroupId() {
 		return groupId;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
 	}
 
 	public void setGroupId(Long groupId) {
 		this.groupId = groupId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	@Override
+	public String toString() {
+		return "ReferenceData{" +
+				"description='" + description + '\'' +
+				", displayName='" + displayName + '\'' +
+				", groupId=" + groupId +
+				", id=" + id +
+				'}';
 	}
+
 }

@@ -34,15 +34,8 @@ import us.com.plattrk.search.Searchable;
         + " i.recordingDate, i.statusChangeDate, i.wikiType, i.jiraId, i.conflenceId "
         + ") from Project as i order by i.name", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")})
 })
-
-
-//, join fetch i.pdlcStatus, join fetch i.wikiType, join fetch i.status
-
 public class Project implements Searchable {
 
-    public static String getFindAllProjects() {
-        return FIND_ALL_PROJECTS;
-    }
     public static final String FIND_ALL_PROJECTS = "findProjects";
 
     private Long id;
@@ -83,7 +76,6 @@ public class Project implements Searchable {
         this.id = id;
         this.owners = owners;
         this.name = name;
-        //	this.isHighPriority = isHighPriority;
         this.description = description;
         this.eceId = eceId;
         this.status = status;
@@ -103,18 +95,42 @@ public class Project implements Searchable {
         this.conflenceId = conflenceId;
     }
 
-    @Temporal(TemporalType.DATE)
-    @JsonDeserialize(using = JsonDateMinusTimeDeserializer.class)
-    public Date getActualCompletionDate() {
-        return actualCompletionDate;
+    @Id
+    @Column(name = "project_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long getId() {
+        return id;
     }
 
-    public Long getActualEffort() {
-        return actualEffort;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public int getConflenceId() {
-        return conflenceId;
+    @Column(name = "name", columnDefinition = "VARCHAR(128)", nullable = false)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Column(name = "owners", columnDefinition = "VARCHAR(256)", nullable = false)
+    public String getOwners() {
+        return owners;
+    }
+
+    public void setOwners(String owners) {
+        this.owners = owners;
+    }
+
+    @Column(name = "is_high_priority", columnDefinition = "DECIMAL(1,0)", nullable = false)
+    public int isHighPriority() {
+        return isHighPriority;
+    }
+
+    public void setHighPriority(int isHighPriority) {
+        this.isHighPriority = isHighPriority;
     }
 
     @Column(name = "description", columnDefinition = "VARCHAR(2000)", nullable = false)
@@ -122,8 +138,62 @@ public class Project implements Searchable {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Long getEceId() {
         return eceId;
+    }
+
+    public void setEceId(Long eceId) {
+        this.eceId = eceId;
+    }
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "rd_status_id", referencedColumnName = "id")
+    public ReferenceData getStatus() {
+        return status;
+    }
+
+    public void setStatus(ReferenceData status) {
+        this.status = status;
+    }
+
+    public Long getEstEffort() {
+        return estEffort;
+    }
+
+    public void setEstEffort(Long estEffort) {
+        this.estEffort = estEffort;
+    }
+
+    public Long getActualEffort() {
+        return actualEffort;
+    }
+
+    public void setActualEffort(Long actualEffort) {
+        this.actualEffort = actualEffort;
+    }
+
+    @Temporal(TemporalType.DATE)
+    @JsonDeserialize(using = JsonDateMinusTimeDeserializer.class)
+    public Date getActualCompletionDate() {
+        return actualCompletionDate;
+    }
+
+    public void setActualCompletionDate(Date actualCompletionDate) {
+        this.actualCompletionDate = actualCompletionDate;
+    }
+
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @OneToMany(mappedBy = "resolutionProject", fetch = FetchType.EAGER)
+    public Set<IncidentResolution> getResolutions() {
+        return resolutions;
+    }
+
+    public void setResolutions(Set<IncidentResolution> resolutions) {
+        this.resolutions = resolutions;
     }
 
     @Temporal(TemporalType.DATE)
@@ -133,35 +203,18 @@ public class Project implements Searchable {
         return estcompletionDate;
     }
 
-    public Long getEstEffort() {
-        return estEffort;
-    }
-
-    @Id
-    @Column(name = "project_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getId() {
-        return id;
-    }
-
-    public String getJiraId() {
-        return jiraId;
-    }
-
-    @Column(name = "name", columnDefinition = "VARCHAR(128)", nullable = false)
-    public String getName() {
-        return name;
-    }
-
-    @Column(name = "owners", columnDefinition = "VARCHAR(256)", nullable = false)
-    public String getOwners() {
-        return owners;
+    public void setEstcompletionDate(Date estcompletionDate) {
+        this.estcompletionDate = estcompletionDate;
     }
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rd_pdlc_status_id", referencedColumnName = "id")
     public ReferenceData getPdlcStatus() {
         return pdlcStatus;
+    }
+
+    public void setPdlcStatus(ReferenceData pdlcStatus) {
+        this.pdlcStatus = pdlcStatus;
     }
 
     @Temporal(TemporalType.DATE)
@@ -171,16 +224,8 @@ public class Project implements Searchable {
         return recordingDate;
     }
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @OneToMany(mappedBy = "resolutionProject", fetch = FetchType.EAGER)
-    public Set<IncidentResolution> getResolutions() {
-        return resolutions;
-    }
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "rd_status_id", referencedColumnName = "id")
-    public ReferenceData getStatus() {
-        return status;
+    public void setRecordingDate(Date recordingDate) {
+        this.recordingDate = recordingDate;
     }
 
     @Temporal(TemporalType.DATE)
@@ -189,86 +234,61 @@ public class Project implements Searchable {
         return statusChangeDate;
     }
 
+    public void setStatusChangeDate(Date statusChangeDate) {
+        this.statusChangeDate = statusChangeDate;
+    }
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rd_wiki_type_id", referencedColumnName = "id")
     public ReferenceData getWikiType() {
         return wikiType;
     }
 
-    @Column(name = "is_high_priority", columnDefinition = "DECIMAL(1,0)", nullable = false)
-    public int isHighPriority() {
-        return isHighPriority;
+    public void setWikiType(ReferenceData wikiType) {
+        this.wikiType = wikiType;
     }
 
-    public void setActualCompletionDate(Date actualCompletionDate) {
-        this.actualCompletionDate = actualCompletionDate;
-    }
-
-    public void setActualEffort(Long actualEffort) {
-        this.actualEffort = actualEffort;
-    }
-
-    public void setConflenceId(int conflenceId) {
-        this.conflenceId = conflenceId;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setEceId(Long eceId) {
-        this.eceId = eceId;
-    }
-
-    public void setEstcompletionDate(Date estcompletionDate) {
-        this.estcompletionDate = estcompletionDate;
-    }
-
-    public void setEstEffort(Long estEffort) {
-        this.estEffort = estEffort;
-    }
-
-    public void setHighPriority(int isHighPriority) {
-        this.isHighPriority = isHighPriority;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public String getJiraId() {
+        return jiraId;
     }
 
     public void setJiraId(String jiraId) {
         this.jiraId = jiraId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public int getConflenceId() {
+        return conflenceId;
     }
 
-    public void setOwners(String owners) {
-        this.owners = owners;
+    public void setConflenceId(int conflenceId) {
+        this.conflenceId = conflenceId;
     }
 
-    public void setPdlcStatus(ReferenceData pdlcStatus) {
-        this.pdlcStatus = pdlcStatus;
+    public static String getFindAllProjects() {
+        return FIND_ALL_PROJECTS;
     }
 
-    public void setRecordingDate(Date recordingDate) {
-        this.recordingDate = recordingDate;
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", owners='" + owners + '\'' +
+                ", isHighPriority=" + isHighPriority +
+                ", description='" + description + '\'' +
+                ", eceId=" + eceId +
+                ", status=" + status +
+                ", estEffort=" + estEffort +
+                ", actualEffort=" + actualEffort +
+                ", actualCompletionDate=" + actualCompletionDate +
+                ", estcompletionDate=" + estcompletionDate +
+                ", pdlcStatus=" + pdlcStatus +
+                ", recordingDate=" + recordingDate +
+                ", statusChangeDate=" + statusChangeDate +
+                ", wikiType=" + wikiType +
+                ", jiraId='" + jiraId + '\'' +
+                ", conflenceId=" + conflenceId +
+                '}';
     }
-
-    public void setResolutions(Set<IncidentResolution> resolutions) {
-        this.resolutions = resolutions;
-    }
-
-    public void setStatus(ReferenceData status) {
-        this.status = status;
-    }
-
-    public void setStatusChangeDate(Date statusChangeDate) {
-        this.statusChangeDate = statusChangeDate;
-    }
-
-    public void setWikiType(ReferenceData wikiType) {
-        this.wikiType = wikiType;
-    }
+    
 }

@@ -9,9 +9,9 @@ public interface RCAService {
 
 	public List<RCAVO> getRCAs();
 	
-	public boolean deleteRCA(Long id);
+	public RCA deleteRCA(Long id);
 	
-	public boolean saveRCA(RCA rca);
+	public RCA saveRCA(RCA rca);
 	
 	public RCA getRCA(Long id);
 	

@@ -30,13 +30,13 @@ public class IncidentChronologyController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
-    public boolean deleteIncidentChronology(@PathVariable Long id) {
+    public IncidentChronology deleteIncidentChronology(@PathVariable Long id) {
         return incidentChronologyService.deleteIncidentChronology(id);
     }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
-    public boolean saveIncidentChronology(@RequestBody IncidentChronology chronology) {
+    public IncidentChronology saveIncidentChronology(@RequestBody IncidentChronology chronology) {
         return incidentChronologyService.saveIncidentChronology(chronology);
     }
 

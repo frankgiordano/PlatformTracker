@@ -218,9 +218,8 @@ public class Product {
 				", maxWeeklyUptime=" + maxWeeklyUptime +
 				", revenue=" + revenue +
 				", users=" + users +
-				", productUsers=" + productUsers +
-				", productComponents=" + productComponents +
 				", platform='" + platform + '\'' +
 				'}';
 	}
+
 }

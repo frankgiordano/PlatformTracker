@@ -23,13 +23,13 @@ public class OpenController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
-    public boolean deleteIncident(@PathVariable Long id) {
+    public Incident deleteIncident(@PathVariable Long id) {
         return incidentService.deleteIncident(id);
     }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
-    public boolean saveIncident(@RequestBody Incident incident) {
+    public Incident saveIncident(@RequestBody Incident incident) {
         return incidentService.saveIncident(incident);
     }
 

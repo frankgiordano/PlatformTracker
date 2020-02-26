@@ -259,8 +259,8 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
             });
     };
 
-    $scope.showComplex = function (id) {
-        $scope.name = " Root Cause ID " + id.id;
+    $scope.showComplex = function (rca) {
+        $scope.name = " Root Cause ID " + rca.id;
 
         ModalService.showModal({
             templateUrl: "resources/html/templates/complex.html",
@@ -270,23 +270,22 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
                 name: $scope.name
             }
         }).then(function (modal) {
-            // $scope.name = id.id;
             modal.element.modal({ backdrop: 'static' });
             modal.close.then(function (result) {
                 if (result.answer === 'Yes') {
-                    RcaService.deleteRca(id).then(
-                        function success(response) {
-                            if (response) {
-                                $scope.messages = ($scope.name + " has been deleted.");
-                            } else {
-                                $scope.messages = ($scope.name + " was unable to be deleted.");
-                            }
-                            $scope.back = true;
-                            return;
-                        },
-                        function error() {
-                            $scope.errormessages = "ROOT_CAUSE_DELETE_FAILURE - Check logs or invalid RCA.";
-                        });
+                    $scope.deleteRootCauseById(rca);
+                    // RcaService.deleteRca(id).then(
+                    //     function success(response) {
+                    //         if (response) {
+                    //             $scope.messages = $scope.name + " has been deleted.";
+                    //         } 
+                    //         $scope.back = true;
+                    //         return;
+                    //     },
+                    //     function error() {
+                    //         $scope.errormessages = "ROOT_CAUSE_DELETE_FAILURE - Check logs or invalid RCA.";
+                    //         console.log($scope.name + " was unable to be deleted.");
+                    //     });
                 } else {
                     return;
                 }
@@ -294,26 +293,21 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
         });
     };
 
-    $scope.delete = function (id) {
-        $scope.showComplex(id);
+    $scope.delete = function (rca) {
+        $scope.showComplex(rca);
     };
 
-    $scope.delete1 = function (id) {
-
-        RcaService.deleteRca(id).then(
+    $scope.deleteRootCauseById = function (rca) {
+        RcaService.deleteRca(rca).then(
             function success(response) {
                 if (response) {
-                    console.info("Root Cause ID " + id + " has been deleted.")
-                } else {
-                    console.error("Root Cause ID " + id + " was unable to be deleted.")
-                }
-                clear();
+                    $scope.messages = "Root Cause ID " + rca.id + " has been deleted.";
+                    console.log("Root Cause has been deleted = " + response);
+                } 
+                $scope.back = true;
             },
             function error() {
-                $rootScope.errors.push({
-                    code: "ROOT_CAUSE_DELETE_FAILURE",
-                    message: "Error deleting root cause."
-                });
+                $scope.errormessages = "ROOT_CAUSE_DELETE_FAILURE - Check logs or invalid RCA.";
             });
     };
 
@@ -374,24 +368,20 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
         RcaService.saveRca($scope.rca).then(
             function success(response) {
                 if (response) {
-                    if (!$scope.rca.id)
+                    if (!$scope.rca.id) {
                         $scope.messages = "New Root Cause has been saved.";
-                    else {
+                        console.log("New Root Cause has been saved = " + JSON.stringify(response));
+                    } else {
                         $scope.messages = "Root Cause ID " + $scope.rca.id + " has been saved.";
+                        console.log("Root Cause has been saved = " + JSON.stringify(response));
                     }
                     $scope.back = true;
                     return;
-                } else {
-                    $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
-                }
+                } 
             },
             function error() {
                 $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
             });
-    };
-
-    clear = function () {
-        $location.path('/rootcause/search');
     };
 
     $scope.new = function () {

@@ -18,117 +18,115 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.QueryHint;
 import javax.persistence.Table;
-//import javax.persistence.Temporal;
-//import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 @Entity
 @Table(name = "Incident_Resolution")
 @NamedQueries({
-	@NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS, query = " Select new us.com.plattrk.api.model.IncidentResolution(i.id, i.owner, i.description, i.actualCompletionDate, h.displayName,  i.estCompletionDate, p.name, "
-		+ " s.displayName, t.displayName, i.sriArtifact,  ig.name, p.id )from IncidentResolution as i"
-		+ " left outer join i.resolutionProject p inner join i.incidentGroup ig"
-		+ " inner join i.status s inner join i.horizon h inner join i.type t order by ig.name", hints = { @QueryHint(name = "org.hibernate.cacheable", value = "true")}),
-    @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_PER_GROUP, query = "Select new us.com.plattrk.api.model.IncidentResolution(r.id, r.description, r.actualCompletionDate, h.displayName, r.estCompletionDate) from IncidentResolution as r inner join r.horizon h where r.incidentGroup.id = :pid",
-    	hints = { @QueryHint(name = "org.hibernate.cacheable", value = "true")}) 
+        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS, query = " Select new us.com.plattrk.api.model.IncidentResolution(i.id, i.owner, i.description, i.actualCompletionDate, h.displayName,  i.estCompletionDate, p.name, "
+                + " s.displayName, t.displayName, i.sriArtifact,  ig.name, p.id )from IncidentResolution as i"
+                + " left outer join i.resolutionProject p inner join i.incidentGroup ig"
+                + " inner join i.status s inner join i.horizon h inner join i.type t order by ig.name", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
+        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_PER_GROUP, query = "Select new us.com.plattrk.api.model.IncidentResolution(r.id, r.description, r.actualCompletionDate, h.displayName, r.estCompletionDate) from IncidentResolution as r inner join r.horizon h where r.incidentGroup.id = :pid",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")})
 })
 public class IncidentResolution {
 
-	public static final String FIND_ALL_RESOLUTIONS = "findAllResolutions";
-	public static final String FIND_ALL_STATUS = "findAllStatus";
-	public static final String FIND_ALL_RESOLUTIONS_PER_GROUP = "findAllResolutionsPerGroup";
+    public static final String FIND_ALL_RESOLUTIONS = "findAllResolutions";
+    public static final String FIND_ALL_STATUS = "findAllStatus";
+    public static final String FIND_ALL_RESOLUTIONS_PER_GROUP = "findAllResolutionsPerGroup";
 
-	private Date actualCompletionDate;
-	private String description;
-	private ReferenceData horizon;
-	private String horizonName;
 	private Long id;
-	private IncidentGroup incidentGroup;
-	private String incidentGroupName;
-	private String owner;
-	private Long projectId;
-//	private String issue;
-	// @JsonBackReference
-	private Project resolutionProject;
-	private String resolutionProjectName;
-	private String sriArtifact;
-	private Date estCompletionDate;
-	private ReferenceData status;
-	private String statusName;
-	private ReferenceData type;
-	private String typeName;
-//	private String relatedActions;
-	
-	public IncidentResolution() {
-		this(null);
-	}
-	
-	public IncidentResolution(Long id) {
-		this.id = id;
+    private String description;
+    private ReferenceData horizon;
+    private String horizonName;
+	private Date actualCompletionDate;
+    private IncidentGroup incidentGroup;
+    private String incidentGroupName;
+    private String owner;
+    private Long projectId;
+    private Project resolutionProject;
+    private String resolutionProjectName;
+    private String sriArtifact;
+    private Date estCompletionDate;
+    private ReferenceData status;
+    private String statusName;
+    private ReferenceData type;
+    private String typeName;
+
+    public IncidentResolution() {
+        this(null);
+    }
+
+    public IncidentResolution(Long id) {
+        this.id = id;
+    }
+
+    public IncidentResolution(Long id, String description, java.util.Date actualCompletionDate,
+                              String horizonName, java.util.Date estCompletionDate) {
+        this.description = description;
+        this.horizonName = horizonName;
+        this.id = id;
+        if (actualCompletionDate != null)
+            this.actualCompletionDate = new Date(actualCompletionDate.getTime());
+        if (estCompletionDate != null)
+            this.estCompletionDate = new Date(estCompletionDate.getTime());
+    }
+
+    public IncidentResolution(Long id, String owner, String description) {
+        this.id = id;
+        this.owner = owner;
+        this.description = description;
+    }
+
+    public IncidentResolution(Long id, String owner, String description,
+                              Date actualCompletionDate, ReferenceData horizon,
+                              Date estCompletionDate, Project resolutionProject,
+                              ReferenceData status, ReferenceData type, String sriArtifact,
+                              IncidentGroup incidentGroup) {
+        this.id = id;
+        this.incidentGroup = incidentGroup;
+        this.horizon = horizon;
+        this.owner = owner;
+        this.description = description;
+        this.actualCompletionDate = actualCompletionDate;
+        this.estCompletionDate = estCompletionDate;
+        this.type = type;
+        this.sriArtifact = sriArtifact;
+        this.status = status;
+        this.resolutionProject = resolutionProject;
+    }
+
+    public IncidentResolution(Long id, String owner, String description,
+                              java.util.Date actualCompletionDate, String horizonName,
+                              java.util.Date estCompletionDate, String resolutionProject,
+                              String statusName, String typeName, String sriArtifact,
+                              String incidentGroupName, Long projectId) {
+        this.id = id;
+        this.incidentGroupName = incidentGroupName;
+        this.horizonName = horizonName;
+        this.owner = owner;
+        this.description = description;
+        if (actualCompletionDate != null)
+            this.actualCompletionDate = new Date(actualCompletionDate.getTime());
+        if (estCompletionDate != null)
+            this.estCompletionDate = new Date(estCompletionDate.getTime());
+        this.typeName = typeName;
+        this.sriArtifact = sriArtifact;
+        this.statusName = statusName;
+        this.resolutionProjectName = resolutionProject;
+        this.projectId = projectId;
+    }
+
+	@Id
+	@Column(name = "resolution_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Long getId() {
+		return id;
 	}
 
-	public IncidentResolution(Long id, /*String issue,*/ String description, java.util.Date actualCompletionDate, 
-			String horizonName, java.util.Date estCompletionDate /*, String relatedActions*/) {	
-		this.description = description;
-		this.horizonName = horizonName;
+	public void setId(Long id) {
 		this.id = id;
-//		this.issue = issue;
-		if (actualCompletionDate != null)
-			this.actualCompletionDate = new Date(actualCompletionDate.getTime());
-		if (estCompletionDate != null)
-			this.estCompletionDate = new Date(estCompletionDate.getTime());
-//		this.relatedActions = relatedActions;
-	}
-	
-	public IncidentResolution(Long id, String owner, String description) {
-		this.id = id;
-		this.owner = owner;
-		this.description = description;
-	}
-
-	public IncidentResolution(Long id, String owner, String description,
-			Date actualCompletionDate, ReferenceData horizon,
-			Date estCompletionDate, Project resolutionProject,
-			ReferenceData status, ReferenceData type, String sriArtifact,
-			IncidentGroup incidentGroup) {
-		this.id = id;
-		this.incidentGroup = incidentGroup;
-		this.horizon = horizon;
-		this.owner = owner;
-		this.description = description;
-		this.actualCompletionDate = actualCompletionDate;
-		this.estCompletionDate = estCompletionDate;
-		this.type = type;
-		this.sriArtifact = sriArtifact;
-		this.status = status;
-		this.resolutionProject = resolutionProject;
-	}
-
-	public IncidentResolution(Long id, String owner, String description,
-			java.util.Date actualCompletionDate, String horizonName,
-			java.util.Date estCompletionDate, String resolutionProject,
-			String statusName, String typeName, String sriArtifact,
-			String incidentGroupName, Long projectId) {
-		this.id = id;
-		this.incidentGroupName = incidentGroupName;
-		this.horizonName = horizonName;
-		this.owner = owner;
-		this.description = description;
-		if (actualCompletionDate != null)
-			this.actualCompletionDate = new Date(actualCompletionDate.getTime());
-		if (estCompletionDate != null)
-			this.estCompletionDate = new Date(estCompletionDate.getTime());
-		this.typeName = typeName;
-		this.sriArtifact = sriArtifact;
-		this.statusName = statusName;
-		this.resolutionProjectName = resolutionProject;
-		this.projectId = projectId;
-	}
-
-	// @Temporal(TemporalType.DATE)
-	@Column(name = "actual_completion_date", nullable = true)
-	public Date getActualCompletionDate() {
-		return actualCompletionDate;
 	}
 
 	@Column(name = "description", columnDefinition = "VARCHAR(4000)", nullable = false)
@@ -136,10 +134,8 @@ public class IncidentResolution {
 		return description;
 	}
 
-	// @Temporal(TemporalType.DATE)
-	@Column(name = "est_completion_date", nullable = false)
-	public Date getEstCompletionDate() {
-		return estCompletionDate;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@OneToOne(fetch = FetchType.EAGER)
@@ -148,16 +144,27 @@ public class IncidentResolution {
 		return horizon;
 	}
 
+	public void setHorizon(ReferenceData horizon) {
+		this.horizon = horizon;
+	}
+
 	@Transient
 	public String getHorizonName() {
 		return horizonName;
 	}
 
-	@Id
-	@Column(name = "resolution_id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Long getId() {
-		return id;
+	public void setHorizonName(String horizonName) {
+		this.horizonName = horizonName;
+	}
+
+    // @Temporal(TemporalType.DATE)
+    @Column(name = "actual_completion_date", nullable = true)
+    public Date getActualCompletionDate() {
+        return actualCompletionDate;
+    }
+
+	public void setActualCompletionDate(Date actualCompletionDate) {
+		this.actualCompletionDate = actualCompletionDate;
 	}
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
@@ -166,24 +173,45 @@ public class IncidentResolution {
 		return incidentGroup;
 	}
 
+	public void setIncidentGroup(IncidentGroup incidentGroup) {
+		this.incidentGroup = incidentGroup;
+	}
+
 	@Transient
 	public String getIncidentGroupName() {
 		return incidentGroupName;
 	}
 
-//	@Column(name = "issue", columnDefinition = "VARCHAR(512)", nullable = true)
-//	public String getIssue() {
-//		return issue;
-//	}
+	public void setIncidentGroupName(String incidentGroupName) {
+		this.incidentGroupName = incidentGroupName;
+	}
 
 	@Column(name = "owner", columnDefinition = "VARCHAR(256)", nullable = false)
 	public String getOwner() {
 		return owner;
 	}
 
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
 	@Transient
 	public Long getProjectId() {
 		return projectId;
+	}
+
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
+	}
+
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JoinColumn(name = "resolution_project_id")
+	public Project getResolutionProject() {
+		return this.resolutionProject;
+	}
+
+	public void setResolutionProject(Project resolutionProject) {
+		this.resolutionProject = resolutionProject;
 	}
 
 	@Access(AccessType.PROPERTY)
@@ -192,15 +220,8 @@ public class IncidentResolution {
 		return resolutionProjectName;
 	}
 
-//	@Column(name = "related_actions", columnDefinition = "VARCHAR(4000)", nullable = true)
-//	public String getRelatedActions() {
-//		return relatedActions;
-//	}
-
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JoinColumn(name = "resolution_project_id")
-	public Project getResolutionProject() {
-		return this.resolutionProject;
+	public void setProjectName(String projectName) {
+		this.resolutionProjectName = projectName;
 	}
 
 	@Transient
@@ -208,111 +229,80 @@ public class IncidentResolution {
 		return resolutionProjectName;
 	}
 
+	public void setResolutionProjectName(String resolutionProjectName) {
+		this.resolutionProjectName = resolutionProjectName;
+	}
+
 	@Column(name = "sri_artifact", nullable = true)
 	public String getSriArtifact() {
 		return sriArtifact;
-	}
-
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "rd_status_id", referencedColumnName = "id", nullable = false)
-	public ReferenceData getStatus() {
-		return status;
-	}
-
-	@Transient
-	public String getStatusName() {
-		return statusName;
-	}
-
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "rd_type_id", referencedColumnName = "id")
-	public ReferenceData getType() {
-		return type;
-	}
-
-	@Transient
-	public String getTypeName() {
-		return typeName;
-	}
-
-	public void setActualCompletionDate(Date actualCompletionDate) {
-		this.actualCompletionDate = actualCompletionDate;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public void setEstCompletionDate(Date estCompletionDate) {
-		this.estCompletionDate = estCompletionDate;
-	}
-
-	public void setHorizon(ReferenceData horizon) {
-		this.horizon = horizon;
-	}
-
-	public void setHorizonName(String horizonName) {
-		this.horizonName = horizonName;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public void setIncidentGroup(IncidentGroup incidentGroup) {
-		this.incidentGroup = incidentGroup;
-	}
-
-	public void setIncidentGroupName(String incidentGroupName) {
-		this.incidentGroupName = incidentGroupName;
-	}
-
-//	public void setIssue(String issue) {
-//		this.issue = issue;
-//	}
-
-	public void setOwner(String owner) {
-		this.owner = owner;
-	}
-
-	public void setProjectId(Long projectId) {
-		this.projectId = projectId;
-	}
-
-	public void setProjectName(String projectName) {
-		this.resolutionProjectName = projectName;
-	}
-
-//	public void setRelatedActions(String relatedActions) {
-//		this.relatedActions = relatedActions;
-//	}
-
-	public void setResolutionProject(Project resolutionProject) {
-		this.resolutionProject = resolutionProject;
-	}
-
-	public void setResolutionProjectName(String resolutionProjectName) {
-		this.resolutionProjectName = resolutionProjectName;
 	}
 
 	public void setSriArtifact(String sriArtifact) {
 		this.sriArtifact = sriArtifact;
 	}
 
+	// @Temporal(TemporalType.DATE)
+    @Column(name = "est_completion_date", nullable = false)
+    public Date getEstCompletionDate() {
+        return estCompletionDate;
+    }
+
+	public void setEstCompletionDate(Date estCompletionDate) {
+		this.estCompletionDate = estCompletionDate;
+	}
+
+	@OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "rd_status_id", referencedColumnName = "id", nullable = false)
+    public ReferenceData getStatus() {
+        return status;
+    }
+
 	public void setStatus(ReferenceData status) {
 		this.status = status;
 	}
+
+    @Transient
+    public String getStatusName() {
+        return statusName;
+    }
 
 	public void setStatusName(String statusName) {
 		this.statusName = statusName;
 	}
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "rd_type_id", referencedColumnName = "id")
+    public ReferenceData getType() {
+        return type;
+    }
+
 	public void setType(ReferenceData type) {
 		this.type = type;
 	}
 
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-	}
+    @Transient
+    public String getTypeName() {
+        return typeName;
+    }
 
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+	@Override
+	public String toString() {
+		return "IncidentResolution{" +
+				"id=" + id +
+				", description='" + description + '\'' +
+				", horizon=" + horizon +
+				", actualCompletionDate=" + actualCompletionDate +
+				", incidentGroup=" + incidentGroup +
+				", owner='" + owner + '\'' +
+				", sriArtifact='" + sriArtifact + '\'' +
+				", estCompletionDate=" + estCompletionDate +
+				", status=" + status +
+				", type=" + type +
+				'}';
+	}
 }

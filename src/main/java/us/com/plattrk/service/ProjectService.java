@@ -7,9 +7,9 @@ public interface ProjectService {
 
 	public List<Project> getProjects();
 	
-	public boolean deleteProject(Long id);
+	public Project deleteProject(Long id);
 	
-	public boolean saveProject(Project project);
+	public Project saveProject(Project project);
 	
 	public Project getProject(Long id);
 	

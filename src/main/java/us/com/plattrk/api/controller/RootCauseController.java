@@ -26,7 +26,7 @@ public class RootCauseController {
 	
 	@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
-    public boolean deleteRootCause(@PathVariable Long id) {
+    public RCA deleteRootCause(@PathVariable Long id) {
         return rootCauseService.deleteRCA(id);
     }
 	
@@ -44,7 +44,7 @@ public class RootCauseController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
-    public boolean saveRootCause(@RequestBody RCA rca) {
+    public RCA saveRootCause(@RequestBody RCA rca) {
         return rootCauseService.saveRCA(rca);
     }
 

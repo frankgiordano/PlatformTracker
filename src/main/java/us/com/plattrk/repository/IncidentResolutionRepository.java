@@ -9,9 +9,9 @@ public interface IncidentResolutionRepository {
 
 	public List<IncidentResolution> getResolutions();
 
-	public boolean deleteResolution(Long id);
+	public IncidentResolution deleteResolution(Long id);
 
-	public boolean saveResolution(IncidentResolution resolution);
+	public IncidentResolution saveResolution(IncidentResolution resolution);
 
 	public IncidentResolution getResolution(Long id);
 

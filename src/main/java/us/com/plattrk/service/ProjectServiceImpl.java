@@ -34,13 +34,13 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	@Transactional
-	public boolean deleteProject(Long id) {
+	public Project deleteProject(Long id) {
 		return projectRepository.deleteProject(id);
 	}
 
 	@Override
 	@Transactional
-	public boolean saveProject(Project project) {
+	public Project saveProject(Project project) {
 		return projectRepository.saveProject(project);
 	}
 

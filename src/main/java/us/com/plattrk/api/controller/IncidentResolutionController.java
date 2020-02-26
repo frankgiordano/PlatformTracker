@@ -23,7 +23,7 @@ public class IncidentResolutionController {
 	
 	@PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
-    public boolean deleteResolution(@PathVariable Long id) {
+    public IncidentResolution deleteResolution(@PathVariable Long id) {
         return incidentResolutionService.deleteResolution(id);
     }
 	
@@ -40,7 +40,7 @@ public class IncidentResolutionController {
 	}
 
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
-    public boolean saveResolution(@RequestBody IncidentResolution resolution) {
+    public IncidentResolution saveResolution(@RequestBody IncidentResolution resolution) {
         return incidentResolutionService.saveResolution(resolution);
     }
 

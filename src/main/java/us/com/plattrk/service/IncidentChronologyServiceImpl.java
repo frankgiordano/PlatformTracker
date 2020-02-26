@@ -35,24 +35,24 @@ public class IncidentChronologyServiceImpl implements IncidentChronologyService 
 
 	@Override
 	@Transactional
-	public boolean deleteIncidentChronology(Long id) {
+	public IncidentChronology deleteIncidentChronology(Long id) {
 		return incidentChronologyRepository.deleteIncidentChronology(id);
 	}
 
 	@Override
 	@Transactional
-	public boolean saveIncidentChronology(IncidentChronology chronology) {
+	public IncidentChronology saveIncidentChronology(IncidentChronology chronology) {
 		
-		if (incidentChronologyRepository.saveIncidentChronology(chronology)) {
+		if (incidentChronologyRepository.saveIncidentChronology(chronology) != null) {
 			Incident incident = incidentChronologyRepository.getIncidentOfChronology(chronology.getIncident().getId());
 			if (incident.getStatus().equals("Closed")) {
 				WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 				MailService mailService = (MailService) wac.getBean("mailService");
 				mailService.send(incident, appProperties, Type.INCIDENTCHRONOLOGYSTART);
 			}
-			return true;
 		}
-		return false;
+
+		return chronology;
 	}
 
 	@Override

@@ -10,9 +10,9 @@ public interface IncidentResolutionService {
 	
 	public List<IncidentResolution> getIncidentResolutions();
 	
-	public boolean deleteResolution(Long id);
+	public IncidentResolution deleteResolution(Long id);
 	
-	public boolean saveResolution(IncidentResolution incidentResolution);
+	public IncidentResolution saveResolution(IncidentResolution incidentResolution);
 	
 	public List<Status> getStatusList();
 	

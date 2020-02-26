@@ -26,7 +26,7 @@ public class RCAServiceImpl implements RCAService {
 
 	@Override
 	@Transactional
-	public boolean deleteRCA(Long id) {
+	public RCA deleteRCA(Long id) {
 		return rcaRepository.deleteRCA(id);
 	}
 
@@ -42,7 +42,7 @@ public class RCAServiceImpl implements RCAService {
 
 	@Override
 	@Transactional
-	public boolean saveRCA(RCA rca) {
+	public RCA saveRCA(RCA rca) {
 		return rcaRepository.saveRCA(rca);
 	}
 

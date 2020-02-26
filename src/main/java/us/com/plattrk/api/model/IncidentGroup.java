@@ -18,11 +18,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-
 @Entity
-//@Table(name = "Incident_Group", uniqueConstraints = {
-//	    @UniqueConstraint(columnNames = { "name" })
-//	})
 @Table(name = "Incident_Group")
 @Cacheable(true)
 @NamedQueries({
@@ -43,8 +39,8 @@ public class IncidentGroup  {
 	private String description;
 	private String status;
 	private Set<Incident> incidents = new HashSet<Incident>();
-//	private String incidentGroup;
 	private Set<IncidentResolution> incidentResolutions = new HashSet<IncidentResolution>();
+
 	public IncidentGroup() {
 	}
 	
@@ -69,37 +65,56 @@ public class IncidentGroup  {
 	public Long getId() {
 		return id;
 	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	@Column(name = "name", columnDefinition="VARCHAR(120)", nullable = true)
 	public String getName() {
 		return name;
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@Column(name = "description", columnDefinition="VARCHAR(4000)", nullable = true)
 	public String getDescription() {
 		return description;
 	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Column(name = "status", columnDefinition="VARCHAR(80)", nullable = true)
 	public String getStatus() {
 		return status;
 	}
-//	@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	@JsonManagedReference
 	@OneToMany(mappedBy="incidentGroup", fetch = FetchType.EAGER)
 	public Set<Incident> getIncidents() {
 		return incidents;
 	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
+
 	public void setIncidents(Set<Incident> incidents) {
 		this.incidents = incidents;
 	}
+
+	@Override
+	public String toString() {
+		return "IncidentGroup{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				", status='" + status + '\'' +
+				'}';
+	}
+
 }

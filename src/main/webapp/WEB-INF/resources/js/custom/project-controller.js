@@ -317,7 +317,7 @@ app.controller('ProjectController', function ($http, $rootScope, $scope, Project
             $scope.project.statusChangeDate = null;
         }
 
-        var saveProject = {
+        var project = {
             "id": $scope.project.id,
             "name": $scope.project.name,
             "owners": $scope.project.owners,
@@ -337,27 +337,24 @@ app.controller('ProjectController', function ($http, $rootScope, $scope, Project
             "conflenceId": $scope.project.conflenceId
         };
 
-        console.log("Saving Project = " + JSON.stringify(saveProject));
-        ProjectService.saveProject(saveProject).then(
+        console.log("Saving Project = " + JSON.stringify(project));
+        ProjectService.saveProject(project).then(
             function success(response) {
                 if (response) {
-                    if (!$scope.project.id)
+                    if (!$scope.project.id) {
                         $scope.messages = "New Project has been saved.";
-                    else 
+                        console.log("New Project has been saved = " + JSON.stringify(response));
+                    } else {
                         $scope.messages = "Project ID " + $scope.project.id + " has been saved.";
+                        console.log("Project has been saved = " + JSON.stringify(response));
+                    }
                     $scope.back = true;
                     return;
-                } else {
-                    $scope.errormessages = "Project " + $scope.project.id + " was unable to be saved.";
-                }
+                } 
             },
             function error() {
                 $scope.errormessages = $rootScope.PROJECT_SAVE_ERROR_MSG;
             });
-    };
-
-    clear = function () {
-        $location.path('/project/search');
     };
 
     $scope.new = function () {

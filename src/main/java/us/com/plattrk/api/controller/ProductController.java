@@ -41,13 +41,13 @@ public class ProductController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
-    public boolean deleteProduct(@PathVariable Long id) {
+    public Product deleteProduct(@PathVariable Long id) {
         return productService.deleteProduct(id);
     }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
-    public boolean saveProduct(@RequestBody Product product) {
+    public Product saveProduct(@RequestBody Product product) {
         return productService.saveProduct(product);
     }
     

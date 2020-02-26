@@ -9,9 +9,9 @@ public interface ProductRepository {
 
     public List<Product> getProducts();
 
-	public boolean deleteProduct(Long id);
+	public Product deleteProduct(Long id);
 
-	public boolean saveProduct(Product product);
+	public Product saveProduct(Product product);
 
 	public Product getProduct(Long id);
 

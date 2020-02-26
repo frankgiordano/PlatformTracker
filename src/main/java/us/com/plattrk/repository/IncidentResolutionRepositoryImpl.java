@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,8 @@ import us.com.plattrk.api.model.IncidentResolution;
 
 @Repository
 public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepository {
+
+    private static Logger log = LoggerFactory.getLogger(IncidentResolutionRepositoryImpl.class);
 
     @PersistenceContext
     private EntityManager em;
@@ -25,32 +29,31 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
     }
 
     @Override
-    public boolean deleteResolution(Long id) {
+    public IncidentResolution deleteResolution(Long id) {
+        IncidentResolution resolution = null;
         try {
-            IncidentResolution incidentResolutions = em.find(IncidentResolution.class, id);
-            em.remove(incidentResolutions);
+            resolution = em.find(IncidentResolution.class, id);
+            em.remove(resolution);
             em.flush();
         } catch (PersistenceException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            return false;
+            log.error("IncidentResolution::deleteResolution - failure deleting resolution id " + id + ", msg = " + e.getMessage());
+            throw (e);
         }
 
-        return true;
+        return resolution;
     }
 
     @Transactional
     @Override
-    public boolean saveResolution(IncidentResolution resolution) {
+    public IncidentResolution saveResolution(IncidentResolution resolution) {
         try {
             em.merge(resolution);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (PersistenceException e) {
+            log.error("IncidentResolution::saveResolution - failure saving resolution = " + resolution.toString() + ", msg = " + e.getMessage());
+            throw (e);
         }
 
-        return true;
+        return resolution;
     }
 
     @Transactional
