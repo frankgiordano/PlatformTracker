@@ -536,6 +536,38 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
 
         }
     });
+
+    // start - new datetimepicker stuff - https://github.com/Gillardo/bootstrap-ui-datetime-picker  
+    $scope.open = {
+    	startTime: false,
+    	endTime: false,
+        dateTime: false,
+    	date4: false,
+    	date5: false,
+    };
+    	  
+    // Disable weekend selection
+    $scope.disabled = function(date, mode) {
+    	return (mode === 'day' && (new Date().toDateString() == date.toDateString()));
+    };
+
+    $scope.dateOptions = {
+    	showWeeks: false,
+    	startingDay: 1
+    };
+    	  
+    $scope.timeOptions = {
+    	 readonlyInput: true,
+    	 showMeridian: false
+    };
+    	  
+    $scope.openCalendar = function(e, date) {
+    	 e.preventDefault();
+    	 e.stopPropagation();
+
+    	 $scope.open[date] = true;
+    };
+    // end - new datetimepicker stuff - https://github.com/Gillardo/bootstrap-ui-datetime-picker  	  
     
     $scope.generateUpdatedTag = function() {
     	var tag = null;	
