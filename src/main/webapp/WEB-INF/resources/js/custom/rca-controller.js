@@ -359,12 +359,8 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
                     if (!$scope.rca.id) {
                         $scope.messages = "New Root Cause has been saved.";
                         console.log("New Root Cause has been saved = " + JSON.stringify(response));
-                    } else {
-                        $scope.messages = "Root Cause ID " + $scope.rca.id + " has been saved.";
-                        console.log("Root Cause has been saved = " + JSON.stringify(response));
-                    }
+                    } 
                     $scope.back = true;
-                    return;
                 } 
             },
             function error() {

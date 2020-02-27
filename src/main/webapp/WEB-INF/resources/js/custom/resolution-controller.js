@@ -279,19 +279,14 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                         function success(response) {
                             if (response) {
                                 $scope.messages = "Resolution ID " + resolution.id + " has been deleted.";
-                            } else {
-                                $scope.errormessages = "RESOLUTION_DELETE_FAILURE - Check logs or child associated entities still exist.";
-                		        console.error("Resolution ID " + resolution.id + " was unable to be deleted.");
-                            }
+                                console.log("Resolution has been deleted = " + JSON.stringify(response));
+                            } 
                             $scope.back = true;
-                            return;
                         },
                         function error() {
                             $scope.errormessages = "RESOLUTION_DELETE_FAILURE - Check logs or child associated entities still exist.";
                         });
-                } else {
-                    return;
-                }
+                } 
             });
         });
     };
@@ -369,15 +364,15 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
         ResolutionService.saveResolution(resolution).then(
             function success(response) {
                 if (response) {
-                    if (!$scope.resolution.id)
+                    if (!$scope.resolution.id) {
                         $scope.messages = "New Resolution has been saved.";
-                    else 
-                        $scope.messages = "Resolution ID " + $scope.resolution.id + " has been saved.";
+                        console.log("New Resolution has been saved = " + JSON.stringify(response));
+                    } else {
+                        $scope.messages = "Resolution has been saved = " + JSON.stringify(response);
+                        console.log("Resolution has been saved = " + JSON.stringify(response));
+                    }
                     $scope.back = true;
-                    return;
-                } else {
-                    $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
-                }
+                } 
             },
             function error() {
                 $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
