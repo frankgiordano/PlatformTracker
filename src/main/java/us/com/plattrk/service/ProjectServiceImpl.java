@@ -15,12 +15,6 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Autowired
 	private ProjectRepository projectRepository;
-	
-	@Autowired
-	private IncidentGroupService incidentGroupService;
-	
-	@Autowired
-	private ReferenceDataRepository refRepository;
 
 	@Override
 	public List<Project> getProjects() {

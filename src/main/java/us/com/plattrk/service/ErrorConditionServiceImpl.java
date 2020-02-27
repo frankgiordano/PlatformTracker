@@ -12,7 +12,7 @@ import us.com.plattrk.repository.ErrorConditionRepository;
 public class ErrorConditionServiceImpl implements ErrorConditionService {
 	
 	@Autowired
-	ErrorConditionRepository errorConditionRepository;
+	public ErrorConditionRepository errorConditionRepository;
 
 	@Override
 	public List<ErrorCondition> getErrorConditions() {

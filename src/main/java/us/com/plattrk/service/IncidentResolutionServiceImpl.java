@@ -47,6 +47,7 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
         return resolutionRepository.getStatusList();
     }
 
+    @Transactional
     public boolean saveLinkedResolutions(List<IncidentResolutionVO> resolutions) {
         List<IncidentResolution> inserts = new ArrayList<IncidentResolution>();
         for (IncidentResolutionVO item : resolutions) {

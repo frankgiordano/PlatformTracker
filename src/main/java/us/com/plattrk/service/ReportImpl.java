@@ -40,9 +40,6 @@ public class ReportImpl implements Report {
 	private MailService mailService;
 	
 	@Autowired
-	private IncidentChronologyRepository incidentChronologyRepository;
-	
-	@Autowired
 	private ProductRepository productRepository;
 	
 	@Autowired

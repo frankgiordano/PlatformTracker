@@ -17,7 +17,6 @@ public class ProductServiceImpl implements ProductService {
 	private ProductRepository productRepository;
 
 	@Override
-	@Transactional
 	public List<Product> getProducts() {
 		return productRepository.getProducts();
 	}
@@ -35,13 +34,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	@Transactional
 	public Product getProduct(Long id) {
 		return productRepository.getProduct(id);
 	}
 
 	@Override
-	@Transactional
 	public Incident getIncident(Long id) {
 		return productRepository.getIncident(id);
 	}

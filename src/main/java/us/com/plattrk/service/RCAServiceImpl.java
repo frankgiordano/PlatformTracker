@@ -17,12 +17,6 @@ public class RCAServiceImpl implements RCAService {
 	
 	@Autowired
 	private RCARepository rcaRepository;
-	
-	@Autowired
-	private IncidentGroupService incidentGroupService;
-	
-	@Autowired
-	private ReferenceDataRepository refRepository;
 
 	@Override
 	@Transactional

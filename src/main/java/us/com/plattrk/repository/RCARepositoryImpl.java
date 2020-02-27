@@ -54,7 +54,6 @@ public class RCARepositoryImpl implements RCARepository {
         return rca;
     }
 
-    @Transactional
     @Override
     public RCA saveRCA(RCA rca) {
         try {

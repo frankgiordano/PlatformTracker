@@ -43,7 +43,6 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
         return resolution;
     }
 
-    @Transactional
     @Override
     public IncidentResolution saveResolution(IncidentResolution resolution) {
         try {
@@ -56,7 +55,6 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
         return resolution;
     }
 
-    @Transactional
     @Override
     public boolean saveResolutions(List<IncidentResolution> resolutions) {
         boolean succeed = true;

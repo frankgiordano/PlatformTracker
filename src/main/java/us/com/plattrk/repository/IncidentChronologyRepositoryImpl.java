@@ -24,7 +24,6 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
     @Override
     public IncidentChronology saveIncidentChronology(IncidentChronology chronology) {
         log.info("IncidentChronologyRepositoryImpl::saveIncidentChronology");
