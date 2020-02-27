@@ -657,6 +657,8 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         							}
         	}
         });
+
+        $scope.enforceRequiredFields();
         
         var incident = {
             "id": $scope.selectedIncident.id,
@@ -753,6 +755,14 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         			});
         }
     };
+
+    // just do this for required fields that are not defaulted dropdown fields.
+    $scope.enforceRequiredFields = function() {
+        if ($scope.selectedIncident.description !== undefined && 
+            $scope.selectedIncident.description !== null &&
+            $scope.selectedIncident.description.trim() === "")
+            $scope.selectedIncident.description = null;
+    }
 
     $scope.getGroup = function(id) {
         $scope.clearMsg();

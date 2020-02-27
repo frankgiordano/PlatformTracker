@@ -317,6 +317,8 @@ app.controller('ProjectController', function ($http, $rootScope, $scope, Project
             $scope.project.statusChangeDate = null;
         }
 
+        $scope.enforceRequiredFields();
+
         var project = {
             "id": $scope.project.id,
             "name": $scope.project.name,
@@ -356,6 +358,20 @@ app.controller('ProjectController', function ($http, $rootScope, $scope, Project
                 $scope.errormessages = $rootScope.PROJECT_SAVE_ERROR_MSG;
             });
     };
+
+    // just do this for required fields that are not defaulted dropdown fields.
+    $scope.enforceRequiredFields = function() {
+        if ($scope.project.name !== undefined && 
+            $scope.project.name !== null &&
+            $scope.project.name.trim() === "")
+            $scope.project.name = null;
+        if ($scope.project.description !== undefined && 
+            $scope.project.description !== null &&
+            $scope.project.description.trim() === "")
+            $scope.project.description = null;
+        if ($scope.project.owners === "")
+            $scope.project.owners = null;
+    }
 
     $scope.new = function () {
         $location.path('/project/create');

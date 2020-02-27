@@ -348,6 +348,8 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
             $scope.resolution.estcompletionDate = null;
         }
 
+        $scope.enforceRequiredFields();
+
         var resolution = {
             "id": $scope.resolution.id,
             "horizon": horizonId[0],
@@ -381,6 +383,16 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                 $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
             });
     };
+
+    // just do this for required fields that are not defaulted dropdown fields.
+    $scope.enforceRequiredFields = function() {
+        if ($scope.resolution.owner === "")
+            $scope.resolution.owner = null;
+        if ($scope.resolution.description !== undefined && 
+            $scope.resolution.description !== null &&
+            $scope.resolution.description.trim() === "")
+            $scope.resolution.description = null;
+    }
 
     clear = function () {
         $location.path('/resolution/search');

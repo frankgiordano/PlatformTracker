@@ -305,4 +305,5 @@ public class IncidentResolution {
 				", type=" + type +
 				'}';
 	}
+
 }

@@ -91,6 +91,8 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
     
     $scope.updateInSearch = function() {
         $scope.clearMsg();
+
+        $scope.enforceRequiredFields();
         
         var product = {
             "id": $scope.selectedProduct.id,
@@ -120,6 +122,25 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
                     $scope.errormessages = $rootScope.PRODUCT_SAVE_ERROR_MSG;
                 });
     };
+
+    // just do this for required fields that are not defaulted dropdown fields.
+    $scope.enforceRequiredFields = function() {
+        if ($scope.selectedProduct.incidentName !== undefined && 
+            $scope.selectedProduct.incidentName !== null &&
+            $scope.selectedProduct.incidentName.trim() === "")
+            $scope.selectedProduct.incidentName = null;
+        if ($scope.selectedProduct.shortName !== undefined && 
+            $scope.selectedProduct.shortName !== null &&
+            $scope.selectedProduct.shortName.trim() === "")
+            $scope.selectedProduct.shortName = null;
+        if ($scope.selectedProduct.maxWeeklyUptime !== undefined && 
+            $scope.selectedProduct.maxWeeklyUptime !== null)
+            $scope.selectedProduct.maxWeeklyUptime = null;
+        if ($scope.selectedProduct.clientName !== undefined && 
+            $scope.selectedProduct.clientName !== null &&
+            $scope.selectedProduct.clientName.trim() === "")
+            $scope.selectedProduct.clientName = null;
+    }
 
     $scope.submit = function(form) {
         $scope.clearMsg();

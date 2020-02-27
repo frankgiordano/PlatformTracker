@@ -274,21 +274,7 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
             modal.close.then(function (result) {
                 if (result.answer === 'Yes') {
                     $scope.deleteRootCauseById(rca);
-                    // RcaService.deleteRca(id).then(
-                    //     function success(response) {
-                    //         if (response) {
-                    //             $scope.messages = $scope.name + " has been deleted.";
-                    //         } 
-                    //         $scope.back = true;
-                    //         return;
-                    //     },
-                    //     function error() {
-                    //         $scope.errormessages = "ROOT_CAUSE_DELETE_FAILURE - Check logs or invalid RCA.";
-                    //         console.log($scope.name + " was unable to be deleted.");
-                    //     });
-                } else {
-                    return;
-                }
+                } 
             });
         });
     };
@@ -365,6 +351,8 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
             d = null;
         }
 
+        $scope.setEmptyStringToNull();
+
         RcaService.saveRca($scope.rca).then(
             function success(response) {
                 if (response) {
@@ -383,6 +371,12 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
                 $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
             });
     };
+
+    // just do this for required fields that are not defaulted dropdown fields.
+    $scope.setEmptyStringToNull = function() {
+        if ($scope.rca.owner === "")
+            $scope.rca.owner = null;
+    }
 
     $scope.new = function () {
         $location.path('/rootcause/create');
