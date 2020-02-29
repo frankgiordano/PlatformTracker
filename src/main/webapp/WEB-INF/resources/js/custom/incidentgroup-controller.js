@@ -1,4 +1,4 @@
-app.controller('IncidentGroupController', function($http, $rootScope, $filter, $scope, IncidentGroupService, IncidentService, ResolutionService, ReferenceDataService, ngTableParams, locuss, alerted_bys, options, statuss, incidentstatuss, recipents, ModalService, RcaService, ProductService, ChronologyService, helperService) {
+app.controller('IncidentGroupController', function($rootScope, $filter, $scope, IncidentGroupService, IncidentService, ResolutionService, ReferenceDataService, ngTableParams, locuss, alerted_bys, options, statuss, incidentstatuss, recipents, ModalService, RcaService, ProductService, ChronologyService, helperService) {
     $scope.init = function() {
         IncidentGroupService.getGroups().then(
             function success(response) {
@@ -138,7 +138,6 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
             $scope.status = response;
             // console.log("getStatus " + JSON.stringify($scope.status));
             $scope.selectedResStatus = $scope.status[0];
-            $scope.selectedRCAStatus = $scope.status[1];
         },
         function error() {
             $rootScope.errors.push({
@@ -172,87 +171,6 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                 message: "Error retrieving categories."
             });
         });
-
-    $scope.resources1 = ReferenceDataService.getCategories().then(
-        function success(response) {
-            $scope.resources = response;
-            // console.log("getCategories " + JSON.stringify($scope.resources));
-            $scope.selectedResource = $scope.resources[11];
-        },
-        function error() {
-            $rootScope.errors.push({
-                code: "RESOURCES_GET_FAILURE",
-                message: "Error retrieving resources."
-            });
-        });
-    
-    // start - this is for rca create screen from group detail screen
-    $scope.rca = {};
-    $scope.whys = [];
-
-    $scope.filterWhy = function(why) {
-        return why.isDeleted !== true;
-    };
-
-    $scope.deleteWhy = function(id) {
-        var filtered = $filter('filter')($scope.whys, {
-            id: id
-        });
-        if (filtered.length) {
-            filtered[0].isDeleted = true;
-        }
-        for (var i = $scope.whys.length; i--;) {
-            var why = $scope.whys[i];
-            if (why.isDeleted || why.name.trim().length == 0) {
-                $scope.whys.splice(i, 1);
-            }
-        }
-    };
-
-    $scope.addWhy = function() {
-        if ($scope.whys.length < 5) {
-            $scope.whys.push({
-                id: $scope.whys.length + 1,
-                name: '',
-                isNew: true
-            });
-        } else {}
-    };
-    // end - this is for rca create screen from group detail screen
-    
-    // add related actions stuff
-    $scope.actions = [];
-
-    $scope.filterAction = function(action) {
-        return action.isDeleted !== true;
-    };
-
-    $scope.deleteAction = function(id) {
-    	console.log("action id deleted = " + id);
-        var filtered = $filter('filter')($scope.actions, {
-            id: id
-        });
-        if (filtered.length) {
-            filtered[0].isDeleted = true;
-        }
-        for (var i = $scope.actions.length; i--;) {
-            var action = $scope.actions[i];
-            if (action.isDeleted || action.name.trim().length == 0) {
-                $scope.actions.splice(i, 1);
-            }
-        }
-    };
-
-    $scope.addAction = function() {
-        if ($scope.actions.length < 10) {
-            $scope.actions.push({
-                id: $scope.actions.length + 1,
-                name: '',
-                isNew: true
-            });
-        } else {}
-    };
-    // END OF - add related actions stuff
 
     $scope.showOnDelete = function(type) {
         var title = '';
@@ -358,10 +276,6 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
                 $scope.createResolution = false;
                 $scope.disableButton = false;
                 break;
-            case "rca":
-                $scope.createRootCA = false;
-                $scope.disableButton = false;
-                break;
             case "group":
                 $scope.selectedGroup = false;
                 break;
@@ -383,16 +297,6 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
         		$scope.selectedDescription = null;
         		$scope.selectedType = $scope.types[2];
         		$scope.selectedResStatus = $scope.status[0];
-        		break;
-        	case 'rca':
-        		$scope.selectedProblem = null;
-        		$scope.selectedDueDate = null;
-        		$scope.selectedCompletionDate = null;
-        		$scope.selectedCategory = $scope.categories[15];
-        		$scope.selectedOwner = null;
-        		$scope.selectedResource = $scope.resources[11];
-        		$scope.selectedRCAStatus = $scope.status[1];
-        		$scope.whys = null;
         		break;
     	}
     };
@@ -820,6 +724,7 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
 
     $scope.createRes = function() {
         $scope.clearMsg();
+        $scope.clear('resolution');
         $scope.createResolution = true;
     };
 
@@ -853,36 +758,6 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
             },
             function error() {
                 $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
-            });
-    };
-
-    $scope.submitRCA = function() {
-        var whys = $scope.whys.map(function(x) {
-            return x.name
-        }).join('|');
-        var rca = {
-            "problem": $scope.selectedProblem,
-            "whys": whys,
-            "dueDate": $scope.selectedDueDate,
-            "completionDate": $scope.selectedCompletionDate,
-            "category": $scope.selectedCategory,
-            "resource": $scope.selectedResource,
-            "owner": $scope.selectedOwner,
-            "status": $scope.selectedRCAStatus,
-            "incidentGroup": $scope.selectedGroup
-        };
-        // console.log(JSON.stringify(rca));
-        RcaService.saveRca(rca).then(
-            function success(response) {
-                if (response) {
-                    $scope.messages = $scope.selectedCategory.displayName + " Root Cause created for Group " + '"' + $scope.selectedGroup.name + '".';
-                    $scope.clear('rca');
-                    $scope.errormessages = null;
-                    $scope.disableButton = true;
-                } 
-            },
-            function error() {
-                $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
             });
     };
 
@@ -955,4 +830,196 @@ app.controller('IncidentGroupController', function($http, $rootScope, $filter, $
             });
     };
     
+});
+
+app.controller('RootCauseChildController', function ($rootScope, $scope, ReferenceDataService, RcaService, $filter) {
+
+    $scope.init = function() {
+        $scope.messages = null;
+        $scope.errormessages = null;
+        $scope.selectedProblem = null;
+        $scope.selectedDueDate = null;
+        $scope.selectedCompletionDate = null;
+        $scope.selectedOwner = null;
+        $scope.whys = null;
+    };
+
+    (function () {
+        ReferenceDataService.getStatus().then(
+        function success(response) {
+            $scope.status = response;
+            // console.log("getStatus " + JSON.stringify($scope.status));
+            $scope.selectedRCAStatus = $scope.status[1];
+        },
+        function error() {
+            $rootScope.errors.push({
+                code: "STATUS_GET_FAILURE",
+                message: "Error retrieving status."
+            });
+        });
+    })();
+
+    (function () {
+        ReferenceDataService.getCategories().then(
+            function success(response) {
+                $scope.categories = response;
+                // console.log("getCategories " + JSON.stringify($scope.categories));
+                $scope.selectedCategory = $scope.categories[15];
+            },
+            function error() {
+                $rootScope.errors.push({
+                    code: "CATEGORIES_GET_FAILURE",
+                    message: "Error retrieving categories."
+                });
+            });
+    })();
+
+    (function () {
+        ReferenceDataService.getResources().then(
+            function success(response) {
+                $scope.resources = response;
+                // console.log("getCategories " + JSON.stringify($scope.resources));
+                $scope.selectedResource = $scope.resources[11];
+            },
+            function error() {
+                $rootScope.errors.push({
+                    code: "RESOURCES_GET_FAILURE",
+                    message: "Error retrieving resources."
+                });
+            });
+    })();
+
+    (function () {
+        ReferenceDataService.getCategories().then(
+            function success(response) {
+                $scope.resources = response;
+                // console.log("getCategories " + JSON.stringify($scope.resources));
+                $scope.selectedResource = $scope.resources[11];
+            },
+            function error() {
+                $rootScope.errors.push({
+                    code: "RESOURCES_GET_FAILURE",
+                    message: "Error retrieving resources."
+                });
+            });
+    })();
+
+    $scope.clear = function() {
+        $scope.selectedProblem = null;
+        $scope.selectedDueDate = null;
+        $scope.selectedCompletionDate = null;
+        $scope.selectedCategory = $scope.categories[15];
+        $scope.selectedOwner = null;
+        $scope.selectedResource = $scope.resources[11];
+        $scope.selectedRCAStatus = $scope.status[1];
+        $scope.whys = [];
+        $scope.messages = null;
+        $scope.errormessages = null;
+    };
+
+    $scope.cancel = function() {
+        $scope.$parent.createRootCA = false;
+        $scope.disableButton = false;
+        $scope.clear();
+    };
+
+    // start - this is for rca create screen from group detail screen
+    $scope.rca = {};
+    $scope.whys = [];
+
+    $scope.filterWhy = function(why) {
+        return why.isDeleted !== true;
+    };
+
+    $scope.deleteWhy = function(id) {
+        var filtered = $filter('filter')($scope.whys, {
+            id: id
+        });
+        if (filtered.length) {
+            filtered[0].isDeleted = true;
+        }
+        for (var i = $scope.whys.length; i--;) {
+            var why = $scope.whys[i];
+            if (why.isDeleted || why.name.trim().length == 0) {
+                $scope.whys.splice(i, 1);
+            }
+        }
+    };
+
+    $scope.addWhy = function() {
+        if ($scope.whys) {
+            if ($scope.whys.length < 5) {
+                $scope.whys.push({
+                    id: $scope.whys.length + 1,
+                    name: '',
+                    isNew: true
+                });
+            } else {}
+        }
+    };
+    // end - this is for rca create screen from group detail screen
+
+    // add related actions stuff
+    $scope.actions = [];
+
+    $scope.filterAction = function(action) {
+        return action.isDeleted !== true;
+    };
+
+    $scope.deleteAction = function(id) {
+    	console.log("action id deleted = " + id);
+        var filtered = $filter('filter')($scope.actions, {
+            id: id
+        });
+        if (filtered.length) {
+            filtered[0].isDeleted = true;
+        }
+        for (var i = $scope.actions.length; i--;) {
+            var action = $scope.actions[i];
+            if (action.isDeleted || action.name.trim().length == 0) {
+                $scope.actions.splice(i, 1);
+            }
+        }
+    };
+
+    $scope.addAction = function() {
+        if ($scope.actions.length < 10) {
+            $scope.actions.push({
+                id: $scope.actions.length + 1,
+                name: '',
+                isNew: true
+            });
+        } else {}
+    };
+    // END OF - add related actions stuff
+
+    $scope.submit = function() {
+        var whys = $scope.whys.map(function(x) {
+            return x.name
+        }).join('|');
+        var rca = {
+            "problem": $scope.selectedProblem,
+            "whys": whys,
+            "dueDate": $scope.selectedDueDate,
+            "completionDate": $scope.selectedCompletionDate,
+            "category": $scope.selectedCategory,
+            "resource": $scope.selectedResource,
+            "owner": $scope.selectedOwner,
+            "status": $scope.selectedRCAStatus,
+            "incidentGroup": $scope.$parent.selectedGroup
+        };
+
+        RcaService.saveRca(rca).then(
+            function success(response) {
+                if (response) {
+                    $scope.messages = $scope.selectedCategory.displayName + " Root Cause created for Group " + '"' + $scope.$parent.selectedGroup.name + '".';
+                    $scope.errormessages = null;
+                    $scope.disableButton = true;
+                } 
+            },
+            function error() {
+                $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
+            });
+    };
+
 });
