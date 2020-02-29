@@ -78,7 +78,7 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
             function success(response) {
                 if (response) {
                     $scope.messages = "Product ID " + id + " has been deleted.";
-                    console.info("Product has been deleted = " + JSON.stringify(response));
+                    console.log("Product has been deleted = " + JSON.stringify(response));
                     $scope.refreshData();
                     $scope.errormessages = null;
                     $scope.disableButton = true;
@@ -113,7 +113,7 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
                 function success(response) {
                     if (response) {
                         $scope.messages = "Product ID " + product.id + " has been saved.";
-                        console.info("Product has been saved = " + JSON.stringify(response));
+                        console.log("Product has been saved = " + JSON.stringify(response));
                         $scope.disableButton = true;
                         $scope.refreshData();
                     }

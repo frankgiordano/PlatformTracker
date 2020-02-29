@@ -429,7 +429,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
                     // ng-include will copy at this moment all the data in the scope and set it to the sub\child scope.. 
                     // otherwise, current group field will be blank even though group is retrieved later on.. with this async call
                     $scope.show = true;  
-                    console.info("Group retrieved for Incident ID " + id);
+                    console.log("Group retrieved for Incident ID " + id);
                 } else {
                     console.error("Unable to retrieve group for Incident ID " + id);
                 }
@@ -447,7 +447,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
                 // console.log(JSON.stringify(response));
                 if (response) {
                     $scope.incident = response;
-                    console.info("Incident retrieved for Incident ID " + id);
+                    console.log("Incident retrieved for Incident ID " + id);
                 } else {
                     console.error("Unable to retrieve Incident ID " + id);
                 }
@@ -464,7 +464,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             function success(response) {
                 if (response) {
                     $scope.messages = "Incident ID " + id + " has been deleted.";
-                    console.info("Incident has been deleted = " + JSON.stringify(response));
+                    console.log("Incident has been deleted = " + JSON.stringify(response));
                     $scope.refreshData();
                     $scope.errormessages = null;
                 } 
@@ -603,7 +603,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
 					if (response) {
 						$scope.getGroup(incident.id);
 						$scope.messages = "Incident ID " + incident.id + " has been saved.";
-						console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with newly created Group " + groupCurrentORNew.name + ".");
+						console.log("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with newly created Group " + groupCurrentORNew.name + ".");
 						$scope.refreshData(); 
 						$scope.errormessages = null;
                         $scope.errormessages2 = null;
@@ -627,7 +627,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         				if (response) {
         					$scope.getGroup(incident.id);
         					$scope.messages = "Incident ID " + incident.id + " has been saved.";
-        					console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with Group " + groupCurrentORNew + ".");
+        					console.log("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with Group " + groupCurrentORNew + ".");
         					$scope.refreshData();
         					$scope.errormessages = null;
                             $scope.errormessages2 = null;
@@ -743,7 +743,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
             	document.body.style.cursor = "default";
                 if (response) {
                     $scope.messages = "New Incident has been saved.";
-                    console.info("New Incident has been saved = " + JSON.stringify(response));
+                    console.log("New Incident has been saved = " + JSON.stringify(response));
                     // $scope.clear('incident');
                     $scope.errormessages = null;
                     $scope.disableButton = true;
@@ -775,7 +775,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
         	   document.body.style.cursor = "default";
                if (response) {
                    $scope.chronmessages = "Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " created.";
-                   console.info("Chronology for Incident tag " + $scope.selectedIncident.tag + " created = " + JSON.stringify(response));
+                   console.log("Chronology for Incident tag " + $scope.selectedIncident.tag + " created = " + JSON.stringify(response));
                    $scope.clear('chronology');
                    $scope.chronerrormessages = null;
                    getRelatedChronologies($scope.selectedIncident.id);
@@ -794,7 +794,7 @@ app.controller('IncidentController', function($http, $q, $rootScope, $scope, $lo
            function success(response) {
                if (response) {
                    $scope.chronmessages = "Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " with id " + item.id + " deleted.";
-                   console.info("Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " with Chronology timeline id " + item.id + " deleted.");
+                   console.log("Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " with Chronology timeline id " + item.id + " deleted.");
                    $scope.chronerrormessages = null;
                    getRelatedChronologies($scope.selectedIncident.id);
                } 

@@ -369,7 +369,7 @@ app.controller('IncidentGroupController', function($rootScope, $filter, $scope, 
             function success(response) {
                 if (response) {
                     $scope.chronmessages = "Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " created.";
-                    console.info("Chronology for Incident tag " + $scope.selectedIncident.tag + " created = " + JSON.stringify(response));
+                    console.log("Chronology for Incident tag " + $scope.selectedIncident.tag + " created = " + JSON.stringify(response));
                     $scope.clear('chronology');
                     $scope.chronerrormessages = null;
                     getRelatedChronologies($scope.selectedIncident.id);
@@ -387,7 +387,7 @@ app.controller('IncidentGroupController', function($rootScope, $filter, $scope, 
             function success(response) {
                 if (response) {
                     $scope.chronmessages = "Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " with id " + item.id + " deleted.";
-                    console.info("Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " with Chronology timeline id " + item.id + " deleted.");
+                    console.log("Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " with Chronology timeline id " + item.id + " deleted.");
                     $scope.chronerrormessages = null;
                     getRelatedChronologies($scope.selectedIncident.id);
                 } 
@@ -619,7 +619,7 @@ app.controller('IncidentGroupController', function($rootScope, $filter, $scope, 
 					if (response) {
                         $scope.getGroup(incident.id);
 						$scope.messages = "Incident ID " + incident.id + " has been saved.";
-						console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with newly created Group " + groupCurrentORNew.name + ".");
+						console.log("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with newly created Group " + groupCurrentORNew.name + ".");
                         $scope.refreshData(); 
 						$scope.errormessages = null;
                         $scope.errormessages2 = null;
@@ -644,7 +644,7 @@ app.controller('IncidentGroupController', function($rootScope, $filter, $scope, 
         				if (response) {
                             $scope.getGroup(incident.id);
         					$scope.messages = "Incident ID " + incident.id + " has been saved.";
-        					console.info("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with Group " + groupCurrentORNew + ".");
+        					console.log("Incident tag " + incident.tag + " with id " + incident.id +  " has been saved with Group " + groupCurrentORNew + ".");
                             $scope.refreshData(); 
                             $scope.errormessages = null;
                             $scope.errormessages2 = null;
@@ -681,7 +681,7 @@ app.controller('IncidentGroupController', function($rootScope, $filter, $scope, 
                     // ng-include will copy at this moment all the data in the scope and set it to the sub\child scope.. 
                     // otherwise, current group field will be blank even though group is retrieved later on.. with this async call
                     $scope.show = true;  
-                    console.info("Group retrieved for Incident ID " + id);
+                    console.log("Group retrieved for Incident ID " + id);
                 } else {
                     console.error("Unable to retrieve Group for Incident ID " + id);
                 }
@@ -708,7 +708,7 @@ app.controller('IncidentGroupController', function($rootScope, $filter, $scope, 
             function success(response) {
                 if (response) {
                     $scope.messages = "Group ID " + group.id + " has been saved.";
-                    console.info("Group ID " + group.id + " has been saved.");
+                    console.log("Group ID " + group.id + " has been saved.");
                     $scope.errormessages = null;
                     $scope.disableButton = true;
                 } else {
@@ -767,7 +767,7 @@ app.controller('IncidentGroupController', function($rootScope, $filter, $scope, 
             function success(response) {
                 if (response) {
                     $scope.messages = "Incident ID " + id + " has been deleted.";
-                    console.info("Incident has been deleted = " + JSON.stringify(response));
+                    console.log("Incident has been deleted = " + JSON.stringify(response));
                     $scope.changedGroup();
                 } 
                 $scope.disableButton = true;
@@ -790,7 +790,7 @@ app.controller('IncidentGroupController', function($rootScope, $filter, $scope, 
                 		return;               		
                 	}
                     $scope.messages = "Group ID " + id + " has been deleted.";
-                    console.info("Group ID " + id + " has been deleted.");
+                    console.log("Group ID " + id + " has been deleted.");
                     $scope.disableButton = true;
                     $scope.refreshData();
                 } else {
@@ -818,7 +818,7 @@ app.controller('IncidentGroupController', function($rootScope, $filter, $scope, 
                 		return;               		
                 	}
                     $scope.messages = "All orphan groups have been deleted.";
-                    console.info("All orphan groups have been deleted.");
+                    console.log("All orphan groups have been deleted.");
                     $scope.disableButton = true;
                     document.body.style.cursor = "default";
                     $scope.refreshData();

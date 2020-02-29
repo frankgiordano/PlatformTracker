@@ -26,7 +26,7 @@ app.controller('IncidentReportController', function($http, $rootScope, $filter, 
                 console.log(JSON.stringify(response));
                 if (response) {
                     $scope.groupID = response.id;
-                    console.info("Group retrieved for Incident ID " + id);
+                    console.log("Group retrieved for Incident ID " + id);
                 } else {
                     console.error("Unable to retrieve group for Incident ID " + id);
                 }

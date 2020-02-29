@@ -263,7 +263,7 @@ app.controller('ProjectController', function ($http, $rootScope, $scope, Project
                         function success(response) {
                             if (response) {
                                 $scope.messages = "Project ID " + project.id + " has been deleted.";
-                                console.info("Project ID " + project.id + " has been deleted.");
+                                console.log("Project ID " + project.id + " has been deleted.");
                             } else {
                                 $scope.errormessages = "PROJECT_DELETE_FAILURE - Check logs or invalid project.";
                                 console.error("Project ID " + project.id + " was unable to be deleted.");
