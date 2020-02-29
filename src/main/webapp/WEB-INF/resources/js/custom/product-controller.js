@@ -1,4 +1,4 @@
-app.controller('ProductController', function($http, $rootScope, $filter, $scope, ProductService, ngTableParams, platforms, ModalService) {
+app.controller('ProductController', function($http, $rootScope, $filter, $scope, ProductService, platforms, ModalService) {
     $scope.init = function() {
         ProductService.getProducts().then(
             function success(response) {

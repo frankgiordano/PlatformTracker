@@ -1,4 +1,4 @@
-app.controller('IncidentWeeklyReportController', function($http, $rootScope, $filter, $scope, IncidentService, IncidentGroupService, ngTableParams, helperService, ProductService) {
+app.controller('IncidentWeeklyReportController', function($http, $rootScope, $filter, $scope, IncidentService, IncidentGroupService, helperService, ProductService) {
 
 	// getProducts() gets all the products even those that are not active.. this returns data back unsorted and
 	// we use helperService function to sort.
