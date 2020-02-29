@@ -379,7 +379,7 @@ app.controller('ProjectController', function ($http, $rootScope, $scope, Project
 
     $scope.linkResolutions = function (project) {
         $scope.resolution = {};
-        popitup('/pst/#/resolution/linkProject/' + project.id);
+        popitup('/plattrk/#/resolution/linkProject/' + project.id);
     };
 
     function popitup(url) {
