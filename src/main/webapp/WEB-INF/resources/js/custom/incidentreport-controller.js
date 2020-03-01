@@ -1,4 +1,4 @@
-app.controller('IncidentReportController', function ($http, $rootScope, $filter, $scope, IncidentService, IncidentGroupService, ResolutionService, ngTableParams, helperService) {
+app.controller('IncidentReportController', function ($rootScope, $filter, $scope, IncidentService, IncidentGroupService, ResolutionService, ngTableParams, helperService) {
 	var data = [];
 
 	$scope.init = function () {
@@ -160,8 +160,7 @@ app.controller('IncidentReportController', function ($http, $rootScope, $filter,
 						"Incident.Issue": selectedIncident.issue,
 						"Incident.CorrectiveAction": selectedIncident.correctiveAction,
 						"relatedActions": splitActions
-					}
-					) //set the templateVariables
+					}) //set the templateVariables
 					doc.render() //apply them (replace all occurrences of {first_name} by Hipp, ...)
 					out = doc.getZip().generate({ type: "blob" }) //Output the document using Data-URI
 					saveAs(out, "IncidentReport_" + selectedIncident.tag + ".docx")

@@ -1,4 +1,4 @@
-app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaService, limitToFilter, $location, $routeParams, IncidentGroupService, ReferenceDataService, $filter, $q, ModalService, OwnersService) {
+app.controller('RootCauseController', function ($rootScope, $scope, RcaService, $location, $routeParams, IncidentGroupService, ReferenceDataService, $filter, ModalService, OwnersService) {
 
     $scope.rca = {};
     $scope.whys = [];

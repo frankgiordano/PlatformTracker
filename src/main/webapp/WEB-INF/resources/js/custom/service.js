@@ -31,8 +31,7 @@
                 return function compare(a, b) {
                     return new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime();
                 }
-            }
-            else {
+            } else {
                 if (type == "resolution") {
                     return function compare(a, b) {
                         return new Date(a.estCompletionDate).getTime() - new Date(b.estCompletionDate).getTime();

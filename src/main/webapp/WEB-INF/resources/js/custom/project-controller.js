@@ -1,4 +1,4 @@
-app.controller('ProjectController', function ($http, $rootScope, $scope, ProjectService, limitToFilter, $location, $routeParams, OwnersService, IncidentGroupService, ReferenceDataService, ModalService) {
+app.controller('ProjectController', function ($rootScope, $scope, ProjectService, $location, $routeParams, OwnersService, ReferenceDataService, ModalService) {
     $scope.project = {};
 
     (function () {

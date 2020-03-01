@@ -1,4 +1,4 @@
-app.controller('IncidentGroupController', function ($rootScope, $filter, $scope, IncidentGroupService, IncidentService, ResolutionService, ReferenceDataService, ngTableParams, locuss, alerted_bys, options, statuss, incidentstatuss, recipents, ModalService, RcaService, ProductService, ChronologyService, helperService) {
+app.controller('IncidentGroupController', function ($rootScope, $filter, $scope, IncidentGroupService, IncidentService, ResolutionService, ReferenceDataService, ngTableParams, locuss, alerted_bys, options, statuss, incidentstatuss, recipents, ModalService, ProductService, ChronologyService, helperService) {
     $scope.init = function () {
         IncidentGroupService.getGroups().then(
             function success(response) {

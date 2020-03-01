@@ -1,4 +1,4 @@
-app.controller('IncidentReportSettingsController', function ($http, $rootScope, $filter, $scope, IncidentService, helperService) {
+app.controller('IncidentReportSettingsController', function ($scope, IncidentService) {
 
     $scope.init = function () {
         IncidentService.isToggleAutoWeeklyReport().then(

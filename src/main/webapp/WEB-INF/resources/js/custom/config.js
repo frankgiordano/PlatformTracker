@@ -198,24 +198,17 @@ app.config(function ($routeProvider, $httpProvider) {
 
                 // ======== http configuration ===============
 
-                // configure $http to view a login whenever a 401
-                // unauthorized response
-                // arrives
+                // configure $http to view a login whenever a 401 unauthorized response arrives
                 $httpProvider.responseInterceptors
                     .push(function ($rootScope, $q) {
                         return function (promise) {
                             return promise
                                 .then(
-                                    // success -> don't
-                                    // intercept
+                                    // success -> don't intercept
                                     function (response) {
                                         return response;
                                     },
-                                    // error -> if 401
-                                    // save the
-                                    // request and
-                                    // broadcast an
-                                    // event
+                                    // error -> if 401 save the request and broadcast an event
                                     function (response) {
                                         if (response.status === 401) {
                                             var deferred = $q

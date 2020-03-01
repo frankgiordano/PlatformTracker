@@ -189,7 +189,6 @@ app.directive("myQtip", function () {
         /******* This is what's different from myQtip *********/
 
         var text = attrs['qtipContent'];
-
         var title = attrs['qtipTitle'];
 
         /******************************************************/
@@ -201,7 +200,6 @@ app.directive("myQtip", function () {
                 text: text,
                 title: title
             },
-
             style: {
                 classes: scope.qtipSkin + " qtip-rounded qtip-shadow "
             },

@@ -1,4 +1,4 @@
-app.service('ProjectService', function ($http, $q, ReferenceDataService, IncidentGroupService) {
+app.service('ProjectService', function ($http, $q, ReferenceDataService) {
     this.getProjects = function () {
         var d = $q.defer();
 

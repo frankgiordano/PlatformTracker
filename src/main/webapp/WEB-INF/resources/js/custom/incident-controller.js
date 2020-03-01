@@ -1,4 +1,4 @@
-app.controller('IncidentController', function ($http, $q, $rootScope, $scope, $log, $timeout, $filter, IncidentService, ReferenceDataService, ProductService, limitToFilter, IncidentGroupService, locuss, alerted_bys, options, statuss, incidentstatuss, recipents, ModalService, ChronologyService, helperService) {
+app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $timeout, $filter, IncidentService, ReferenceDataService, ProductService, IncidentGroupService, locuss, alerted_bys, options, statuss, incidentstatuss, recipents, ModalService, ChronologyService, helperService) {
     $scope.init = function () {
         IncidentService.getIncidents().then(
             function success(response) {

@@ -1,4 +1,4 @@
-app.controller('ResolutionRetrieveController', function ($http, $rootScope, $scope, OwnersService, ResolutionService, limitToFilter, $location, $routeParams, IncidentGroupService, ReferenceDataService, $filter, ModalService) {
+app.controller('ResolutionRetrieveController', function ($rootScope, $scope, OwnersService, ResolutionService, $location, $routeParams, IncidentGroupService, ReferenceDataService, ModalService) {
     $scope.resolution = {};
 
     (function () {
