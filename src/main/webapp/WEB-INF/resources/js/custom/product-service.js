@@ -12,7 +12,7 @@ app.service('ProductService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
     this.getActiveProducts = function () {
         var d = $q.defer();
 
@@ -28,17 +28,17 @@ app.service('ProductService', function ($http, $q) {
     };
 
     this.getProductIncidents = function (id) {
-    var d = $q.defer();
+        var d = $q.defer();
 
-    $http.get('product/incidents/retrieve/' + id)
-        .success(function (response) {
-            d.resolve(response);
-        })
-        .error(function () {
-            d.reject();
-        });
+        $http.get('product/incidents/retrieve/' + id)
+            .success(function (response) {
+                d.resolve(response);
+            })
+            .error(function () {
+                d.reject();
+            });
 
-    return d.promise;
+        return d.promise;
     };
 
     this.saveProduct = function (product) {
@@ -54,7 +54,7 @@ app.service('ProductService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
     this.deleteProduct = function (id) {
         var d = $q.defer();
 

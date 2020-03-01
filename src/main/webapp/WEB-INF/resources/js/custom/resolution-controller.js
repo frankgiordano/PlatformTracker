@@ -162,7 +162,7 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                     $scope.status = response[2];
                     $scope.types = response[3];
                     response[4].estCompletionDate = moment(response[4].estcompletionDate).format('YYYY-MM-DD');
-                    if (response[4].actualCompletionDate) 
+                    if (response[4].actualCompletionDate)
                         response[4].actualCompletionDate = moment(response[4].actualCompletionDate).format('YYYY-MM-DD');
                     $scope.resolution = response[4];
 
@@ -280,13 +280,13 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                             if (response) {
                                 $scope.messages = "Resolution ID " + resolution.id + " has been deleted.";
                                 console.log("Resolution has been deleted = " + JSON.stringify(response));
-                            } 
+                            }
                             $scope.back = true;
                         },
                         function error() {
                             $scope.errormessages = "RESOLUTION_DELETE_FAILURE - Check logs or child associated entities still exist.";
                         });
-                } 
+                }
             });
         });
     };
@@ -372,7 +372,7 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
                         console.log("Resolution has been saved = " + JSON.stringify(response));
                     }
                     $scope.back = true;
-                } 
+                }
             },
             function error() {
                 $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
@@ -380,10 +380,10 @@ app.controller('ResolutionRetrieveController', function ($http, $rootScope, $sco
     };
 
     // just do this for required fields that are not defaulted dropdown fields.
-    $scope.enforceRequiredFields = function() {
+    $scope.enforceRequiredFields = function () {
         if ($scope.resolution.owner === "")
             $scope.resolution.owner = null;
-        if ($scope.resolution.description !== undefined && 
+        if ($scope.resolution.description !== undefined &&
             $scope.resolution.description !== null &&
             $scope.resolution.description.trim() === "")
             $scope.resolution.description = null;

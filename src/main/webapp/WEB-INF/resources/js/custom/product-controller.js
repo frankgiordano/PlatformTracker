@@ -1,5 +1,5 @@
-app.controller('ProductController', function($http, $rootScope, $filter, $scope, ProductService, platforms, ModalService) {
-    $scope.init = function() {
+app.controller('ProductController', function ($http, $rootScope, $filter, $scope, ProductService, platforms, ModalService) {
+    $scope.init = function () {
         ProductService.getProducts().then(
             function success(response) {
                 $scope.products = response;
@@ -16,25 +16,25 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
     $scope.platforms = platforms;
     $scope.selectedPlatform = $scope.platforms[5];
     $scope.disableButton = false;
-    
-    $scope.select = function(product) {
+
+    $scope.select = function (product) {
         $scope.selectedProduct = product;
-        $scope.selectedProduct.startDate = moment($scope.selectedProduct.startDate).format('YYYY-MM-DD'); 
+        $scope.selectedProduct.startDate = moment($scope.selectedProduct.startDate).format('YYYY-MM-DD');
         if ($scope.selectedProduct.endDate)
-            $scope.selectedProduct.endDate = moment($scope.selectedProduct.endDate).format('YYYY-MM-DD'); 
+            $scope.selectedProduct.endDate = moment($scope.selectedProduct.endDate).format('YYYY-MM-DD');
         $scope.disableButton = false;
     };
-    
+
     $scope.cancelP = function () {
-    	$scope.selectedProduct = null;    	
+        $scope.selectedProduct = null;
     };
-    
-    $scope.clearMsg = function() {
+
+    $scope.clearMsg = function () {
         $scope.messages = null;
         $scope.errormessages = null;
     };
-    
-    clear = function() {
+
+    clear = function () {
         $scope.incidentName = null;
         $scope.selectedPlatform = $scope.platforms[5];
         $scope.clientName = null;
@@ -45,7 +45,7 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
         $scope.maxWeeklyUptime = null;
     };
 
-    $scope.showOnDelete = function() {
+    $scope.showOnDelete = function () {
         var title = "Product";
         var name = "Product Detail ID " + $scope.selectedProduct.id;
 
@@ -56,22 +56,22 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
                 title: "Delete " + title + " Confirmation:",
                 name: name
             }
-        }).then(function(modal) {
-            modal.element.modal({backdrop: 'static'});
-            modal.close.then(function(result) {
+        }).then(function (modal) {
+            modal.element.modal({ backdrop: 'static' });
+            modal.close.then(function (result) {
                 if (result.answer == 'Yes') {
                     $scope.deleteP($scope.selectedProduct.id);
                 }
             });
         });
     };
-    
-    $scope.refreshData = function() {
+
+    $scope.refreshData = function () {
         var newData = $scope.init();
         $scope.rowCollection = newData;
     };
-    
-    $scope.deleteP = function(id) {
+
+    $scope.deleteP = function (id) {
         $scope.clearMsg();
 
         ProductService.deleteProduct(id).then(
@@ -85,15 +85,15 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
                 }
             },
             function error() {
-                $scope.errormessages =  "PRODUCT_DELETE_FAILURE - Check logs or invalid Product.";
+                $scope.errormessages = "PRODUCT_DELETE_FAILURE - Check logs or invalid Product.";
             });
     };
-    
-    $scope.updateInSearch = function() {
+
+    $scope.updateInSearch = function () {
         $scope.clearMsg();
 
         $scope.enforceRequiredFields();
-        
+
         var product = {
             "id": $scope.selectedProduct.id,
             "incidentName": $scope.selectedProduct.incidentName,
@@ -104,45 +104,45 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
             "endDate": $scope.selectedProduct.endDate,
             "maxWeeklyUptime": $scope.selectedProduct.maxWeeklyUptime,
             "platform": $scope.selectedProduct.platform,
-            "revenue":  $scope.selectedProduct.revenue,
-        	"users": $scope.selectedProduct.users
+            "revenue": $scope.selectedProduct.revenue,
+            "users": $scope.selectedProduct.users
         };
 
         console.log("Saving Product = " + JSON.stringify(product));
         ProductService.saveProduct(product).then(
-                function success(response) {
-                    if (response) {
-                        $scope.messages = "Product ID " + product.id + " has been saved.";
-                        console.log("Product has been saved = " + JSON.stringify(response));
-                        $scope.disableButton = true;
-                        $scope.refreshData();
-                    }
-                },
-                function error() {
-                    $scope.errormessages = $rootScope.PRODUCT_SAVE_ERROR_MSG;
-                });
+            function success(response) {
+                if (response) {
+                    $scope.messages = "Product ID " + product.id + " has been saved.";
+                    console.log("Product has been saved = " + JSON.stringify(response));
+                    $scope.disableButton = true;
+                    $scope.refreshData();
+                }
+            },
+            function error() {
+                $scope.errormessages = $rootScope.PRODUCT_SAVE_ERROR_MSG;
+            });
     };
 
     // just do this for required fields that are not defaulted dropdown fields.
-    $scope.enforceRequiredFields = function() {
-        if ($scope.selectedProduct.incidentName !== undefined && 
+    $scope.enforceRequiredFields = function () {
+        if ($scope.selectedProduct.incidentName !== undefined &&
             $scope.selectedProduct.incidentName !== null &&
             $scope.selectedProduct.incidentName.trim() === "")
             $scope.selectedProduct.incidentName = null;
-        if ($scope.selectedProduct.shortName !== undefined && 
+        if ($scope.selectedProduct.shortName !== undefined &&
             $scope.selectedProduct.shortName !== null &&
             $scope.selectedProduct.shortName.trim() === "")
             $scope.selectedProduct.shortName = null;
-        if ($scope.selectedProduct.maxWeeklyUptime !== undefined && 
+        if ($scope.selectedProduct.maxWeeklyUptime !== undefined &&
             $scope.selectedProduct.maxWeeklyUptime !== null)
             $scope.selectedProduct.maxWeeklyUptime = null;
-        if ($scope.selectedProduct.clientName !== undefined && 
+        if ($scope.selectedProduct.clientName !== undefined &&
             $scope.selectedProduct.clientName !== null &&
             $scope.selectedProduct.clientName.trim() === "")
             $scope.selectedProduct.clientName = null;
     }
 
-    $scope.submit = function(form) {
+    $scope.submit = function (form) {
         $scope.clearMsg();
         // Trigger validation flag.
         $scope.submitted = true;
@@ -154,7 +154,7 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
         } else {
             platform = $scope.selectedPlatform.value;
         }
-        
+
         var product = {
             "incidentName": $scope.incidentName,
             "platform": platform,
@@ -165,9 +165,9 @@ app.controller('ProductController', function($http, $rootScope, $filter, $scope,
             "endDate": $scope.endDate,
             "maxWeeklyUptime": $scope.maxWeeklyUptime,
             "revenue": $scope.revenue,
-        	"users": $scope.users
+            "users": $scope.users
         };
-        
+
         console.log(JSON.stringify(product));
         ProductService.saveProduct(product).then(
             function success(response) {

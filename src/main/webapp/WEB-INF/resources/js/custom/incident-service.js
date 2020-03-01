@@ -11,8 +11,8 @@ app.service('IncidentService', function ($http, $q) {
             });
 
         return d.promise;
-    };   
-    
+    };
+
     this.getErrorConditions = function () {
         var d = $q.defer();
 
@@ -25,21 +25,21 @@ app.service('IncidentService', function ($http, $q) {
             });
 
         return d.promise;
-    };   
-    
-    this.getGroup = function (id) {
-    	var d = $q.defer();
-    	$http.get('incident/retrieve/group/' + id)
-    	.success(function (response) {
-    		d.resolve(response);
-    	})
-    	.error(function () {
-    		d.reject();
-    	});
-
-    	return d.promise;
     };
-    
+
+    this.getGroup = function (id) {
+        var d = $q.defer();
+        $http.get('incident/retrieve/group/' + id)
+            .success(function (response) {
+                d.resolve(response);
+            })
+            .error(function () {
+                d.reject();
+            });
+
+        return d.promise;
+    };
+
     this.getProducts = function (id) {
         var d = $q.defer();
 
@@ -53,7 +53,7 @@ app.service('IncidentService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
     this.getErrorCode = function (id) {
         var d = $q.defer();
 
@@ -67,7 +67,7 @@ app.service('IncidentService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
     this.getApplicationStatus = function (id) {
         var d = $q.defer();
 
@@ -81,7 +81,7 @@ app.service('IncidentService', function ($http, $q) {
 
         return d.promise;
     };
-       
+
     this.getChronologies = function (id) {
         var d = $q.defer();
 
@@ -123,7 +123,7 @@ app.service('IncidentService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
     this.generateWeeklyIncidentReport = function (address) {
         var d = $q.defer();
 
@@ -137,7 +137,7 @@ app.service('IncidentService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
     this.generateIncidentReportByProduct = function (incidentReport) {
         var d = $q.defer();
 
@@ -151,7 +151,7 @@ app.service('IncidentService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
     this.toggleAutoWeeklyReport = function (onoffswitch) {
         var d = $q.defer();
 
@@ -165,7 +165,7 @@ app.service('IncidentService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
     this.isToggleAutoWeeklyReport = function () {
         var d = $q.defer();
 
@@ -196,8 +196,8 @@ app.service('IncidentService', function ($http, $q) {
 });
 
 app.service('ChronologyService', function ($http, $q) {
-	
-	this.saveChronology = function (chronology) {
+
+    this.saveChronology = function (chronology) {
         var d = $q.defer();
 
         $http.post('chronology/save', chronology)
@@ -208,10 +208,10 @@ app.service('ChronologyService', function ($http, $q) {
                 d.reject();
             });
 
-        return d.promise;		
-		
-	};
-	
+        return d.promise;
+
+    };
+
     this.deleteChronology = function (id) {
         var d = $q.defer();
 
@@ -225,5 +225,5 @@ app.service('ChronologyService', function ($http, $q) {
 
         return d.promise;
     };
-	
+
 });

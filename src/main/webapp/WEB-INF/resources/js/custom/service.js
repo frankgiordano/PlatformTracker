@@ -1,56 +1,56 @@
 // Just for fun use JavaScript IIFE pattern to define a service instead of the pattern used
 // for the rest here.
-(function() {
-	
-	var helperService = function () {
-		
-		var sortByKey = function (array, key) {
-	    	return array.sort(function(a, b) {
-	    		var x = a[key]; 
-	    		var y = b[key];
-	    		return ((x < y) ? -1 : ((x > y) ? 1 :0));
-	    	});
-		};
-		
-		var search = function (source, name) {
-	    	var results = [];
-	    	var index;
-	    	var entry;
-	    	
-	    	for (index = 0; index < source.length; ++index) {
-	    		entry = source[index];
-	    		if (entry.name === name) {
-	    			return true;
-	    		}
-	    	}
-	    	return false;
-		};
-		
-		var compare = function (type) {
-			if (type == "chronology") {
-				return function compare(a, b) {
-					return new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime();
-				}
-			}
-			else {
-				if (type == "resolution") {
-					return function compare(a, b) {
-						return new Date(a.estCompletionDate).getTime() - new Date(b.estCompletionDate).getTime();
-					}
-				}
-			}
-		};
-		
-		return {
-			sortByKey: sortByKey,
-			search: search,
-			compare: compare
-		};
-	
-	};
-	
-	var module = angular.module("app");
-	module.factory("helperService", helperService);
+(function () {
+
+    var helperService = function () {
+
+        var sortByKey = function (array, key) {
+            return array.sort(function (a, b) {
+                var x = a[key];
+                var y = b[key];
+                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+            });
+        };
+
+        var search = function (source, name) {
+            var results = [];
+            var index;
+            var entry;
+
+            for (index = 0; index < source.length; ++index) {
+                entry = source[index];
+                if (entry.name === name) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        var compare = function (type) {
+            if (type == "chronology") {
+                return function compare(a, b) {
+                    return new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime();
+                }
+            }
+            else {
+                if (type == "resolution") {
+                    return function compare(a, b) {
+                        return new Date(a.estCompletionDate).getTime() - new Date(b.estCompletionDate).getTime();
+                    }
+                }
+            }
+        };
+
+        return {
+            sortByKey: sortByKey,
+            search: search,
+            compare: compare
+        };
+
+    };
+
+    var module = angular.module("app");
+    module.factory("helperService", helperService);
 
 }());
 
@@ -176,22 +176,22 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
 
         return d.promise;
     };
-    
+
     this.getGroupResolutions = function (id) {
         var d = $q.defer();
 
-        	$http.get('incidentResolution/retrieve/resolutions/' + id)
-        		.success(function (response) {
-        			d.resolve(response);
-        		})
-        		.error(function () {
-        			d.reject();
-        		});
+        $http.get('incidentResolution/retrieve/resolutions/' + id)
+            .success(function (response) {
+                d.resolve(response);
+            })
+            .error(function () {
+                d.reject();
+            });
 
-        	return d.promise;
-        };
-    
-    
+        return d.promise;
+    };
+
+
     this.saveLinkedResolutions = function (resolutions) {
         var d = $q.defer();
         $http.post('incidentResolution/resolutions/linkProjects', resolutions)
@@ -204,24 +204,24 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
 
         return d.promise;
     };
-    
-    this.getIncidentResolution = function (id){
 
-    	var deferred = $q.defer();
-    	var promise1 = IncidentGroupService.getGroups();
-    	var promise2 = ReferenceDataService.getHorizons();
-    	var promise3 = ReferenceDataService.getStatus();
-    	var promise4 = ReferenceDataService.getTypes(); 
-    	var promise5 = this.getResolution(id);
-    	$q.all([promise1, promise2, promise3, promise4, promise5]).then(function(data) {
-            deferred.resolve(data); 
-            },
-            function(errors) {
+    this.getIncidentResolution = function (id) {
+
+        var deferred = $q.defer();
+        var promise1 = IncidentGroupService.getGroups();
+        var promise2 = ReferenceDataService.getHorizons();
+        var promise3 = ReferenceDataService.getStatus();
+        var promise4 = ReferenceDataService.getTypes();
+        var promise5 = this.getResolution(id);
+        $q.all([promise1, promise2, promise3, promise4, promise5]).then(function (data) {
+            deferred.resolve(data);
+        },
+            function (errors) {
                 deferred.reject(errors);
             });
-            return deferred.promise;
-            };
-    
+        return deferred.promise;
+    };
+
     this.getResolution = function (id) {
         var d = $q.defer();
 
@@ -235,7 +235,7 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
 
         return d.promise;
     };
-    
+
     this.saveResolution = function (resolution) {
         var d = $q.defer();
 
@@ -263,17 +263,17 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
 
         return d.promise;
     };
-    
+
 });
 
 app.service('ReferenceDataService', function ($http, $q) {
-    
+
     this.getStatus = function (id) {
         var d = $q.defer();
 
-        $http.get('reference/groupData/3', { 
-        	cache: true
-    		})
+        $http.get('reference/groupData/3', {
+            cache: true
+        })
             .success(function (response) {
                 d.resolve(response);
             })
@@ -283,13 +283,13 @@ app.service('ReferenceDataService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
     this.getResources = function () {
         var d = $q.defer();
 
-        $http.get('reference/groupData/4', { 
-        	cache: true
-    		})
+        $http.get('reference/groupData/4', {
+            cache: true
+        })
             .success(function (response) {
                 d.resolve(response);
             })
@@ -299,13 +299,13 @@ app.service('ReferenceDataService', function ($http, $q) {
 
         return d.promise;
     };
-    
-    this.getCategories =  function () {
+
+    this.getCategories = function () {
         var d = $q.defer();
 
-        $http.get('reference/groupData/5', { 
-        	cache: true
-    		})
+        $http.get('reference/groupData/5', {
+            cache: true
+        })
             .success(function (response) {
                 d.resolve(response);
             })
@@ -315,13 +315,13 @@ app.service('ReferenceDataService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
     this.getHorizons = function () {
         var d = $q.defer();
 
-        $http.get('reference/groupData/6', { 
-        	cache: true
-    		})
+        $http.get('reference/groupData/6', {
+            cache: true
+        })
             .success(function (response) {
                 d.resolve(response);
             })
@@ -331,13 +331,13 @@ app.service('ReferenceDataService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
     this.getTypes = function () {
         var d = $q.defer();
 
-        $http.get('reference/groupData/7', { 
-        	cache: true
-    		})
+        $http.get('reference/groupData/7', {
+            cache: true
+        })
             .success(function (response) {
                 d.resolve(response);
             })
@@ -348,13 +348,13 @@ app.service('ReferenceDataService', function ($http, $q) {
         return d.promise;
     };
 
-	this.getPdlcStatus =  function () {
+    this.getPdlcStatus = function () {
         var d = $q.defer();
 
-        $http.get('reference/groupData/8', { 
-        	cache: true
-        	})
-        	.success(function (response) {
+        $http.get('reference/groupData/8', {
+            cache: true
+        })
+            .success(function (response) {
                 d.resolve(response);
             })
             .error(function () {
@@ -364,12 +364,12 @@ app.service('ReferenceDataService', function ($http, $q) {
         return d.promise;
     };
 
-	this.getWikiTypes =  function () {
+    this.getWikiTypes = function () {
         var d = $q.defer();
 
         $http.get('reference/groupData/9', {
-        	cache: true
-        	})
+            cache: true
+        })
             .success(function (response) {
                 d.resolve(response);
             })
@@ -379,13 +379,13 @@ app.service('ReferenceDataService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
     this.getApplicationStatus = function () {
         var d = $q.defer();
 
         $http.get('reference/groupData/10', {
-        	  cache: true
-        	})
+            cache: true
+        })
             .success(function (response) {
                 d.resolve(response);
             })

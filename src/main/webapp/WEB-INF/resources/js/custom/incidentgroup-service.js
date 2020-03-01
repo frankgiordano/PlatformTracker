@@ -14,33 +14,33 @@ app.service('IncidentGroupService', function ($http, $q) {
     };
 
     this.getGroupIncidents = function (id) {
-    var d = $q.defer();
+        var d = $q.defer();
 
-    	$http.get('group/incidents/retrieve/' + id)
-    		.success(function (response) {
-    			d.resolve(response);
-    		})
-    		.error(function () {
-    			d.reject();
-    		});
+        $http.get('group/incidents/retrieve/' + id)
+            .success(function (response) {
+                d.resolve(response);
+            })
+            .error(function () {
+                d.reject();
+            });
 
-    	return d.promise;
+        return d.promise;
     };
-    
+
     this.getGroupResolutions = function (id) {
         var d = $q.defer();
 
-        	$http.get('group/retrieve/resolutions/' + id)
-        		.success(function (response) {
-        			d.resolve(response);
-        		})
-        		.error(function () {
-        			d.reject();
-        		});
+        $http.get('group/retrieve/resolutions/' + id)
+            .success(function (response) {
+                d.resolve(response);
+            })
+            .error(function () {
+                d.reject();
+            });
 
-        	return d.promise;
-        };
-    
+        return d.promise;
+    };
+
     this.saveGroup = function (group) {
         var d = $q.defer();
 
@@ -54,7 +54,7 @@ app.service('IncidentGroupService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
     this.deleteGroup = function (id) {
         var d = $q.defer();
 
@@ -68,7 +68,7 @@ app.service('IncidentGroupService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
     this.deleteAllGroupOrphans = function () {
         var d = $q.defer();
 
@@ -82,5 +82,5 @@ app.service('IncidentGroupService', function ($http, $q) {
 
         return d.promise;
     };
-    
+
 });

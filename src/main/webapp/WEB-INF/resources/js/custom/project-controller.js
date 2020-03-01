@@ -352,7 +352,7 @@ app.controller('ProjectController', function ($http, $rootScope, $scope, Project
                     }
                     $scope.back = true;
                     return;
-                } 
+                }
             },
             function error() {
                 $scope.errormessages = $rootScope.PROJECT_SAVE_ERROR_MSG;
@@ -360,12 +360,12 @@ app.controller('ProjectController', function ($http, $rootScope, $scope, Project
     };
 
     // just do this for required fields that are not defaulted dropdown fields.
-    $scope.enforceRequiredFields = function() {
-        if ($scope.project.name !== undefined && 
+    $scope.enforceRequiredFields = function () {
+        if ($scope.project.name !== undefined &&
             $scope.project.name !== null &&
             $scope.project.name.trim() === "")
             $scope.project.name = null;
-        if ($scope.project.description !== undefined && 
+        if ($scope.project.description !== undefined &&
             $scope.project.description !== null &&
             $scope.project.description.trim() === "")
             $scope.project.description = null;
@@ -550,7 +550,7 @@ app.controller('ResolutionProjectLinkingController', function ($http, $rootScope
                 if (response) {
                     if (!$scope.resolution.id)
                         $scope.messages = "New Resolution has been saved.";
-                    else 
+                    else
                         $scope.messages = "Resolutiuon ID " + $scope.resolution.id + " has been saved.";
                     $location.path('/resolution/search');
                 } else {

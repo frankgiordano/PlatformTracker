@@ -274,7 +274,7 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
             modal.close.then(function (result) {
                 if (result.answer === 'Yes') {
                     $scope.deleteRootCauseById(rca);
-                } 
+                }
             });
         });
     };
@@ -289,7 +289,7 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
                 if (response) {
                     $scope.messages = "Root Cause ID " + rca.id + " has been deleted.";
                     console.log("Root Cause has been deleted = " + response);
-                } 
+                }
                 $scope.back = true;
             },
             function error() {
@@ -359,9 +359,9 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
                     if (!$scope.rca.id) {
                         $scope.messages = "New Root Cause has been saved.";
                         console.log("New Root Cause has been saved = " + JSON.stringify(response));
-                    } 
+                    }
                     $scope.back = true;
-                } 
+                }
             },
             function error() {
                 $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
@@ -369,7 +369,7 @@ app.controller('RootCauseController', function ($http, $rootScope, $scope, RcaSe
     };
 
     // just do this for required fields that are not defaulted dropdown fields.
-    $scope.setEmptyStringToNull = function() {
+    $scope.setEmptyStringToNull = function () {
         if ($scope.rca.owner === "")
             $scope.rca.owner = null;
     }
