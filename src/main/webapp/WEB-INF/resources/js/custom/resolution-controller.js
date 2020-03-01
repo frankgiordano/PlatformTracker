@@ -389,10 +389,6 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
             $scope.resolution.description = null;
     }
 
-    clear = function () {
-        $location.path('/resolution/search');
-    };
-
     $scope.cancel = function () {
         $location.path('/resolution/search');
     };
@@ -403,7 +399,7 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
 
 });
 
-var resolutionCtrl = app.controller('ResolutionReportController', function ($http, $rootScope, $scope, ResolutionService, limitToFilter, $location, $routeParams, IncidentGroupService, ReferenceDataService, $filter, ModalService, gridData) {
+var resolutionCtrl = app.controller('ResolutionReportController', function ($rootScope, $scope, $location, gridData) {
     $scope.resolution = {};
 
     $scope.filterAction = function (action) {

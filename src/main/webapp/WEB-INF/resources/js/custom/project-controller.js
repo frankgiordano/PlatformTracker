@@ -416,7 +416,7 @@ app.controller('ComplexController', [
     }
 ]);
 
-app.controller('ResolutionProjectLinkingController', function ($http, $rootScope, $scope, ResolutionService, limitToFilter, $location, $routeParams, IncidentGroupService, ReferenceDataService) {
+app.controller('ResolutionProjectLinkingController', function ($rootScope, $scope, ResolutionService, $location, $routeParams) {
 
     $scope.filterOptions = {
         filterText: ''
@@ -458,7 +458,7 @@ app.controller('ResolutionProjectLinkingController', function ($http, $rootScope
         ResolutionService.getResolutions().then(
             function success(response, status, headers, config) {
                 var i, resolution;
-                //              console.log(JSON.stringify(response));
+                // console.log(JSON.stringify(response));
                 for (i = 0; i < response.length; ++i) {
                     resolution = response[i];
                     if (resolution.projectId == $routeParams.project) {
@@ -593,6 +593,7 @@ app.controller('ResolutionProjectLinkingController', function ($http, $rootScope
                 });
             }
         }
+
         for (i = 0; i < resolutions.length; ++i) {
             var item = resolutions[i];
             inputs.push({
