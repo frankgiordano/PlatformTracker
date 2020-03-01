@@ -9,7 +9,6 @@ import javax.persistence.PersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import us.com.plattrk.api.model.Status;
 import us.com.plattrk.api.model.IncidentResolution;
@@ -63,13 +62,6 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
                 IncidentResolution resolution = resolutions.get(i);
                 em.merge(resolution);
             }
-            /*
-             * int batchSize = 1000; for (int i = 0; i < resolutions.size();
-             * i++) { IncidentResolution resolution = resolutions.get(i);
-             * em.persist(resolution); if (i % batchSize == 0) { em.flush();
-             * em.clear(); } resolutions.add(resolution); } em.flush();
-             * em.clear();
-             */
         } catch (Exception e) {
             succeed = false;
             e.printStackTrace();

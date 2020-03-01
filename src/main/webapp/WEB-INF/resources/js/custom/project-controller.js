@@ -454,7 +454,6 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
     $scope.myData = [];
 
     $scope.linkResolutions = function () {
-
         ResolutionService.getResolutions().then(
             function success(response, status, headers, config) {
                 var i, resolution;
@@ -471,96 +470,6 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
                 $rootScope.errors.push({
                     code: "RESOLUTIONS_GET_FAILURE",
                     message: "Error retrieving resolutions."
-                });
-            });
-    };
-
-    $scope.getIncidentResolution = function () {
-        ResolutionService.getIncidentResolution($routeParams.id).then(
-            function success(response) {
-                if (response) {
-                    $scope.groups = response[0];
-                    $scope.horizons = response[1];
-                    $scope.status = response[2];
-                    $scope.types = response[3];
-                    $scope.resolution = response[4];
-
-                    var statusId = $scope.status.filter(function (item) {
-                        return item.id === $scope.resolution.status.id;
-                    });
-                    $scope.resolution.status = statusId[0];
-
-                    var typeId = $scope.types.filter(function (item) {
-                        return item.id === $scope.resolution.type.id;
-                    });
-                    $scope.resolution.type = typeId[0];
-
-                    var horizonId = $scope.horizons.filter(function (item) {
-                        return item.id === $scope.resolution.horizon.id;
-                    });
-                    $scope.resolution.horizon = horizonId[0];
-
-                    var incidentGroupId = $scope.groups.filter(function (item) {
-                        return item.id === $scope.resolution.incidentGroup.id;
-                    });
-                    $scope.resolution.incidentGroup = incidentGroupId[0];
-
-                } else {
-                    console.error("Unable to retrieve Resolution ID " + id);
-                }
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "INCIDENT_RESOLUTION_GET_FAILURE",
-                    message: "Error retrieving Incident Resolution."
-                });
-            });
-    };
-
-    $scope.update = function () {
-
-        var statusId = $scope.status.filter(function (item) {
-            return item.id === $scope.resolution.status.id;
-        });
-
-        var typeId = $scope.types.filter(function (item) {
-            return item.id === $scope.resolution.type.id;
-        });
-
-        var horizonId = $scope.horizons.filter(function (item) {
-            return item.id === $scope.resolution.horizon.id;
-        });
-
-        var resolution = {
-            "id": $scope.resolution.id,
-            "horizon": horizonId[0],
-            "incidentGroup": $scope.resolution.incidentGroup,
-            "actualCompletionDate": $scope.resolution.actualCompletionDate,
-            "description": $scope.resolution.description,
-            "owner": $scope.resolution.owner,
-            "resolutionProject": $scope.resolution.resolutionProject,
-            "sriArtifact": $scope.resolution.sriArtifact,
-            "estCompletionDate": $scope.resolution.estCompletionDate,
-            "status": statusId[0],
-            "type": typeId[0]
-        };
-
-        ResolutionService.saveResolution(resolution).then(
-            function success(response) {
-                if (response) {
-                    if (!$scope.resolution.id)
-                        $scope.messages = "New Resolution has been saved.";
-                    else
-                        $scope.messages = "Resolutiuon ID " + $scope.resolution.id + " has been saved.";
-                    $location.path('/resolution/search');
-                } else {
-                    console.error("Resolution " + resolution.id + " was unable to be saved.")
-                }
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "RESOLUTION_SAVE_FAILURE",
-                    message: $rootScope.REQUIRED_FILEDS_RESOLUTION_MSG
                 });
             });
     };
@@ -611,17 +520,14 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
         ResolutionService.saveLinkedResolutions(inputs).then(
             function success(response) {
                 if (response) {
-                    $scope.messages = "Project/Resolution linking saved."
+                    $scope.messages = "Linked Resolution(s) to Project successful."
                 } else {
-                    $scope.errormessages = "Project/Resolution linking failed."
+                    $scope.errormessages = "Linking some or all Resolution(s) to Project failed."
                 }
                 return;
             },
             function error() {
-                $rootScope.errors.push({
-                    code: "RESOLUTION_SAVE_FAILURE",
-                    message: $rootScope.REQUIRED_FILEDS_RESOLUTION_MSG
-                });
+                $scope.errormessages = $rootScope.PROJECT_LINK_RESOLUTON_ERROR_MSG;
             });
     }
 });
