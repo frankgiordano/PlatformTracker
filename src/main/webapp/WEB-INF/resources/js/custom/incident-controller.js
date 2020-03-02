@@ -326,8 +326,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
     $scope.clearMsg = function () {
         $scope.messages = null;
         $scope.errormessages = null;
-        $scope.messages2 = null;
-        $scope.errormessages2 = null;
         $scope.chronmessages = null;
         $scope.chronerrormessages = null;
     };
@@ -586,7 +584,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
                     if (response === "true") {
                         console.log("inside updateInSearch with new group " + JSON.stringify(incident));
                         $scope.errormessages = null;
-                        $scope.errormessages2 = null;
                         return IncidentService.saveIncident(incident);
                     }
                 }, function error () {
@@ -601,7 +598,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
                         console.log("Incident tag " + incident.tag + " with id " + incident.id + " has been saved with newly created Group " + groupCurrentORNew.name + ".");
                         $scope.refreshData();
                         $scope.errormessages = null;
-                        $scope.errormessages2 = null;
                         $scope.selectedIncident.version++;
                         $scope.disableButton = true;
                         $scope.groupModel.selectedNewGroup = null;
@@ -625,7 +621,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
                         console.log("Incident tag " + incident.tag + " with id " + incident.id + " has been saved with Group " + groupCurrentORNew + ".");
                         $scope.refreshData();
                         $scope.errormessages = null;
-                        $scope.errormessages2 = null;
                         $scope.selectedIncident.version++;
                         $scope.disableButton = true;
                         $scope.groupModel.selectedNewGroup = null;

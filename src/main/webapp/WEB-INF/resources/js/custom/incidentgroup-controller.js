@@ -603,7 +603,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
                     if (response === "true") {
                         console.log("inside updateInSearch with new Group " + JSON.stringify(incident));
                         $scope.errormessages = null;
-                        $scope.errormessages2 = null;
                         return IncidentService.saveIncident(incident);
                     } 
                 }, function error() {
@@ -617,7 +616,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
                         $scope.messages = "Incident ID " + incident.id + " has been saved.";
                         console.log("Incident tag " + incident.tag + " with id " + incident.id + " has been saved with newly created Group " + groupCurrentORNew.name + ".");
                         $scope.errormessages = null;
-                        $scope.errormessages2 = null;
                         $scope.selectedIncident.version++;
                         $scope.disableButton = true;
                         $scope.groupModel.selectedNewGroup = null;
@@ -641,7 +639,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
                         $scope.messages = "Incident ID " + incident.id + " has been saved.";
                         console.log("Incident tag " + incident.tag + " with id " + incident.id + " has been saved with Group " + groupCurrentORNew + ".");
                         $scope.errormessages = null;
-                        $scope.errormessages2 = null;
                         $scope.selectedIncident.version++;
                         $scope.disableButton = true;
                         $scope.groupModel.selectedNewGroup = null;

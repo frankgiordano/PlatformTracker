@@ -17,8 +17,6 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     $scope.clearMsg = function () {
         $scope.messages = null;
         $scope.errormessages = null;
-        $scope.messages2 = null;
-        $scope.errormessages2 = null;
     }
 
     if ($routeParams.id == null) {

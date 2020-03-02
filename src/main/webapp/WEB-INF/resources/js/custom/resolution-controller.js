@@ -298,8 +298,6 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
     $scope.clearMsg = function () {
         $scope.messages = null;
         $scope.errormessages = null;
-        $scope.messages2 = null;
-        $scope.errormessages2 = null;
     }
 
     $scope.update = function () {

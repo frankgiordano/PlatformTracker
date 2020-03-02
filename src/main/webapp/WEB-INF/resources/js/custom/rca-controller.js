@@ -300,8 +300,6 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     $scope.clearMsg = function () {
         $scope.messages = null;
         $scope.errormessages = null;
-        $scope.messages2 = null;
-        $scope.errormessages2 = null;
     }
 
     $scope.update = function () {
