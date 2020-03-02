@@ -600,8 +600,8 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
             // associated with it. This is using the chain promises technique. 
             IncidentGroupService.saveGroup(groupCurrentORNew)
                 .then(function success (response) {
-                    if (response === "true") {
-                        console.log("inside updateInSearch with new Group " + JSON.stringify(incident));
+                    if (response) {
+                        console.log("New Group has been saved = " + JSON.stringify(response));
                         $scope.errormessages = null;
                         return IncidentService.saveIncident(incident);
                     } 
