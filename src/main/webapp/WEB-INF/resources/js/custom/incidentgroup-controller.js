@@ -267,7 +267,7 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
             case "selectedIncident":
                 $scope.selectedIncident = null;
                 $scope.createChronology = null;
-                $scope.changedGroup();
+                $scope.changedGroup();  // refresh search
                 break;
             case "createChronology":
                 $scope.createChronology = null;
@@ -599,41 +599,36 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
             // A new group was specified, so go ahead and create it and then save the incident with the new group 
             // associated with it. This is using the chain promises technique. 
             IncidentGroupService.saveGroup(groupCurrentORNew)
-                .then(function (response) {
+                .then(function success (response) {
                     if (response === "true") {
                         console.log("inside updateInSearch with new Group " + JSON.stringify(incident));
                         $scope.errormessages = null;
                         $scope.errormessages2 = null;
                         return IncidentService.saveIncident(incident);
-                    } else {
-                        $scope.errormessages = "GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.";
-                        console.error("GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.");
-                        return $q.reject();
-                    }
-                }, function (response) {
-                    $scope.errormessages = "GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.";
-                    console.error("GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs. Incident will not be saved. Try again.");
+                    } 
+                }, function error() {
+                    $scope.errormessages = "GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs and try again.";
+                    console.error("GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs and try again.");
                     return $q.reject();
                 })
-                .then(function (response) {
+                .then(function success (response) {
                     if (response) {
                         $scope.getGroup(incident.id);
                         $scope.messages = "Incident ID " + incident.id + " has been saved.";
                         console.log("Incident tag " + incident.tag + " with id " + incident.id + " has been saved with newly created Group " + groupCurrentORNew.name + ".");
-                        $scope.refreshData();
                         $scope.errormessages = null;
                         $scope.errormessages2 = null;
                         $scope.selectedIncident.version++;
                         $scope.disableButton = true;
                         $scope.groupModel.selectedNewGroup = null;
                         $scope.changedGroup();
-                    } else {
-                        $scope.errormessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
-                        console.error("Incident tag " + incident.tag + " with id " + incident.id + " was unable to be saved with newly created Group " + groupCurrentORNew.name + ".");
+                    } 
+                }, function error (response) {
+                    if (response.includes("OptimisticLockException")) {
+                        $scope.errormessages = $rootScope.INCIDENT_VERSION_ERROR_MSG;
+                        return;
                     }
-                }, function (response) {
-                    $scope.errormessages2 = $rootScope.INCIDENT_SAVE_ERROR_MSG;
-                    console.error("Incident tag " + incident.tag + " with id " + incident.id + " was unable to be saved with newly created Group " + groupCurrentORNew.name + ".");
+                    $scope.errormessages = "Incident ID " + incident.id + " was unable to be saved with newly created Group " + groupCurrentORNew.name + ".";
                 });
         } else {
             // An existing current group is still there with no new group specified.
@@ -645,7 +640,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
                         $scope.getGroup(incident.id);
                         $scope.messages = "Incident ID " + incident.id + " has been saved.";
                         console.log("Incident tag " + incident.tag + " with id " + incident.id + " has been saved with Group " + groupCurrentORNew + ".");
-                        $scope.refreshData();
                         $scope.errormessages = null;
                         $scope.errormessages2 = null;
                         $scope.selectedIncident.version++;
@@ -654,7 +648,11 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
                         $scope.changedGroup();
                     }
                 },
-                function error() {
+                function error(response) {
+                    if (response.includes("OptimisticLockException")) {
+                        $scope.errormessages = $rootScope.INCIDENT_VERSION_ERROR_MSG;
+                        return;
+                    }
                     $scope.errormessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
                 });
         }

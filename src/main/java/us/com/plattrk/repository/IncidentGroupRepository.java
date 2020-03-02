@@ -15,7 +15,7 @@ public interface IncidentGroupRepository {
 
 	public boolean deleteGroup(Long id);
 
-	public boolean saveGroup(IncidentGroup group);
+	public IncidentGroup saveGroup(IncidentGroup group);
 
 	public boolean deleteAllGroupOrphans();
 	

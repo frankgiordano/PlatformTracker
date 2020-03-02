@@ -70,7 +70,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
 	}
 
 	@Override
-	public boolean saveGroup(IncidentGroup group) {
+	public IncidentGroup saveGroup(IncidentGroup group) {
 		try {
 			if (group.getId() == null) {
 				em.persist(group);
@@ -79,11 +79,12 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
 			else {
 				em.merge(group);
 			}
-		} catch (Exception e) {
-			log.error("in expection = " + e.getMessage());
-			return false;
+		} catch (PersistenceException e) {
+			log.error("IncidentGroupRepositoryImpl::saveGroup - failure saving group = " + group.toString() + ", msg = " + e.getMessage());
+			throw (e);
 		}
-		return true;
+
+		return group;
 	}
 	
 	@SuppressWarnings("rawtypes")

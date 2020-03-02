@@ -46,7 +46,7 @@ public class IncidentGroupController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
-    public boolean saveGroup(@RequestBody IncidentGroup group) {
+    public IncidentGroup saveGroup(@RequestBody IncidentGroup group) {
         return incidentGroupService.saveGroup(group);
     }
     

@@ -125,7 +125,8 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
     $rootScope.REQUIRED_FILEDS_INCIDENT_MSG = CHECK_REQUIRED_FIELDS_MSG + "Start Date Time, Locus, Description, Error Condition and Products.";
     $rootScope.REQUIRED_FILEDS_CHRONOLOGY_MSG = CHECK_REQUIRED_FIELDS_MSG + "Date Time and Description.";
     $rootScope.REQUIRED_FILEDS_GROUP_MSG = CHECK_REQUIRED_FIELDS_MSG + "Name and Description.";
-    $rootScope.REQUIRED_FILEDS_PROJECT_LINK_RESOLUTON_MSG = "Linking Resolution(s) to Project failed.";
+    $rootScope.PROJECT_LINK_RESOLUTON_MSG = "Linking Resolution(s) to Project failed.";
+    $rootScope.INCIDENT_VERSION_MSG = "Editing an older Incident detail version, please reload Incident detail from search page and try again. You may need to click on the Refresh Data button if one exist on the page.";
 
     $rootScope.PRODUCT_SAVE_ERROR_MSG = "PRODUCT" + SAVE_ERROR_MSG + $rootScope.REQUIRED_FIELDS_PRODUCT_MSG;
     $rootScope.PROJECT_SAVE_ERROR_MSG = "PROJECT" + SAVE_ERROR_MSG + $rootScope.REQUIRED_FILEDS_PROJECT_MSG;
@@ -134,7 +135,8 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
     $rootScope.INCIDENT_SAVE_ERROR_MSG = "INCIDENT" + SAVE_ERROR_MSG + $rootScope.REQUIRED_FILEDS_INCIDENT_MSG;
     $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG = "CHRONOLOGY" + SAVE_ERROR_MSG + $rootScope.REQUIRED_FILEDS_CHRONOLOGY_MSG;
     $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG = "GROUP" + SAVE_ERROR_MSG + $rootScope.REQUIRED_FILEDS_GROUP_MSG;
-    $rootScope.PROJECT_LINK_RESOLUTON_ERROR_MSG = "PROJECT_LINK_RESOLUTON" + SAVE_ERROR_MSG + $rootScope.REQUIRED_FILEDS_PROJECT_LINK_RESOLUTON_MSG;
+    $rootScope.PROJECT_LINK_RESOLUTON_ERROR_MSG = "PROJECT_LINK_RESOLUTON" + SAVE_ERROR_MSG + $rootScope.PROJECT_LINK_RESOLUTON_MSG;
+    $rootScope.INCIDENT_VERSION_ERROR_MSG = "INCIDENT_VERSION" + SAVE_ERROR_MSG + $rootScope.INCIDENT_VERSION_MSG;
 
     $scope.linkClicked = function (link) {
         $route.reload();

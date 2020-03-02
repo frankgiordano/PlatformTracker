@@ -37,7 +37,7 @@ public class IncidentGroupServiceImpl implements IncidentGroupService {
 
 	@Override
 	@Transactional
-	public boolean saveGroup(IncidentGroup group) {
+	public IncidentGroup saveGroup(IncidentGroup group) {
 		return incidentGroupRepository.saveGroup(group);
 	}
 
