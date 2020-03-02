@@ -776,25 +776,17 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
         $scope.clearMsg();
         IncidentGroupService.deleteGroup(id).then(
             function success(response) {
-                console.log(response);
-                if (response) {
-                    if (response === "false") {
-                        // group was not deleted a false was returned..
-                        $scope.errormessages = "GROUP_DELETE_FAILURE - Check logs or child associated entities still exist.";
-                        console.error("Group ID " + id + " was unable to be deleted.");
-                        return;
-                    }
-                    $scope.messages = "Group ID " + id + " has been deleted.";
-                    console.log("Group ID " + id + " has been deleted.");
-                    $scope.disableButton = true;
-                    $scope.refreshData();
-                } else {
-                    console.error("Group ID " + id + " was unable to be deleted.");
-                }
+                $scope.messages = "Group ID " + id + " has been deleted.";
+                console.log("Group has been deleted = " + JSON.stringify(response));
+                $scope.disableButton = true;
+                $scope.refreshData();
             },
-            function error() {
-                $scope.errormessages = "GROUP_DELETE_FAILURE - Check logs or child associated entities still exist.";
-                // $rootScope.errors.push({ code: "GROUP_DELETE_FAILURE", message: "Check logs or child associated incidents still exist." });
+            function error(response) {
+                if (response.includes("ConstraintErrorException")) {
+                    $scope.errormessages = "GROUP_DELETE_FAILURE - Child associated entities still exist.";
+                    return;
+                }
+                $scope.errormessages = "GROUP_DELETE_FAILURE - backend severe error, check logs and try again.";
             });
     };
 

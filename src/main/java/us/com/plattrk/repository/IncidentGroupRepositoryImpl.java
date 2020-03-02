@@ -45,28 +45,24 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
 	}
 
 	@Override
-	public boolean deleteGroup(Long id) {
+	public IncidentGroup deleteGroup(Long id) {
+		IncidentGroup group = null;
 		try {
-			IncidentGroup group = em.find(IncidentGroup.class, id);
+			group = em.find(IncidentGroup.class, id);
 			em.remove(group);
 			em.flush();
 		} catch (PersistenceException e) {
-			e.printStackTrace();
-			return false;
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-			return false;
+			log.error("IncidentGroupRepositoryImpl::deleteGroup - failure deleting group id " + id + ", msg = " + e.getMessage());
+			throw (e);
 		}
 		
 		// workaround where remove no longer sends a delete to the db to error back on constraint like before.. 
 		IncidentGroup groupCheck = em.find(IncidentGroup.class, id);
 		if (groupCheck != null) {
-			// delete of group did not occur return false
-			log.error("return false");
-			return false;
+			throw new PersistenceException("ConstraintErrorException");
 		}
 		
-		return true;
+		return group;
 	}
 
 	@Override

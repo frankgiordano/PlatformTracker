@@ -31,7 +31,7 @@ public class IncidentGroupServiceImpl implements IncidentGroupService {
 
 	@Override
 	@Transactional
-	public boolean deleteGroup(Long id) {
+	public IncidentGroup deleteGroup(Long id) {
 		return incidentGroupRepository.deleteGroup(id);
 	}
 

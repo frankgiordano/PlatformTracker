@@ -62,8 +62,8 @@ app.service('IncidentGroupService', function ($http, $q) {
             .success(function (response) {
                 d.resolve(response);
             })
-            .error(function () {
-                d.reject();
+            .error(function (response) {
+                d.reject(response);
             });
 
         return d.promise;

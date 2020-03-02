@@ -13,7 +13,7 @@ public interface IncidentGroupRepository {
 
 	public IncidentGroup getGroup(Long id);
 
-	public boolean deleteGroup(Long id);
+	public IncidentGroup deleteGroup(Long id);
 
 	public IncidentGroup saveGroup(IncidentGroup group);
 

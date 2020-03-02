@@ -40,7 +40,7 @@ public class IncidentGroupController {
 	
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
-    public boolean deleteGroup(@PathVariable Long id) {
+    public IncidentGroup deleteGroup(@PathVariable Long id) {
         return incidentGroupService.deleteGroup(id);
     }
 
