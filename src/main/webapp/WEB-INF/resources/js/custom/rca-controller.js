@@ -53,7 +53,6 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
             IncidentGroupService.getGroups().then(
                 function success(response) {
                     $scope.groups = response;
-                    //             console.log(JSON.stringify(response));
                 },
                 function error() {
                     $rootScope.errors.push({
@@ -248,7 +247,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                     });
                     $scope.rca.incidentGroup = incidentGroupId[0];
                 } else {
-                    console.error("Unable to retrieve Resolution ID " + id);
+                    console.error("Unable to retrieve Root Cuase ID " + id);
                 }
             },
             function error() {
@@ -356,8 +355,10 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                 if (response) {
                     if (!$scope.rca.id) {
                         $scope.messages = "New Root Cause has been saved.";
-                        console.log("New Root Cause has been saved = " + JSON.stringify(response));
+                    } else {
+                        $scope.messages = "Root Cause ID " + $scope.rca.id + " has been saved.";
                     }
+                    console.log("Root Cause has been saved = " + JSON.stringify(response));
                     $scope.back = true;
                 }
             },

@@ -120,95 +120,97 @@
 	</div>
 
 	<form class="form-horizontal" ng-show="createResolution">
+		<div data-ng-controller="ResolutionChildController" class="table table-condensed">
+			
+			<div>
+				<h2>Create Resolution</h2>
+			</div>
 
-		<div>
-			<h2>Create Resolution</h2>
-		</div>
+			<div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+			<div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
 
-		<div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-		<div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
+			<div class="form-group">
+				<label class="control-label col-md-2">Incident Group Name</label>
+				<div class="col-md-7 form-control-static">
+					{{selectedGroup.name}}
+				</div>
+			</div>
 
-		<div class="form-group">
-			<label class="control-label col-md-2">Incident Group Name</label>
-			<div class="col-md-7 form-control-static">
-				{{selectedGroup.name}}
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Horizon</label>
+				<div class="col-sm-7">
+					<select class="form-control" ng-model="resolution.horizon"
+						ng-options="item.displayName for item in horizons">
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Owner</label>
+				<div class="col-sm-6">
+					<div multi-select input-model="owners" button-label="userName" helper-elements="filter"
+						output-model="ownerlist" item-label="userName" tick-property="ticked"></div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Status</label>
+				<div class="col-sm-7">
+					<select class="form-control" ng-model="resolution.status"
+						ng-options="item.displayName for item in statuses">
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Estimated Completion Date</label>
+				<div class="col-sm-7">
+					<input type="date" class="form-control" ng-model="resolution.estCompletionDate">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Actual Completion Date</label>
+				<div class="col-sm-7">
+					<input type="date" class="form-control" ng-model="resolution.actualCompletionDate">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Type</label>
+				<div class="col-sm-7">
+					<select class="form-control" ng-model="resolution.type" ng-options="item.displayName for item in types">
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">SRI Artifact</label>
+				<div class="col-sm-7">
+					<input type="text" class="form-control" ng-model="resolution.sriArtifact">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Description</label>
+				<div class="col-sm-7">
+					<textarea type="text" class="form-control" rows="5" ng-model="resolution.description"></textarea>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button class="btn btn-primary" data-ng-disabled="progress.active()" ng-show="!disableButton"
+						data-ng-click="submit()">
+						Submit
+					</button>
+					<button class="btn btn-primary" data-ng-disabled="progress.active()"
+						data-ng-click="cancel()">
+						Back
+					</button>
+				</div>
 			</div>
 		</div>
-
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Horizon</label>
-			<div class="col-sm-7">
-				<select class="form-control" ng-model="selectedHorizon"
-					ng-options="item.displayName for item in horizons">
-				</select>
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Owner</label>
-			<div class="col-sm-7">
-				<input type="text" class="form-control" ng-model="selectedOwner">
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Status</label>
-			<div class="col-sm-7">
-				<select class="form-control" ng-model="selectedResStatus"
-					ng-options="item.displayName for item in status">
-				</select>
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Estimated Completion Date</label>
-			<div class="col-sm-7">
-				<input type="date" class="form-control" ng-model="selectedEstCompletionDate">
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Actual Completion Date</label>
-			<div class="col-sm-7">
-				<input type="date" class="form-control" ng-model="selectedActualCompletionDate">
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Type</label>
-			<div class="col-sm-7">
-				<select class="form-control" ng-model="selectedType" ng-options="item.displayName for item in types">
-				</select>
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label class="col-sm-2 control-label">SRI Artifact</label>
-			<div class="col-sm-7">
-				<input type="text" class="form-control" ng-model="selectedSriArtifact">
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Description</label>
-			<div class="col-sm-7">
-				<textarea type="text" class="form-control" rows="5" ng-model="selectedDescription"></textarea>
-			</div>
-		</div>
-
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button class="btn btn-primary" data-ng-disabled="progress.active()" ng-show="!disableButton"
-					data-ng-click="submitRes()">
-					Submit
-				</button>
-				<button class="btn btn-primary" data-ng-disabled="progress.active()"
-					data-ng-click="cancel('resolution')">
-					Back
-				</button>
-			</div>
-		</div>
-
 	</form>
 
 	<form class="form-horizontal" ng-show="createRootCA">

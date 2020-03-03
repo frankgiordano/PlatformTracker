@@ -1,4 +1,4 @@
-app.controller('IncidentGroupController', function ($rootScope, $filter, $scope, IncidentGroupService, IncidentService, ResolutionService, ReferenceDataService, ngTableParams, locuss, alerted_bys, options, statuss, incidentstatuss, recipents, ModalService, ProductService, ChronologyService, helperService) {
+app.controller('IncidentGroupController', function ($rootScope, $filter, $scope, IncidentGroupService, IncidentService, ReferenceDataService, ngTableParams, locuss, alerted_bys, options, statuss, incidentstatuss, recipents, ModalService, ProductService, ChronologyService, helperService) {
     $scope.init = function () {
         IncidentGroupService.getGroups().then(
             function success(response) {
@@ -19,7 +19,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
     (function () {
         ProductService.getActiveProducts().then(
             function success(response) {
-                // console.log("getActiveProducts " + JSON.stringify(response));
                 // response = helperService.sortByKey(response, 'shortName');
                 $scope.myProducts = response;
             },
@@ -34,7 +33,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
     (function () {
         IncidentService.getErrorConditions().then(
             function success(response) {
-                // console.log("getErrorConditions " + JSON.stringify(response));
                 $scope.errors = response;
             },
             function error() {
@@ -48,7 +46,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
     (function () {
         ReferenceDataService.getApplicationStatus().then(
             function success(response) {
-                // console.log("getIncidentStatus = " + JSON.stringify(response));
                 $scope.applicationStatuses = response;
                 $scope.selectedApplicationStatus = $scope.applicationStatuses[0];
             },
@@ -64,7 +61,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
     var getRelatedProducts = function (id) {
         IncidentService.getProducts(id).then(
             function success(response) {
-                // console.log(JSON.stringify(response));
                 $scope.selectedProducts = response;
             },
             function error() {
@@ -79,7 +75,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
     var getRelatedChronologies = function (id) {
         IncidentService.getChronologies(id).then(
             function success(response) {
-                // console.log("Chronologies " + JSON.stringify(response));
                 $scope.selectedChronologies = response;
             },
             function error() {
@@ -94,7 +89,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
     var getRelatedApplicationStatus = function (id) {
         IncidentService.getApplicationStatus(id).then(
             function success(response) {
-                // console.log("Application Status " + JSON.stringify(response));
                 $scope.selectedIncident.applicationStatus = response.displayName;
             },
             function error() {
@@ -109,7 +103,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
     var getRelatedErrorCode = function (id) {
         IncidentService.getErrorCode(id).then(
             function success(response) {
-                // console.log("Error Code " + JSON.stringify(response));
                 $scope.selectedIncident.error = response.name;
             },
             function error() {
@@ -120,49 +113,9 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
             });
     };
 
-    $scope.types1 = ReferenceDataService.getTypes().then(
-        function success(response) {
-            $scope.types = response;
-            // console.log("getTypes " + JSON.stringify($scope.types));
-            $scope.selectedType = $scope.types[2];
-        },
-        function error() {
-            $rootScope.errors.push({
-                code: "TYPES_GET_FAILURE",
-                message: "Error retrieving types."
-            });
-        });
-
-    $scope.status1 = ReferenceDataService.getStatus().then(
-        function success(response) {
-            $scope.status = response;
-            // console.log("getStatus " + JSON.stringify($scope.status));
-            $scope.selectedResStatus = $scope.status[0];
-        },
-        function error() {
-            $rootScope.errors.push({
-                code: "STATUS_GET_FAILURE",
-                message: "Error retrieving status."
-            });
-        });
-
-    $scope.horizons1 = ReferenceDataService.getHorizons().then(
-        function success(response) {
-            $scope.horizons = response;
-            // console.log("getHorizons " + JSON.stringify($scope.horizons));
-            $scope.selectedHorizon = $scope.horizons[2];
-        },
-        function error() {
-            $rootScope.errors.push({
-                code: "HORIZONS_GET_FAILURE",
-                message: "Error retrieving horizons."
-            });
-        });
-
     $scope.categories1 = ReferenceDataService.getCategories().then(
         function success(response) {
             $scope.categories = response;
-            // console.log("getCategories " + JSON.stringify($scope.categories));
             $scope.selectedCategory = $scope.categories[15];
         },
         function error() {
@@ -272,10 +225,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
             case "createChronology":
                 $scope.createChronology = null;
                 break;
-            case "resolution":
-                $scope.createResolution = false;
-                $scope.disableButton = false;
-                break;
             case "group":
                 $scope.selectedGroup = false;
                 break;
@@ -288,25 +237,13 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
             case "chronology":
                 $scope.createChronology.chronDescription = null;
                 break;
-            case 'resolution':
-                $scope.selectedOwner = null;
-                $scope.selectedSriArtifact = null;
-                $scope.selectedEstCompletionDate = null;
-                $scope.selectedActualCompletionDate = null;
-                $scope.selectedHorizon = $scope.horizons[2];
-                $scope.selectedDescription = null;
-                $scope.selectedType = $scope.types[2];
-                $scope.selectedResStatus = $scope.status[0];
-                break;
         }
     };
 
     $scope.select = function (option, object) {
         switch (option) {
             case "incident":
-                console.log("inside selected incident");
                 $scope.selectedIncident = object;
-                console.log(JSON.stringify($scope.selectedIncident));
                 getRelatedProducts($scope.selectedIncident.id);
                 getRelatedChronologies($scope.selectedIncident.id);
                 getRelatedErrorCode($scope.selectedIncident.id);
@@ -332,12 +269,10 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
                 $scope.show = true;
                 break;
             case "group":
-                console.log("inside selected Group");
                 $scope.selectedGroup = object;
                 $scope.disableButton = false;
                 break;
             case "chronology":
-                console.log("inside selected Chronology");
                 $scope.createChronology = new Object();
                 break;
         }
@@ -364,7 +299,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
             "incident": { id: $scope.selectedIncident.id }
         };
 
-        console.log("inside submitChronology " + JSON.stringify(chronology));
         ChronologyService.saveChronology(chronology).then(
             function success(response) {
                 if (response) {
@@ -401,7 +335,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
     var data = [];
 
     $scope.changedGroup = function () {
-        console.log("inside changedGroup, Group id " + $scope.selectedGroup.id);
         IncidentGroupService.getGroupIncidents($scope.selectedGroup.id).then(
             function success(response) {
                 data = response;
@@ -599,18 +532,17 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
             // A new group was specified, so go ahead and create it and then save the incident with the new group 
             // associated with it. This is using the chain promises technique. 
             IncidentGroupService.saveGroup(groupCurrentORNew)
-                .then(function success (response) {
+                .then(function success(response) {
                     if (response) {
                         console.log("New Group has been saved = " + JSON.stringify(response));
                         $scope.errormessages = null;
                         return IncidentService.saveIncident(incident);
-                    } 
+                    }
                 }, function error() {
                     $scope.errormessages = "GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs and try again.";
-                    console.error("GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs and try again.");
                     return $q.reject();
                 })
-                .then(function success (response) {
+                .then(function success(response) {
                     if (response) {
                         $scope.getGroup(incident.id);
                         $scope.messages = "Incident ID " + incident.id + " has been saved.";
@@ -620,8 +552,8 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
                         $scope.disableButton = true;
                         $scope.groupModel.selectedNewGroup = null;
                         $scope.changedGroup();
-                    } 
-                }, function error (response) {
+                    }
+                }, function error(response) {
                     if (response.includes("OptimisticLockException")) {
                         $scope.errormessages = $rootScope.INCIDENT_VERSION_ERROR_MSG;
                         return;
@@ -668,7 +600,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
         if (id == null) return;
         IncidentService.getGroup(id).then(
             function success(response) {
-                console.log("Group detail " + JSON.stringify(response));
                 if (response) {
                     $scope.groupModel.currentGroupName = response.name;
                     // paid attention this is used for the ng-if on the ng-include div.. we need to wait for this callback to complete
@@ -697,8 +628,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
             "status": $scope.selectedGroup.status
         };
 
-        console.log(group);
-        console.log(JSON.stringify(group));
         IncidentGroupService.saveGroup(group).then(
             function success(response) {
                 if (response) {
@@ -706,54 +635,21 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
                     console.log("Group ID " + group.id + " has been saved.");
                     $scope.errormessages = null;
                     $scope.disableButton = true;
-                } else {
-                    $scope.errormessages = $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG;
-                    console.error("Group ID " + group.id + " was unable to be saved.")
                 }
             },
             function error() {
                 $scope.errormessages = $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG;
-                // $rootScope.errors.push({ code: "GROUP_SAVE_FAILURE", message: $rootScope.REQUIRED_FILEDS_GROUP_MSG });
             });
     };
 
     $scope.createRes = function () {
         $scope.clearMsg();
-        $scope.clear('resolution');
         $scope.createResolution = true;
     };
 
     $scope.createRCA = function () {
         $scope.clearMsg();
         $scope.createRootCA = true;
-    };
-
-    $scope.submitRes = function () {
-
-        var resolution = {
-            "description": $scope.selectedDescription,
-            "status": $scope.selectedResStatus,
-            "owner": $scope.selectedOwner,
-            "sriArtifact": $scope.selectedSriArtifact,
-            "estCompletionDate": $scope.selectedEstCompletionDate,
-            "actualCompletionDate": $scope.selectedActualCompletionDate,
-            "type": $scope.selectedType,
-            "horizon": $scope.selectedHorizon,
-            "incidentGroup": $scope.selectedGroup
-        };
-        // console.log(JSON.stringify(resolution));
-        ResolutionService.saveResolution(resolution).then(
-            function success(response) {
-                if (response) {
-                    $scope.messages = $scope.selectedHorizon.displayName + " Resolution created for Group " + '"' + $scope.selectedGroup.name + '".';
-                    $scope.clear('resoluton');
-                    $scope.errormessages = null;
-                    $scope.disableButton = true;
-                }
-            },
-            function error() {
-                $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
-            });
     };
 
     $scope.deleteI = function (id) {
@@ -795,7 +691,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
         document.body.style.cursor = "wait";
         IncidentGroupService.deleteAllGroupOrphans().then(
             function success(response) {
-                console.log(response);
                 if (response) {
                     if (response === "false") {
                         // group was not deleted a false was returned..
@@ -805,7 +700,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
                         return;
                     }
                     $scope.messages = "All orphan groups have been deleted.";
-                    console.log("All orphan groups have been deleted.");
                     $scope.disableButton = true;
                     document.body.style.cursor = "default";
                     $scope.refreshData();
@@ -821,21 +715,10 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
 
 app.controller('RootCauseChildController', function ($rootScope, $scope, ReferenceDataService, RcaService, $filter) {
 
-    $scope.init = function () {
-        $scope.messages = null;
-        $scope.errormessages = null;
-        $scope.selectedProblem = null;
-        $scope.selectedDueDate = null;
-        $scope.selectedCompletionDate = null;
-        $scope.selectedOwner = null;
-        $scope.whys = null;
-    };
-
     (function () {
         ReferenceDataService.getStatus().then(
             function success(response) {
                 $scope.status = response;
-                // console.log("getStatus " + JSON.stringify($scope.status));
                 $scope.selectedRCAStatus = $scope.status[1];
             },
             function error() {
@@ -850,7 +733,6 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
         ReferenceDataService.getCategories().then(
             function success(response) {
                 $scope.categories = response;
-                // console.log("getCategories " + JSON.stringify($scope.categories));
                 $scope.selectedCategory = $scope.categories[15];
             },
             function error() {
@@ -865,7 +747,6 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
         ReferenceDataService.getResources().then(
             function success(response) {
                 $scope.resources = response;
-                // console.log("getCategories " + JSON.stringify($scope.resources));
                 $scope.selectedResource = $scope.resources[11];
             },
             function error() {
@@ -877,10 +758,9 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
     })();
 
     (function () {
-        ReferenceDataService.getCategories().then(
+        ReferenceDataService.getResources().then(
             function success(response) {
                 $scope.resources = response;
-                // console.log("getCategories " + JSON.stringify($scope.resources));
                 $scope.selectedResource = $scope.resources[11];
             },
             function error() {
@@ -1006,6 +886,123 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
             },
             function error() {
                 $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
+            });
+    };
+
+});
+
+app.controller('ResolutionChildController', function ($rootScope, $scope, ReferenceDataService, OwnersService, ResolutionService) {
+
+    $scope.resolution = {};
+
+    (function () {
+        ReferenceDataService.getHorizons().then(
+            function success(response) {
+                $scope.horizons = response;
+                $scope.resolution.horizon = $scope.horizons[2];
+            },
+            function error() {
+                $rootScope.errors.push({
+                    code: "HORIZONS_GET_FAILURE",
+                    message: "Error retrieving horizons."
+                });
+            });
+    })();
+
+    (function () {
+        OwnersService.getOwners().then(
+            function success(response) {
+                $scope.owners = response;
+            },
+            function error() {
+                $rootScope.errors.push({
+                    code: "OWNERS_GET_FAILURE",
+                    message: "Error retrieving owners."
+                });
+            });
+    })();
+
+    (function () {
+        ReferenceDataService.getStatus().then(
+            function success(response) {
+                $scope.statuses = response;
+                $scope.resolution.status = $scope.statuses[0];
+            },
+            function error() {
+                $rootScope.errors.push({
+                    code: "STATUS_GET_FAILURE",
+                    message: "Error retrieving status."
+                });
+            });
+    })();
+
+    (function () {
+        ReferenceDataService.getTypes().then(
+            function success(response) {
+                $scope.types = response;
+                $scope.resolution.type = $scope.types[2];
+            },
+            function error() {
+                $rootScope.errors.push({
+                    code: "TYPES_GET_FAILURE",
+                    message: "Error retrieving types."
+                });
+            });
+    })();
+
+    $scope.clear = function () {
+        $scope.resolution.horizon = $scope.horizons[2];
+        $scope.resolution.status = $scope.statuses[0];
+        $scope.resolution.type = $scope.types[2];
+        $scope.resolution.description = null;
+        $scope.resolution.owner = null;
+        $scope.ownersList = [];
+        $scope.resolution.sriArtifact = null;
+        $scope.resolution.estCompletionDate = null;
+        $scope.resolution.actualCompletionDate = null;
+        $scope.messages = null;
+        $scope.errormessages = null;
+    };
+
+    $scope.cancel = function () {
+        $scope.$parent.createResolution = false;
+        $scope.disableButton = false;
+        $scope.clear();
+    };
+
+    $scope.submit = function () {
+
+        if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
+            var owners = "";
+            for (i = 0; i < $scope.ownerlist.length; i++) {
+                owners = owners + "|" + $scope.ownerlist[i].userName;
+            }
+            if (owners.length > 1)
+                $scope.resolution.owner = owners.substring(1, owners.length);
+        }
+
+        var resolution = {
+            "description": $scope.resolution.description,
+            "status": $scope.resolution.status,
+            "owner": $scope.resolution.owner,
+            "sriArtifact": $scope.resolution.sriArtifact,
+            "estCompletionDate": $scope.resolution.estCompletionDate,
+            "actualCompletionDate": $scope.resolution.actualCompletionDate,
+            "type": $scope.resolution.type,
+            "horizon": $scope.resolution.horizon,
+            "incidentGroup": $scope.selectedGroup
+        };
+
+        ResolutionService.saveResolution(resolution).then(
+            function success(response) {
+                if (response) {
+                    $scope.messages = $scope.resolution.horizon.displayName + " Resolution created for Group " + '"' + $scope.selectedGroup.name + '".';
+                    $scope.errormessages = null;
+                    $scope.disableButton = true;
+                }
+            },
+            function error() {
+                $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
             });
     };
 
