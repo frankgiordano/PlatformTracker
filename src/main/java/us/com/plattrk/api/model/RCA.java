@@ -1,19 +1,11 @@
 package us.com.plattrk.api.model;
 
-import java.sql.Date;
+import javax.persistence.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import us.com.plattrk.search.Searchable;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "RCA")
@@ -100,7 +92,9 @@ public class RCA implements Searchable {
 		this.category = category;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "completion_date", nullable = true)
+	@JsonDeserialize(using=JsonDateMinusTimeDeserializer.class)
 	public Date getCompletionDate() {
 		return completionDate;
 	}
@@ -109,7 +103,9 @@ public class RCA implements Searchable {
 		this.completionDate = completionDate;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "due_date", nullable = true)
+	@JsonDeserialize(using=JsonDateMinusTimeDeserializer.class)
 	public Date getDueDate() {
 		return dueDate;
 	}

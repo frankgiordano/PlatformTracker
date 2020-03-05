@@ -174,7 +174,6 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
         RcaService.getRcas().then(
             function success(response, status, headers, config) {
                 $scope.myData = response;
-
             },
             function error() {
                 $rootScope.errors.push({
@@ -246,6 +245,13 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                         return item.id === $scope.rca.incidentGroup.id;
                     });
                     $scope.rca.incidentGroup = incidentGroupId[0];
+
+                    if ($scope.rca.dueDate)
+                        $scope.rca.dueDate = moment($scope.rca.dueDate).format('YYYY-MM-DD');
+
+                    if ($scope.rca.completionDate)
+                        $scope.rca.completionDate = moment($scope.rca.completionDate).format('YYYY-MM-DD');
+
                 } else {
                     console.error("Unable to retrieve Root Cuase ID " + id);
                 }
@@ -333,20 +339,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
         $scope.rca.resource = resourceId[0];
         $scope.rca.category = categoryId[0];
         $scope.rca.whys = whys;
-
-        if ($scope.rca.completionDate != null) {
-            var d = new Date($scope.rca.completionDate.toString());
-            d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
-            $scope.rca.completionDate = d;
-            d = null;
-        }
-
-        if ($scope.rca.dueDate != null) {
-            var d = new Date($scope.rca.dueDate.toString());
-            d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
-            $scope.rca.dueDate = d;
-            d = null;
-        }
+        
 
         $scope.setEmptyStringToNull();
 

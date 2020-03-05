@@ -249,7 +249,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
                 getRelatedErrorCode($scope.selectedIncident.id);
                 getRelatedApplicationStatus($scope.selectedIncident.id);
                 $scope.disableButton = false;
-
                 // store relatedActions for viewing
                 var actions = $scope.selectedIncident.relatedActions;
                 if (actions != null) {
@@ -264,7 +263,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
                     }
                     $scope.actions = newActions;
                 }
-
                 $scope.groupModel.currentGroupName = $scope.selectedGroup.name;
                 $scope.show = true;
                 break;
@@ -363,14 +361,11 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
             var filteredData = params.filter() ?
                 $filter('filter')(data, params.filter()) :
                 data;
-
             var orderedData = params.sorting() ?
                 $filter('orderBy')(filteredData, params.orderBy()) :
                 data;
-
             params.total(orderedData.length); // set total for recalc pagination
             $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-
         }
     });
 
@@ -401,7 +396,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
     $scope.openCalendar = function (e, date) {
         e.preventDefault();
         e.stopPropagation();
-
         $scope.open[date] = true;
     };
     // end - new datetimepicker stuff - https://github.com/Gillardo/bootstrap-ui-datetime-picker  	  
@@ -474,8 +468,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
             }
         }
 
-        console.log("groupCurrentORNew " + groupCurrentORNew);
-
         var errorCode;
         Object.keys($scope.errors).forEach(function (key) {
             if ($scope.errors[key].name === $scope.selectedIncident.error) {
@@ -544,14 +536,7 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
                 })
                 .then(function success(response) {
                     if (response) {
-                        $scope.getGroup(incident.id);
-                        $scope.messages = "Incident ID " + incident.id + " has been saved.";
-                        console.log("Incident tag " + incident.tag + " with id " + incident.id + " has been saved with newly created Group " + groupCurrentORNew.name + ".");
-                        $scope.errormessages = null;
-                        $scope.selectedIncident.version++;
-                        $scope.disableButton = true;
-                        $scope.groupModel.selectedNewGroup = null;
-                        $scope.changedGroup();
+                        $scope.postIncidentSave(incident);
                     }
                 }, function error(response) {
                     if (response.includes("OptimisticLockException")) {
@@ -567,14 +552,7 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
             IncidentService.saveIncident(incident).then(
                 function success(response) {
                     if (response) {
-                        $scope.getGroup(incident.id);
-                        $scope.messages = "Incident ID " + incident.id + " has been saved.";
-                        console.log("Incident tag " + incident.tag + " with id " + incident.id + " has been saved with Group " + groupCurrentORNew + ".");
-                        $scope.errormessages = null;
-                        $scope.selectedIncident.version++;
-                        $scope.disableButton = true;
-                        $scope.groupModel.selectedNewGroup = null;
-                        $scope.changedGroup();
+                        $scope.postIncidentSave(incident);
                     }
                 },
                 function error(response) {
@@ -586,6 +564,16 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
                 });
         }
     };
+
+    $scope.postIncidentSave = function (incident) {
+        $scope.getGroup(incident.id);
+        $scope.messages = "Incident ID " + incident.id + " has been saved.";
+        $scope.errormessages = null;
+        $scope.selectedIncident.version++;
+        $scope.disableButton = true;
+        $scope.groupModel.selectedNewGroup = null;
+        $scope.changedGroup();
+    }
 
     // just do this for required fields that are not defaulted dropdown fields.
     $scope.enforceRequiredFields = function () {
@@ -695,7 +683,6 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
                     if (response === "false") {
                         // group was not deleted a false was returned..
                         $scope.errormessages = "GROUP_ORPHANS_DELETE_FAILURE - Check logs, or no orphan groups to delete or problem deleting existing orphan groups.";
-                        console.error("GROUP_ORPHANS_DELETE_FAILURE - Check logs, or no orphan groups to delete or problem deleting existing orphan groups.");
                         document.body.style.cursor = "default";
                         return;
                     }
@@ -713,13 +700,28 @@ app.controller('IncidentGroupController', function ($rootScope, $filter, $scope,
 
 });
 
-app.controller('RootCauseChildController', function ($rootScope, $scope, ReferenceDataService, RcaService, $filter) {
+app.controller('RootCauseChildController', function ($rootScope, $scope, ReferenceDataService, RcaService, OwnersService, $filter) {
+
+    $scope.rca = {};
+
+    (function () {
+        OwnersService.getOwners().then(
+            function success(response) {
+                $scope.owners = response;
+            },
+            function error() {
+                $rootScope.errors.push({
+                    code: "OWNERS_GET_FAILURE",
+                    message: "Error retrieving owners."
+                });
+            });
+    })();
 
     (function () {
         ReferenceDataService.getStatus().then(
             function success(response) {
-                $scope.status = response;
-                $scope.selectedRCAStatus = $scope.status[1];
+                $scope.statuses = response;
+                $scope.rca.status = $scope.statuses[1];
             },
             function error() {
                 $rootScope.errors.push({
@@ -733,7 +735,7 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
         ReferenceDataService.getCategories().then(
             function success(response) {
                 $scope.categories = response;
-                $scope.selectedCategory = $scope.categories[15];
+                $scope.rca.category = $scope.categories[15];
             },
             function error() {
                 $rootScope.errors.push({
@@ -747,21 +749,7 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
         ReferenceDataService.getResources().then(
             function success(response) {
                 $scope.resources = response;
-                $scope.selectedResource = $scope.resources[11];
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "RESOURCES_GET_FAILURE",
-                    message: "Error retrieving resources."
-                });
-            });
-    })();
-
-    (function () {
-        ReferenceDataService.getResources().then(
-            function success(response) {
-                $scope.resources = response;
-                $scope.selectedResource = $scope.resources[11];
+                $scope.rca.resource = $scope.resources[11];
             },
             function error() {
                 $rootScope.errors.push({
@@ -772,14 +760,17 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
     })();
 
     $scope.clear = function () {
-        $scope.selectedProblem = null;
-        $scope.selectedDueDate = null;
-        $scope.selectedCompletionDate = null;
-        $scope.selectedCategory = $scope.categories[15];
-        $scope.selectedOwner = null;
-        $scope.selectedResource = $scope.resources[11];
-        $scope.selectedRCAStatus = $scope.status[1];
+        $scope.rca.status = $scope.statuses[1];
+        $scope.rca.category = $scope.categories[15];
+        $scope.rca.resource = $scope.resources[11];
+        $scope.rca.problemDescription = null;
         $scope.whys = [];
+        angular.forEach( $scope.owners, function( value, key ) {
+            value[ 'ticked' ] = false;
+        });
+        $scope.rca.dueDate = null;
+        $scope.rca.completionDate = null;
+        $scope.rca.owner = null;
         $scope.messages = null;
         $scope.errormessages = null;
     };
@@ -834,7 +825,6 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
     };
 
     $scope.deleteAction = function (id) {
-        console.log("action id deleted = " + id);
         var filtered = $filter('filter')($scope.actions, {
             id: id
         });
@@ -861,18 +851,29 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
     // END OF - add related actions stuff
 
     $scope.submit = function () {
+
+        if ($scope.ownerList != null && $scope.ownerList.length > 0) {
+            var owners = "";
+            for (i = 0; i < $scope.ownerList.length; i++) {
+                owners = owners + "|" + $scope.ownerList[i].userName;
+            }
+            if (owners.length > 1)
+                $scope.rca.owner = owners.substring(1, owners.length);
+        }
+
         var whys = $scope.whys.map(function (x) {
             return x.name
         }).join('|');
+
         var rca = {
-            "problem": $scope.selectedProblem,
+            "problem": $scope.rca.problemDescription,
             "whys": whys,
-            "dueDate": $scope.selectedDueDate,
-            "completionDate": $scope.selectedCompletionDate,
-            "category": $scope.selectedCategory,
-            "resource": $scope.selectedResource,
-            "owner": $scope.selectedOwner,
-            "status": $scope.selectedRCAStatus,
+            "dueDate": $scope.rca.dueDate,
+            "completionDate": $scope.rca.completionDate,
+            "category": $scope.rca.category,
+            "resource": $scope.rca.resource,
+            "owner": $scope.rca.owner,
+            "status": $scope.rca.status,
             "incidentGroup": $scope.$parent.selectedGroup
         };
 
@@ -956,7 +957,9 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, Refere
         $scope.resolution.type = $scope.types[2];
         $scope.resolution.description = null;
         $scope.resolution.owner = null;
-        $scope.ownersList = [];
+        angular.forEach( $scope.owners, function( value, key ) {
+            value[ 'ticked' ] = false;
+        });
         $scope.resolution.sriArtifact = null;
         $scope.resolution.estCompletionDate = null;
         $scope.resolution.actualCompletionDate = null;
@@ -972,10 +975,10 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, Refere
 
     $scope.submit = function () {
 
-        if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
+        if ($scope.ownerList != null && $scope.ownerList.length > 0) {
             var owners = "";
-            for (i = 0; i < $scope.ownerlist.length; i++) {
-                owners = owners + "|" + $scope.ownerlist[i].userName;
+            for (i = 0; i < $scope.ownerList.length; i++) {
+                owners = owners + "|" + $scope.ownerList[i].userName;
             }
             if (owners.length > 1)
                 $scope.resolution.owner = owners.substring(1, owners.length);

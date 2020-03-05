@@ -1,24 +1,9 @@
 package us.com.plattrk.api.model;
 
-import java.sql.Date;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.QueryHint;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "Incident_Resolution")
@@ -157,8 +142,9 @@ public class IncidentResolution {
 		this.horizonName = horizonName;
 	}
 
-    // @Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.DATE)
     @Column(name = "actual_completion_date", nullable = true)
+	@JsonDeserialize(using=JsonDateMinusTimeDeserializer.class)
     public Date getActualCompletionDate() {
         return actualCompletionDate;
     }
@@ -242,8 +228,9 @@ public class IncidentResolution {
 		this.sriArtifact = sriArtifact;
 	}
 
-	// @Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.DATE)
     @Column(name = "est_completion_date", nullable = false)
+	@JsonDeserialize(using=JsonDateMinusTimeDeserializer.class)
     public Date getEstCompletionDate() {
         return estCompletionDate;
     }

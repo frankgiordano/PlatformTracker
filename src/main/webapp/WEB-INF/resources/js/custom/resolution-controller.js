@@ -161,7 +161,7 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
                     $scope.horizons = response[1];
                     $scope.status = response[2];
                     $scope.types = response[3];
-                    response[4].estCompletionDate = moment(response[4].estcompletionDate).format('YYYY-MM-DD');
+                    response[4].estCompletionDate = moment(response[4].estCompletionDate).format('YYYY-MM-DD');
                     if (response[4].actualCompletionDate)
                         response[4].actualCompletionDate = moment(response[4].actualCompletionDate).format('YYYY-MM-DD');
                     $scope.resolution = response[4];
@@ -209,45 +209,6 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
                         return item.id === $scope.resolution.incidentGroup.id;
                     });
                     $scope.resolution.incidentGroup = incidentGroupId[0];
-                } else {
-                    console.error("Unable to retrieve Resolution ID " + id);
-                }
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "RESOLUTION_GET_FAILURE",
-                    message: "Error retrieving Resolution."
-                });
-            });
-    };
-
-    $scope.getResolution = function () {
-        ResolutionService.getResolution($routeParams.id).then(
-            function success(response) {
-                if (response) {
-                    resolution = response;
-                    var statusId = $scope.status.filter(function (item) {
-                        return item.value === resolution.statusId.toString();
-                    });
-
-                    var typeId = $scope.types.filter(function (item) {
-                        return item.value === resolution.typeId.toString();
-                    });
-
-                    var horizonId = $scope.horizons.filter(function (item) {
-                        return item.value === resolution.horizonId.toString();
-                    });
-
-                    var groupId = $scope.groups.filter(function (item) {
-                        console.log(item.id === resolution.incidentId);
-                        return item.id === resolution.incidentId;
-                    });
-
-                    resolution.statusId = statusId[0];
-                    resolution.typeId = typeId[0];
-                    resolution.horizonId = horizonId[0];
-                    resolution.incidentGroup = groupId[0];
-                    $scope.resolution = resolution;
                 } else {
                     console.error("Unable to retrieve Resolution ID " + id);
                 }
@@ -356,7 +317,6 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
             "status": statusId[0],
             "type": typeId[0],
             "issue": $scope.resolution.issue
-            // "relatedActions": actions
         };
 
         ResolutionService.saveResolution(resolution).then(
