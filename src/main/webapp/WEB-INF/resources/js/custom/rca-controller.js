@@ -339,7 +339,6 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
         $scope.rca.resource = resourceId[0];
         $scope.rca.category = categoryId[0];
         $scope.rca.whys = whys;
-        
 
         $scope.setEmptyStringToNull();
 
