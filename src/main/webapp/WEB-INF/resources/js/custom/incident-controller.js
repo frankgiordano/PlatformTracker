@@ -2,7 +2,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
     $scope.init = function () {
         IncidentService.getIncidents().then(
             function success(response) {
-                //            	console.log(JSON.stringify(response));
                 $scope.incidents = response;
             },
             function error() {
@@ -20,7 +19,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
     (function () {
         ProductService.getActiveProducts().then(
             function success(response) {
-                // console.log(JSON.stringify(response));
                 // response = helperService.sortByKey(response, 'shortName');
                 $scope.myProducts = response;
             },
@@ -35,7 +33,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
     (function () {
         IncidentService.getErrorConditions().then(
             function success(response) {
-                // console.log("getErrorConditions = " + JSON.stringify(response));
                 $scope.errors = response;
                 $scope.selectedError = $scope.errors[0];  // default error dropdown for create screen
             },
@@ -50,7 +47,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
     (function () {
         ReferenceDataService.getApplicationStatus().then(
             function success(response) {
-                // console.log("getIncidentStatus = " + JSON.stringify(response));
                 $scope.applicationStatuses = response;
                 $scope.selectedApplicationStatus = $scope.applicationStatuses[0];
             },
@@ -66,7 +62,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
         IncidentGroupService.getGroups().then(
             function success(response) {
                 $scope.groups = response;
-
             },
             function error() {
                 $rootScope.errors.push({
@@ -149,11 +144,9 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
     $scope.select = function (option, object) {
         switch (option) {
             case "incident":
-                console.log("inside selected incident");
                 $scope.selectedIncident = object;
                 $scope.selectedIncident.error = $scope.selectedIncident.errorName;
                 $scope.selectedIncident.applicationStatus = $scope.selectedIncident.applicationStatusName;
-                console.log(JSON.stringify($scope.selectedIncident));
                 getRelatedProducts($scope.selectedIncident.id);
                 getRelatedChronologies($scope.selectedIncident.id);
                 $scope.disableButton = false;
@@ -248,7 +241,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
     };
 
     $scope.deleteAction = function (id) {
-        console.log("action id deleted = " + id);
         var filtered = $filter('filter')($scope.actions, {
             id: id
         });
@@ -442,7 +434,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
         $scope.clearMsg();
         IncidentService.getIncident(id).then(
             function success(response) {
-                // console.log(JSON.stringify(response));
                 if (response) {
                     $scope.incident = response;
                     console.log("Incident retrieved for Incident ID " + id);
@@ -475,7 +466,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
 
     $scope.updateInSearch = function () {
         $scope.clearMsg();
-        // Default values for the request.
 
         // generate tag again just in case the products and start-time were changed
         $scope.generateUpdatedTag();
@@ -523,7 +513,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
                 groupCurrentORNew = $scope.groupModel.currentGroupName;
             }
         }
-        console.log("groupCurrentORNew " + groupCurrentORNew);
 
         var errorCode;
         Object.keys($scope.errors).forEach(function (key) {
@@ -580,18 +569,18 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
             // A new group was specified, so go ahead and create it and then save the incident with the new group 
             // associated with it. This is using the chain promises technique. 
             IncidentGroupService.saveGroup(groupCurrentORNew)
-                .then(function success (response) {
+                .then(function success(response) {
                     if (response) {
                         console.log("New Group has been saved = " + JSON.stringify(response));
                         $scope.errormessages = null;
                         return IncidentService.saveIncident(incident);
                     }
-                }, function error () {
+                }, function error() {
                     $scope.errormessages = "GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs and try again.";
                     console.error("GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs and try again.");
                     return $q.reject();
                 })
-                .then(function success (response) {
+                .then(function success(response) {
                     if (response) {
                         $scope.getGroup(incident.id);
                         $scope.messages = "Incident ID " + incident.id + " has been saved.";
@@ -601,8 +590,8 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
                         $scope.selectedIncident.version++;
                         $scope.disableButton = true;
                         $scope.groupModel.selectedNewGroup = null;
-                    } 
-                }, function error (response) {
+                    }
+                }, function error(response) {
                     if (response.includes("OptimisticLockException")) {
                         $scope.errormessages = $rootScope.INCIDENT_VERSION_ERROR_MSG;
                         return;
@@ -626,7 +615,7 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
                         $scope.groupModel.selectedNewGroup = null;
                     }
                 },
-                function error (response) {
+                function error(response) {
                     if (response.includes("OptimisticLockException")) {
                         $scope.errormessages = $rootScope.INCIDENT_VERSION_ERROR_MSG;
                         return;
@@ -758,7 +747,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
         };
 
         document.body.style.cursor = "wait";
-        console.log("inside submitChronology " + JSON.stringify(chronology));
         ChronologyService.saveChronology(chronology).then(
             function success(response) {
                 document.body.style.cursor = "default";
@@ -778,7 +766,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
     };
 
     $scope.remove = function (item) {
-        console.log("inside remove " + JSON.stringify(item));
         ChronologyService.deleteChronology(item.id).then(
             function success(response) {
                 if (response) {

@@ -765,8 +765,8 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
         $scope.rca.resource = $scope.resources[11];
         $scope.rca.problemDescription = null;
         $scope.whys = [];
-        angular.forEach( $scope.owners, function( value, key ) {
-            value[ 'ticked' ] = false;
+        angular.forEach($scope.owners, function (value, key) {
+            value['ticked'] = false;
         });
         $scope.rca.dueDate = null;
         $scope.rca.completionDate = null;
@@ -957,8 +957,8 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, Refere
         $scope.resolution.type = $scope.types[2];
         $scope.resolution.description = null;
         $scope.resolution.owner = null;
-        angular.forEach( $scope.owners, function( value, key ) {
-            value[ 'ticked' ] = false;
+        angular.forEach($scope.owners, function (value, key) {
+            value['ticked'] = false;
         });
         $scope.resolution.sriArtifact = null;
         $scope.resolution.estCompletionDate = null;

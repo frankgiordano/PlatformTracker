@@ -38,7 +38,6 @@ app.controller('IncidentReportController', function ($rootScope, $filter, $scope
 	};
 
 	$scope.select = function (object) {
-		console.log("Generate Incident Report");
 		selectedIncident = object;
 
 		// use chain promises to get products, group id, resolutions, and chronologies before we fill in the doc template
@@ -170,7 +169,6 @@ app.controller('IncidentReportController', function ($rootScope, $filter, $scope
 
 	// this method is not currently being used
 	$scope.incidentSearch = function () {
-		console.log("inside changedGroup, group id " + $scope.selectedGroup.id);
 		IncidentGroupService.getGroupIncidents($scope.selectedGroup.id).then(
 			function success(response) {
 				data = response;

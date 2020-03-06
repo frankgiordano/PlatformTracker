@@ -108,7 +108,6 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
             "users": $scope.selectedProduct.users
         };
 
-        console.log("Saving Product = " + JSON.stringify(product));
         ProductService.saveProduct(product).then(
             function success(response) {
                 if (response) {
@@ -168,7 +167,6 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
             "users": $scope.users
         };
 
-        console.log(JSON.stringify(product));
         ProductService.saveProduct(product).then(
             function success(response) {
                 if (response) {

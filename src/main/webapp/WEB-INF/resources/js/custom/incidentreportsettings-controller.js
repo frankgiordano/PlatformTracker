@@ -3,7 +3,6 @@ app.controller('IncidentReportSettingsController', function ($scope, IncidentSer
     $scope.init = function () {
         IncidentService.isToggleAutoWeeklyReport().then(
             function success(response) {
-                console.log(JSON.stringify(response));
                 if (response === "true") {
                     $scope.onoffswitch = "ON";
                 } else {
@@ -24,7 +23,6 @@ app.controller('IncidentReportSettingsController', function ($scope, IncidentSer
 
         IncidentService.toggleAutoWeeklyReport(actionValue).then(
             function success(response) {
-                console.log(JSON.stringify(response));
                 if (response === "true") {
                     $scope.messages = "Saved successfully.";
                 } else {

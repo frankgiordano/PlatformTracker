@@ -166,7 +166,6 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         ProjectService.getProjects().then(
             function success(response, status, headers, config) {
                 var i, project;
-                // console.log(JSON.stringify(response));
                 $scope.myData = response;
             },
             function error() {
@@ -337,7 +336,6 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             "conflenceId": $scope.project.conflenceId
         };
 
-        console.log("Saving Project = " + JSON.stringify(project));
         ProjectService.saveProject(project).then(
             function success(response) {
                 if (response) {
@@ -455,7 +453,6 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
         ResolutionService.getResolutions().then(
             function success(response, status, headers, config) {
                 var i, resolution;
-                // console.log(JSON.stringify(response));
                 for (i = 0; i < response.length; ++i) {
                     resolution = response[i];
                     if (resolution.projectId == $routeParams.project) {

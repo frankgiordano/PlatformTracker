@@ -5,7 +5,6 @@ app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, I
     (function () {
         ProductService.getProducts().then(
             function success(response) {
-                // console.log(JSON.stringify(response));
                 response = helperService.sortByKey(response, 'shortName');
                 $scope.myProducts = response;
             },
