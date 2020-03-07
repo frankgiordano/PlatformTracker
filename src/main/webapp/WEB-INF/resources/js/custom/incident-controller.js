@@ -163,24 +163,25 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     }, true);
 
     $scope.$watch("incident.endTime", function (val) {
-        if ($scope.incident) {// this needs to be a truthy test
+        if ($scope.incident) { // this needs to be a truthy test
             $scope.vDateEnd = moment($scope.incident.endTime).format('MM-DD-YYYY HH:mm UTC');
         }
     }, true);
 
     // this watch is for the date time field for the chronology section of an incident detail
     $scope.$watch("createChronology.chronologyDateTime", function (val) {
-        if ($scope.createChronology) {// this needs to be a truthy test 	
+        if ($scope.createChronology) { // this needs to be a truthy test 	
             $scope.vDateTime = moment($scope.createChronology.chronologyDateTime).format('MM-DD-YYYY HH:mm');
         }
     }, true);
 
     $scope.$watch("incident.status", function (val) {
-        if ($scope.incident.status.name === "Closed") {// this needs to be a truthy test 	
-            $scope.showResolution = true;
-        } else {
-            $scope.showResolution = false;
-        }
+        if ($scope.incident) 
+            if ($scope.incident.status)
+                if ($scope.incident.status.name === "Closed") 
+                    $scope.showResolution = true;
+                else 
+                    $scope.showResolution = false;
     }, true);
 
     // START - DATETIMEPICKER SETUP - https://github.com/Gillardo/bootstrap-ui-datetime-picker  
