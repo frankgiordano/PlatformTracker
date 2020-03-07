@@ -20,7 +20,6 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
             IncidentGroupService.getGroups().then(
                 function success(response) {
                     $scope.groups = response;
-
                 },
                 function error() {
                     $rootScope.errors.push({
@@ -33,9 +32,7 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
         $scope.types1 = ReferenceDataService.getTypes().then(
             function success(response) {
                 $scope.types = response;
-
                 $scope.resolution.type = response[0];
-
             },
             function error() {
                 $rootScope.errors.push({

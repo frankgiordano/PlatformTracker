@@ -1,4 +1,4 @@
-app.value('statuss', [{
+app.value('groupStatuses', [{
     name: 'Unresolved',
     value: 'Unresolved'
 }, {
@@ -45,41 +45,12 @@ app.value('platforms', [{
     value: 'n\\a'
 }]);
 
-app.value('options', [{
+app.value('severities', [{
     name: 'P1',
     value: 'P1'
 }, {
     name: 'P2',
     value: 'P2'
-}]);
-
-app.value('errors', [{
-    name: 'Application process not running',
-    value: 'Application process not running'
-}, {
-    name: 'Database errors in Logs',
-    value: 'Database errors in Logs'
-}, {
-    name: 'Database Integrity Errors',
-    value: 'Database Integrity Errors'
-}, {
-    name: 'Disconnected Printers',
-    value: 'Disconnected Printers'
-}, {
-    name: 'Errors in Communication Logs',
-    value: 'Errors in Communication Logs'
-}, {
-    name: 'None Detected',
-    value: 'None Detected'
-}, {
-    name: 'Service not responding',
-    value: 'Service not responding'
-}, {
-    name: 'System failure notification',
-    value: 'System failure notification'
-}, {
-    name: '',
-    value: null
 }]);
 
 app.value('locuss', [{

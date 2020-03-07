@@ -1,4 +1,7 @@
-app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $timeout, $filter, IncidentService, ReferenceDataService, ProductService, IncidentGroupService, locuss, alerted_bys, options, statuss, incidentstatuss, recipents, ModalService, ChronologyService, helperService) {
+app.controller('IncidentController', function ($rootScope, $scope, IncidentGroupService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService) {
+
+    $scope.incident = {};
+
     $scope.init = function () {
         IncidentService.getIncidents().then(
             function success(response) {
@@ -12,14 +15,15 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
             });
     };
 
-    // This was using getProducts() before but changed it to getActiveProducts() call which is a bit
-    // more optimized. It returns data sorted and hence no need to sort in JavaScript level with the
-    // helperService I created.  getActiveProducts() is used because this only returns active products, 
-    // not all products, which is required now for the dropdown in incident. 
+    $scope.refreshData = function () {
+        var newData = $scope.init();
+        $scope.rowCollection = newData;
+    };
+
+    // no matter where this controller is being loaded exacute the following call 
     (function () {
         ProductService.getActiveProducts().then(
             function success(response) {
-                // response = helperService.sortByKey(response, 'shortName');
                 $scope.myProducts = response;
             },
             function error() {
@@ -30,76 +34,146 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
             });
     }());
 
-    (function () {
-        IncidentService.getErrorConditions().then(
-            function success(response) {
-                $scope.errors = response;
-                $scope.selectedError = $scope.errors[0];  // default error dropdown for create screen
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "ERROR_CONDITION_GET_FAILURE",
-                    message: "Error retrieving error conditions."
+    $scope.createSetup = function () {
+        // make sure it is the create screen no id in url
+        if ($routeParams.id === undefined) {
+            IncidentService.getErrorConditions().then(
+                function success(response) {
+                    $scope.errors = response;
+                    $scope.incident.error = $scope.errors[0];  // default error dropdown for create screen
+                },
+                function error() {
+                    $rootScope.errors.push({
+                        code: "ERROR_CONDITION_GET_FAILURE",
+                        message: "Error retrieving error conditions."
+                    });
                 });
-            });
-    }());
 
-    (function () {
-        ReferenceDataService.getApplicationStatus().then(
-            function success(response) {
-                $scope.applicationStatuses = response;
-                $scope.selectedApplicationStatus = $scope.applicationStatuses[0];
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "APPLICATION_STATUSES_GET_FAILURE",
-                    message: "Error retrieving application statuses."
+            ReferenceDataService.getApplicationStatus().then(
+                function success(response) {
+                    $scope.applicationStatuses = response;
+                    $scope.incident.applicationStatus = $scope.applicationStatuses[0];
+                },
+                function error() {
+                    $rootScope.errors.push({
+                        code: "APPLICATION_STATUSES_GET_FAILURE",
+                        message: "Error retrieving application statuses."
+                    });
                 });
-            });
-    }());
 
-    function getGroups() {
-        IncidentGroupService.getGroups().then(
+            $scope.loadUIHardCodedValues();
+
+            $scope.incident.severity = $scope.severities[0];
+            $scope.incident.status = $scope.incidentstatuss[0];
+            $scope.incident.emailRecipents = $scope.recipents[0];
+            $scope.incident.locus = $scope.locuss[0];
+            $scope.incident.alertedBy = $scope.alerted_bys[0];
+        }
+    }
+
+    $scope.editIncidentSetup = function () {
+        IncidentService.getIncidentPlus($routeParams.id).then(
             function success(response) {
-                $scope.groups = response;
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "GROUPS_GET_FAILURE",
-                    message: "Error retrieving groups."
-                });
-            });
-    };
-    getGroups();
+                if (response) {
+                    $scope.groups = response[0];
+                    $scope.chronologies = response[1];
+                    $scope.errors = response[2];
+                    $scope.applicationStatuses = response[3];
+                    $scope.products = response[4];
 
-    $scope.showOnDelete = function () {
-        var title = "Incident";
-        var name = "Incident Detail ID " + $scope.selectedIncident.id;
+                    response[5].startTime = moment(response[5].startTime).format('MM-DD-YYYY HH:mm');;
+                    if (response[5].endTime)
+                        response[5].endTime = moment(response[5].endTime).format('MM-DD-YYYY HH:mm');;
 
-        ModalService.showModal({
-            templateUrl: "resources/html/templates/complex.html",
-            controller: "ComplexController",
-            inputs: {
-                title: "Delete " + title + " Confirmation:",
-                name: name
-            }
-        }).then(function (modal) {
-            modal.element.modal({ backdrop: 'static' });
-            modal.close.then(function (result) {
-                if (result.answer == 'Yes') {
-                    $scope.deleteI($scope.selectedIncident.id);
+                    $scope.incident = response[5];
+
+                    $scope.getGroup($scope.incident.id);
+
+                    $scope.loadUIHardCodedValues();
+
+                    var error = $scope.errors.filter(function (item) {
+                        return item.id === $scope.incident.error.id;
+                    });
+                    $scope.incident.error = error[0].name;
+
+                    var applicationStatus = $scope.applicationStatuses.filter(function (item) {
+                        return item.id === $scope.incident.applicationStatus.id;
+                    });
+                    $scope.incident.applicationStatus = applicationStatus[0].displayName;
+
+                    // store relatedActions for viewing
+                    var actions = $scope.incident.relatedActions;
+                    if (actions != null) {
+                        var actionsList = actions.split("|");
+                        var newActions = [];
+                        for (var i in actionsList) {
+                            newActions.push({
+                                id: i,
+                                name: actionsList[i],
+                                isNew: true
+                            });
+                        }
+                        $scope.actions = newActions;
+                    }
+
+                    $scope.disableButton = false;
                 }
+            },
+            function error() {
+                $rootScope.errors.push({
+                    code: "INCIDENT_GET_FAILURE",
+                    message: "Error retrieving Incident."
+                });
             });
-        });
     };
 
-    $scope.refreshData = function () {
-        var newData = $scope.init();
-        $scope.rowCollection = newData;
-    };
-    $scope.selectedIncident = null;
+    // the following method will load in UI hard coded values
+    // to fill in apppropriate dropdown fields. see controller.js
+    $scope.loadUIHardCodedValues = function () {
+        $scope.severities = severities;
+        $scope.incidentstatuss = incidentstatuss;
+        $scope.recipents = recipents;
+        $scope.locuss = locuss;
+        $scope.alerted_bys = alerted_bys;
+        $scope.groupStatuses = groupStatuses;
+    }
 
-    // start - new datetimepicker stuff - https://github.com/Gillardo/bootstrap-ui-datetime-picker  
+    // paid attention here.. this object is used for the ng-include directive which creates its own child scope.
+    // since it relies on scope inheritance to resolve bindings, then a ng-model reference should have a '.' in it to
+    // resolve properly. otherwise, selectedNewGroup used as a single variable outside an object for the drop down
+    // list, it will create a shadow variable on the child scope that is a copy of the variable in the parent scope.
+    // This breaks the model binding.. 
+    $scope.groupModel = {
+        currentGroupName: null,
+        selectedNewGroup: null
+    };
+
+    $scope.selectedGroup = null;
+
+    // these next two watches are for the date time picker fields when displaying an incident detail
+    // from incident list filtered by groups
+    // these next two watches are for the date time fields when displaying an incident detail
+    // from incident list
+    $scope.$watch("incident.startTime", function (val) {
+        if ($scope.incident) { // this needs to be a truthy test
+            $scope.vDateStart = moment($scope.incident.startTime).format('MM-DD-YYYY HH:mm UTC');
+        }
+    }, true);
+
+    $scope.$watch("incident.endTime", function (val) {
+        if ($scope.incident) {// this needs to be a truthy test
+            $scope.vDateEnd = moment($scope.incident.endTime).format('MM-DD-YYYY HH:mm UTC');
+        }
+    }, true);
+
+    // this watch is for the date time field for the chronology section of an incident detail
+    $scope.$watch("createChronology.chronologyDateTime", function (val) {
+        if ($scope.createChronology) {// this needs to be a truthy test 	
+            $scope.vDateTime = moment($scope.createChronology.chronologyDateTime).format('MM-DD-YYYY HH:mm');
+        }
+    }, true);
+
+    // START - DATETIMEPICKER SETUP - https://github.com/Gillardo/bootstrap-ui-datetime-picker  
     $scope.open = {
         startTime: false,
         endTime: false,
@@ -126,114 +200,11 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
     $scope.openCalendar = function (e, date) {
         e.preventDefault();
         e.stopPropagation();
-
         $scope.open[date] = true;
     };
-    // end - new datetimepicker stuff - https://github.com/Gillardo/bootstrap-ui-datetime-picker  	  
+    // END - DATETIMEPICKER SETUP  - https://github.com/Gillardo/bootstrap-ui-datetime-picker  
 
-    // paid attention here.. this object is used for the ng-include directive which creates its own child scope.
-    // since it relies on scope inheritance to resolve bindings, then a ng-model reference should have a '.' in it to
-    // resolve properly. otherwise, selectedNewGroup used as a single variable outside an object for the drop down
-    // list, it will create a shadow variable on the child scope that is a copy of the variable in the parent scope.
-    // This breaks the model binding.. 
-    $scope.groupModel = {
-        currentGroupName: null,
-        selectedNewGroup: null
-    };
-
-    $scope.select = function (option, object) {
-        switch (option) {
-            case "incident":
-                $scope.selectedIncident = object;
-                $scope.selectedIncident.error = $scope.selectedIncident.errorName;
-                $scope.selectedIncident.applicationStatus = $scope.selectedIncident.applicationStatusName;
-                getRelatedProducts($scope.selectedIncident.id);
-                getRelatedChronologies($scope.selectedIncident.id);
-                $scope.disableButton = false;
-
-                // store relatedActions for viewing
-                var actions = $scope.selectedIncident.relatedActions;
-                if (actions != null) {
-                    var actionsList = actions.split("|");
-                    var newActions = [];
-                    for (var i in actionsList) {
-                        newActions.push({
-                            id: i,
-                            name: actionsList[i],
-                            isNew: true
-                        });
-                    }
-                    $scope.actions = newActions;
-                }
-
-                $scope.getGroup($scope.selectedIncident.id);
-                break;
-            case "chronology":
-                console.log("inside selected chronology");
-                $scope.createChronology = new Object();
-                break;
-        }
-        $scope.clearMsg();
-    };
-
-    // get selected Incident's related products for display
-    var getRelatedProducts = function (id) {
-        IncidentService.getProducts(id).then(
-            function success(response) {
-                console.log(JSON.stringify(response));
-                $scope.selectedProducts = response;
-                console.log("PRODUCTS " + response);
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "PRODUCTS_GET_FAILURE",
-                    message: "Error retrieving products."
-                });
-            });
-    };
-
-    // get selected Incident's related chronologies for display
-    var getRelatedChronologies = function (id) {
-        IncidentService.getChronologies(id).then(
-            function success(response) {
-                console.log("Chronologies " + JSON.stringify(response));
-                $scope.selectedChronologies = response;
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "CHRONOLOGIES_GET_FAILURE",
-                    message: "Error retrieving chronologies."
-                });
-            });
-    };
-
-    // load in array constants 
-    $scope.options = options;
-    $scope.locuss = locuss;
-    $scope.alerted_bys = alerted_bys;
-    // $scope.errors = errors;   // uses the hard coded errors constant
-    $scope.errors = $scope.errorNames;
-    $scope.statuss = statuss;
-    $scope.incidentstatuss = incidentstatuss;
-    $scope.recipents = recipents;
-    // set defaults
-    $scope.selectedOption = $scope.options[0];
-    $scope.selectedLocus = $scope.locuss[2];
-    $scope.selectedAlertedBy = $scope.alerted_bys[1];
-    // $scope.selectedError = $scope.errors[8];   // uses the hard coded errors constant for setting default for create screen
-    $scope.selectedGroupStatus = $scope.statuss[0];
-    $scope.selectedStatus = $scope.incidentstatuss[0];
-    $scope.selectedRecipents = $scope.recipents[1];
-    $scope.callsReceived = 0;
-    $scope.usersImpacted = 100;
-    $scope.transactionIdsImpacted = 0;
-    $scope.disableButton = false;
-    if ($scope.user) {
-        $scope.recordedBy = $scope.user.username;
-    }
-    $scope.showResolution = false;
-
-    // add related actions stuff
+    // START - RELATED ACTIONS SETUP 
     $scope.actions = [];
 
     $scope.filterAction = function (action) {
@@ -264,213 +235,78 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
             });
         } else { }
     };
-    // END OF - add related actions stuff
+    // END - RELATED ACTIONS SETUP
 
-    $scope.generateTag = function () {
-        var tag = null;
-        if ($scope.startTime && $scope.selectedProducts) {
-            var d = new Date($scope.startTime);
-            tag = moment(d).format('MMDDYYYY_HHmm');
-            switch ($scope.selectedProducts.length) {
-                case 0:
-                    $scope.tag = null;
-                    break;
-                case 1:
-                    $scope.tag = $scope.selectedProducts[0].shortName + "_" + tag;
-                    break;
-                default:
-                    $scope.tag = "MULTI_" + tag;
-            }
-        }
-    };
+    $scope.submitChronology = function () {
+        $scope.clearDisplayMessages();
 
-    $scope.generateUpdatedTag = function () {
-        var tag = null;
-        if ($scope.selectedIncident.startTime && $scope.selectedProducts) {
-            var d = new Date($scope.selectedIncident.startTime);
-            tag = moment(d).format('MMDDYYYY_HHmm');
-            switch ($scope.selectedProducts.length) {
-                case 0:
-                    $scope.selectedIncident.tag = null;
-                    break;
-                case 1:
-                    $scope.selectedIncident.tag = $scope.selectedProducts[0].shortName + "_" + tag;
-                    break;
-                default:
-                    $scope.selectedIncident.tag = "MULTI_" + tag;
-            }
-        }
-    };
+        // dates are currently in UTC format.. reset them to local timezone format for saving.. 
+        var dateTimeValue = new Date($scope.createChronology.chronologyDateTime);
 
-    $scope.cancel = function (option) {
-        switch (option) {
-            case "createChronology":
-                $scope.createChronology = null;
-                break;
-            case "selectedIncident":
-                $scope.selectedIncident = null;
-                $scope.createChronology = null;
-                break;
-        }
-        $scope.clearMsg();
-    };
+        var chronology = {
+            "dateTime": dateTimeValue,
+            "description": $scope.createChronology.chronDescription,
+            "recordedBy": $scope.user.username,
+            "incident": { id: $scope.incident.id }
+        };
 
-    $scope.clearMsg = function () {
-        $scope.messages = null;
-        $scope.errormessages = null;
-        $scope.chronmessages = null;
-        $scope.chronerrormessages = null;
-    };
-
-    $scope.clear = function (option) {
-        switch (option) {
-            case "chronology":
-                $scope.createChronology.chronDescription = null;
-                break;
-            case "incident":
-                $scope.tag = null;
-                $scope.selectedOption = $scope.options[0];
-                $scope.selectedLocus = $scope.locuss[2];
-                $scope.selectedAlertedBy = $scope.alerted_bys[1];
-                $scope.selectedError = $scope.errors[2];
-                $scope.selectedApplicationStatus = $scope.applicationStatuses[0];
-                $scope.transactionIdsImpacted = 0;
-                $scope.incidentGroup = null;
-                $scope.callsReceived = 0;
-                $scope.usersImpacted = 100;
-                $scope.startTime = null;
-                $scope.vDateStart = null;
-                $scope.endTime = null;
-                $scope.vDateEnd = null;
-                $scope.description = null;
-                $scope.incidentReport = null;
-                $scope.selectedProducts = null;
-                $scope.customerImpact = null;
-                $scope.name = null;
-                $scope.reportOwner = null;
-                $scope.summary = null;
-                $scope.recordedBy = null;
-                $scope.selectedStatus = $scope.incidentstatuss[0];
-                $scope.selectedRecipents = $scope.recipents[1];
-                $scope.correctiveAction = null;
-                break;
-            case "group":
-                $scope.selectedGroupName = null;
-                $scope.selectedGroupDescription = null;
-                // $scope.$scope.selectedGroupStatus = $scope.statuss[0];
-                break;
-        }
-    };
-
-    // START OF WATCHES SECTION   
-    // these next two watches are for the date time fields on the create incident page.
-    $scope.$watch("startTime", function (val) {
-        if ($scope.startTime) {  // this needs to be a truthy test
-            $scope.vDateStart = moment($scope.startTime).format('MM-DD-YYYY HH:mm');
-        }
-    }, true);
-
-    $scope.$watch("endTime", function (val) {
-        if ($scope.endTime) {// this needs to be a truthy test 	
-            $scope.vDateEnd = moment($scope.endTime).format('MM-DD-YYYY HH:mm');
-        }
-    }, true);
-
-    // these next two watches are for the date time fields when displaying an incident detail
-    // from incident list
-    $scope.$watch("selectedIncident.startTime", function (val) {
-        if ($scope.selectedIncident) { // this needs to be a truthy test
-            $scope.vDateStart = moment($scope.selectedIncident.startTime).format('MM-DD-YYYY HH:mm');
-        }
-    }, true);
-
-    $scope.$watch("selectedIncident.endTime", function (val) {
-        if ($scope.selectedIncident) {// this needs to be a truthy test
-            $scope.vDateEnd = moment($scope.selectedIncident.endTime).format('MM-DD-YYYY HH:mm');
-        }
-    }, true);
-
-    // this watch is for the date time field for the chronology section of an incident detail
-    $scope.$watch("createChronology.chronologyDateTime", function (val) {
-        if ($scope.createChronology) {// this needs to be a truthy test 	
-            $scope.vDateTime = moment($scope.createChronology.chronologyDateTime).format('MM-DD-YYYY HH:mm');
-        }
-    }, true);
-
-    $scope.$watch("selectedStatus", function (val) {
-        if ($scope.selectedStatus.name === "Closed") {// this needs to be a truthy test 	
-            $scope.showResolution = true;
-        } else {
-            $scope.showResolution = false;
-        }
-    }, true);
-    // END OF WACTHES SECTION
-
-    $scope.getGroup = function (id) {
-        $scope.clearMsg();
-        if (id == null) return;
-        IncidentService.getGroup(id).then(
+        document.body.style.cursor = "wait";
+        ChronologyService.saveChronology(chronology).then(
             function success(response) {
-                console.log("Group detail " + JSON.stringify(response));
+                document.body.style.cursor = "default";
                 if (response) {
-                    $scope.groupModel.currentGroupName = response.name;
-                    // paid attention this is used for the ng-if on the ng-include div.. we need to wait for this callback to complete
-                    // before displaying the included form.. as the included form creates a child scope.
-                    // ng-include will copy at this moment all the data in the scope and set it to the sub\child scope.. 
-                    // otherwise, current group field will be blank even though group is retrieved later on.. with this async call
-                    $scope.show = true;
-                    console.log("Group retrieved for Incident ID " + id);
-                } else {
-                    console.error("Unable to retrieve group for Incident ID " + id);
+                    $scope.chronmessages = "Chronology timeline for Incident tag " + $scope.incident.tag + " created.";
+                    console.log("Chronology for Incident tag " + $scope.incident.tag + " created = " + JSON.stringify(response));
+                    $scope.clear('chronology');
+                    $scope.chronerrormessages = null;
+                    $scope.getRelatedChronologies($scope.incident.id);
                 }
             },
             function error() {
-                $scope.errormessages = "GROUP_GET_FAILURE - Group may not exist, please try again.";
-                // $rootScope.errors.push({ code: "GROUP_GET_FAILURE", message: "Group may not exist, please try again." });
+                document.body.style.cursor = "default";
+                $scope.chronerrormessages = $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG;
+                $scope.chronmessages = null;
             });
     };
 
-    $scope.getIncident = function (id) {
-        $scope.clearMsg();
-        IncidentService.getIncident(id).then(
+    $scope.removeChronology = function (item) {
+        console.log("inside remove " + JSON.stringify(item));
+        ChronologyService.deleteChronology(item.id).then(
             function success(response) {
                 if (response) {
-                    $scope.incident = response;
-                    console.log("Incident retrieved for Incident ID " + id);
-                } else {
-                    console.error("Unable to retrieve Incident ID " + id);
+                    $scope.chronmessages = "Chronology timeline for Incident tag " + $scope.incident.tag + " with id " + item.id + " deleted.";
+                    console.log("Chronology timeline for Incident tag " + $scope.incident.tag + " with Chronology timeline id " + item.id + " deleted.");
+                    $scope.chronerrormessages = null;
+                    $scope.getRelatedChronologies($scope.incident.id);
                 }
             },
             function error() {
-                $scope.errormessages = "INCIDENT_GET_FAILURE - Incident may not exist, please try again.";
-                // $rootScope.errors.push({ code: "INCIDENT_GET_FAILURE", message: "Incident may not exist, please try again." });
+                $scope.chronerrormessages = "CHRONOLOGY_DELETE_FAILURE - Check logs or try again.";
+                $scope.chronmessages = null;
             });
     };
 
-    $scope.deleteI = function (id) {
-        $scope.clearMsg();
-        IncidentService.deleteIncident(id).then(
+    // get selected Incident's related chronologies for display
+    $scope.getRelatedChronologies = function (id) {
+        IncidentService.getChronologies(id).then(
             function success(response) {
-                if (response) {
-                    $scope.messages = "Incident ID " + id + " has been deleted.";
-                    console.log("Incident has been deleted = " + JSON.stringify(response));
-                    $scope.refreshData();
-                    $scope.errormessages = null;
-                }
-                $scope.disableButton = true;
+                console.log("Chronologies " + JSON.stringify(response));
+                $scope.chronologies = response;
             },
             function error() {
-                $scope.errormessages = "INCIDENT_DELETE_FAILURE - Check logs or invalid Incident.";
+                $rootScope.errors.push({
+                    code: "CHRONOLOGIES_GET_FAILURE",
+                    message: "Error retrieving chronologies."
+                });
             });
     };
 
-    $scope.updateInSearch = function () {
-        $scope.clearMsg();
-
+    $scope.update = function () {
+        $scope.clearDisplayMessages();
         // generate tag again just in case the products and start-time were changed
-        $scope.generateUpdatedTag();
-        if (!$scope.selectedIncident.tag) {
-            $scope.errormessages = "INCIDENT_SAVE_FAILURE - Tag field not generated yet! Please fill in Start Date Time, Description and Products fields.";
+        $scope.generateTag();
+        if (!$scope.incident.tag) {
+            $scope.errormessages = "INCIDENT_SAVE_FAILURE - problem with generating tag. Please fill in Start Date Time and Products.";
             return;
         }
 
@@ -478,13 +314,12 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
             return x.name
         }).join('|');
 
-        var usersImpactedValue = $scope.selectedIncident.usersImpacted;
-
+        var usersImpactedValue = $scope.incident.usersImpacted;
         // dates are currently in UTC format.. reset them to local timezone format for saving.. 
-        var startTimeValue = new Date($scope.selectedIncident.startTime);
+        var startTimeValue = new Date($scope.incident.startTime);
         var endTimeValue;
-        if ($scope.selectedIncident.endTime) {
-            endTimeValue = new Date($scope.selectedIncident.endTime);
+        if ($scope.incident.endTime) {
+            endTimeValue = new Date($scope.incident.endTime);
         }
 
         // this is to protect the existing group details from being overwritten in case the user specifies an existing group to be reassigned too
@@ -500,8 +335,8 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
         if ($scope.groupModel.selectedNewGroup && newGroupSpecified) {
             groupCurrentORNew = {
                 "name": $scope.groupModel.selectedNewGroup,
-                "description": $scope.selectedIncident.description + " " + $scope.selectedIncident.summary,
-                "status": $scope.selectedGroupStatus.value
+                "description": $scope.incident.description + " " + $scope.incident.summary,
+                "status": $scope.groupStatuses[0].value
             };
         } else {
             // if an existing group specified in the Reassign Group field then use selectedNewGroup
@@ -516,7 +351,7 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
 
         var errorCode;
         Object.keys($scope.errors).forEach(function (key) {
-            if ($scope.errors[key].name === $scope.selectedIncident.error) {
+            if ($scope.errors[key].name === $scope.incident.error) {
                 errorCode = {
                     "id": $scope.errors[key].id,
                     "name": $scope.errors[key].name
@@ -526,7 +361,7 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
 
         var applicationStatus;
         Object.keys($scope.applicationStatuses).forEach(function (key) {
-            if ($scope.applicationStatuses[key].displayName === $scope.selectedIncident.applicationStatus) {
+            if ($scope.applicationStatuses[key].displayName === $scope.incident.applicationStatus) {
                 applicationStatus = {
                     "id": $scope.applicationStatuses[key].id,
                 }
@@ -536,32 +371,33 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
         $scope.enforceRequiredFields();
 
         var incident = {
-            "id": $scope.selectedIncident.id,
-            "version": $scope.selectedIncident.version,
-            "tag": $scope.selectedIncident.tag,
-            "severity": $scope.selectedIncident.severity,
-            "locus": $scope.selectedIncident.locus,
-            "description": $scope.selectedIncident.description,
+            "id": $scope.incident.id,
+            "version": $scope.incident.version,
+            "tag": $scope.incident.tag,
+            "severity": $scope.incident.severity,
+            "locus": $scope.incident.locus,
+            "description": $scope.incident.description,
             "usersImpacted": usersImpactedValue,
-            "alertedBy": $scope.selectedIncident.alertedBy,
+            "alertedBy": $scope.incident.alertedBy,
             "error": errorCode,
             "applicationStatus": applicationStatus,
-            "transactionIdsImpacted": $scope.selectedIncident.transactionIdsImpacted,
+            "transactionIdsImpacted": $scope.incident.transactionIdsImpacted,
             "startTime": startTimeValue,
             "endTime": endTimeValue,
             "incidentGroup": groupCurrentORNew,
-            "callsReceived": $scope.selectedIncident.callsReceived,
-            "products": $scope.selectedProducts,
-            "customerImpact": $scope.selectedIncident.customerImpact,
-            "name": $scope.selectedIncident.name,
-            "reportOwner": $scope.selectedIncident.reportOwner,
-            "summary": $scope.selectedIncident.summary,
-            "recordedBy": $scope.selectedIncident.recordedBy,
-            "status": $scope.selectedIncident.status,
-            "emailRecipents": $scope.selectedIncident.emailRecipents,
-            "reviewedBy": $scope.selectedIncident.reviewedBy,
-            "issue": $scope.selectedIncident.issue,
-            "correctiveAction": $scope.selectedIncident.correctiveAction,
+            "incidentReport": $scope.incident.incidentReport,
+            "callsReceived": $scope.incident.callsReceived,
+            "products": $scope.products,
+            "customerImpact": $scope.incident.customerImpact,
+            "name": $scope.incident.name,
+            "reportOwner": $scope.incident.reportOwner,
+            "summary": $scope.incident.summary,
+            "recordedBy": $scope.incident.recordedBy,
+            "status": $scope.incident.status,
+            "emailRecipents": $scope.incident.emailRecipents,
+            "reviewedBy": $scope.incident.reviewedBy,
+            "issue": $scope.incident.issue,
+            "correctiveAction": $scope.incident.correctiveAction,
             "relatedActions": actions
         };
 
@@ -577,42 +413,26 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
                     }
                 }, function error() {
                     $scope.errormessages = "GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs and try again.";
-                    console.error("GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs and try again.");
                     return $q.reject();
                 })
                 .then(function success(response) {
                     if (response) {
-                        $scope.getGroup(incident.id);
-                        $scope.messages = "Incident ID " + incident.id + " has been saved.";
-                        console.log("Incident tag " + incident.tag + " with id " + incident.id + " has been saved with newly created Group " + groupCurrentORNew.name + ".");
-                        $scope.refreshData();
-                        $scope.errormessages = null;
-                        $scope.selectedIncident.version++;
-                        $scope.disableButton = true;
-                        $scope.groupModel.selectedNewGroup = null;
+                        $scope.postIncidentSave(incident);
                     }
                 }, function error(response) {
                     if (response.includes("OptimisticLockException")) {
                         $scope.errormessages = $rootScope.INCIDENT_VERSION_ERROR_MSG;
                         return;
                     }
-                    $scope.errormessages = $scope.errormessages = "Incident ID " + incident.id + " was unable to be saved with newly created Group " + groupCurrentORNew.name + ".";
+                    $scope.errormessages = "Incident ID " + incident.id + " was unable to be saved with newly created Group " + groupCurrentORNew.name + ".";
                 });
         } else {
-            // An existing current group is still there with no new group specified.
-            // As such, go ahead and save the incident.. 
-            console.log("inside updateInSearch with existing group " + JSON.stringify(incident));
+            // An existing current group is still there with no new group specified. Hence nothing special just save.
+            console.log("inside updateInSearch with existing Group " + JSON.stringify(incident));
             IncidentService.saveIncident(incident).then(
                 function success(response) {
                     if (response) {
-                        $scope.getGroup(incident.id);
-                        $scope.messages = "Incident ID " + incident.id + " has been saved.";
-                        console.log("Incident tag " + incident.tag + " with id " + incident.id + " has been saved with Group " + groupCurrentORNew + ".");
-                        $scope.refreshData();
-                        $scope.errormessages = null;
-                        $scope.selectedIncident.version++;
-                        $scope.disableButton = true;
-                        $scope.groupModel.selectedNewGroup = null;
+                        $scope.postIncidentSave(incident);
                     }
                 },
                 function error(response) {
@@ -625,31 +445,40 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
         }
     };
 
+    $scope.postIncidentSave = function (incident) {
+        $scope.getGroup(incident.id);
+        $scope.messages = "Incident ID " + incident.id + " has been saved.";
+        $scope.errormessages = null;
+        $scope.incident.version++;
+        $scope.disableButton = true;
+        $scope.groupModel.selectedNewGroup = null;
+    }
+
     // just do this for required fields that are not defaulted dropdown fields.
     $scope.enforceRequiredFields = function () {
-        if ($scope.selectedIncident.description !== undefined &&
-            $scope.selectedIncident.description !== null &&
-            $scope.selectedIncident.description.trim() === "")
-            $scope.selectedIncident.description = null;
+        if ($scope.incident.description !== undefined &&
+            $scope.incident.description !== null &&
+            $scope.incident.description.trim() === "")
+            $scope.incident.description = null;
     }
 
     $scope.submit = function () {
-        $scope.clearMsg();
+        $scope.clearDisplayMessages();
 
         // generate tag if tag is empty and products and start-time exist.. 
-        if (!$scope.tag) {
+        if (!$scope.incident.tag) {
 
             $scope.generateTag();
-            if (!$scope.tag) {
+            if (!$scope.incident.tag) {
                 $scope.errormessages = "INCIDENT_SAVE_FAILURE - Tag field not generated yet! Please fill in Start Date Time, Description and Products fields.";
                 return;
             }
         }
 
         // dates are currently in UTC format.. reset them to local timezone format for saving.. 
-        var startTimeValue = new Date($scope.startTime);
-        if ($scope.endTime) {
-            var endTimeValue = new Date($scope.endTime);
+        var startTimeValue = new Date($scope.incident.startTime);
+        if ($scope.incident.endTime) {
+            var endTimeValue = new Date($scope.incident.endTime);
         }
 
         if (endTimeValue) {
@@ -659,62 +488,61 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
             }
         }
 
-        if (!$scope.description) {
-            $scope.errormessages = "INCIDENT_SAVE_FAILURE - Please fill in Description field.";
+        if (!$scope.incident.description) {
+            $scope.incident.errormessages = "INCIDENT_SAVE_FAILURE - Please fill in Description field.";
             return;
         }
 
         var summary = "";
-        if ($scope.summary) {
-            summary = $scope.summary;
+        if ($scope.incident.summary) {
+            summary = $scope.incident.summary;
         } else {
             summary = " ";
         }
 
         var group = null;
-        if ($scope.incidentGroup) {
+        if ($scope.incident.incidentGroup) {
             group = {
-                "name": $scope.incidentGroup,
-                "description": $scope.description + " " + summary,
+                "name": $scope.incident.incidentGroup,
+                "description": $scope.incident.description + " " + summary,
             }
         } else {
-            var myNameString = $scope.description + " " + summary;
+            var myNameString = $scope.incident.description + " " + summary;
             group = {
                 "name": myNameString.substring(0, 120),
-                "description": $scope.description + " " + summary,
+                "description": $scope.incident.description + " " + summary,
             }
         }
 
         var incident = {
-            "tag": $scope.tag,
-            "severity": $scope.selectedOption.value,
-            "locus": $scope.selectedLocus.value,
-            "description": $scope.description,
-            "usersImpacted": $scope.usersImpacted,
-            "alertedBy": $scope.selectedAlertedBy.value,
+            "tag": $scope.incident.tag,
+            "severity": $scope.incident.severity.value,
+            "locus": $scope.incident.locus.value,
+            "description": $scope.incident.description,
+            "usersImpacted": $scope.incident.usersImpacted,
+            "alertedBy": $scope.incident.alertedBy.value,
             "error": {
-                "id": $scope.selectedError.id,
-                "name": $scope.selectedError.name
+                "id": $scope.incident.error.id,
+                "name": $scope.incident.error.name
             },
-            "applicationStatus": $scope.selectedApplicationStatus,
-            "transactionIdsImpacted": $scope.transactionIdsImpacted,
+            "applicationStatus": $scope.incident.applicationStatus,
+            "transactionIdsImpacted": $scope.incident.transactionIdsImpacted,
             "startTime": startTimeValue,
             "endTime": endTimeValue,
             "incidentGroup": group,
-            "incidentReport": $scope.incidentReport,
-            "callsReceived": $scope.callsReceived,
-            "products": $scope.selectedProducts,
-            "customerImpact": $scope.customerImpact,
-            "name": $scope.name,
-            "reportOwner": $scope.reportOwner,
+            "incidentReport": $scope.incident.incidentReport,
+            "callsReceived": $scope.incident.callsReceived,
+            "products": $scope.products,
+            "customerImpact": $scope.incident.customerImpact,
+            "name": $scope.incident.name,
+            "reportOwner": $scope.incident.reportOwner,
             "summary": summary,
             "recordedBy": $scope.user.username,
-            "status": $scope.selectedStatus.value,
-            "emailRecipents": $scope.selectedRecipents.value,
-            "correctiveAction": $scope.correctiveAction
+            "status": $scope.incident.status.value,
+            "emailRecipents": $scope.incident.emailRecipents.value,
+            "correctiveAction": $scope.incident.correctiveAction
         };
 
-        console.log("inside submit " + JSON.stringify(incident));
         document.body.style.cursor = "wait";
         IncidentService.saveIncident(incident).then(
             function success(response) {
@@ -722,7 +550,6 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
                 if (response) {
                     $scope.messages = "New Incident has been saved.";
                     console.log("New Incident has been saved = " + JSON.stringify(response));
-                    // $scope.clear('incident');
                     $scope.errormessages = null;
                     $scope.disableButton = true;
                 }
@@ -733,52 +560,123 @@ app.controller('IncidentController', function ($q, $rootScope, $scope, $log, $ti
             });
     };
 
-    $scope.submitChronology = function () {
-        $scope.clearMsg();
+    $scope.generateTag = function () {
+        var tag = null;
+        if ($scope.incident.startTime && $scope.products) {
+            var d = new Date($scope.incident.startTime);
+            tag = moment(d).format('MMDDYYYY_HHmm');
+            switch ($scope.products.length) {
+                case 0:
+                    $scope.incident.tag = null;
+                    break;
+                case 1:
+                    $scope.incident.tag = $scope.products[0].shortName + "_" + tag;
+                    break;
+                default:
+                    $scope.incident.tag = "MULTI_" + tag;
+            }
+        }
+    };
 
-        // dates are currently in UTC format.. reset them to local timezone format for saving.. 
-        var dateTimeValue = new Date($scope.createChronology.chronologyDateTime);
-
-        var chronology = {
-            "dateTime": dateTimeValue,
-            "description": $scope.createChronology.chronDescription,
-            "recordedBy": $scope.user.username,
-            "incident": { id: $scope.selectedIncident.id }
-        };
-
-        document.body.style.cursor = "wait";
-        ChronologyService.saveChronology(chronology).then(
+    $scope.getGroup = function (id) {
+        $scope.clearDisplayMessages();
+        if (id == null) return;
+        IncidentService.getGroup(id).then(
             function success(response) {
-                document.body.style.cursor = "default";
                 if (response) {
-                    $scope.chronmessages = "Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " created.";
-                    console.log("Chronology for Incident tag " + $scope.selectedIncident.tag + " created = " + JSON.stringify(response));
-                    $scope.clear('chronology');
-                    $scope.chronerrormessages = null;
-                    getRelatedChronologies($scope.selectedIncident.id);
+                    $scope.groupModel.currentGroupName = response.name;
+                    $scope.currentGroupId = response.id;
+                    console.log("Group retrieved for Incident ID " + id + " = " + JSON.stringify(response));
                 }
             },
             function error() {
-                document.body.style.cursor = "default";
-                $scope.chronerrormessages = $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG;
-                $scope.chronmessages = null;
+                $scope.errormessages = "GROUP_GET_FAILURE - Group may not exist, please try again.";
             });
     };
 
-    $scope.remove = function (item) {
-        ChronologyService.deleteChronology(item.id).then(
+    $scope.showOnDelete = function () {
+        var title = "Incident";
+        var name = "Incident Detail ID " + $scope.incident.id;
+
+        ModalService.showModal({
+            templateUrl: "resources/html/templates/complex.html",
+            controller: "ComplexController",
+            inputs: {
+                title: "Delete " + title + " Confirmation:",
+                name: name
+            }
+        }).then(function (modal) {
+            modal.element.modal({ backdrop: 'static' });
+            modal.close.then(function (result) {
+                if (result.answer === 'Yes') {
+                    $scope.deleteI($scope.incident.id);
+                }
+            });
+        });
+    };
+
+    $scope.deleteI = function (id) {
+        $scope.clearDisplayMessages();
+        IncidentService.deleteIncident(id).then(
             function success(response) {
                 if (response) {
-                    $scope.chronmessages = "Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " with id " + item.id + " deleted.";
-                    console.log("Chronology timeline for Incident tag " + $scope.selectedIncident.tag + " with Chronology timeline id " + item.id + " deleted.");
-                    $scope.chronerrormessages = null;
-                    getRelatedChronologies($scope.selectedIncident.id);
+                    $scope.messages = "Incident ID " + id + " has been deleted.";
+                    console.log("Incident has been deleted = " + JSON.stringify(response));
                 }
+                $scope.disableButton = true;
             },
             function error() {
-                $scope.chronerrormessages = "CHRONOLOGY_DELETE_FAILURE - check logs or try again.";
-                $scope.chronmessages = null;
+                $scope.errormessages = "INCIDENT_DELETE_FAILURE - Check logs or invalid Incident.";
             });
+    };
+
+    $scope.cancel = function (option) {
+        switch (option) {
+            case "incident":
+                if ($routeParams.sourceLocation === "fromsearchbygroup") {
+                    $location.path('/incident/groupsearch/' + $scope.currentGroupId);
+                }
+                if ($routeParams.sourceLocation === "fromsearch") {
+                    $location.path('/incident/globalsearch');
+                }
+                break;
+            case "createChronology":
+                $scope.createChronology = null;
+                break;
+            case "group":
+                $scope.selectedGroup = false;
+                break;
+        }
+        $scope.clearDisplayMessages();
+    };
+
+    $scope.select = function (option, object) {
+        switch (option) {
+            case "incident":
+                var sourceLocation = "fromsearch";
+                var incident = object;
+                $location.path('/incident/edit/' + sourceLocation + '/' + incident.id);
+                break;
+            case "chronology":
+                $scope.createChronology = new Object();
+                break;
+        }
+        $scope.clearDisplayMessages();
+    };
+
+    $scope.clear = function (option) {
+        switch (option) {
+            case "chronology":
+                $scope.createChronology.chronDescription = null;
+                break;
+        }
+    };
+
+    $scope.clearDisplayMessages = function () {
+        $scope.messages = null;
+        $scope.errormessages = null;
+        $scope.chronmessages = null;
+        $scope.chronerrormessages = null;
     };
 
 });

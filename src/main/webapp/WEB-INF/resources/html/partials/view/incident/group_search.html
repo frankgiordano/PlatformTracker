@@ -92,16 +92,16 @@
 				<label class="col-sm-2 control-label">Status</label>
 				<div class="col-sm-7">
 					<select class="form-control" ng-model="selectedGroup.status"
-						ng-options="c.name as c.name for c in statuss"></select>
+						ng-options="c.name as c.name for c in groupStatuses"></select>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button class="btn btn-primary" ng-show="!disableButton" data-ng-click="updateInGroupSearch()">
+					<button class="btn btn-primary" ng-show="!disableButton" data-ng-click="update()">
 						Save
 					</button>
-					<button class="btn btn-primary" ng-show="!disableButton" ng-click="showOnDelete('group')">
+					<button class="btn btn-primary" ng-show="!disableButton" ng-click="showOnDelete()">
 						Delete
 					</button>
 					<button class="btn btn-primary" ng-show="!disableButton" ng-click="createRes()">
@@ -110,7 +110,7 @@
 					<button class="btn btn-primary" ng-show="!disableButton" ng-click="createRCA()">
 						Create RCA
 					</button>
-					<button class="btn btn-primary" ng-click="cancel('group')">
+					<button class="btn btn-primary" ng-click="cancel()">
 						Back
 					</button>
 				</div>
@@ -127,7 +127,8 @@
 			</div>
 
 			<div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-			<div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
+			<div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages">
+			</div>
 
 			<div class="form-group">
 				<label class="control-label col-md-2">Incident Group Name</label>
@@ -179,7 +180,8 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Type</label>
 				<div class="col-sm-7">
-					<select class="form-control" ng-model="resolution.type" ng-options="item.displayName for item in types">
+					<select class="form-control" ng-model="resolution.type"
+						ng-options="item.displayName for item in types">
 					</select>
 				</div>
 			</div>
@@ -204,8 +206,7 @@
 						data-ng-click="submit()">
 						Submit
 					</button>
-					<button class="btn btn-primary" data-ng-disabled="progress.active()"
-						data-ng-click="cancel()">
+					<button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="cancel()">
 						Back
 					</button>
 				</div>

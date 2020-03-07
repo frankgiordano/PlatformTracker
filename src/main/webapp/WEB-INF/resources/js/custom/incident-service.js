@@ -1,4 +1,4 @@
-app.service('IncidentService', function ($http, $q) {
+app.service('IncidentService', function ($http, $q, ReferenceDataService, IncidentGroupService) {
     this.getIncidents = function () {
         var d = $q.defer();
 
@@ -95,6 +95,23 @@ app.service('IncidentService', function ($http, $q) {
 
         return d.promise;
     };
+
+    this.getIncidentPlus = function (id) {
+        var deferred = $q.defer();
+        var promise1 = IncidentGroupService.getGroups();
+        var promise2 = this.getChronologies(id);
+        var promise3 = this.getErrorConditions();
+        var promise4 = ReferenceDataService.getApplicationStatus();
+        var promise5 = this.getProducts(id);
+        var promise6 = this.getIncident(id);
+        $q.all([promise1, promise2, promise3, promise4, promise5, promise6]).then(function (data) {
+            deferred.resolve(data);
+        },
+            function (errors) {
+                deferred.reject(errors);
+            });
+        return deferred.promise;
+    }
 
     this.getIncident = function (id) {
         var d = $q.defer();

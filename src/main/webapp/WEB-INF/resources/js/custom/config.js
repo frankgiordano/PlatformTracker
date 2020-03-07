@@ -24,7 +24,7 @@ app.factory('responseObserver', function responseObserver($q, $window, $rootScop
     };
 });
 
-app.config(function ($routeProvider, $httpProvider) {
+app.config(function ($httpProvider) {
     $httpProvider.responseInterceptors.push('responseObserver');
 })
     .config(
@@ -57,7 +57,17 @@ app.config(function ($routeProvider, $httpProvider) {
                         templateUrl: 'resources/html/partials/view/incident/create.html'
                     })
                     .when(
+                        '/incident/edit/:sourceLocation/:id', {
+                        controller: 'IncidentController',
+                        templateUrl: 'resources/html/partials/view/incident/edit.html'
+                    })
+                    .when(
                         '/incident/groupsearch', {
+                        controller: 'IncidentGroupController',
+                        templateUrl: 'resources/html/partials/view/incident/from_group_search.html'
+                    })
+                    .when(
+                        '/incident/groupsearch/:id', {
                         controller: 'IncidentGroupController',
                         templateUrl: 'resources/html/partials/view/incident/from_group_search.html'
                     })

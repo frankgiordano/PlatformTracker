@@ -205,7 +205,6 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
     };
 
     this.getIncidentResolution = function (id) {
-
         var deferred = $q.defer();
         var promise1 = IncidentGroupService.getGroups();
         var promise2 = ReferenceDataService.getHorizons();
