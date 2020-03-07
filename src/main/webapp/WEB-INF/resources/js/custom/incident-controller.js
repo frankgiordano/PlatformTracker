@@ -68,6 +68,8 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             $scope.incident.emailRecipents = $scope.recipents[0];
             $scope.incident.locus = $scope.locuss[0];
             $scope.incident.alertedBy = $scope.alerted_bys[0];
+
+            $scope.showResolution = false;
         }
     }
 
@@ -170,6 +172,14 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     $scope.$watch("createChronology.chronologyDateTime", function (val) {
         if ($scope.createChronology) {// this needs to be a truthy test 	
             $scope.vDateTime = moment($scope.createChronology.chronologyDateTime).format('MM-DD-YYYY HH:mm');
+        }
+    }, true);
+
+    $scope.$watch("incident.status", function (val) {
+        if ($scope.incident.status.name === "Closed") {// this needs to be a truthy test 	
+            $scope.showResolution = true;
+        } else {
+            $scope.showResolution = false;
         }
     }, true);
 
