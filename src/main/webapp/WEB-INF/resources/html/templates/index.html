@@ -1,122 +1,128 @@
 <!DOCTYPE html>
 
 <html data-ng-app="app">
-	<head>
-   		<script src="resources/js/jquery/jquery.js"></script>   
-	 	<script src="resources/js/angular/angular.js"></script> 
-		<script src="resources/js/angular/angular-route.js"></script> 
-        <script src="resources/js/bootstrap/bootstrap.js"></script>   	
-	    <script src="resources/js/bootstrap/ui-bootstrap-tpls-0.12.0.js"></script>  
-	    <script src="resources/js/angular/angular-multi-select.js"></script> 
-<!--  	<script src="resources/js/bootstrap/bootstrap-datetimepicker.js"></script>  -->
- 		<script src="resources/js/bootstrap/datetime-picker.js"></script>
-	    <script src="resources/js/moment/moment.js"></script>   
-        <script src="resources/js/angular-xeditable/xeditable.js"></script>
-        <script src="resources/js/angular-local-storage/angular-local-storage.js"></script>
-        <script src="resources/js/smart-update/smart-table.debug.js"></script>
-        <script src="resources/js/ng-table/ng-table.js"></script>
-		<script src="resources/js/custom/app.js"></script>
-		<script src="resources/js/custom/config.js"></script>
-		<script src="resources/js/custom/listener.js"></script>
-        <script src="resources/js/custom/directive.js"></script>
-        <script src="resources/js/custom/filter.js"></script>
-		<script src="resources/js/custom/controller.js"></script>
-		<script src="resources/js/custom/service.js"></script>
-		<script src="resources/js/custom/incident-controller.js"></script>
-		<script src="resources/js/custom/incidentgroup-controller.js"></script>
-		<script src="resources/js/custom/product-controller.js"></script>
-		<script src="resources/js/custom/rca-controller.js"></script>
-        <script src="resources/js/custom/project-controller.js"></script>
-        <script src="resources/js/custom/resolution-controller.js"></script>
-        <script src="resources/js/custom/incident-service.js"></script>
-        <script src="resources/js/custom/incidentgroup-service.js"></script>
-        <script src="resources/js/custom/product-service.js"></script>
-        <script src="resources/js/custom/rca-service.js"></script>
-        <script src="resources/js/custom/project-service.js"></script>
-        <script src="resources/js/custom/incidentreport-controller.js"></script>
-        <script src="resources/js/custom/incidentreportsettings-controller.js"></script>
-        <script src="resources/js/custom/incidentweeklyreport-controller.js"></script>
-		<script src="resources/js/custom/menu.js"></script>
-		<script src="resources/js/qtip/jquery.qtip.min.js"></script>
-        <script src="resources/js/ng-grid/ng-grid.debug.js"></script>
-        <script src="resources/js/dialogs/dialogs.min.js"></script>
-        <script src="resources/js/modal/angular-modal-service.js"></script>
-        <script src="resources/js/ng-csv/angular-sanitize.min.js"></script>
-        <script src="resources/js/ng-csv/ng-csv.js"></script>
-        <script src="resources/js/ng-csv/pluginNgGridCVSExport.js"></script>
-        <script src="resources/js/docxtemplater/docxgen.min.js"></script>
-        <script src="resources/js/docxtemplater/FileSaver.min.js"></script>
-        <script src="resources/js/docxtemplater/jszip-utils.js"></script>
-       
-         
-      	<link rel="stylesheet" type="text/css" href="resources/css/fonts/font-awesome.min.css" />
-		<link rel="stylesheet" type="text/css" href="resources/css/bootstrap/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="resources/css/bootstrap/bootstrap-theme.css">
-		<link rel="stylesheet" type="text/css" href="resources/css/bootstrap/angular-multi-select.css"> 
- <!--   <link rel="stylesheet" type="text/css" href="resources/css/bootstrap/bootstrap-datetimepicker.min.css"> --> 
-        <link rel="stylesheet" type="text/css" href="resources/css/angular-xeditable/xeditable.css">
-		<link rel="stylesheet" type="text/css" href="resources/css/custom/styles.css">	
-		<link rel="stylesheet" type="text/css" href="resources/css/qtip/jquery.qtip.min.css" />
-		<link rel="stylesheet" type="text/css" href="resources/js/ng-table/ng-table.css">
 
-		<title data-ng-bind="title">Incident Library</title>
-	</head>
-	<body data-ng-controller="MainController">
-	
-        <div ng-include src="'resources/html/partials/common/menu.html'"></div>
-       
-        <!-- Error -->
-        <div ng-include src="'resources/html/partials/common/error.html'"></div>
+<head>
+	<script src="resources/js/jquery/jquery.js"></script>
+	<script src="resources/js/angular/angular.js"></script>
+	<script src="resources/js/angular/angular-route.js"></script>
+	<script src="resources/js/bootstrap/bootstrap.js"></script>
+	<script src="resources/js/bootstrap/ui-bootstrap-tpls-0.12.0.js"></script>
+	<script src="resources/js/angular/angular-multi-select.js"></script>
+	<!--  	<script src="resources/js/bootstrap/bootstrap-datetimepicker.js"></script>  -->
+	<script src="resources/js/bootstrap/datetime-picker.js"></script>
+	<script src="resources/js/moment/moment.js"></script>
+	<script src="resources/js/angular-xeditable/xeditable.js"></script>
+	<script src="resources/js/angular-local-storage/angular-local-storage.js"></script>
+	<script src="resources/js/smart-update/smart-table.debug.js"></script>
+	<script src="resources/js/ng-table/ng-table.js"></script>
+	<script src="resources/js/custom/app.js"></script>
+	<script src="resources/js/custom/config.js"></script>
+	<script src="resources/js/custom/listener.js"></script>
+	<script src="resources/js/custom/directive.js"></script>
+	<script src="resources/js/custom/filter.js"></script>
+	<script src="resources/js/custom/controller.js"></script>
+	<script src="resources/js/custom/service.js"></script>
+	<script src="resources/js/custom/incident-controller.js"></script>
+	<script src="resources/js/custom/incidentgroup-controller.js"></script>
+	<script src="resources/js/custom/product-controller.js"></script>
+	<script src="resources/js/custom/rca-controller.js"></script>
+	<script src="resources/js/custom/project-controller.js"></script>
+	<script src="resources/js/custom/resolution-controller.js"></script>
+	<script src="resources/js/custom/incident-service.js"></script>
+	<script src="resources/js/custom/incidentgroup-service.js"></script>
+	<script src="resources/js/custom/product-service.js"></script>
+	<script src="resources/js/custom/rca-service.js"></script>
+	<script src="resources/js/custom/project-service.js"></script>
+	<script src="resources/js/custom/resolution-service.js"></script>
+	<script src="resources/js/custom/incidentreport-controller.js"></script>
+	<script src="resources/js/custom/incidentreportsettings-controller.js"></script>
+	<script src="resources/js/custom/incidentweeklyreport-controller.js"></script>
+	<script src="resources/js/custom/menu.js"></script>
+	<script src="resources/js/qtip/jquery.qtip.min.js"></script>
+	<script src="resources/js/ng-grid/ng-grid.debug.js"></script>
+	<script src="resources/js/dialogs/dialogs.min.js"></script>
+	<script src="resources/js/modal/angular-modal-service.js"></script>
+	<script src="resources/js/ng-csv/angular-sanitize.min.js"></script>
+	<script src="resources/js/ng-csv/ng-csv.js"></script>
+	<script src="resources/js/ng-csv/pluginNgGridCVSExport.js"></script>
+	<script src="resources/js/docxtemplater/docxgen.min.js"></script>
+	<script src="resources/js/docxtemplater/FileSaver.min.js"></script>
+	<script src="resources/js/docxtemplater/jszip-utils.js"></script>
 
-        <!-- PARTIALS -->
-        <div class="container-fluid">
-      		<div class="row-fluid">
-      			<div class="col-lg-10">
-      			<div ng-include src="'resources/html/partials/common/header.html'"></div>
-     				<div class="section">
-						<div data-ng-view></div>
+
+	<link rel="stylesheet" type="text/css" href="resources/css/fonts/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="resources/css/bootstrap/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/bootstrap/bootstrap-theme.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/bootstrap/angular-multi-select.css">
+	<!--   <link rel="stylesheet" type="text/css" href="resources/css/bootstrap/bootstrap-datetimepicker.min.css"> -->
+	<link rel="stylesheet" type="text/css" href="resources/css/angular-xeditable/xeditable.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/custom/styles.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/qtip/jquery.qtip.min.css" />
+	<link rel="stylesheet" type="text/css" href="resources/js/ng-table/ng-table.css">
+
+	<title data-ng-bind="title">Incident Library</title>
+</head>
+
+<body data-ng-controller="MainController">
+
+	<div ng-include src="'resources/html/partials/common/menu.html'"></div>
+
+	<!-- Error -->
+	<div ng-include src="'resources/html/partials/common/error.html'"></div>
+
+	<!-- PARTIALS -->
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="col-lg-10">
+				<div ng-include src="'resources/html/partials/common/header.html'"></div>
+				<div class="section">
+					<div data-ng-view></div>
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="chiclets">
+					<div>
+						<a style="text-decoration:none;">
+							<img src="/plattrk/resources/images/contact.png" />
+						</a>
+						<a class="" href="mailto:giofr01.com">
+							Contact
+						</a>
+					</div>
+					<div>
+						<a style="text-decoration:none;">
+							<img src="/plattrk/resources/images/help.png" />
+						</a>
+						<a class="" href="resources/html/partials/common/UsersGuide.pdf">
+							Help
+						</a>
 					</div>
 				</div>
-			    <div class="col-lg-2">
-			    		<div class="chiclets">
-			    			<div>
-			    				<a style="text-decoration:none;">
-								 <img src="/plattrk/resources/images/contact.png" />
-								 </a>
-								 <a class="" href="mailto:giofr01.com"> 
-			    				 Contact
-			    				 </a>
-			    			</div>    		
-			    			<div>
-			    				<a style="text-decoration:none;"> 
-								 <img src="/plattrk/resources/images/help.png" />
-			    				</a>
-								 <a class="" href="resources/html/partials/common/UsersGuide.pdf" >
-			    				 Help
-			    				 </a>
-			    			</div>			    		
-			    		</div>  
-               </div>
 			</div>
 		</div>
-		
-		<!-- DYNAMIC COPYRIGHT YEAR IN FOOTER -->
-		<script language="javascript" type="text/javascript"> var dateObject=new Date(); </script>
-		
-		<footer>
-		<div style="clear:both;">&nbsp;</div>	
-        <div class="container-fuild">
-        <div class="row-fuild">
-          <div class="col-lg-6">Copyright &copy; <script type="text/javascript"> document.write(dateObject.getFullYear()); </script> Frank Giordano. All Rights Reserved.</div>
-          <div class="col-lg-6">
-            <ul class="nav nav-pills">
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Support 24x7</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-            </ul>
-          </div>
-        </div>
-        </div>
-      </footer>
-	</body>
+	</div>
+
+	<!-- DYNAMIC COPYRIGHT YEAR IN FOOTER -->
+	<script language="javascript" type="text/javascript"> var dateObject = new Date(); </script>
+
+	<footer>
+		<div style="clear:both;">&nbsp;</div>
+		<div class="container-fuild">
+			<div class="row-fuild">
+				<div class="col-lg-6">Copyright &copy;
+					<script type="text/javascript"> document.write(dateObject.getFullYear()); </script> Frank Giordano.
+					All Rights Reserved.</div>
+				<div class="col-lg-6">
+					<ul class="nav nav-pills">
+						<li><a href="#">About Us</a></li>
+						<li><a href="#">Support 24x7</a></li>
+						<li><a href="#">Privacy Policy</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+</body>
+
 </html>
