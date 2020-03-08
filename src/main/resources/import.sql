@@ -10,8 +10,7 @@ Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (41,'Cl
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (42,'Hold','Hold',3);
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (43,'Deferred','Deferred',3);
 
----RC Resource
-
+---Root Cause Resource
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (91,'Environment','Environment',5);
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (81,'JVM Heap','JVM Heap',5);
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (82,'CPU','CPU',5);
@@ -29,9 +28,7 @@ Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (93,'We
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (94,'App Server','App Server',5);
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (95,'Other','Other',5);
 
----RC Category
-
-
+---Root Cause Category
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (70,'Problematic New Deployment','Problematic New Deployment',4);
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (61,'Malfunction','Malfunction',4);
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (62,'Deployment Execution Error','Insufficient Capacity',4);
@@ -47,15 +44,13 @@ Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (71,'Un
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (72,'Other','Other',4);
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (73,'Environment Mismatch','Environment Mismatch',4);
 
---horizon
-
+--Horizon
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (100,'Immediate','Immediate',6);
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (101,'Short-Term','Short-Term',6);
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (102,'Long-Term','Long-Term',6);
 
 
---Res Type
-
+--Resolution Type
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (140,'Add Capacity','Add Capacity',7);
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (141,'Reboot','Reboot',7);
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (142,'Repair','Repair',7);
@@ -86,7 +81,15 @@ Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (200, "
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (201, "DOWN", "DOWN", 10);
 
 --Error Condition
-INSERT INTO error_condition(error_id,name) VALUES (1,'Software error');
-INSERT INTO error_condition(error_id,name) VALUES (2,'OS system error');
+INSERT INTO error_condition(error_id,name) VALUES (1,'Application process not running');
+INSERT INTO error_condition(error_id,name) VALUES (2,'Database errors in Logs');
+INSERT INTO error_condition(error_id,name) VALUES (3,'Database Integrity Errors');
+INSERT INTO error_condition(error_id,name) VALUES (4,'Disconnected Printers');
+INSERT INTO error_condition(error_id,name) VALUES (5,'Errors in Communication Logs');
+INSERT INTO error_condition(error_id,name) VALUES (6,'None Detected');
+INSERT INTO error_condition(error_id,name) VALUES (7,'Service not responding');
+INSERT INTO error_condition(error_id,name) VALUES (8,'Software error-failure');
+INSERT INTO error_condition(error_id,name) VALUES (9,'System failure notification');
+INSERT INTO error_condition(error_id,name) VALUES (9,'');
 
 commit;
