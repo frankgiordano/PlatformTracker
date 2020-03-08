@@ -20,7 +20,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         $scope.rowCollection = newData;
     };
 
-    // no matter where this controller is being loaded exacute the following call 
+    // no matter where this controller is being loaded from execute the following call 
     (function () {
         ProductService.getActiveProducts().then(
             function success(response) {
@@ -40,7 +40,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             IncidentService.getErrorConditions().then(
                 function success(response) {
                     $scope.errors = response;
-                    $scope.incident.error = $scope.errors[0];  // default error dropdown for create screen
+                    $scope.incident.error = $scope.errors[0];
                 },
                 function error() {
                     $rootScope.errors.push({
