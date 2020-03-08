@@ -281,7 +281,6 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     };
 
     $scope.removeChronology = function (item) {
-        console.log("inside remove " + JSON.stringify(item));
         ChronologyService.deleteChronology(item.id).then(
             function success(response) {
                 if (response) {
@@ -439,7 +438,6 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                 });
         } else {
             // An existing current group is still there with no new group specified. Hence nothing special just save.
-            console.log("inside updateInSearch with existing Group " + JSON.stringify(incident));
             IncidentService.saveIncident(incident).then(
                 function success(response) {
                     if (response) {
