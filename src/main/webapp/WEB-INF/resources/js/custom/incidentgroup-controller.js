@@ -125,7 +125,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
                 $scope.refreshData();
             },
             function error(response) {
-                if (response.includes("ConstraintErrorException")) {
+                if (response.includes("ConstraintErrorException") || response.includes("ConstraintViolationException")) {
                     $scope.errormessages = "GROUP_DELETE_FAILURE - Child associated entities still exist.";
                     return;
                 }
