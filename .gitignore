@@ -1,0 +1,8 @@
+target/
+.idea/
+.settings
+.project
+.classpath
+.springBeans
+npm-debug.log
+plattrk.iml
