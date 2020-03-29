@@ -419,6 +419,9 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                     if (response) {
                         console.log("New Group has been saved = " + JSON.stringify(response));
                         $scope.errormessages = null;
+                        // no need to use response to attach it as group to incident to save
+                        // backend will use group name associated existing one if any..
+                        // this needs to be revisit if it still needs to be done this way. 
                         return IncidentService.saveIncident(incident);
                     }
                 }, function error() {
@@ -643,7 +646,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         switch (option) {
             case "incident":
                 if ($routeParams.sourceLocation === "fromsearchbygroup") {
-                    $location.path('/incident/groupsearch/' + $scope.currentGroupId);
+                    $location.path('/incident/groupsearch/' + $routeParams.gid);
                 }
                 if ($routeParams.sourceLocation === "fromsearch") {
                     $location.path('/incident/globalsearch');

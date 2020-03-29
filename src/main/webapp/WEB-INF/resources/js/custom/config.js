@@ -62,6 +62,11 @@ app.config(function ($httpProvider) {
                         templateUrl: 'resources/html/partials/view/incident/edit.html'
                     })
                     .when(
+                        '/incident/edit/:sourceLocation/:id/:gid', {
+                        controller: 'IncidentController',
+                        templateUrl: 'resources/html/partials/view/incident/edit.html'
+                    })
+                    .when(
                         '/incident/groupsearch', {
                         controller: 'IncidentGroupController',
                         templateUrl: 'resources/html/partials/view/incident/from_group_search.html'

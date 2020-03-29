@@ -54,7 +54,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
         switch (option) {
             case "incident":
                 $scope.selectedIncident = object;
-                $location.path('/incident/edit/' + sourceLocation + '/' + $scope.selectedIncident.id);
+                $location.path('/incident/edit/' + sourceLocation + '/' + $scope.selectedIncident.id + '/' + $scope.selectedGroup.id);
                 break;
             case "group":
                 $scope.selectedGroup = object;
