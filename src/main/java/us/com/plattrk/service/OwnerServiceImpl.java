@@ -7,8 +7,6 @@ import java.util.List;
 
 import javax.naming.NamingException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -25,18 +23,14 @@ import us.com.plattrk.api.model.OwnerInfo;
 @PropertySources(value = { @PropertySource("classpath:/plattrk.properties") })
 public class OwnerServiceImpl implements OwnerService {
 
-    private static Logger logger = LoggerFactory.getLogger(OwnerServiceImpl.class);
-
     @Autowired
     private Environment env;
     private List<OwnerInfo> owners = new ArrayList<OwnerInfo>();
 
     public List<OwnerInfo> getOwnerList() throws NamingException, IOException {
-
         owners.clear();
         OwnerInfo owner = new OwnerInfo("guest", "guest");
         owners.add(owner);
-
         Collections.sort(owners, OwnerInfo.OwnerComparator);
         return owners;
     }

@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
+
 import us.com.plattrk.api.model.ErrorCondition;
 
 @Repository

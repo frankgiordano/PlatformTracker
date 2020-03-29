@@ -25,8 +25,6 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
 
     @Override
     public IncidentChronology saveIncidentChronology(IncidentChronology chronology) {
-        log.info("IncidentChronologyRepositoryImpl::saveIncidentChronology");
-
         try {
             Incident incident = em.find(Incident.class, chronology.getIncident().getId());
             chronology.setIncident(incident);

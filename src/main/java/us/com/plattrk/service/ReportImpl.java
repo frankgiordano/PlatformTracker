@@ -27,7 +27,6 @@ import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentReportByProduct;
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.api.model.ProductComparator;
-import us.com.plattrk.repository.IncidentChronologyRepository;
 import us.com.plattrk.repository.ProductRepository;
 
 @Service("Report")
@@ -86,7 +85,6 @@ public class ReportImpl implements Report {
         }
 
         mailService.sendDailyReport(appProperties, body.toString(), subject);
-
     }
 
     @Override
@@ -458,7 +456,6 @@ public class ReportImpl implements Report {
         Long currentIncidentDownTime = 0L;
 
         try {
-
             wb = new XSSFWorkbook();
 
             Map<String, CellStyle> styles = createStyles(wb);
@@ -781,12 +778,10 @@ public class ReportImpl implements Report {
     }
 
     private void clearALL() {
-
         totalDowntimeALL.clear();
         totalDowntimeCLOUDALL.clear();
         totalDowntimeTRIVINALL.clear();
         totalDowntimeEXTALL.clear();
-
     }
 
     private void fillFooter(Sheet sheet, int sectionCount, Map<String, CellStyle> styles, List<Product> myProducts) {

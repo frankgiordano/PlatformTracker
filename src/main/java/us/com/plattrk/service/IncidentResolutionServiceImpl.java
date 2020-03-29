@@ -23,9 +23,6 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
     @Autowired
     private ProjectRepository projectRepository;
 
-    @Autowired
-    private IncidentGroupService incidentGroupService;
-
     @Override
     @Transactional
     public IncidentResolution deleteResolution(Long id) {

@@ -29,14 +29,12 @@ public class CopyUtil {
         return (T) cloneCollection(orig.getClass(), orig);
     }
 
-    public static <I extends Collection<U>, O extends Collection<U>, U extends Cloneable> O cloneCollection(
-            Class<O> outType, I orig) {
+    public static <I extends Collection<U>, O extends Collection<U>, U extends Cloneable> O cloneCollection(Class<O> outType, I orig) {
         O obj = null;
 
         if (orig != null) {
             try {
                 obj = outType.getConstructor().newInstance();
-
                 for (U element : orig) {
                     obj.add(clone(element));
                 }

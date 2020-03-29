@@ -14,7 +14,7 @@ import us.com.plattrk.service.OwnerService;
 @RestController
 @RequestMapping(value = "/ownerService")
 public class OwnerController {
-
+    
     @Autowired
     private OwnerService ownerService;
 

@@ -134,19 +134,15 @@ public class MailJavaImpl implements Mail {
 
     @Override
     public List<String> generateEmailProductDistroList(Set<Product> products) {
-
         List<String> productEmailDistroArray = new ArrayList<String>();
-
         for (Product product : products) {
             productEmailDistroArray.add(appProperties.getProperty(product.getShortName()));
         }
-
         return productEmailDistroArray;
     }
 
     @Override
     public String getAllEmailAddresses(List<String> allEmailAddresses) {
-
         StringBuilder buffer = null;
         Iterator<String> iterator = allEmailAddresses.iterator();
         if (allEmailAddresses.size() > 1) {
@@ -205,7 +201,6 @@ public class MailJavaImpl implements Mail {
             mex.printStackTrace();
             throw new SendFailedException();
         }
-
     }
 
     @Override

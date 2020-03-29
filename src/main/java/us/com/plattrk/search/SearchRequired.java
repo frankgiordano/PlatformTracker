@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface SearchRequired {
 
-    boolean isObject() default false;
+    public boolean isObject() default false;
 
-    String[] fields() default {};
+    public String[] fields() default {};
     
 }
