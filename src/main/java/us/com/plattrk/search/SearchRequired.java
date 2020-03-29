@@ -7,8 +7,10 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface SearchRequired { 
+public @interface SearchRequired {
+
     boolean isObject() default false;
- 
-    String[] fields() default { };
+
+    String[] fields() default {};
+    
 }

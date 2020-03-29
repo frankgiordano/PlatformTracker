@@ -14,32 +14,32 @@ import us.com.plattrk.service.IncidentService;
 @RestController
 @RequestMapping(value = "/incidentreport")
 public class IncidentReportController {
-	
-	@Autowired
-	private IncidentService incidentService;
+
+    @Autowired
+    private IncidentService incidentService;
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/weeklyreport", method = RequestMethod.POST, produces = "application/json")
     public boolean generateWeeklyIncidentReport(@RequestBody EmailAddress address) {
-    	return incidentService.generateWeeklyReport(address);
+        return incidentService.generateWeeklyReport(address);
     }
-    
+
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/byproduct", method = RequestMethod.POST, produces = "application/json")
     public boolean generateIncidentReportByProduct(@RequestBody IncidentReportByProduct report) {
-    	return incidentService.generateIncidentReportByProduct(report);
+        return incidentService.generateIncidentReportByProduct(report);
     }
-    
+
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/toggle", method = RequestMethod.POST, produces = "application/json")
     public boolean toggleAutoWeeklyReport(@RequestBody ToggleSwitch action) {
-    	return incidentService.toggleAutoWeeklyReport(action);
+        return incidentService.toggleAutoWeeklyReport(action);
     }
-    
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/isToggle", method = RequestMethod.GET, produces = "application/json")
-	public boolean isToggleAutoWeeklyReport() {
-		return incidentService.isToggleAutoWeeklyReport();
-	}
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/isToggle", method = RequestMethod.GET, produces = "application/json")
+    public boolean isToggleAutoWeeklyReport() {
+        return incidentService.isToggleAutoWeeklyReport();
+    }
 
 }

@@ -14,17 +14,17 @@ import java.util.logging.Logger;
 @RequestMapping(value = "/user")
 public class UserController {
 
-	private static final Logger LOG = Logger.getLogger(UserController.class.getName());
+    private static final Logger LOG = Logger.getLogger(UserController.class.getName());
 
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/authenticated", method = RequestMethod.GET, produces = "application/json")
-	public UserDetails authenticatedUser() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
-		if(authentication == null || !(authentication.getPrincipal() instanceof UserDetails)) {
-			return null;
-		}
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/authenticated", method = RequestMethod.GET, produces = "application/json")
+    public UserDetails authenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-		return (UserDetails)authentication.getPrincipal();
-	}
+        if (authentication == null || !(authentication.getPrincipal() instanceof UserDetails)) {
+            return null;
+        }
+
+        return (UserDetails) authentication.getPrincipal();
+    }
 }

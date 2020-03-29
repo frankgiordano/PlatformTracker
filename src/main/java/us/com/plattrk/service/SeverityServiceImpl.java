@@ -11,12 +11,12 @@ import us.com.plattrk.repository.SeverityRepository;
 @Service(value = "SeverityService")
 public class SeverityServiceImpl implements SeverityService {
 
-	@Autowired
-	SeverityRepository severityRepository;
-	
-	@Override
-	public List<Severity> getSeverities() {
-		return severityRepository.getSeverities();
-	}
+    @Autowired
+    SeverityRepository severityRepository;
+    
+    @Override
+    public List<Severity> getSeverities() {
+        return severityRepository.getSeverities();
+    }
 
 }

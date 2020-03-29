@@ -7,18 +7,18 @@ import us.com.plattrk.api.model.Status;
 
 public interface IncidentResolutionRepository {
 
-	public List<IncidentResolution> getResolutions();
+    public List<IncidentResolution> getResolutions();
 
-	public IncidentResolution deleteResolution(Long id);
+    public IncidentResolution deleteResolution(Long id);
 
-	public IncidentResolution saveResolution(IncidentResolution resolution);
+    public IncidentResolution saveResolution(IncidentResolution resolution);
 
-	public IncidentResolution getResolution(Long id);
+    public IncidentResolution getResolution(Long id);
 
-	public List<Status> getStatusList();
+    public List<Status> getStatusList();
 
-	public boolean saveResolutions(List<IncidentResolution> resolutions);
+    public boolean saveResolutions(List<IncidentResolution> resolutions);
 
-	public List<IncidentResolution> getGroupResolutions(Long id);
+    public List<IncidentResolution> getGroupResolutions(Long id);
 
 }

@@ -13,13 +13,13 @@ import java.util.Set;
 @RequestMapping(value = "/app")
 public class OpenController {
 
-	@Autowired
-	private IncidentService incidentService;
-	
-	@RequestMapping(value = "/incidents/retrieve", method = RequestMethod.GET, produces = "application/json")
-	public Set<Incident> getIncidents() {
-		return incidentService.getIncidents();
-	}
+    @Autowired
+    private IncidentService incidentService;
+
+    @RequestMapping(value = "/incidents/retrieve", method = RequestMethod.GET, produces = "application/json")
+    public Set<Incident> getIncidents() {
+        return incidentService.getIncidents();
+    }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")

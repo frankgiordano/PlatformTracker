@@ -6,6 +6,6 @@ import us.com.plattrk.api.model.ErrorCondition;
 
 public interface ErrorConditionService {
 
-	public List <ErrorCondition> getErrorConditions();
+    public List <ErrorCondition> getErrorConditions();
 
 }

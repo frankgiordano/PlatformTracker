@@ -6,6 +6,6 @@ import us.com.plattrk.api.model.ReferenceData;
 
 public interface ReferenceDataService {
 
-	public List<ReferenceData> getReferencesByGroupId(Long groupId);
+    public List<ReferenceData> getReferencesByGroupId(Long groupId);
 
 }

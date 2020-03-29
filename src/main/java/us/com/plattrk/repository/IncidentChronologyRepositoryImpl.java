@@ -30,8 +30,8 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
         try {
             Incident incident = em.find(Incident.class, chronology.getIncident().getId());
             chronology.setIncident(incident);
-			// this is usually a choice of persist or merge.. using persist fails with detach entity error
-			// because the associated incident exist when persist is done.. needs to be a merge instead..
+            // this is usually a choice of persist or merge.. using persist fails with detach entity error
+            // because the associated incident exist when persist is done.. needs to be a merge instead..
             em.merge(chronology);
         } catch (PersistenceException e) {
             log.error("IncidentChronologyRepositoryImpl::saveIncidentChronology - failure saving chronology " + chronology.toString() + ", msg = " + e.getMessage());

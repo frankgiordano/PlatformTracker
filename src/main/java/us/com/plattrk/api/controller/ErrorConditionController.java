@@ -14,14 +14,14 @@ import us.com.plattrk.service.ErrorConditionService;
 @RestController
 @RequestMapping(value = "/condition")
 public class ErrorConditionController {
-		
-		@Autowired
-		private ErrorConditionService errorConditionService;
-		
-		@PreAuthorize("isAuthenticated()")
-		@RequestMapping(value = "/errors", method = RequestMethod.GET, produces = "application/json")
-		public List<ErrorCondition> getErrorConditions() {
-			return errorConditionService.getErrorConditions();
-		}
+
+    @Autowired
+    private ErrorConditionService errorConditionService;
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/errors", method = RequestMethod.GET, produces = "application/json")
+    public List<ErrorCondition> getErrorConditions() {
+        return errorConditionService.getErrorConditions();
+    }
 
 }

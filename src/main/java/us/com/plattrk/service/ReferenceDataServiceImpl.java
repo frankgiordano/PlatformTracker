@@ -15,20 +15,20 @@ import us.com.plattrk.repository.ReferenceDataRepository;
 @Scope("singleton")
 public class ReferenceDataServiceImpl implements ReferenceDataService {
 
-	@Autowired
-	ReferenceDataRepository refRepository;
+    @Autowired
+    ReferenceDataRepository refRepository;
 
-	private static final ConcurrentMap<Long, List<ReferenceData>> referenceData = new ConcurrentHashMap();
+    private static final ConcurrentMap<Long, List<ReferenceData>> referenceData = new ConcurrentHashMap();
 
-	@Override
-	public List<ReferenceData> getReferencesByGroupId(Long groupId) {
-		List<ReferenceData> result = referenceData.get(groupId);
-		if (result == null || result.size() == 0) {
-			result = refRepository.getReferenceDatasByGroupId(groupId);
-			if (result != null && result.size() == 0)
-				referenceData.put(groupId, result);
-		}
-		return result;
-	}
+    @Override
+    public List<ReferenceData> getReferencesByGroupId(Long groupId) {
+        List<ReferenceData> result = referenceData.get(groupId);
+        if (result == null || result.size() == 0) {
+            result = refRepository.getReferenceDatasByGroupId(groupId);
+            if (result != null && result.size() == 0)
+                referenceData.put(groupId, result);
+        }
+        return result;
+    }
 
 }

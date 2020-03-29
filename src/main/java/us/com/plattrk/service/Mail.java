@@ -10,33 +10,33 @@ import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.Product;
 
 public interface Mail {
-	
-	public enum Type {
-		INCIDENTSTART, INCIDENTUPDATE, INCIDENT55NOUPDATE, INCIDENT1HNOUPDATE, INCIDENT2HNOUPDATE, INCIDENTCHRONOLOGYSTART, INCIDENTEND, INCIDENTCREATEEND
-	}
+    
+    public enum Type {
+        INCIDENTSTART, INCIDENTUPDATE, INCIDENT55NOUPDATE, INCIDENT1HNOUPDATE, INCIDENT2HNOUPDATE, INCIDENTCHRONOLOGYSTART, INCIDENTEND, INCIDENTCREATEEND
+    }
 
-	public void send() throws SendFailedException;
+    public void send() throws SendFailedException;
 
-	public String getAllEmailAddresses(List<String> allEmailAddresses);
+    public String getAllEmailAddresses(List<String> allEmailAddresses);
 
-	public List<String> generateEmailProductDistroList(Set<Product> products);
+    public List<String> generateEmailProductDistroList(Set<Product> products);
 
-	public void generateEmailString();
+    public void generateEmailString();
 
-	public void setType(Type type);
+    public void setType(Type type);
 
-	public void setIncident(Incident incident);
+    public void setIncident(Incident incident);
 
-	public void setProperties(Properties appProperties);
+    public void setProperties(Properties appProperties);
 
-	public void setBody(String body);
+    public void setBody(String body);
 
-	public void setSubject(String subject);
+    public void setSubject(String subject);
 
-	public void setAllEmailAddresses(List<String> allEmailAddresses);
+    public void setAllEmailAddresses(List<String> allEmailAddresses);
 
-	public void setFileName(String fileName);
+    public void setFileName(String fileName);
 
-	public void setFile(String file);
+    public void setFile(String file);
 
 }

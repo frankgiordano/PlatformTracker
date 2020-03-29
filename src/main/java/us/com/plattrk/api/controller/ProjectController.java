@@ -1,4 +1,5 @@
 package us.com.plattrk.api.controller;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,27 +15,27 @@ import us.com.plattrk.service.ProjectService;
 @RestController
 @RequestMapping(value = "/project")
 public class ProjectController {
-	
-	@Autowired
-	private ProjectService projectService;
-	
-	@PreAuthorize("isAuthenticated()")
+
+    @Autowired
+    private ProjectService projectService;
+
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
     public Project deleteProject(@PathVariable Long id) {
         return projectService.deleteProject(id);
     }
-	
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json")
-	public List<Project> getProjects() {
-		return projectService.getProjects();
-	}	
-	
+
     @PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = "application/json")
-	public Project getProject(@PathVariable Long id) {
-		return projectService.getProject(id);
-	}
+    @RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json")
+    public List<Project> getProjects() {
+        return projectService.getProjects();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = "application/json")
+    public Project getProject(@PathVariable Long id) {
+        return projectService.getProject(id);
+    }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")

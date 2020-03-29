@@ -17,27 +17,27 @@ import us.com.plattrk.service.IncidentResolutionService;
 @RestController
 @RequestMapping(value = "/incidentResolution")
 public class IncidentResolutionController {
-	
-	@Autowired
-	private IncidentResolutionService incidentResolutionService;
-	
-	@PreAuthorize("isAuthenticated()")
+
+    @Autowired
+    private IncidentResolutionService incidentResolutionService;
+
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
     public IncidentResolution deleteResolution(@PathVariable Long id) {
         return incidentResolutionService.deleteResolution(id);
     }
-	
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/resolutions/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
-	public IncidentResolution getResolution(@PathVariable Long id) {
-		return incidentResolutionService.getIncidentResolution(id);
-	}	
-	
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/resolutions/retrieve", method = RequestMethod.GET, produces = "application/json")
-	public List<IncidentResolution> getResolutions() {
-		return incidentResolutionService.getIncidentResolutions();
-	}
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/resolutions/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
+    public IncidentResolution getResolution(@PathVariable Long id) {
+        return incidentResolutionService.getIncidentResolution(id);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/resolutions/retrieve", method = RequestMethod.GET, produces = "application/json")
+    public List<IncidentResolution> getResolutions() {
+        return incidentResolutionService.getIncidentResolutions();
+    }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
     public IncidentResolution saveResolution(@RequestBody IncidentResolution resolution) {
@@ -45,15 +45,15 @@ public class IncidentResolutionController {
     }
 
     @PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/resolutions/linkProjects", method = RequestMethod.POST, produces = "application/json")
-	public boolean saveLinkedResolutions(@RequestBody List<IncidentResolutionVO> resolutions) {
-		return incidentResolutionService.saveLinkedResolutions(resolutions);
-	}
-    
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/retrieve/resolutions/{id}", method = RequestMethod.GET, produces = "application/json")
-	public List<IncidentResolution> getGroupResolutions(@PathVariable Long id) {
-		return incidentResolutionService.getGroupResolutions(id);
-	}
-    
+    @RequestMapping(value = "/resolutions/linkProjects", method = RequestMethod.POST, produces = "application/json")
+    public boolean saveLinkedResolutions(@RequestBody List<IncidentResolutionVO> resolutions) {
+        return incidentResolutionService.saveLinkedResolutions(resolutions);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/retrieve/resolutions/{id}", method = RequestMethod.GET, produces = "application/json")
+    public List<IncidentResolution> getGroupResolutions(@PathVariable Long id) {
+        return incidentResolutionService.getGroupResolutions(id);
+    }
+
 }

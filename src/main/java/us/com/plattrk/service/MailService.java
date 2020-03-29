@@ -8,10 +8,10 @@ import us.com.plattrk.service.Mail.Type;
 
 public interface MailService {
 
-	public void send(Incident incident, Properties appProperties, Type type);
+    public void send(Incident incident, Properties appProperties, Type type);
 
-	public void sendDailyReport(Properties appProperties, String body, String subject);
+    public void sendDailyReport(Properties appProperties, String body, String subject);
 
-	public boolean sendWeeklyReport(Properties appProperties, String body, String file, String fileName, String subject, EmailAddress address);
+    public boolean sendWeeklyReport(Properties appProperties, String body, String file, String fileName, String subject, EmailAddress address);
 
 }

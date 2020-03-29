@@ -6,7 +6,8 @@ import us.com.plattrk.api.model.ReferenceData;
 
 public interface ReferenceDataRepository {
 
-	    List<ReferenceData> getReferenceDatasByGroupId(Long groupId);
-	    ReferenceData getReferenceData(Long id);
-	
+    public List<ReferenceData> getReferenceDatasByGroupId(Long groupId);
+
+    public ReferenceData getReferenceData(Long id);
+
 }

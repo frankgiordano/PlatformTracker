@@ -7,16 +7,16 @@ import us.com.plattrk.api.model.IncidentGroup;
 
 public interface IncidentGroupService {
 
-	public Set<IncidentGroup> getGroups();
+    public Set<IncidentGroup> getGroups();
 
-	public IncidentGroup getGroup(Long id);
+    public IncidentGroup getGroup(Long id);
 
-	public Set<Incident> getGroupIncidents(Long id);
+    public Set<Incident> getGroupIncidents(Long id);
 
-	public IncidentGroup deleteGroup(Long id);
+    public IncidentGroup deleteGroup(Long id);
 
-	public IncidentGroup saveGroup(IncidentGroup group);
+    public IncidentGroup saveGroup(IncidentGroup group);
 
-	public boolean deleteAllGroupOrphans();
+    public boolean deleteAllGroupOrphans();
 
 }

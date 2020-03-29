@@ -14,14 +14,14 @@ import us.com.plattrk.service.SeverityService;
 @RestController
 @RequestMapping(value = "/severity")
 public class SeverityController {
-	
-	@Autowired
-	private SeverityService severityService;
-	
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/severities/retrieve", method = RequestMethod.GET, produces = "application/json")
-	public List<Severity>getSeverities() {
-		return severityService.getSeverities();
-	}
+
+    @Autowired
+    private SeverityService severityService;
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/severities/retrieve", method = RequestMethod.GET, produces = "application/json")
+    public List<Severity> getSeverities() {
+        return severityService.getSeverities();
+    }
 
 }

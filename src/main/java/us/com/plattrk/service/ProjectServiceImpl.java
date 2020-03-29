@@ -12,30 +12,30 @@ import us.com.plattrk.repository.ReferenceDataRepository;
 
 @Service(value = "ProjectService")
 public class ProjectServiceImpl implements ProjectService {
-	
-	@Autowired
-	private ProjectRepository projectRepository;
+    
+    @Autowired
+    private ProjectRepository projectRepository;
 
-	@Override
-	public List<Project> getProjects() {
-		return projectRepository.getProjects();
-	}
+    @Override
+    public List<Project> getProjects() {
+        return projectRepository.getProjects();
+    }
 
-	@Override
-	public Project getProject(Long id) {
-		return projectRepository.getProject(id);
-	}
+    @Override
+    public Project getProject(Long id) {
+        return projectRepository.getProject(id);
+    }
 
-	@Override
-	@Transactional
-	public Project deleteProject(Long id) {
-		return projectRepository.deleteProject(id);
-	}
+    @Override
+    @Transactional
+    public Project deleteProject(Long id) {
+        return projectRepository.deleteProject(id);
+    }
 
-	@Override
-	@Transactional
-	public Project saveProject(Project project) {
-		return projectRepository.saveProject(project);
-	}
+    @Override
+    @Transactional
+    public Project saveProject(Project project) {
+        return projectRepository.saveProject(project);
+    }
 
 }

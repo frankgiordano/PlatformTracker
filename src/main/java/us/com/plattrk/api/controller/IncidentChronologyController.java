@@ -12,21 +12,21 @@ import us.com.plattrk.service.IncidentChronologyService;
 @RestController
 @RequestMapping(value = "/chronology")
 public class IncidentChronologyController {
-	
-	@Autowired
-	private IncidentChronologyService incidentChronologyService;
-	
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/incidents/retrieve", method = RequestMethod.GET, produces = "application/json")
-	public Set<IncidentChronology> getIncidentChronologies() {
-		return incidentChronologyService.getChronologies();
-	}
-	
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
-	public IncidentChronology getIncidentChronology(@PathVariable Long id) {
-		return incidentChronologyService.getIncidentChronology(id);
-	}
+
+    @Autowired
+    private IncidentChronologyService incidentChronologyService;
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/incidents/retrieve", method = RequestMethod.GET, produces = "application/json")
+    public Set<IncidentChronology> getIncidentChronologies() {
+        return incidentChronologyService.getChronologies();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
+    public IncidentChronology getIncidentChronology(@PathVariable Long id) {
+        return incidentChronologyService.getIncidentChronology(id);
+    }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")

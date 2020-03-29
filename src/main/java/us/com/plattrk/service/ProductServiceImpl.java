@@ -12,40 +12,40 @@ import us.com.plattrk.repository.ProductRepository;
 
 @Service(value = "ProductService")
 public class ProductServiceImpl implements ProductService {
-	
-	@Autowired
-	private ProductRepository productRepository;
+    
+    @Autowired
+    private ProductRepository productRepository;
 
-	@Override
-	public List<Product> getProducts() {
-		return productRepository.getProducts();
-	}
+    @Override
+    public List<Product> getProducts() {
+        return productRepository.getProducts();
+    }
 
-	@Override
-	@Transactional
-	public Product deleteProduct(Long id) {
-		return productRepository.deleteProduct(id);
-	}
+    @Override
+    @Transactional
+    public Product deleteProduct(Long id) {
+        return productRepository.deleteProduct(id);
+    }
 
-	@Override
-	@Transactional
-	public Product saveProduct(Product product) {
-		return productRepository.saveProduct(product);
-	}
+    @Override
+    @Transactional
+    public Product saveProduct(Product product) {
+        return productRepository.saveProduct(product);
+    }
 
-	@Override
-	public Product getProduct(Long id) {
-		return productRepository.getProduct(id);
-	}
+    @Override
+    public Product getProduct(Long id) {
+        return productRepository.getProduct(id);
+    }
 
-	@Override
-	public Incident getIncident(Long id) {
-		return productRepository.getIncident(id);
-	}
+    @Override
+    public Incident getIncident(Long id) {
+        return productRepository.getIncident(id);
+    }
 
-	@Override
-	public List<Product> getActiveProducts() {
-		return productRepository.getActiveProducts();
-	}
+    @Override
+    public List<Product> getActiveProducts() {
+        return productRepository.getActiveProducts();
+    }
 
 }

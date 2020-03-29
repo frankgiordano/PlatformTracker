@@ -12,17 +12,17 @@ import us.com.plattrk.api.model.Severity;
 
 @Repository
 public class SeverityRepositoryImpl implements SeverityRepository {
-	
+    
     @PersistenceContext
-	private EntityManager em;
+    private EntityManager em;
 
-	@Override
-	public List<Severity> getSeverities() {
-		Query query = em.createQuery("Select i from Severity i");
+    @Override
+    public List<Severity> getSeverities() {
+        Query query = em.createQuery("Select i from Severity i");
 
-		@SuppressWarnings({ "unchecked" })
-	    List<Severity> myResult = query.getResultList();
-		return myResult;
-	}
+        @SuppressWarnings({ "unchecked" })
+        List<Severity> myResult = query.getResultList();
+        return myResult;
+    }
 
 }

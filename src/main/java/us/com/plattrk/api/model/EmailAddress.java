@@ -1,18 +1,18 @@
 package us.com.plattrk.api.model;
 
 public class EmailAddress {
-	
-	private String address;
+    
+    private String address;
 
-	public EmailAddress() {
-	}
+    public EmailAddress() {
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
 }

@@ -25,19 +25,19 @@ import us.com.plattrk.api.model.OwnerInfo;
 @PropertySources(value = { @PropertySource("classpath:/plattrk.properties") })
 public class OwnerServiceImpl implements OwnerService {
 
-	private static Logger logger = LoggerFactory.getLogger(OwnerServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(OwnerServiceImpl.class);
 
-	@Autowired
-	private Environment env;
-	private List<OwnerInfo> owners = new ArrayList<OwnerInfo>();
+    @Autowired
+    private Environment env;
+    private List<OwnerInfo> owners = new ArrayList<OwnerInfo>();
 
-	public List<OwnerInfo> getOwnerList() throws NamingException, IOException {
+    public List<OwnerInfo> getOwnerList() throws NamingException, IOException {
 
-		owners.clear();
-		OwnerInfo owner = new OwnerInfo("guest", "guest");
-		owners.add(owner);
+        owners.clear();
+        OwnerInfo owner = new OwnerInfo("guest", "guest");
+        owners.add(owner);
 
-		Collections.sort(owners, OwnerInfo.OwnerComparator);
-		return owners;
-	}
+        Collections.sort(owners, OwnerInfo.OwnerComparator);
+        return owners;
+    }
 }

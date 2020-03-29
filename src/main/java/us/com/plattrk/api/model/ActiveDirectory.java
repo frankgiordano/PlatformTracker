@@ -18,7 +18,7 @@ public class ActiveDirectory {
     private Properties properties;
     private DirContext dirContext;
     private SearchControls searchCtls;
-    private String[] returnAttributes = {"member", "memberof"};
+    private String[] returnAttributes = { "member", "memberof" };
     private String baseFilter = "(&(objectCategory=group)(name=PLATTRK_ADM))";
 
     public ActiveDirectory(String username, String password, String domainUrl, String contextFactory) {

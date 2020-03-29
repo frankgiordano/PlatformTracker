@@ -5,7 +5,7 @@ import java.util.List;
 import us.com.plattrk.api.model.Severity;
 
 public interface SeverityRepository {
-	
-	List<Severity> getSeverities();
+    
+    public List<Severity> getSeverities();
 
 }

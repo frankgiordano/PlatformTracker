@@ -12,39 +12,39 @@ import us.com.plattrk.repository.IncidentGroupRepository;
 
 @Service(value = "IncidentGroupService")
 public class IncidentGroupServiceImpl implements IncidentGroupService {
-	
-	@Autowired
-	private IncidentGroupRepository incidentGroupRepository;
+    
+    @Autowired
+    private IncidentGroupRepository incidentGroupRepository;
 
-	public Set<IncidentGroup> getGroups() {
-		return incidentGroupRepository.getGroups();
-	}
+    public Set<IncidentGroup> getGroups() {
+        return incidentGroupRepository.getGroups();
+    }
 
-	@Override
-	public Set<Incident> getGroupIncidents(Long id) {
-		return incidentGroupRepository.getGroupIncidents(id);
-	}
+    @Override
+    public Set<Incident> getGroupIncidents(Long id) {
+        return incidentGroupRepository.getGroupIncidents(id);
+    }
 
-	public IncidentGroup getGroup(Long id) {
-		return incidentGroupRepository.getGroup(id);
-	}
+    public IncidentGroup getGroup(Long id) {
+        return incidentGroupRepository.getGroup(id);
+    }
 
-	@Override
-	@Transactional
-	public IncidentGroup deleteGroup(Long id) {
-		return incidentGroupRepository.deleteGroup(id);
-	}
+    @Override
+    @Transactional
+    public IncidentGroup deleteGroup(Long id) {
+        return incidentGroupRepository.deleteGroup(id);
+    }
 
-	@Override
-	@Transactional
-	public IncidentGroup saveGroup(IncidentGroup group) {
-		return incidentGroupRepository.saveGroup(group);
-	}
+    @Override
+    @Transactional
+    public IncidentGroup saveGroup(IncidentGroup group) {
+        return incidentGroupRepository.saveGroup(group);
+    }
 
-	@Override
-	@Transactional
-	public boolean deleteAllGroupOrphans() {
-		return incidentGroupRepository.deleteAllGroupOrphans();
-	}
+    @Override
+    @Transactional
+    public boolean deleteAllGroupOrphans() {
+        return incidentGroupRepository.deleteAllGroupOrphans();
+    }
 
 }

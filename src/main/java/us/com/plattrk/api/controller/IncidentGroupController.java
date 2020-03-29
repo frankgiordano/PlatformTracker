@@ -20,24 +20,24 @@ import us.com.plattrk.service.IncidentGroupService;
 @RestController
 @RequestMapping(value = "/group")
 public class IncidentGroupController {
-	
-	private static Logger log = LoggerFactory.getLogger(IncidentRepositoryImpl.class);
-	
-	@Autowired 
-	private IncidentGroupService incidentGroupService;
-	
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/groups/retrieve", method = RequestMethod.GET, produces = "application/json")
-	public Set<IncidentGroup> getGroups() {
-		return incidentGroupService.getGroups();
-	}
-	
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/incidents/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
-	public Set<Incident> getGroupIncidents(@PathVariable Long id) {
-		return incidentGroupService.getGroupIncidents(id);
-	}
-	
+    
+    private static Logger log = LoggerFactory.getLogger(IncidentRepositoryImpl.class);
+    
+    @Autowired 
+    private IncidentGroupService incidentGroupService;
+    
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/groups/retrieve", method = RequestMethod.GET, produces = "application/json")
+    public Set<IncidentGroup> getGroups() {
+        return incidentGroupService.getGroups();
+    }
+    
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/incidents/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
+    public Set<Incident> getGroupIncidents(@PathVariable Long id) {
+        return incidentGroupService.getGroupIncidents(id);
+    }
+    
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
     public IncidentGroup deleteGroup(@PathVariable Long id) {

@@ -19,46 +19,46 @@ import us.com.plattrk.service.Mail.Type;
 @Service(value = "IncidentChronologyService")
 public class IncidentChronologyServiceImpl implements IncidentChronologyService {
 
-	@Autowired
-	private ServletContext servletContext;
-	
-	@Autowired
-	private IncidentChronologyRepository incidentChronologyRepository;
-	
-	@Autowired
-	private Properties appProperties;
+    @Autowired
+    private ServletContext servletContext;
+    
+    @Autowired
+    private IncidentChronologyRepository incidentChronologyRepository;
+    
+    @Autowired
+    private Properties appProperties;
 
-	@Override
-	public Set<IncidentChronology> getChronologies() {
-		return incidentChronologyRepository.getChronologies();
-	}
+    @Override
+    public Set<IncidentChronology> getChronologies() {
+        return incidentChronologyRepository.getChronologies();
+    }
 
-	@Override
-	@Transactional
-	public IncidentChronology deleteIncidentChronology(Long id) {
-		return incidentChronologyRepository.deleteIncidentChronology(id);
-	}
+    @Override
+    @Transactional
+    public IncidentChronology deleteIncidentChronology(Long id) {
+        return incidentChronologyRepository.deleteIncidentChronology(id);
+    }
 
-	@Override
-	@Transactional
-	public IncidentChronology saveIncidentChronology(IncidentChronology chronology) {
-		
-		if (incidentChronologyRepository.saveIncidentChronology(chronology) != null) {
-			Incident incident = incidentChronologyRepository.getIncidentOfChronology(chronology.getIncident().getId());
-			if (incident.getStatus().equals("Closed")) {
-				WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
-				MailService mailService = (MailService) wac.getBean("mailService");
-				mailService.send(incident, appProperties, Type.INCIDENTCHRONOLOGYSTART);
-			}
-		}
+    @Override
+    @Transactional
+    public IncidentChronology saveIncidentChronology(IncidentChronology chronology) {
+        
+        if (incidentChronologyRepository.saveIncidentChronology(chronology) != null) {
+            Incident incident = incidentChronologyRepository.getIncidentOfChronology(chronology.getIncident().getId());
+            if (incident.getStatus().equals("Closed")) {
+                WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
+                MailService mailService = (MailService) wac.getBean("mailService");
+                mailService.send(incident, appProperties, Type.INCIDENTCHRONOLOGYSTART);
+            }
+        }
 
-		return chronology;
-	}
+        return chronology;
+    }
 
-	@Override
-	public IncidentChronology getIncidentChronology(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+    @Override
+    public IncidentChronology getIncidentChronology(Long id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }

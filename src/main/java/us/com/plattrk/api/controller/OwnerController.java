@@ -15,13 +15,13 @@ import us.com.plattrk.service.OwnerService;
 @RequestMapping(value = "/ownerService")
 public class OwnerController {
 
-	@Autowired
-	private OwnerService ownerService;
-	
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/ownersInfo", method = RequestMethod.GET, produces = "application/json")
-	public List<OwnerInfo> getOwnerList() throws Exception {
-		return ownerService.getOwnerList();
-	}	
-    
+    @Autowired
+    private OwnerService ownerService;
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/ownersInfo", method = RequestMethod.GET, produces = "application/json")
+    public List<OwnerInfo> getOwnerList() throws Exception {
+        return ownerService.getOwnerList();
+    }
+
 }

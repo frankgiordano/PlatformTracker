@@ -18,26 +18,26 @@ import us.com.plattrk.service.ProductService;
 @RequestMapping(value = "/product")
 public class ProductController {
 
-	@Autowired
-	private ProductService productService;
-	
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/products/retrieve", method = RequestMethod.GET, produces = "application/json")
-	public List<Product> getProducts() {
-		return productService.getProducts();
-	}
-	
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/products/retrieveactive", method = RequestMethod.GET, produces = "application/json")
-	public List<Product> getActiveProducts() {
-		return productService.getActiveProducts();
-	}
-	
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
-	public Product getProduct(@PathVariable Long id) {
-		return productService.getProduct(id);
-	}
+    @Autowired
+    private ProductService productService;
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/products/retrieve", method = RequestMethod.GET, produces = "application/json")
+    public List<Product> getProducts() {
+        return productService.getProducts();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/products/retrieveactive", method = RequestMethod.GET, produces = "application/json")
+    public List<Product> getActiveProducts() {
+        return productService.getActiveProducts();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
+    public Product getProduct(@PathVariable Long id) {
+        return productService.getProduct(id);
+    }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
@@ -50,11 +50,11 @@ public class ProductController {
     public Product saveProduct(@RequestBody Product product) {
         return productService.saveProduct(product);
     }
-    
+
     @PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/retrieve/incident/{id}", method = RequestMethod.GET, produces = "application/json")
-	public Incident getIncident(@PathVariable Long id) {
-		return productService.getIncident(id);
-	}
+    @RequestMapping(value = "/retrieve/incident/{id}", method = RequestMethod.GET, produces = "application/json")
+    public Incident getIncident(@PathVariable Long id) {
+        return productService.getIncident(id);
+    }
 
 }

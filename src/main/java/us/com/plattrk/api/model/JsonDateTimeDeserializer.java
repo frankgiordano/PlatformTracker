@@ -13,18 +13,17 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 public class JsonDateTimeDeserializer extends JsonDeserializer<Date> {
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
-    public Date deserialize(JsonParser jsonparser,
-                            DeserializationContext deserializationcontext) throws IOException {
+    public Date deserialize(JsonParser jsonparser, DeserializationContext deserializationcontext) throws IOException {
 
         Date date = null;
         String dateString = jsonparser.getText();
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
-		try {
-			date = format.parse(dateString);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return date;
+        try {
+            date = format.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
 }

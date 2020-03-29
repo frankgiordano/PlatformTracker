@@ -21,16 +21,16 @@ public class RCARepositoryImpl implements RCARepository {
     @PersistenceContext
     private EntityManager em;
 
-	// public Set<RCA> getRCAsNew() {
-	// 	@SuppressWarnings("rawtypes")
-		
-	// 	List<RCA> myResult = em.createNamedQuery(RCA.FIND_ALL_RCAS)
-	// 	        .setHint("javax.persistence.fetchgraph", em.getEntityGraph("rcaWithIncidentGroups"))
-	// 			.getResultList();
+    // public Set<RCA> getRCAsNew() {
+    // 	@SuppressWarnings("rawtypes")
+        
+    // 	List<RCA> myResult = em.createNamedQuery(RCA.FIND_ALL_RCAS)
+    // 	        .setHint("javax.persistence.fetchgraph", em.getEntityGraph("rcaWithIncidentGroups"))
+    // 			.getResultList();
 
-	// 	Set<RCA> rcas = new HashSet<RCA>(myResult);
-	// 	return rcas;
-	// }
+    // 	Set<RCA> rcas = new HashSet<RCA>(myResult);
+    // 	return rcas;
+    // }
 
     @Override
     public List<RCAVO> getRCAs() {
