@@ -176,7 +176,6 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     $scope.getProject = function () {
         ProjectService.getProject($routeParams.id).then(
             function success(response) {
-                console.log("getProduct response = " + JSON.stringify(response));
                 if (response) {
 
                     for (var j in $scope.owners) {

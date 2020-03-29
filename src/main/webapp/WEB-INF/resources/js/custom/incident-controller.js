@@ -300,7 +300,6 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     $scope.getRelatedChronologies = function (id) {
         IncidentService.getChronologies(id).then(
             function success(response) {
-                console.log("Chronologies " + JSON.stringify(response));
                 $scope.chronologies = response;
             },
             function error() {

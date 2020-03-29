@@ -23,7 +23,6 @@ app.controller('IncidentReportController', function ($rootScope, $filter, $scope
 			return;
 		IncidentService.getGroup(id).then(
 			function success(response) {
-				console.log(JSON.stringify(response));
 				if (response) {
 					$scope.groupID = response.id;
 					console.log("Group retrieved for Incident ID " + id);
@@ -132,7 +131,6 @@ app.controller('IncidentReportController', function ($rootScope, $filter, $scope
 							isNew: true
 						});
 					}
-					console.log("actions " + JSON.stringify(splitActions));
 				}
 
 				var loadFile = function (url, callback) {
