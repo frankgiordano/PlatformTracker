@@ -27,7 +27,7 @@ public class OwnerServiceImpl implements OwnerService {
     private Environment env;
     private List<OwnerInfo> owners = new ArrayList<OwnerInfo>();
 
-    public List<OwnerInfo> getOwnerList() throws NamingException, IOException {
+    public List<OwnerInfo> getOwnerList() {
         owners.clear();
         OwnerInfo owner = new OwnerInfo("guest", "guest");
         owners.add(owner);

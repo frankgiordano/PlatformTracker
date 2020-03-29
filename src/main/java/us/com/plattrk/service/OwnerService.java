@@ -9,6 +9,6 @@ import us.com.plattrk.api.model.OwnerInfo;
 
 public interface OwnerService {
 
-    public List<OwnerInfo> getOwnerList() throws NamingException, IOException;
+    public List<OwnerInfo> getOwnerList();
 
 }
