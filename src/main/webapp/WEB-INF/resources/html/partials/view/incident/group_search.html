@@ -1,327 +1,341 @@
 <div data-ng-init="init()">
 
-	<div ng-hide="selectedGroup">
+    <div ng-hide="selectedGroup">
 
-		<div>
-			<h2>Search Incident Groups</h2>
-		</div>
+        <div>
+            <h2>Search Incident Groups</h2>
+        </div>
 
-		<div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-		<div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
-		<!-- 	
-			<button class="btn btn-primary pull-right" ng-click="refreshData()">Refresh Data</button>
-		 -->
+        <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+        <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
+        <!-- 	
+            <button class="btn btn-primary pull-right" ng-click="refreshData()">Refresh Data</button>
+         -->
 
-		<button class="btn btn-primary pull-right" ng-click="deleteAllGroupOrphans()">Remove Orphan Groups</button>
+        <button class="btn btn-primary pull-right" ng-click="deleteAllGroupOrphans()">Remove Orphan Groups</button>
 
-		<div style="clear:both;">&nbsp;</div>
-		<div class="form-group">
-			<label class="control-label pull-left">Count Total:</label>
-			<div class="col-sm-7 form-control-static">
-				{{groups.length}}
-			</div>
-		</div>
+        <div style="clear:both;">&nbsp;</div>
+        <div class="form-group">
+            <label class="control-label pull-left">Count Total:</label>
+            <div class="col-sm-7 form-control-static">
+                {{groups.length}}
+            </div>
+        </div>
 
-		<div style="clear:both;">&nbsp;</div>
+        <div style="clear:both;">&nbsp;</div>
 
-		<table st-table="displayedGroups" st-safe-src="groups" class="table table-striped table-hover table-condensed">
-			<thead>
-				<tr>
-					<th st-sort="id">ID</th>
-					<th st-sort="name" st-sort-default="true">Name</th>
-					<th st-sort="description">Description</th>
-					<th st-sort="status">Status</th>
-				</tr>
-				<tr>
-					<th colspan="2">
-						<input st-search placeholder="global search" class="input-sm form-control" type="search" />
-					</th>
-				</tr>
-			</thead>
+        <table st-table="displayedGroups" st-safe-src="groups" class="table table-striped table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th st-sort="id">ID</th>
+                    <th st-sort="name" st-sort-default="true">Name</th>
+                    <th st-sort="description">Description</th>
+                    <th st-sort="status">Status</th>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        <input st-search placeholder="global search" class="input-sm form-control" type="search" />
+                    </th>
+                </tr>
+            </thead>
 
-			<tbody>
-				<tr class="btn-link" ng-repeat="group in displayedGroups" ng-click="select('group', group)">
-					<td class='DK_name'>{{group.id}}</td>
-					<td>{{group.name}}</td>
-					<td>
-						<div my-qtip qtip-content="{{group.description}}">
-							{{group.description + " " | addEllipsis}}
-						</div>
-					</td>
-					<td>{{group.status}}</td>
-				</tr>
-			</tbody>
+            <tbody>
+                <tr class="btn-link" ng-repeat="group in displayedGroups" ng-click="select('group', group)">
+                    <td class='DK_name'>{{group.id}}</td>
+                    <td>{{group.name}}</td>
+                    <td>
+                        <div my-qtip qtip-content="{{group.description}}">
+                            {{group.description + " " | addEllipsis}}
+                        </div>
+                    </td>
+                    <td>{{group.status}}</td>
+                </tr>
+            </tbody>
 
-			<tfoot>
-				<tr>
-					<td colspan="5" class="text-center">
-						<div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
-					</td>
-				</tr>
-			</tfoot>
-		</table>
-	</div>
+            <tfoot>
+                <tr>
+                    <td colspan="5" class="text-center">
+                        <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 
-	<div ng-hide="createResolution || createRootCA">
+    <div ng-hide="createResolution || createRootCA">
 
-		<form class="form-horizontal" ng-show="selectedGroup">
+        <form class="form-horizontal" ng-show="selectedGroup">
 
-			<div>
-				<h2>Incident Group Detail</h2>
-			</div>
+            <div>
+                <h2>Incident Group Detail</h2>
+            </div>
 
-			<div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-			<div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages">
-			</div>
+            <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+            <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages">
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Name</label>
-				<div class="col-sm-7">
-					<input type="text" class="form-control" ng-model="selectedGroup.name">
-				</div>
-			</div>
+            <div ng-hide="loading">
+                <div class="row">
+                    <div style="clear:both;">&nbsp;</div>
+                    <div class="col-sm-12">
+                        <progressbar class="progress-striped active" max="200" value="200" type="info"><i>SAVING....</i>
+                        </progressbar>
+                        <div style="clear:both;">&nbsp;</div>
+                    </div>
+                </div>
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Description</label>
-				<div class="col-sm-7">
-					<textarea type="text" class="form-control" rows="5" ng-model="selectedGroup.description"></textarea>
-				</div>
-			</div>
+            <div ng-hide="hideduringloading">
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Status</label>
-				<div class="col-sm-7">
-					<select class="form-control" ng-model="selectedGroup.status"
-						ng-options="c.name as c.name for c in groupStatuses"></select>
-				</div>
-			</div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Name</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" ng-model="selectedGroup.name">
+                    </div>
+                </div>
 
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<button class="btn btn-primary" ng-show="!disableButton" data-ng-click="update()">
-						Save
-					</button>
-					<button class="btn btn-primary" ng-show="!disableButton" ng-click="showOnDelete()">
-						Delete
-					</button>
-					<button class="btn btn-primary" ng-show="!disableButton" ng-click="createRes()">
-						Create Resolution
-					</button>
-					<button class="btn btn-primary" ng-show="!disableButton" ng-click="createRCA()">
-						Create RCA
-					</button>
-					<button class="btn btn-primary" ng-click="cancel()">
-						Back
-					</button>
-				</div>
-			</div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Description</label>
+                    <div class="col-sm-7">
+                        <textarea type="text" class="form-control" rows="5"
+                            ng-model="selectedGroup.description"></textarea>
+                    </div>
+                </div>
 
-		</form>
-	</div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Status</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" ng-model="selectedGroup.status"
+                            ng-options="c.name as c.name for c in groupStatuses"></select>
+                    </div>
+                </div>
 
-	<form class="form-horizontal" ng-show="createResolution">
-		<div data-ng-controller="ResolutionChildController" class="table table-condensed">
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button class="btn btn-primary" ng-show="!disableButton" data-ng-click="update()">
+                            Save
+                        </button>
+                        <button class="btn btn-primary" ng-show="!disableButton" ng-click="showOnDelete()">
+                            Delete
+                        </button>
+                        <button class="btn btn-primary" ng-show="!disableButton" ng-click="createRes()">
+                            Create Resolution
+                        </button>
+                        <button class="btn btn-primary" ng-show="!disableButton" ng-click="createRCA()">
+                            Create RCA
+                        </button>
+                        <button class="btn btn-primary" ng-click="cancel()">
+                            Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 
-			<div>
-				<h2>Create Resolution</h2>
-			</div>
+    <form class="form-horizontal" ng-show="createResolution">
+        <div data-ng-controller="ResolutionChildController" class="table table-condensed">
 
-			<div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-			<div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages">
-			</div>
+            <div>
+                <h2>Create Resolution</h2>
+            </div>
 
-			<div class="form-group">
-				<label class="control-label col-md-2">Incident Group Name</label>
-				<div class="col-md-7 form-control-static">
-					{{selectedGroup.name}}
-				</div>
-			</div>
+            <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+            <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages">
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Horizon</label>
-				<div class="col-sm-7">
-					<select class="form-control" ng-model="resolution.horizon"
-						ng-options="item.displayName for item in horizons">
-					</select>
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Incident Group Name</label>
+                <div class="col-md-7 form-control-static">
+                    {{selectedGroup.name}}
+                </div>
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Owner</label>
-				<div class="col-sm-6">
-					<div multi-select input-model="owners" button-label="userName" helper-elements="filter"
-						output-model="ownerList" item-label="userName" tick-property="ticked"></div>
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Horizon</label>
+                <div class="col-sm-7">
+                    <select class="form-control" ng-model="resolution.horizon"
+                        ng-options="item.displayName for item in horizons">
+                    </select>
+                </div>
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Status</label>
-				<div class="col-sm-7">
-					<select class="form-control" ng-model="resolution.status"
-						ng-options="item.displayName for item in statuses">
-					</select>
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Owner</label>
+                <div class="col-sm-6">
+                    <div multi-select input-model="owners" button-label="userName" helper-elements="filter"
+                        output-model="ownerList" item-label="userName" tick-property="ticked"></div>
+                </div>
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Estimated Completion Date</label>
-				<div class="col-sm-7">
-					<input type="date" class="form-control" ng-model="resolution.estCompletionDate">
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Status</label>
+                <div class="col-sm-7">
+                    <select class="form-control" ng-model="resolution.status"
+                        ng-options="item.displayName for item in statuses">
+                    </select>
+                </div>
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Actual Completion Date</label>
-				<div class="col-sm-7">
-					<input type="date" class="form-control" ng-model="resolution.actualCompletionDate">
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Estimated Completion Date</label>
+                <div class="col-sm-7">
+                    <input type="date" class="form-control" ng-model="resolution.estCompletionDate">
+                </div>
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Type</label>
-				<div class="col-sm-7">
-					<select class="form-control" ng-model="resolution.type"
-						ng-options="item.displayName for item in types">
-					</select>
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Actual Completion Date</label>
+                <div class="col-sm-7">
+                    <input type="date" class="form-control" ng-model="resolution.actualCompletionDate">
+                </div>
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">SRI Artifact</label>
-				<div class="col-sm-7">
-					<input type="text" class="form-control" ng-model="resolution.sriArtifact">
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Type</label>
+                <div class="col-sm-7">
+                    <select class="form-control" ng-model="resolution.type"
+                        ng-options="item.displayName for item in types">
+                    </select>
+                </div>
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Description</label>
-				<div class="col-sm-7">
-					<textarea type="text" class="form-control" rows="5" ng-model="resolution.description"></textarea>
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">SRI Artifact</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" ng-model="resolution.sriArtifact">
+                </div>
+            </div>
 
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<button class="btn btn-primary" data-ng-disabled="progress.active()" ng-show="!disableButton"
-						data-ng-click="submit()">
-						Submit
-					</button>
-					<button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="cancel()">
-						Back
-					</button>
-				</div>
-			</div>
-		</div>
-	</form>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Description</label>
+                <div class="col-sm-7">
+                    <textarea type="text" class="form-control" rows="5" ng-model="resolution.description"></textarea>
+                </div>
+            </div>
 
-	<form class="form-horizontal" ng-show="createRootCA">
-		<div data-ng-controller="RootCauseChildController" class="table table-condensed">
-			<div>
-				<h2>Create Root Cause</h2>
-			</div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-primary" data-ng-disabled="progress.active()" ng-show="!disableButton"
+                        data-ng-click="submit()">
+                        Submit
+                    </button>
+                    <button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="cancel()">
+                        Back
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
 
-			<div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-			<div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages">
-			</div>
+    <form class="form-horizontal" ng-show="createRootCA">
+        <div data-ng-controller="RootCauseChildController" class="table table-condensed">
+            <div>
+                <h2>Create Root Cause</h2>
+            </div>
 
-			<div class="form-group">
-				<label class="control-label col-md-2">Incident Group Name</label>
-				<div class="col-md-7 form-control-static">
-					{{$parent.selectedGroup.name}}
-				</div>
-			</div>
+            <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+            <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages">
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Status</label>
-				<div class="col-sm-7">
-					<select class="form-control" ng-model="rca.status"
-						ng-options="item.displayName for item in statuses">
-					</select>
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Incident Group Name</label>
+                <div class="col-md-7 form-control-static">
+                    {{$parent.selectedGroup.name}}
+                </div>
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Owner</label>
-				<div class="col-sm-6">
-					<div multi-select input-model="owners" button-label="userName" helper-elements="filter"
-						output-model="ownerList" item-label="userName" tick-property="ticked"></div>
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Status</label>
+                <div class="col-sm-7">
+                    <select class="form-control" ng-model="rca.status"
+                        ng-options="item.displayName for item in statuses">
+                    </select>
+                </div>
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Problem Description</label>
-				<div class="col-sm-7">
-					<textarea type="text" class="form-control" rows="5" ng-model="rca.problemDescription"></textarea>
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Owner</label>
+                <div class="col-sm-6">
+                    <div multi-select input-model="owners" button-label="userName" helper-elements="filter"
+                        output-model="ownerList" item-label="userName" tick-property="ticked"></div>
+                </div>
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Why's?</label>
-				<div class="col-sm-7">
-					<div class="panel-content">
-						<div>
-							<table class="table table-responsive" class="form-control">
-								<tr ng-repeat="why in whys | filter:filterWhy">
-									<td class=" editable-content table-responsive"><textarea type="text"
-											class="form-control" rows="3" ng-model="why.name"></textarea></td>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Problem Description</label>
+                <div class="col-sm-7">
+                    <textarea type="text" class="form-control" rows="5" ng-model="rca.problemDescription"></textarea>
+                </div>
+            </div>
 
-									<td><button type="button" ng-click="deleteWhy(why.id)"
-											class="btn btn-primary pull-right form-control">Delete
-											Why</button></td>
-								</tr>
-							</table>
-							<button type="button" ng-disabled="tableform.$waiting" ng-click="addWhy()"
-								class="btn btn-primary ">Add Why</button>
-							<br /> <br>
-						</div>
-					</div>
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Why's?</label>
+                <div class="col-sm-7">
+                    <div class="panel-content">
+                        <div>
+                            <table class="table table-responsive" class="form-control">
+                                <tr ng-repeat="why in whys | filter:filterWhy">
+                                    <td class=" editable-content table-responsive"><textarea type="text"
+                                            class="form-control" rows="3" ng-model="why.name"></textarea></td>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Due Date</label>
-				<div class="col-sm-7">
-					<input type="date" ng-model="rca.dueDate" class="form-control">
-				</div>
-			</div>
+                                    <td><button type="button" ng-click="deleteWhy(why.id)"
+                                            class="btn btn-primary pull-right form-control">Delete
+                                            Why</button></td>
+                                </tr>
+                            </table>
+                            <button type="button" ng-disabled="tableform.$waiting" ng-click="addWhy()"
+                                class="btn btn-primary ">Add Why</button>
+                            <br /> <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Completion Date</label>
-				<div class="col-sm-7">
-					<input type="date" ng-model="rca.completionDate" class="form-control">
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Due Date</label>
+                <div class="col-sm-7">
+                    <input type="date" ng-model="rca.dueDate" class="form-control">
+                </div>
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Category</label>
-				<div class="col-sm-7">
-					<select class="form-control" ng-model="rca.category"
-						ng-options="item.displayName for item in categories">
-					</select>
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Completion Date</label>
+                <div class="col-sm-7">
+                    <input type="date" ng-model="rca.completionDate" class="form-control">
+                </div>
+            </div>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Resource</label>
-				<div class="col-sm-7">
-					<select class="form-control" ng-model="rca.resource"
-						ng-options="item.displayName for item in resources">
-					</select>
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Category</label>
+                <div class="col-sm-7">
+                    <select class="form-control" ng-model="rca.category"
+                        ng-options="item.displayName for item in categories">
+                    </select>
+                </div>
+            </div>
 
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<button class="btn btn-primary" data-ng-disabled="progress.active()" ng-show="!disableButton"
-						data-ng-click="submit()">
-						Submit
-					</button>
-					<button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="cancel()">
-						Back
-					</button>
-				</div>
-			</div>
-			<div>
-	</form>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Resource</label>
+                <div class="col-sm-7">
+                    <select class="form-control" ng-model="rca.resource"
+                        ng-options="item.displayName for item in resources">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-primary" data-ng-disabled="progress.active()" ng-show="!disableButton"
+                        data-ng-click="submit()">
+                        Submit
+                    </button>
+                    <button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="cancel()">
+                        Back
+                    </button>
+                </div>
+            </div>
+            <div>
+    </form>
 
 </div>

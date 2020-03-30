@@ -1,5 +1,8 @@
 app.controller('ProjectController', function ($rootScope, $scope, ProjectService, $location, $routeParams, OwnersService, ReferenceDataService, ModalService) {
+
     $scope.project = {};
+    $scope.hideduringloading = false;
+    $scope.loading = true;
 
     (function () {
         OwnersService.getOwners().then(
@@ -69,6 +72,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     $scope.filterOptions = {
         filterText: ''
     };
+
     $scope.gridOptions = {
         data: 'myData',
         filterOptions: $scope.filterOptions,
@@ -157,12 +161,10 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
 
     $scope.myData = [];
     $scope.init = function () {
-
         if ($rootScope.resolutionFilterText != null) {
             $scope.filterOptions.filterText = $rootScope.resolutionFilterText;
             $scope.gridOptions.sortInfo = $rootScope.resolutionsortInfo;
         }
-
         ProjectService.getProjects().then(
             function success(response, status, headers, config) {
                 var i, project;
@@ -285,6 +287,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
 
     $scope.update = function () {
         $scope.clearMsg();
+        $scope.waiting(true);
 
         if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
             var owners = "";
@@ -346,11 +349,13 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                         console.log("Project has been saved = " + JSON.stringify(response));
                     }
                     $scope.back = true;
+                    $scope.waiting(false);
                     return;
                 }
             },
             function error() {
                 $scope.errormessages = $rootScope.PROJECT_SAVE_ERROR_MSG;
+                $scope.waiting(false);
             });
     };
 
@@ -388,11 +393,24 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             newwin.focus()
         }
         return false;
-    }
+    };
 
     $scope.cancel = function () {
         $location.path('/project/search');
     };
+
+    $scope.waiting = function (value) {
+        if (value == true) {
+            $scope.hideduringloading = true;
+            $scope.loading = false;
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideduringloading = false;
+            $scope.loading = true;
+            document.body.style.cursor = "default";
+        }
+    };
+
 });
 
 app.controller('ComplexController', [
@@ -524,4 +542,5 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
                 $scope.errormessages = $rootScope.PROJECT_LINK_RESOLUTON_ERROR_MSG;
             });
     }
+
 });

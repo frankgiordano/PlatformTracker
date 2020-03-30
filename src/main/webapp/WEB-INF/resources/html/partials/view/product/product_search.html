@@ -31,8 +31,8 @@
                             </tr>
                             <tr>
                                    <!-- 			<th colspan="2">
-					<input st-search="incidentName" placeholder="search by incident name" class="input-sm form-control" type="search" />
-				</th>
+                                   <input st-search="incidentName" placeholder="search by incident name" class="input-sm form-control" type="search" />
+                            </th>
 -->
                                    <th colspan="4">
                                           <input st-search placeholder="global search" class="input-sm form-control"
@@ -72,88 +72,105 @@
                      <h2>Product Detail</h2>
               </div>
 
-              <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-              <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
+              <div ng-hide="loading">
+                     <div class="row">
+                            <div style="clear:both;">&nbsp;</div>
+                            <div class="col-sm-12">
+                                   <progressbar class="progress-striped active" max="200" value="200" type="info">
+                                          <i>SAVING....</i></progressbar>
+                                   <div style="clear:both;">&nbsp;</div>
+                            </div>
+                     </div>
+              </div>
 
-              <div class="form-group">
-                     <label class="col-sm-2 control-label">Platform</label>
-                     <div class="col-sm-6">
-                            <select ng-model="selectedProduct.platform" class="form-control"
+              <div ng-hide="hideduringloading">
+
+                     <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages">
+                     </div>
+                     <div id="messages" class="alert alert-danger" data-ng-show="errormessages"
+                            data-ng-bind="errormessages"></div>
+
+                     <div class="form-group">
+                            <label class="col-sm-2 control-label">Platform</label>
+                            <div class="col-sm-6">
+                                   <select ng-model="selectedProduct.platform" class="form-control"
                                           ng-options="c.name as c.name for c in platforms">
-                            </select>
+                                   </select>
+                            </div>
+                     </div>
+
+                     <div class="form-group">
+                            <label class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-6">
+                                   <input type="text" class="form-control" ng-model="selectedProduct.incidentName">
+                            </div>
+                     </div>
+
+                     <div class="form-group">
+                            <label class="col-sm-2 control-label">Client Name</label>
+                            <div class="col-sm-6">
+                                   <input type="text" class="form-control" ng-model="selectedProduct.clientName">
+                            </div>
+                     </div>
+
+                     <div class="form-group">
+                            <label class="col-sm-2 control-label">Short Name</label>
+                            <div class="col-sm-6">
+                                   <input type="text" class="form-control" ng-model="selectedProduct.shortName">
+                            </div>
+                     </div>
+
+                     <div class="form-group">
+                            <label class="col-sm-2 control-label">Owner</label>
+                            <div class="col-sm-6">
+                                   <input type="text" class="form-control" ng-model="selectedProduct.owner">
+                            </div>
+                     </div>
+
+                     <div class="form-group">
+                            <label class="col-sm-2 control-label">Start Date</label>
+                            <div class="col-sm-6">
+                                   <input type="date" class="form-control" ng-model="selectedProduct.startDate">
+                            </div>
+                     </div>
+
+                     <div class="form-group">
+                            <label class="col-sm-2 control-label">End Date</label>
+                            <div class="col-sm-6">
+                                   <input type="date" class="form-control" ng-model="selectedProduct.endDate">
+                            </div>
+                     </div>
+
+                     <div class="form-group">
+                            <label class="col-sm-2 control-label">Max Weekly Uptime</label>
+                            <div class="col-sm-6">
+                                   <input type="text" class="form-control" ng-model="selectedProduct.maxWeeklyUptime">
+                            </div>
+                     </div>
+
+                     <div class="form-group">
+                            <label class="col-sm-2 control-label">Revenue %</label>
+                            <div class="col-sm-6">
+                                   <input type="text" class="form-control" ng-model="selectedProduct.revenue">
+                            </div>
+                     </div>
+
+                     <div class="form-group">
+                            <label class="col-sm-2 control-label">User %</label>
+                            <div class="col-sm-6">
+                                   <input type="text" class="form-control" ng-model="selectedProduct.users">
+                            </div>
+                     </div>
+
+                     <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                   <button class="btn btn-primary" ng-show="!disableButton"
+                                          ng-click="updateInSearch()">Save</button>
+                                   <button class="btn btn-primary" ng-show="!disableButton"
+                                          ng-click="showOnDelete()">Delete</button>
+                                   <button class="btn btn-primary" ng-click="cancelP()">Back</button>
+                            </div>
                      </div>
               </div>
-
-              <div class="form-group">
-                     <label class="col-sm-2 control-label">Name</label>
-                     <div class="col-sm-6">
-                            <input type="text" class="form-control" ng-model="selectedProduct.incidentName">
-                     </div>
-              </div>
-
-              <div class="form-group">
-                     <label class="col-sm-2 control-label">Client Name</label>
-                     <div class="col-sm-6">
-                            <input type="text" class="form-control" ng-model="selectedProduct.clientName">
-                     </div>
-              </div>
-
-              <div class="form-group">
-                     <label class="col-sm-2 control-label">Short Name</label>
-                     <div class="col-sm-6">
-                            <input type="text" class="form-control" ng-model="selectedProduct.shortName">
-                     </div>
-              </div>
-
-              <div class="form-group">
-                     <label class="col-sm-2 control-label">Owner</label>
-                     <div class="col-sm-6">
-                            <input type="text" class="form-control" ng-model="selectedProduct.owner">
-                     </div>
-              </div>
-
-              <div class="form-group">
-                     <label class="col-sm-2 control-label">Start Date</label>
-                     <div class="col-sm-6">
-                            <input type="date" class="form-control" ng-model="selectedProduct.startDate">
-                     </div>
-              </div>
-
-              <div class="form-group">
-                     <label class="col-sm-2 control-label">End Date</label>
-                     <div class="col-sm-6">
-                            <input type="date" class="form-control" ng-model="selectedProduct.endDate">
-                     </div>
-              </div>
-
-              <div class="form-group">
-                     <label class="col-sm-2 control-label">Max Weekly Uptime</label>
-                     <div class="col-sm-6">
-                            <input type="text" class="form-control" ng-model="selectedProduct.maxWeeklyUptime">
-                     </div>
-              </div>
-
-              <div class="form-group">
-                     <label class="col-sm-2 control-label">Revenue %</label>
-                     <div class="col-sm-6">
-                            <input type="text" class="form-control" ng-model="selectedProduct.revenue">
-                     </div>
-              </div>
-
-              <div class="form-group">
-                     <label class="col-sm-2 control-label">User %</label>
-                     <div class="col-sm-6">
-                            <input type="text" class="form-control" ng-model="selectedProduct.users">
-                     </div>
-              </div>
-
-              <div class="form-group">
-                     <div class="col-sm-offset-2 col-sm-10">
-                            <button class="btn btn-primary" ng-show="!disableButton" ng-click="updateInSearch()">Save</button>
-                            <button class="btn btn-primary" ng-show="!disableButton" ng-click="showOnDelete()">Delete</button>
-                            <button class="btn btn-primary" ng-click="cancelP()">Back</button>
-                     </div>
-              </div>
-
        </form>
 </div>

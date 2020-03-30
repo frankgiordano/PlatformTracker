@@ -1,110 +1,124 @@
 <div>
-	<h2>Create Root Cause</h2>
+    <h2>Create Root Cause</h2>
 </div>
 
 <div data-ng-controller="RootCauseController">
-	<div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-	<div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
-	<div data-ng-show="progress.active()" style="color: red; font-size: 50px;">Sending&hellip;</div>
+    <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+    <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
 
-	<form class="form-horizontal" name="helpForm" novalidate role="form">
-		<br /><br />
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Incident Group Name</label>
-			<div class="col-sm-6">
-				<select class="form-control" ng-model="rca.incidentGroup"
-					ng-options="group.name for group in groups | orderBy: 'name'">
-				</select>
-			</div>
-		</div>
+    <div ng-hide="loading">
+        <div class="row">
+            <div style="clear:both;">&nbsp;</div>
+            <div class="col-sm-12">
+                <progressbar class="progress-striped active" max="200" value="200" type="info"><i>CREATING....</i>
+                </progressbar>
+                <div style="clear:both;">&nbsp;</div>
+            </div>
+        </div>
+    </div>
 
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Status</label>
-			<div class="col-sm-6">
-				<select class="form-control" ng-model="rca.status" ng-options="item.displayName for item in status">
-				</select>
-			</div>
-		</div>
+    <div ng-hide="hideduringloading">
 
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Owner</label>
-			<div class="col-sm-6">
-				<div multi-select input-model="owners" button-label="userName" helper-elements="filter"
-					output-model="ownerlist" item-label="userName" tick-property="ticked"></div>
-			</div>
-		</div>
+        <form class="form-horizontal" name="helpForm" novalidate role="form">
+            <br /><br />
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Incident Group Name</label>
+                <div class="col-sm-6">
+                    <select class="form-control" ng-model="rca.incidentGroup"
+                        ng-options="group.name for group in groups | orderBy: 'name'">
+                    </select>
+                </div>
+            </div>
 
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Problem Description</label>
-			<div class="col-sm-6">
-				<textarea type="text" class="form-control" rows="5" ng-model="rca.problem"></textarea>
-			</div>
-		</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Status</label>
+                <div class="col-sm-6">
+                    <select class="form-control" ng-model="rca.status" ng-options="item.displayName for item in status">
+                    </select>
+                </div>
+            </div>
 
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Why's?</label>
-			<div class="col-sm-6">
-				<div class="panel-content">
-					<div>
-						<table class="table table-responsive" class="form-control">
-							<tr ng-repeat="why in whys | filter:filterWhy">
-								<td class=" editable-content table-responsive">
-									<textarea type="text" class="form-control" rows="3" ng-model="why.name"></textarea>
-								</td>
-								<td>
-									<button type="button" ng-click="deleteWhy(why.id)"
-										class="btn btn-primary pull-right form-control">Delete
-										Why
-									</button>
-								</td>
-							</tr>
-						</table>
-						<button type="button" ng-disabled="tableform.$waiting" ng-click="addWhy()"
-							class="btn btn-primary ">Add Why</button>
-						<br /> <br>
-					</div>
-				</div>
-			</div>
-		</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Owner</label>
+                <div class="col-sm-6">
+                    <div multi-select input-model="owners" button-label="userName" helper-elements="filter"
+                        output-model="ownerlist" item-label="userName" tick-property="ticked"></div>
+                </div>
+            </div>
 
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Due Date</label>
-			<div class="col-sm-6">
-				<input type="date" ng-model="rca.dueDate" class="form-control" required />
-			</div>
-		</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Problem Description</label>
+                <div class="col-sm-6">
+                    <textarea type="text" class="form-control" rows="5" ng-model="rca.problem"></textarea>
+                </div>
+            </div>
 
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Completion Date</label>
-			<div class="col-sm-6">
-				<input type="date" ng-model="rca.completionDate" class="form-control" required />
-			</div>
-		</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Why's?</label>
+                <div class="col-sm-6">
+                    <div class="panel-content">
+                        <div>
+                            <table class="table table-responsive" class="form-control">
+                                <tr ng-repeat="why in whys | filter:filterWhy">
+                                    <td class=" editable-content table-responsive">
+                                        <textarea type="text" class="form-control" rows="3"
+                                            ng-model="why.name"></textarea>
+                                    </td>
+                                    <td>
+                                        <button type="button" ng-click="deleteWhy(why.id)"
+                                            class="btn btn-primary pull-right form-control">Delete
+                                            Why
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button type="button" ng-disabled="tableform.$waiting" ng-click="addWhy()"
+                                class="btn btn-primary ">Add Why</button>
+                            <br /> <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Category</label>
-			<div class="col-sm-6">
-				<select class="form-control" ng-model="rca.category"
-					ng-options="item.displayName for item in categories">
-				</select>
-			</div>
-		</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Due Date</label>
+                <div class="col-sm-6">
+                    <input type="date" ng-model="rca.dueDate" class="form-control" required />
+                </div>
+            </div>
 
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Resource</label>
-			<div class="col-sm-6">
-				<select class="form-control" ng-model="rca.resource"
-					ng-options="item.displayName for item in resources">
-				</select>
-			</div>
-		</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Completion Date</label>
+                <div class="col-sm-6">
+                    <input type="date" ng-model="rca.completionDate" class="form-control" required />
+                </div>
+            </div>
 
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button class="btn btn-primary" ng-click="update(rca)" ng-show="!back">Submit</button>
-				<button class="btn btn-primary" data-ng-disabled="progress.active()"
-					data-ng-click="cancel()">Back</button>
-			</div>
-		</div>
-	</form>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Category</label>
+                <div class="col-sm-6">
+                    <select class="form-control" ng-model="rca.category"
+                        ng-options="item.displayName for item in categories">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Resource</label>
+                <div class="col-sm-6">
+                    <select class="form-control" ng-model="rca.resource"
+                        ng-options="item.displayName for item in resources">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-primary" ng-click="update(rca)" ng-show="!back">Submit</button>
+                    <button class="btn btn-primary" data-ng-disabled="progress.active()"
+                        data-ng-click="cancel()">Back</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

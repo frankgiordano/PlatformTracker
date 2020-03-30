@@ -1,5 +1,8 @@
 app.controller('ResolutionRetrieveController', function ($rootScope, $scope, OwnersService, ResolutionService, $location, $routeParams, IncidentGroupService, ReferenceDataService, ModalService) {
+
     $scope.resolution = {};
+    $scope.hideduringloading = false;
+    $scope.loading = true;
 
     (function () {
         OwnersService.getOwners().then(
@@ -261,6 +264,7 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
     $scope.update = function () {
         $scope.back = false;
         $scope.clearMsg();
+        $scope.waiting(true);
 
         if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
             var owners = "";
@@ -326,10 +330,12 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
                     }
                     console.log("Resolution has been saved = " + JSON.stringify(response));
                     $scope.back = true;
+                    $scope.waiting(false);
                 }
             },
             function error() {
                 $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
+                $scope.waiting(false);
             });
     };
 
@@ -350,6 +356,18 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
     $scope.new = function () {
         $location.path('/resolution/create');
     };
+
+    $scope.waiting = function(value) {
+        if (value == true) { 
+            $scope.hideduringloading = true;
+            $scope.loading = false;
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideduringloading = false;
+            $scope.loading = true;
+            document.body.style.cursor = "default";
+        }
+    }
 
 });
 

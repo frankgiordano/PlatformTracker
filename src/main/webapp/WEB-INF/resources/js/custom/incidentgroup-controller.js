@@ -21,6 +21,8 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
     $scope.createResolution = null; // this variable handles the display of the resolution creation sub form
     $scope.createRootCA = null; // this variable handles the display of the RCA creation sub form
     $scope.disableButton = false;
+    $scope.hideduringloading = false;
+    $scope.loading = true;
 
     var data = [];
 
@@ -66,7 +68,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
 
     $scope.changedGroup = function (id) {
         var value = null;
-        if (id) 
+        if (id)
             value = Number(id);
         else
             value = Number($scope.selectedGroup.id);
@@ -93,6 +95,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
 
     $scope.update = function () {
         $scope.clearDisplayMessages();
+        $scope.waiting(true);
 
         var group = {
             "id": $scope.selectedGroup.id,
@@ -109,9 +112,11 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
                     $scope.errormessages = null;
                     $scope.disableButton = true;
                 }
+                $scope.waiting(false);
             },
             function error() {
                 $scope.errormessages = $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG;
+                $scope.waiting(false);
             });
     };
 
@@ -197,11 +202,25 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
         $scope.errormessages = null;
     };
 
+    $scope.waiting = function (value) {
+        if (value == true) {
+            $scope.hideduringloading = true;
+            $scope.loading = false;
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideduringloading = false;
+            $scope.loading = true;
+            document.body.style.cursor = "default";
+        }
+    };
+
 });
 
 app.controller('RootCauseChildController', function ($rootScope, $scope, ReferenceDataService, RcaService, OwnersService, $filter) {
 
     $scope.rca = {};
+    $scope.hideduringloading = false;
+    $scope.loading = true;
 
     (function () {
         OwnersService.getOwners().then(
@@ -272,6 +291,7 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
         $scope.rca.owner = null;
         $scope.messages = null;
         $scope.errormessages = null;
+        $scope.waiting(false);
     };
 
     $scope.cancel = function () {
@@ -350,6 +370,7 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
     // END OF - add related actions stuff
 
     $scope.submit = function () {
+        $scope.waiting(true);
 
         if ($scope.ownerList != null && $scope.ownerList.length > 0) {
             var owners = "";
@@ -383,10 +404,24 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
                     $scope.errormessages = null;
                     $scope.disableButton = true;
                 }
+                $scope.waiting(false);
             },
             function error() {
                 $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
+                $scope.waiting(false);
             });
+    };
+
+    $scope.waiting = function (value) {
+        if (value == true) {
+            $scope.hideduringloading = true;
+            $scope.loading = false;
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideduringloading = false;
+            $scope.loading = true;
+            document.body.style.cursor = "default";
+        }
     };
 
 });
@@ -394,6 +429,8 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
 app.controller('ResolutionChildController', function ($rootScope, $scope, ReferenceDataService, OwnersService, ResolutionService) {
 
     $scope.resolution = {};
+    $scope.hideduringloading = false;
+    $scope.loading = true;
 
     (function () {
         ReferenceDataService.getHorizons().then(
@@ -473,6 +510,7 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, Refere
     };
 
     $scope.submit = function () {
+        $scope.waiting(true);
 
         if ($scope.ownerList != null && $scope.ownerList.length > 0) {
             var owners = "";
@@ -502,10 +540,24 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, Refere
                     $scope.errormessages = null;
                     $scope.disableButton = true;
                 }
+                $scope.waiting(false);
             },
             function error() {
                 $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
+                $scope.waiting(false);
             });
+    };
+
+    $scope.waiting = function (value) {
+        if (value == true) {
+            $scope.hideduringloading = true;
+            $scope.loading = false;
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideduringloading = false;
+            $scope.loading = true;
+            document.body.style.cursor = "default";
+        }
     };
 
 });

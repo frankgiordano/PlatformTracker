@@ -12,338 +12,353 @@
   <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
   <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
 
-  <form class="form-horizontal" name="helpForm" novalidate role="form">
-    <div data-ng-init="editIncidentSetup()">
-      <div class="form-group">
-        <label class="col-sm-2 control-label">Tag</label>
-        <div class="col-sm-3 form-control-static">{{incident.tag}}</div>
-        <label class="col-sm-1 control-label">Recorded By</label>
-        <div class="col-sm-3 form-control-static">{{incident.recordedBy}}</div>
-      </div>
-
-      <div class="form-group">
-        <label class="control-label col-md-2">Current Group</label>
-        <div class="col-md-3 form-control-static">{{groupModel.currentGroupName}}</div>
-        <label class="col-sm-1 control-label">Reassign Grp</label>
-        <div class="col-sm-3">
-          <input type="text" ng-model="groupModel.selectedNewGroup"
-            typeahead="group.name for group in groups | filter:$viewValue | orderBy: 'name'" class="form-control">
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-sm-2 control-label">Status</label>
-        <div class="col-sm-3">
-          <select class="form-control" ng-model="incident.status"
-            ng-options="c.name as c.name for c in incidentstatuss">
-          </select>
-        </div>
-        <label class="col-sm-1 control-label">Email RCPT</label>
-        <div class="col-sm-3">
-          <select class="form-control" ng-model="incident.emailRecipents"
-            ng-options="c.name as c.name for c in recipents">
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-sm-2 control-label">Start Date Time</label>
-        <div class="col-md-3">
-          <p class="input-group">
-            <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm" ng-model="incident.startTime"
-              is-open="open.startTime" />
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'startTime')">
-                <i class="fa fa-calendar"></i>
-              </button>
-            </span>
-          </p>
-        </div>
-        <label class="col-sm-1 control-label">End Date Time</label>
-        <div class="col-md-3">
-          <p class="input-group">
-            <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm" ng-model="incident.endTime"
-              is-open="open.endTime" />
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'endTime')">
-                <i class="fa fa-calendar"></i>
-              </button>
-            </span>
-          </p>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-sm-2 control-label">Severity</label>
-        <div class="col-sm-3">
-          <select class="form-control" ng-model="incident.severity" ng-options="c.name as c.name for c in severities">
-          </select>
-        </div>
-        <label class="col-sm-1 control-label">Name</label>
-        <div class="col-sm-3">
-          <input type="text" class="form-control" ng-model="incident.name">
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-sm-2 control-label">Owner</label>
-        <div class="col-sm-3">
-          <input type="text" class="form-control" ng-model="incident.reportOwner">
-        </div>
-        <label class="col-sm-1 control-label">Application Status</label>
-        <div class="col-sm-3">
-          <select class="form-control" ng-model="incident.applicationStatus"
-            ng-options="c.displayName as c.displayName for c in applicationStatuses">
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-sm-2 control-label">Error Condition</label>
-        <div class="col-sm-3">
-          <select class="form-control" ng-model="incident.error" ng-options="c.name as c.name for c in errors"></select>
-        </div>
-        <label class="col-sm-1 control-label">Locus</label>
-        <div class="col-sm-3">
-          <select class="form-control" ng-model="incident.locus" ng-options="c.name as c.name for c in locuss"></select>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-sm-2 control-label">Business Description</label>
-        <div class="col-sm-7">
-          <textarea type="text" class="form-control" rows="5" ng-model="incident.summary"></textarea>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-sm-2 control-label">Technical Description</label>
-        <div class="col-sm-7">
-          <textarea type="text" class="form-control" rows="5" ng-model="incident.description"></textarea>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-sm-2 control-label">Alerted By</label>
-        <div class="col-sm-3">
-          <select class="form-control" ng-model="incident.alertedBy"
-            ng-options="c.name as c.name for c in alerted_bys"></select>
-        </div>
-        <label class="col-sm-1 control-label">Reviewed By</label>
-        <div class="col-sm-3">
-          <input type="text" class="form-control" ng-model="incident.reviewedBy">
-        </div>
-      </div>
-
-      <hr>
-
-      <tabset vertical="true" type="pills">
-        <tab heading="Chronology">
-          <div>
-
-            <div>
-              <hr>
-              <h2>Chronology</h2>
-            </div>
-
-            <div id="messages" class="alert alert-success" data-ng-show="chronmessages" data-ng-bind="chronmessages">
-            </div>
-            <div id="messages" class="alert alert-danger" data-ng-show="chronerrormessages"
-              data-ng-bind="chronerrormessages"></div>
-
-            <div class="form-group">
-              <label class="control-label col-md-2">Tag</label>
-              <div class="col-md-7 form-control-static">{{incident.tag}}</div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-md-2">Description</label>
-              <div class="col-md-7 form-control-static">{{incident.description + " " + incident.summary}}</div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-2">TimeLine</label>
-              <div class="col-sm-7">
-                <table class="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      <td>Date Time</td>
-                      <td>Description</td>
-                      <td>Recorded By</td>
-                      <td>Delete</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr ng-repeat="item in chronologies | orderBy: 'dateTime'">
-                      <td>{{item.dateTime | dateFormat}}</td>
-                      <td>{{item.description}}</td>
-                      <td>{{item.recordedBy}}</td>
-                      <td>
-                        <a ng-click="removeChronology(item)"><span class="glyphicon glyphicon-trash"></a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div ng-hide="createChronology">
-
-              <div style="clear:both;">&nbsp;</div>
-              <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                  <button class="btn btn-primary" ng-disabled="disableButton" ng-click="select('chronology')">
-                    Add Timeline Entry
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div ng-show="createChronology">
-
-              <div>
-                <h2>Add Timeline Entry</h2>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-2 control-label">Date Time</label>
-                <div class="col-md-7">
-                  <p class="input-group">
-                    <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm"
-                      ng-model="createChronology.chronologyDateTime" is-open="open.dateTime" />
-                    <span class="input-group-btn">
-                      <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'dateTime')">
-                        <i class="fa fa-calendar"></i>
-                      </button>
-                    </span>
-                  </p>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-2 control-label">Description</label>
-                <div class="col-sm-7">
-                  <textarea type="text" class="form-control" rows="3"
-                    ng-model="createChronology.chronDescription"></textarea>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                  <button class="btn btn-primary" ng-disabled="disableButton" ng-click="submitChronology()">
-                    Save
-                  </button>
-                  <button class="btn btn-primary" ng-click="cancel('createChronology')">
-                    Cancel
-                  </button>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </tab>
-
-        <tab heading="Corrective Action">
-          <div>
-            <hr>
-            <h2>Corrective Action</h2>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Issue</label>
-            <div class="col-sm-7">
-              <textarea type="text" class="form-control" rows="2" ng-model="incident.issue"></textarea>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Corrective Action</label>
-            <div class="col-sm-7">
-              <textarea type="text" class="form-control" rows="4" ng-model="incident.correctiveAction"></textarea>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Related Actions</label>
-            <div class="col-sm-7">
-              <div class="panel-content">
-                <div>
-                  <table class="table table-responsive" class="form-control">
-                    <tr ng-repeat="action in actions | filter:filterAction">
-                      <td class="editable-content table-responsive">
-                        <textarea type="text" class="form-control" rows="3" ng-model="action.name"></textarea>
-                      </td>
-                      <td><button type="button" ng-click="deleteAction(action.id)"
-                          class="btn btn-primary pull-right form-control">Delete Action
-                        </button>
-                      </td>
-                    </tr>
-                  </table>
-                  <button type="button" ng-disabled="tableform.$waiting" ng-click="addAction()"
-                    class="btn btn-primary ">Add Action
-                  </button>
-                  <br /> <br>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </tab>
-
-        <tab heading="Impact">
-          <div>
-            <hr>
-            <h2>Impact</h2>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Product(s) Impacted</label>
-            <div class="col-sm-7">
-              <bs-select required ng-model="products" default-text="Select Associated Product(s).."
-                text-field="shortName" value-field="id" items="myProducts">
-              </bs-select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Customer Impact</label>
-            <div class="col-sm-7">
-              <textarea type="text" class="form-control" rows="5" ng-model="incident.customerImpact"></textarea>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">% of Users Impacted</label>
-            <div class="col-sm-3">
-              <input type="text" class="form-control" ng-model="incident.usersImpacted">
-            </div>
-            <label class="col-sm-1 control-label">Calls Rec'd</label>
-            <div class="col-sm-3">
-              <input type="text" class="form-control" ng-model="incident.usersImpacted">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Transaction IDs Impacted</label>
-            <div class="col-sm-7">
-              <input type="text" class="form-control" ng-model="incident.transactionIdsImpacted">
-            </div>
-          </div>
-        </tab>
-
-      </tabset>
-
-      <hr>
+  <div ng-hide="loading">
+    <div class="row">
       <div style="clear:both;">&nbsp;</div>
-      <div style="clear:both;">&nbsp;</div>
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-          <button class="btn btn-primary" ng-show="!disableButton" ng-click="update()">Save</button>
-          <button class="btn btn-primary" ng-show="!disableButton" ng-click="showOnDelete()">Delete</button>
-          <button class="btn btn-primary" ng-click="cancel('incident')">Back</button>
-        </div>
+      <div class="col-sm-12">
+        <progressbar class="progress-striped active" max="200" value="200" type="info"><i>SAVING....</i></progressbar>
+        <div style="clear:both;">&nbsp;</div>
       </div>
     </div>
-  </form>
+  </div>
+
+  <div ng-hide="hideduringloading">
+
+    <form class="form-horizontal" name="helpForm" novalidate role="form">
+      <div data-ng-init="editIncidentSetup()">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Tag</label>
+          <div class="col-sm-3 form-control-static">{{incident.tag}}</div>
+          <label class="col-sm-1 control-label">Recorded By</label>
+          <div class="col-sm-3 form-control-static">{{incident.recordedBy}}</div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-2">Current Group</label>
+          <div class="col-md-3 form-control-static">{{groupModel.currentGroupName}}</div>
+          <label class="col-sm-1 control-label">Reassign Grp</label>
+          <div class="col-sm-3">
+            <input type="text" ng-model="groupModel.selectedNewGroup"
+              typeahead="group.name for group in groups | filter:$viewValue | orderBy: 'name'" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Status</label>
+          <div class="col-sm-3">
+            <select class="form-control" ng-model="incident.status"
+              ng-options="c.name as c.name for c in incidentstatuss">
+            </select>
+          </div>
+          <label class="col-sm-1 control-label">Email RCPT</label>
+          <div class="col-sm-3">
+            <select class="form-control" ng-model="incident.emailRecipents"
+              ng-options="c.name as c.name for c in recipents">
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Start Date Time</label>
+          <div class="col-md-3">
+            <p class="input-group">
+              <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm" ng-model="incident.startTime"
+                is-open="open.startTime" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'startTime')">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </span>
+            </p>
+          </div>
+          <label class="col-sm-1 control-label">End Date Time</label>
+          <div class="col-md-3">
+            <p class="input-group">
+              <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm" ng-model="incident.endTime"
+                is-open="open.endTime" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'endTime')">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Severity</label>
+          <div class="col-sm-3">
+            <select class="form-control" ng-model="incident.severity" ng-options="c.name as c.name for c in severities">
+            </select>
+          </div>
+          <label class="col-sm-1 control-label">Name</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" ng-model="incident.name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Owner</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" ng-model="incident.reportOwner">
+          </div>
+          <label class="col-sm-1 control-label">Application Status</label>
+          <div class="col-sm-3">
+            <select class="form-control" ng-model="incident.applicationStatus"
+              ng-options="c.displayName as c.displayName for c in applicationStatuses">
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Error Condition</label>
+          <div class="col-sm-3">
+            <select class="form-control" ng-model="incident.error"
+              ng-options="c.name as c.name for c in errors"></select>
+          </div>
+          <label class="col-sm-1 control-label">Locus</label>
+          <div class="col-sm-3">
+            <select class="form-control" ng-model="incident.locus"
+              ng-options="c.name as c.name for c in locuss"></select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Business Description</label>
+          <div class="col-sm-7">
+            <textarea type="text" class="form-control" rows="5" ng-model="incident.summary"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Technical Description</label>
+          <div class="col-sm-7">
+            <textarea type="text" class="form-control" rows="5" ng-model="incident.description"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Alerted By</label>
+          <div class="col-sm-3">
+            <select class="form-control" ng-model="incident.alertedBy"
+              ng-options="c.name as c.name for c in alerted_bys"></select>
+          </div>
+          <label class="col-sm-1 control-label">Reviewed By</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" ng-model="incident.reviewedBy">
+          </div>
+        </div>
+
+        <hr>
+
+        <tabset vertical="true" type="pills">
+          <tab heading="Chronology">
+            <div>
+
+              <div>
+                <hr>
+                <h2>Chronology</h2>
+              </div>
+
+              <div id="messages" class="alert alert-success" data-ng-show="chronmessages" data-ng-bind="chronmessages">
+              </div>
+              <div id="messages" class="alert alert-danger" data-ng-show="chronerrormessages"
+                data-ng-bind="chronerrormessages"></div>
+
+              <div class="form-group">
+                <label class="control-label col-md-2">Tag</label>
+                <div class="col-md-7 form-control-static">{{incident.tag}}</div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-md-2">Description</label>
+                <div class="col-md-7 form-control-static">{{incident.description + " " + incident.summary}}</div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-2">TimeLine</label>
+                <div class="col-sm-7">
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <td>Date Time</td>
+                        <td>Description</td>
+                        <td>Recorded By</td>
+                        <td>Delete</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="item in chronologies | orderBy: 'dateTime'">
+                        <td>{{item.dateTime | dateFormat}}</td>
+                        <td>{{item.description}}</td>
+                        <td>{{item.recordedBy}}</td>
+                        <td>
+                          <a ng-click="removeChronology(item)"><span class="glyphicon glyphicon-trash"></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div ng-hide="createChronology">
+
+                <div style="clear:both;">&nbsp;</div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-primary" ng-disabled="disableButton" ng-click="select('chronology')">
+                      Add Timeline Entry
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div ng-show="createChronology">
+
+                <div>
+                  <h2>Add Timeline Entry</h2>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Date Time</label>
+                  <div class="col-md-7">
+                    <p class="input-group">
+                      <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm"
+                        ng-model="createChronology.chronologyDateTime" is-open="open.dateTime" />
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'dateTime')">
+                          <i class="fa fa-calendar"></i>
+                        </button>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Description</label>
+                  <div class="col-sm-7">
+                    <textarea type="text" class="form-control" rows="3"
+                      ng-model="createChronology.chronDescription"></textarea>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-primary" ng-disabled="disableButton" ng-click="submitChronology()">
+                      Save
+                    </button>
+                    <button class="btn btn-primary" ng-click="cancel('createChronology')">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </tab>
+
+          <tab heading="Corrective Action">
+            <div>
+              <hr>
+              <h2>Corrective Action</h2>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Issue</label>
+              <div class="col-sm-7">
+                <textarea type="text" class="form-control" rows="2" ng-model="incident.issue"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Corrective Action</label>
+              <div class="col-sm-7">
+                <textarea type="text" class="form-control" rows="4" ng-model="incident.correctiveAction"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Related Actions</label>
+              <div class="col-sm-7">
+                <div class="panel-content">
+                  <div>
+                    <table class="table table-responsive" class="form-control">
+                      <tr ng-repeat="action in actions | filter:filterAction">
+                        <td class="editable-content table-responsive">
+                          <textarea type="text" class="form-control" rows="3" ng-model="action.name"></textarea>
+                        </td>
+                        <td><button type="button" ng-click="deleteAction(action.id)"
+                            class="btn btn-primary pull-right form-control">Delete Action
+                          </button>
+                        </td>
+                      </tr>
+                    </table>
+                    <button type="button" ng-disabled="tableform.$waiting" ng-click="addAction()"
+                      class="btn btn-primary ">Add Action
+                    </button>
+                    <br /> <br>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </tab>
+
+          <tab heading="Impact">
+            <div>
+              <hr>
+              <h2>Impact</h2>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Product(s) Impacted</label>
+              <div class="col-sm-7">
+                <bs-select required ng-model="products" default-text="Select Associated Product(s).."
+                  text-field="shortName" value-field="id" items="myProducts">
+                </bs-select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Customer Impact</label>
+              <div class="col-sm-7">
+                <textarea type="text" class="form-control" rows="5" ng-model="incident.customerImpact"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">% of Users Impacted</label>
+              <div class="col-sm-3">
+                <input type="text" class="form-control" ng-model="incident.usersImpacted">
+              </div>
+              <label class="col-sm-1 control-label">Calls Rec'd</label>
+              <div class="col-sm-3">
+                <input type="text" class="form-control" ng-model="incident.usersImpacted">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Transaction IDs Impacted</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control" ng-model="incident.transactionIdsImpacted">
+              </div>
+            </div>
+          </tab>
+
+        </tabset>
+
+        <hr>
+        <div style="clear:both;">&nbsp;</div>
+        <div style="clear:both;">&nbsp;</div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button class="btn btn-primary" ng-show="!disableButton" ng-click="update()">Save</button>
+            <button class="btn btn-primary" ng-show="!disableButton" ng-click="showOnDelete()">Delete</button>
+            <button class="btn btn-primary" ng-click="cancel('incident')">Back</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 </div>

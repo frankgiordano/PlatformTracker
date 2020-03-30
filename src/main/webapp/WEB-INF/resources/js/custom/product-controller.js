@@ -1,4 +1,8 @@
 app.controller('ProductController', function ($rootScope, $scope, ProductService, platforms, ModalService) {
+
+    $scope.hideduringloading = false;
+    $scope.loading = true;
+
     $scope.init = function () {
         ProductService.getProducts().then(
             function success(response) {
@@ -91,6 +95,7 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
 
     $scope.updateInSearch = function () {
         $scope.clearMsg();
+        $scope.waiting(true);
 
         $scope.enforceRequiredFields();
 
@@ -115,10 +120,12 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
                     console.log("Product has been saved = " + JSON.stringify(response));
                     $scope.disableButton = true;
                     $scope.refreshData();
+                    $scope.waiting(false);
                 }
             },
             function error() {
                 $scope.errormessages = $rootScope.PRODUCT_SAVE_ERROR_MSG;
+                $scope.waiting(false);
             });
     };
 
@@ -143,6 +150,7 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
 
     $scope.submit = function (form) {
         $scope.clearMsg();
+        $scope.waiting(true);
         // Trigger validation flag.
         $scope.submitted = true;
 
@@ -173,10 +181,25 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
                     $scope.messages = "New Product has been saved.";
                     console.log("New Product has been saved = " + JSON.stringify(response));
                     $scope.disableButton = true;
+                    $scope.waiting(false);
                 }
             },
             function error() {
                 $scope.errormessages = $rootScope.PRODUCT_SAVE_ERROR_MSG;
+                $scope.waiting(false);
             });
     };
+
+    $scope.waiting = function (value) {
+        if (value == true) {
+            $scope.hideduringloading = true;
+            $scope.loading = false;
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideduringloading = false;
+            $scope.loading = true;
+            document.body.style.cursor = "default";
+        }
+    };
+
 });

@@ -1,6 +1,8 @@
 app.controller('IncidentController', function ($rootScope, $scope, IncidentGroupService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService) {
 
     $scope.incident = {};
+    $scope.hideduringloading = false;
+    $scope.loading = true;
 
     $scope.init = function () {
         IncidentService.getIncidents().then(
@@ -176,11 +178,11 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     }, true);
 
     $scope.$watch("incident.status", function (val) {
-        if ($scope.incident) 
+        if ($scope.incident)
             if ($scope.incident.status)
-                if ($scope.incident.status.name === "Closed") 
+                if ($scope.incident.status.name === "Closed")
                     $scope.showResolution = true;
-                else 
+                else
                     $scope.showResolution = false;
     }, true);
 
@@ -312,10 +314,12 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
 
     $scope.update = function () {
         $scope.clearDisplayMessages();
+        $scope.waiting(true);
         // generate tag again just in case the products and start-time were changed
         $scope.generateTag();
         if (!$scope.incident.tag) {
             $scope.errormessages = "INCIDENT_SAVE_FAILURE - problem with generating tag. Please fill in Start Date Time and Products.";
+            $scope.waiting(false);
             return;
         }
 
@@ -425,17 +429,20 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                     }
                 }, function error() {
                     $scope.errormessages = "GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs and try again.";
+                    $scope.waiting(false);
                     return $q.reject();
                 })
                 .then(function success(response) {
                     if (response) {
                         $scope.postIncidentSave(incident);
                     }
+                    $scope.waiting(false);
                 }, function error(response) {
                     if (response.includes("OptimisticLockException")) {
                         $scope.errormessages = $rootScope.INCIDENT_VERSION_ERROR_MSG;
                         return;
                     }
+                    $scope.waiting(false);
                     $scope.errormessages = "Incident ID " + incident.id + " was unable to be saved with newly created Group " + groupCurrentORNew.name + ".";
                 });
         } else {
@@ -445,13 +452,16 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                     if (response) {
                         $scope.postIncidentSave(incident);
                     }
+                    $scope.waiting(false);
                 },
                 function error(response) {
                     if (response.includes("OptimisticLockException")) {
                         $scope.errormessages = $rootScope.INCIDENT_VERSION_ERROR_MSG;
+                        $scope.waiting(false);
                         return;
                     }
                     $scope.errormessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
+                    $scope.waiting(false);
                 });
         }
     };
@@ -475,6 +485,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
 
     $scope.submit = function () {
         $scope.clearDisplayMessages();
+        $scope.waiting(true);
 
         // generate tag if tag is empty and products and start-time exist.. 
         if (!$scope.incident.tag) {
@@ -482,6 +493,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             $scope.generateTag();
             if (!$scope.incident.tag) {
                 $scope.errormessages = "INCIDENT_SAVE_FAILURE - Tag field not generated yet! Please fill in Start Date Time, Description and Products fields.";
+                $scope.waiting(false);
                 return;
             }
         }
@@ -495,12 +507,14 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         if (endTimeValue) {
             if (startTimeValue > endTimeValue) {
                 $scope.errormessages = "INCIDENT_SAVE_FAILURE - End Date Time needs to be set after Start Date Time.";
+                $scope.waiting(false);
                 return;
             }
         }
 
         if (!$scope.incident.description) {
             $scope.incident.errormessages = "INCIDENT_SAVE_FAILURE - Please fill in Description field.";
+            $scope.waiting(false);
             return;
         }
 
@@ -554,20 +568,19 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             "correctiveAction": $scope.incident.correctiveAction
         };
 
-        document.body.style.cursor = "wait";
         IncidentService.saveIncident(incident).then(
             function success(response) {
-                document.body.style.cursor = "default";
                 if (response) {
                     $scope.messages = "New Incident has been saved.";
                     console.log("New Incident has been saved = " + JSON.stringify(response));
                     $scope.errormessages = null;
                     $scope.disableButton = true;
+                    $scope.waiting(false);
                 }
             },
             function error() {
-                document.body.style.cursor = "default";
                 $scope.errormessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
+                $scope.waiting(false);
             });
     };
 
@@ -688,6 +701,18 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         $scope.errormessages = null;
         $scope.chronmessages = null;
         $scope.chronerrormessages = null;
+    };
+
+    $scope.waiting = function (value) {
+        if (value == true) {
+            $scope.hideduringloading = true;
+            $scope.loading = false;
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideduringloading = false;
+            $scope.loading = true;
+            document.body.style.cursor = "default";
+        }
     };
 
 });

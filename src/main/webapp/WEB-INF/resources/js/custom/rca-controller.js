@@ -2,6 +2,8 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
 
     $scope.rca = {};
     $scope.whys = [];
+    $scope.hideduringloading = false;
+    $scope.loading = true;
 
     $scope.filterWhy = function (why) {
         return why.isDeleted !== true;
@@ -309,6 +311,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
 
     $scope.update = function () {
         $scope.clearMsg();
+        $scope.waiting(true);
 
         if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
             var owners = "";
@@ -352,10 +355,12 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                     }
                     console.log("Root Cause has been saved = " + JSON.stringify(response));
                     $scope.back = true;
+                    $scope.waiting(false);
                 }
             },
             function error() {
                 $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
+                $scope.waiting(false);
             });
     };
 
@@ -391,5 +396,17 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     $scope.cancel = function () {
         $location.path('/rootcause/search');
     };
+
+    $scope.waiting = function(value) {
+        if (value == true) { 
+            $scope.hideduringloading = true;
+            $scope.loading = false;
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideduringloading = false;
+            $scope.loading = true;
+            document.body.style.cursor = "default";
+        }
+    }
 
 });
