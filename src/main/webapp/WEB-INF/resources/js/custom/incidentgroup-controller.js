@@ -165,7 +165,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
         IncidentGroupService.deleteAllGroupOrphans().then(
             function success(response) {
                 if (response) {
-                    if (response === "false") {
+                    if (response.length === 0) {
                         $scope.errormessages = "GROUP_ORPHANS_DELETE_FAILURE - Check logs, or no orphan groups to delete or problem deleting existing orphan groups.";
                         document.body.style.cursor = "default";
                         return;

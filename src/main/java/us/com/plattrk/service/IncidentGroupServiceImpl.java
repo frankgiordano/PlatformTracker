@@ -1,5 +1,6 @@
 package us.com.plattrk.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,8 @@ public class IncidentGroupServiceImpl implements IncidentGroupService {
 
     @Override
     @Transactional
-    public boolean deleteAllGroupOrphans() {
-        return incidentGroupRepository.deleteAllGroupOrphans();
+    public List<IncidentGroup> deleteAllOrphanGroups() {
+        return incidentGroupRepository.deleteAllOrphanGroups();
     }
 
 }

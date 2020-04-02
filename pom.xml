@@ -34,7 +34,7 @@
 		<mockito.version>1.9.5</mockito.version>
 		<hsqldb.version>2.3.2</hsqldb.version>
 		<jackson.datatype.hibernate4.version>2.4.0</jackson.datatype.hibernate4.version>
-		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
+		<maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
 		<maven.surefire.plugin.version>2.12.4</maven.surefire.plugin.version>
 		<phantomjs.maven.plugin.version>0.4</phantomjs.maven.plugin.version>
 		<jasmine.maven.plugin.version>2.0-alpha-01</jasmine.maven.plugin.version>
@@ -288,19 +288,15 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>${maven.compiler.plugin.version}</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
 				</plugin>
 
 			</plugins>
 		</pluginManagement>
 		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
-
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>

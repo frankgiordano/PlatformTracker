@@ -1,5 +1,6 @@
 package us.com.plattrk.api.controller;
 
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -52,8 +53,8 @@ public class IncidentGroupController {
     
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/deleteallorphans", method = RequestMethod.DELETE, produces = "application/json")
-    public boolean deleteAllGroupOrphans() {
-        return incidentGroupService.deleteAllGroupOrphans();
+    public List<IncidentGroup> deleteAllOrphanGroups() {
+        return incidentGroupService.deleteAllOrphanGroups();
     }
 
 }

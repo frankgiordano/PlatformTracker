@@ -1,5 +1,6 @@
 package us.com.plattrk.repository;
 
+import java.util.List;
 import java.util.Set;
 
 import us.com.plattrk.api.model.Incident;
@@ -17,6 +18,6 @@ public interface IncidentGroupRepository {
 
     public IncidentGroup saveGroup(IncidentGroup group);
 
-    public boolean deleteAllGroupOrphans();
+    public List<IncidentGroup> deleteAllOrphanGroups();
     
 }
