@@ -1,6 +1,7 @@
 package us.com.plattrk.repository;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -54,19 +55,24 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
         return resolution;
     }
 
-    @Override
-    public boolean saveResolutions(List<IncidentResolution> resolutions) {
-        boolean succeed = true;
-        try {
-            for (int i = 0; i < resolutions.size(); i++) {
-                IncidentResolution resolution = resolutions.get(i);
-                em.merge(resolution);
+    private static Consumer<IncidentResolution> lambdaWrapper(Consumer<IncidentResolution> consumer, List<IncidentResolution> resolutions) {
+        return i -> {
+            try {
+                consumer.accept(i);
+            } catch (PersistenceException e) {
+                log.error("IncidentResolution::saveResolutions - failure saving resolution = " + i.toString() + ", msg = " + e.getMessage());
+                resolutions.remove(i);
             }
-        } catch (Exception e) {
-            succeed = false;
-            e.printStackTrace();
-        }
-        return succeed;
+        };
+    }
+
+    @Override
+    public List<IncidentResolution> saveResolutions(List<IncidentResolution> resolutions) {
+        resolutions.forEach(lambdaWrapper(resolution -> {
+            em.merge(resolution);
+        }, resolutions));
+
+        return resolutions;
     }
 
     @Override

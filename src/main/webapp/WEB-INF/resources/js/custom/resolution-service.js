@@ -27,7 +27,6 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
         return d.promise;
     };
 
-
     this.saveLinkedResolutions = function (resolutions) {
         var d = $q.defer();
         $http.post('incidentResolution/resolutions/linkProjects', resolutions)

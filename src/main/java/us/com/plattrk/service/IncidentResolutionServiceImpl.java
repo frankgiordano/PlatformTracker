@@ -2,6 +2,8 @@ package us.com.plattrk.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,23 +47,22 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
     }
 
     @Transactional
-    public boolean saveLinkedResolutions(List<IncidentResolutionVO> resolutions) {
+    public List<IncidentResolution> saveLinkedResolutions(List<IncidentResolutionVO> resolutions) {
         List<IncidentResolution> inserts = new ArrayList<IncidentResolution>();
-        for (IncidentResolutionVO item : resolutions) {
-            Long rid = item.getId();
-            Long pid = item.getProjectId();
-            int operation = item.getOperation();
-            if (pid == null || pid < 0) {
-                continue;
-            }
-            IncidentResolution resolution = resolutionRepository.getResolution(rid);
-            Project project = projectRepository.getProject(pid);
-            if (operation == IncidentResolutionVO.Operation.INSERT)
+        Predicate<IncidentResolutionVO> isProjectId = resolution -> resolution.getProjectId() != null;
+        Predicate<IncidentResolutionVO> isProjectIdPositive = resolution -> resolution.getProjectId() >= 0;
+
+        List<IncidentResolutionVO> saveResList = resolutions.stream().filter(isProjectId.and(isProjectIdPositive)).collect(Collectors.toList());
+        saveResList.forEach(resVO -> {
+            IncidentResolution resolution = resolutionRepository.getResolution(resVO.getId());
+            Project project = projectRepository.getProject(resVO.getProjectId());
+            if (resVO.getOperation() == IncidentResolutionVO.Operation.INSERT)
                 resolution.setResolutionProject(project);
             else
                 resolution.setResolutionProject(null);
             inserts.add(resolution);
-        }
+        });
+
         return resolutionRepository.saveResolutions(inserts);
     }
 

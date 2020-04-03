@@ -17,7 +17,7 @@ public interface IncidentResolutionRepository {
 
     public List<Status> getStatusList();
 
-    public boolean saveResolutions(List<IncidentResolution> resolutions);
+    public List<IncidentResolution> saveResolutions(List<IncidentResolution> resolutions);
 
     public List<IncidentResolution> getGroupResolutions(Long id);
 

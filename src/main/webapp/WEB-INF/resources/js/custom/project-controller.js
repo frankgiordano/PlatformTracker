@@ -531,7 +531,7 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
 
         ResolutionService.saveLinkedResolutions(inputs).then(
             function success(response) {
-                if (response) {
+                if (response.length === inputs.length) {
                     $scope.messages = "Linked Resolution(s) to Project successful."
                 } else {
                     $scope.errormessages = "Linking some or all Resolution(s) to Project failed."
