@@ -1,21 +1,13 @@
 package us.com.plattrk.service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import us.com.plattrk.api.model.ChronComparator;
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentChronology;
 import us.com.plattrk.api.model.Product;
-import us.com.plattrk.api.model.ProductComparator;
 import us.com.plattrk.repository.IncidentChronologyRepository;
 import us.com.plattrk.service.Mail.Type;
 
@@ -47,7 +39,7 @@ public class MailJavaFormatImpl implements MailFormat {
 
         this.setIncident(incident);
         products.addAll(incident.getProducts());
-        Collections.sort(products, new ProductComparator());
+        products.sort(Comparator.comparing(Product::getIncidentName, String::compareToIgnoreCase));
 
         for (int i = 0; i < products.size(); i++) {
             if (i < (products.size() - 1)) {
@@ -61,7 +53,7 @@ public class MailJavaFormatImpl implements MailFormat {
 
         chronologiesSortedByStartTime.clear();
         chronologiesSortedByStartTime.addAll(incidentChronologyRepository.getChronologiesPerIncident(incident.getId()));
-        Collections.sort(chronologiesSortedByStartTime, new ChronComparator());
+        chronologiesSortedByStartTime.sort(Comparator.comparing(IncidentChronology::getDateTime));
     }
 
     @Override

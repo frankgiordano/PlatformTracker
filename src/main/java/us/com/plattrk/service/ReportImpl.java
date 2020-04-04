@@ -3,15 +3,7 @@ package us.com.plattrk.service;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -26,7 +18,6 @@ import us.com.plattrk.api.model.EmailAddress;
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentReportByProduct;
 import us.com.plattrk.api.model.Product;
-import us.com.plattrk.api.model.ProductComparator;
 import us.com.plattrk.repository.ProductRepository;
 
 @Service("Report")
@@ -227,7 +218,7 @@ public class ReportImpl implements Report {
             cell.setCellStyle(styles.get("item_left_title"));
 
             List<Product> products = productRepository.getProducts();
-            Collections.sort(products, new ProductComparator());
+            products.sort(Comparator.comparing(Product::getIncidentName, String::compareToIgnoreCase));
 
             int sectionCount = 3;
             boolean matchFound = false;
@@ -532,7 +523,7 @@ public class ReportImpl implements Report {
             cell.setCellStyle(styles.get("item_left_title"));
 
             List<Product> products = productRepository.getProducts();
-            Collections.sort(products, new ProductComparator());
+            products.sort(Comparator.comparing(Product::getIncidentName, String::compareToIgnoreCase));
 
             int sectionCount = 3;
             boolean matchFound = false;

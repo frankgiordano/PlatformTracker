@@ -1,7 +1,5 @@
 package us.com.plattrk.api.model;
 
-import java.util.Comparator;
-
 public class OwnerInfo {
 
     private String userName;
@@ -31,13 +29,5 @@ public class OwnerInfo {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
-
-    public static Comparator<OwnerInfo> OwnerComparator = new Comparator<OwnerInfo>() {
-
-        public int compare(OwnerInfo owner1, OwnerInfo owner2) {
-            return owner1.getDisplayName().toUpperCase().compareTo(owner2.getDisplayName().toUpperCase());
-        }
-
-    };
 
 }

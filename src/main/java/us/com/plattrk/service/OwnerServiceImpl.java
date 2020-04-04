@@ -1,11 +1,8 @@
 package us.com.plattrk.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-
-import javax.naming.NamingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +28,7 @@ public class OwnerServiceImpl implements OwnerService {
         owners.clear();
         OwnerInfo owner = new OwnerInfo("guest", "guest");
         owners.add(owner);
-        Collections.sort(owners, OwnerInfo.OwnerComparator);
+        owners.sort(Comparator.comparing(OwnerInfo::getDisplayName, String::compareToIgnoreCase));
         return owners;
     }
 }
