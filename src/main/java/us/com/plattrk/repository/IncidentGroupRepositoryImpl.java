@@ -3,6 +3,7 @@ package us.com.plattrk.repository;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -105,12 +106,24 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
         List<IncidentGroup> removeList = myResult.stream().filter(isEmptyIncidents.and(isEmptyResolutions).and(isEmptyRootCauses))
                 .collect(Collectors.toList());
 
-        removeList.forEach(item -> {
+        removeList.forEach(lambdaWrapper(item -> {
             em.remove(item);
             em.flush();
-        });
+        }, removeList));
 
         return removeList;
     }
+
+    private static Consumer<IncidentGroup> lambdaWrapper(Consumer<IncidentGroup> consumer, List<IncidentGroup> groups) {
+        return i -> {
+            try {
+                consumer.accept(i);
+            } catch (PersistenceException e) {
+                log.error("IncidentGroupRepositoryImpl::deleteAllOrphanGroups - failure deleting orphan group = " + i.toString() + ", msg = " + e.getMessage());
+                groups.remove(i);
+            }
+        };
+    }
+
 
 }

@@ -170,7 +170,10 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
                         document.body.style.cursor = "default";
                         return;
                     }
-                    $scope.messages = "All orphan groups have been deleted.";
+                    if (response.length > 1)
+                        $scope.messages = response.length + " orphan groups have been deleted.";
+                    else 
+                        $scope.messages = "1 orphan group have been deleted.";
                     $scope.disableButton = true;
                     document.body.style.cursor = "default";
                     $scope.refreshData();

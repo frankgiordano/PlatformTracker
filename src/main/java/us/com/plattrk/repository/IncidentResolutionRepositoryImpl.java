@@ -55,6 +55,15 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
         return resolution;
     }
 
+    @Override
+    public List<IncidentResolution> saveResolutions(List<IncidentResolution> resolutions) {
+        resolutions.forEach(lambdaWrapper(resolution -> {
+            em.merge(resolution);
+        }, resolutions));
+
+        return resolutions;
+    }
+
     private static Consumer<IncidentResolution> lambdaWrapper(Consumer<IncidentResolution> consumer, List<IncidentResolution> resolutions) {
         return i -> {
             try {
@@ -64,16 +73,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
                 resolutions.remove(i);
             }
         };
-    }
-
-    @Override
-    public List<IncidentResolution> saveResolutions(List<IncidentResolution> resolutions) {
-        resolutions.forEach(lambdaWrapper(resolution -> {
-            em.merge(resolution);
-        }, resolutions));
-
-        return resolutions;
-    }
+    } 
 
     @Override
     public IncidentResolution getResolution(Long id) {
