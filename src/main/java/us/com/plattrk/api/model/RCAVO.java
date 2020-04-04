@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class RCAVO {
 
+    private Long id;
     private String category;
     private Date completionDate;
     private Date dueDate;
-    private Long id;
     private String incidentGroup;
     private String owner;
     private String problem;
@@ -32,6 +32,14 @@ public class RCAVO {
         this.whys = whys;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getCategory() {
         return category;
     }
@@ -54,14 +62,6 @@ public class RCAVO {
 
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getIncidentGroup() {

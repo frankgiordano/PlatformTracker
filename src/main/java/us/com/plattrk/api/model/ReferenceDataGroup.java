@@ -11,9 +11,9 @@ import javax.persistence.Table;
 @Table(name = "reference_data_group")
 public class ReferenceDataGroup {
 
+    private Long id;
     private String description;
     private String displayName;
-    private Long id;
 
     public ReferenceDataGroup() {
     }
@@ -22,6 +22,17 @@ public class ReferenceDataGroup {
         this.id = id;
         this.displayName = displayName;
         this.description = description;
+    }
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Column(name = "description", columnDefinition = "VARCHAR(100)", nullable = true)
@@ -40,17 +51,6 @@ public class ReferenceDataGroup {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
-    }
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
 }
