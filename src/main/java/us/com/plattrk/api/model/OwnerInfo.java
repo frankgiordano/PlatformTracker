@@ -3,15 +3,15 @@ package us.com.plattrk.api.model;
 import java.util.Comparator;
 
 public class OwnerInfo {
+
     private String userName;
     private String displayName;
 
     public OwnerInfo(String userName, String displayName) {
-
         this.displayName = displayName;
         this.userName = userName;
     }
-    
+
     public OwnerInfo(String displayName) {
         this.displayName = displayName;
     }

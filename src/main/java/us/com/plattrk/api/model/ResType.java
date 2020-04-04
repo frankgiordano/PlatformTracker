@@ -12,6 +12,7 @@ import us.com.plattrk.util.CopyUtil;
 @Entity
 @Table(name = "Res_Type")
 public class ResType {
+
     private Long id;
     private String name;
 

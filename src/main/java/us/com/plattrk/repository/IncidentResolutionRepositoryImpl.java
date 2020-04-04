@@ -73,7 +73,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
                 resolutions.remove(i);
             }
         };
-    } 
+    }
 
     @Override
     public IncidentResolution getResolution(Long id) {

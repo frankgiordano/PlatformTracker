@@ -34,6 +34,7 @@ public class PriorityProjects {
     public void setId(Long id) {
         this.id = id;
     }
+
     @Column(name = "confluence_id", nullable = true)
     public int getConfluenceLink() {
         return confluence;
@@ -42,6 +43,7 @@ public class PriorityProjects {
     public void setConfluenceLink(int confluence) {
         this.confluence = confluence;
     }
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id")
     public Project getProject() {

@@ -38,6 +38,7 @@ public class PDLCStatus {
     public void setId(Long id) {
         this.id = id;
     }
+
     @Column(name = "name", columnDefinition="VARCHAR(50)" , nullable = true)
     public String getName() {
         return name;

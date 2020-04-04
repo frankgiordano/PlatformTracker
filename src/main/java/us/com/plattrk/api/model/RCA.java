@@ -9,31 +9,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "RCA")
-/*
- * @NamedQueries({
- * 
- * @NamedQuery(name = RCA.FIND_ALL_RCAS, query =
- * "Select new us.com.plattrk.api.model.RCA(i.id, i.owner, i.category, i.resource, i.problem, i.dueDate, i.completionDate, i.status, i.incidentGroup, i.whys) from RCA as i"
- * , hints={@QueryHint(name="org.hibernate.cacheable", value="true")}) })
- */
 @NamedQueries({ @NamedQuery(name = RCA.FIND_ALL_RCAS, query = "Select new us.com.plattrk.api.model.RCAVO( i.id, i.owner, c.displayName, re.displayName, i.problem, i.dueDate, i.completionDate, s.displayName, ig.name, i.whys) from RCA as i join i.incidentGroup ig join i.status s join i.category c join i.resource re order by ig.name ") })
-/*@NamedQueries({ @NamedQuery(name = RCA.FIND_ALL_RCAS, query = "Select i from RCA as i ") })
-@NamedEntityGraphs({
-        @NamedEntityGraph(name = "rcaWithIncidentGroups", 
-                
-                attributeNodes = { @NamedAttributeNode("incidentGroup") 
-                
-                }),
-        @NamedEntityGraph(name = "rcaWithIncidentGroupsAndIncidents", 
-        
-                attributeNodes = { @NamedAttributeNode(value = "incidentGroup", subgraph = "incidentGroupGraph") }, 
-                
-                subgraphs = { @NamedSubgraph(name = "incidentGroupGraph", 
-                
-                        attributeNodes = { @NamedAttributeNode("incidents") 
-                        }) 
-                })
-        })*/
 public class RCA implements Searchable {
 
     public static final String FIND_ALL_RCAS = "findRCAs";

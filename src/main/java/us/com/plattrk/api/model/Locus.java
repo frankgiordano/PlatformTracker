@@ -29,13 +29,16 @@ public class Locus {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     @Column(name = "name", columnDefinition="VARCHAR(50)" , nullable = true)
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }

@@ -36,76 +36,76 @@ public class RCAVO {
         return category;
     }
 
-    public Date getCompletionDate() {
-        return completionDate;
-    }
-
-    public Date getDueDate() {
-        return dueDate;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getIncidentGroup() {
-        return incidentGroup;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public String getProblem() {
-        return problem;
-    }
-
-    public String getResource() {
-        return resource;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getWhys() {
-        return whys;
-    }
-
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Date getCompletionDate() {
+        return completionDate;
     }
 
     public void setCompletionDate(Date completionDate) {
         this.completionDate = completionDate;
     }
 
+    public Date getDueDate() {
+        return dueDate;
+    }
+
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
+    public String getIncidentGroup() {
+        return incidentGroup;
+    }
+
     public void setIncidentGroup(String incidentGroup) {
         this.incidentGroup = incidentGroup;
+    }
+
+    public String getOwner() {
+        return owner;
     }
 
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
+    public String getProblem() {
+        return problem;
+    }
+
     public void setProblem(String problem) {
         this.problem = problem;
+    }
+
+    public String getResource() {
+        return resource;
     }
 
     public void setResource(String resource) {
         this.resource = resource;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getWhys() {
+        return whys;
     }
 
     public void setWhys(String whys) {

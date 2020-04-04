@@ -3,8 +3,6 @@ package us.com.plattrk.api.controller;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,14 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentGroup;
-import us.com.plattrk.repository.IncidentRepositoryImpl;
 import us.com.plattrk.service.IncidentGroupService;
 
 @RestController
 @RequestMapping(value = "/group")
 public class IncidentGroupController {
-    
-    private static Logger log = LoggerFactory.getLogger(IncidentRepositoryImpl.class);
     
     @Autowired 
     private IncidentGroupService incidentGroupService;

@@ -29,9 +29,17 @@ public class ReferenceDataGroup {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Column(name = "display_name", columnDefinition = "VARCHAR(50)", nullable = true)
     public String getDisplayName() {
         return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     @Id
@@ -41,15 +49,8 @@ public class ReferenceDataGroup {
         return id;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
+
 }
