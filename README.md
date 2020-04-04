@@ -96,5 +96,6 @@ I posted this project for educational proposes, and I intend to continue to poli
 
 5 - Now you can automatcially deploy to tomcat without the need to delete the project directory in tomcat, see step 11
 
+	mvn clean install (optional - you may most likely need to do this if deploy errors in tomcat deployment)
 	mvn tomcat7:deploy
 	mvn tomcat7:undeploy
