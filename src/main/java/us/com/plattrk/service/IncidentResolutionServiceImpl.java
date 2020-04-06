@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,8 @@ import us.com.plattrk.repository.ProjectRepository;
 
 @Service(value = "IncidentResolutionService")
 public class IncidentResolutionServiceImpl implements IncidentResolutionService {
+
+    private static Logger log = LoggerFactory.getLogger(IncidentResolutionServiceImpl.class);
 
     @Autowired
     private IncidentResolutionRepository resolutionRepository;
@@ -47,8 +51,8 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
     }
 
     @Transactional
-    public List<IncidentResolution> saveLinkedResolutions(List<IncidentResolutionVO> resolutions) {
-        List<IncidentResolution> inserts = new ArrayList<IncidentResolution>();
+    public List<IncidentResolutionVO> saveLinkedResolutions(List<IncidentResolutionVO> resolutions) {
+        List<IncidentResolution> updates = new ArrayList<IncidentResolution>();
         Predicate<IncidentResolutionVO> isProjectId = resolution -> resolution.getProjectId() != null;
         Predicate<IncidentResolutionVO> isProjectIdPositive = resolution -> resolution.getProjectId() >= 0;
 
@@ -56,14 +60,41 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
         saveResList.forEach(resVO -> {
             IncidentResolution resolution = resolutionRepository.getResolution(resVO.getId());
             Project project = projectRepository.getProject(resVO.getProjectId());
-            if (resVO.getOperation() == IncidentResolutionVO.Operation.INSERT)
-                resolution.setResolutionProject(project);
-            else
-                resolution.setResolutionProject(null);
-            inserts.add(resolution);
+            determineUpdate(updates, resVO, resolution, project);
         });
 
-        return resolutionRepository.saveResolutions(inserts);
+        List<IncidentResolution> result = resolutionRepository.saveResolutions(updates);
+        updateIncomingResolutions(resolutions, result);
+
+        // send the updated incoming resolutions which contains the resolutions that were updated for the project
+        return resolutions;
+    }
+
+    private void updateIncomingResolutions(List<IncidentResolutionVO> resolutions, List<IncidentResolution> result) {
+        List<Long> ids = new ArrayList<Long>();
+        result.forEach(item -> {
+            ids.add(item.getId());
+        });
+        resolutions.forEach(item -> {
+            if (!ids.contains(item.getId()))
+                resolutions.remove(item);
+        });
+    }
+
+    private void determineUpdate(List<IncidentResolution> updates, IncidentResolutionVO resVO, IncidentResolution resolution, Project project) {
+        int operation = resVO.getOperation();
+        switch (operation) {
+            case IncidentResolutionVO.Operation.ATTACH:
+                resolution.setResolutionProject(project);
+                updates.add(resolution);
+                break;
+            case IncidentResolutionVO.Operation.REMOVE:
+                resolution.setResolutionProject(null);
+                updates.add(resolution);
+                break;
+            default:
+                log.error("IncidentResolutionServiceImpl::determineUpdate - ignoring no operation value given.");
+        }
     }
 
     @Override

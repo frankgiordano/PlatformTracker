@@ -46,7 +46,7 @@ public class IncidentResolutionController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/resolutions/linkProjects", method = RequestMethod.POST, produces = "application/json")
-    public List<IncidentResolution> saveLinkedResolutions(@RequestBody List<IncidentResolutionVO> resolutions) {
+    public List<IncidentResolutionVO> saveLinkedResolutions(@RequestBody List<IncidentResolutionVO> resolutions) {
         return incidentResolutionService.saveLinkedResolutions(resolutions);
     }
 

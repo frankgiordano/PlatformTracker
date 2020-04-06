@@ -429,8 +429,9 @@ app.controller('ComplexController', [
     }
 ]);
 
-app.controller('ResolutionProjectLinkingController', function ($rootScope, $scope, ResolutionService, $location, $routeParams) {
+app.controller('ResolutionProjectLinkingController', function ($rootScope, $scope, ResolutionService, $location, $routeParams, $window) {
 
+    $scope.hidebutton = false;
     $scope.filterOptions = {
         filterText: ''
     };
@@ -531,16 +532,38 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
 
         ResolutionService.saveLinkedResolutions(inputs).then(
             function success(response) {
-                if (response.length === inputs.length) {
-                    $scope.messages = "Linked Resolution(s) to Project successful."
-                } else {
-                    $scope.errormessages = "Linking some or all Resolution(s) to Project failed."
+                var numForOpOne = 0;
+                var numForOpTwo = 0;
+                var message = "";
+                response.forEach(element => {
+                    if (element.operation === 1)
+                        numForOpOne++;
+                    if (element.operation === 2)
+                        numForOpTwo++;
+                });
+                if (numForOpOne > 0) {
+                    if (numForOpOne === 1)
+                        message = "Linked " + numForOpOne + " resolution to project successfully. ";
+                    else 
+                        message = "Linked " + numForOpOne + " resolutions to project successfully. ";
                 }
+                if (numForOpTwo > 0) {
+                    if (numForOpTwo === 1)
+                        message = message +  "Unlinked " + numForOpTwo + " resolution to project successfully.";
+                    else 
+                        message = message + "Unlinked " + numForOpTwo + " resolutions to project successfully.";
+                }
+                $scope.messages = message;
+                $scope.hidebutton = true;
                 return;
             },
             function error() {
                 $scope.errormessages = $rootScope.PROJECT_LINK_RESOLUTON_ERROR_MSG;
             });
+    }
+
+    $scope.close = function () {
+        $window.close()
     }
 
 });

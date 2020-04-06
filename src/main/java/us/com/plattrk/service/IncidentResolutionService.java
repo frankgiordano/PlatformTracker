@@ -16,7 +16,7 @@ public interface IncidentResolutionService {
     
     public List<Status> getStatusList();
     
-    public List<IncidentResolution> saveLinkedResolutions(List <IncidentResolutionVO> resolutions);
+    public List<IncidentResolutionVO> saveLinkedResolutions(List <IncidentResolutionVO> resolutions);
     
     public IncidentResolution getIncidentResolution(Long id);
 

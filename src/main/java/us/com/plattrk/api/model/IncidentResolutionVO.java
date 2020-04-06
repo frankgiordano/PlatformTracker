@@ -3,8 +3,8 @@ package us.com.plattrk.api.model;
 public class IncidentResolutionVO {
 
     public class Operation {
-        public static final int INSERT = 1;
-        public static final int DELETE = 2;
+        public static final int ATTACH = 1;
+        public static final int REMOVE = 2;
     }
 
     private Long id;
