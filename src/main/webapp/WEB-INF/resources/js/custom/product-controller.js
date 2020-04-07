@@ -1,7 +1,19 @@
 app.controller('ProductController', function ($rootScope, $scope, ProductService, platforms, ModalService) {
 
     $scope.hideduringloading = false;
-    $scope.loading = true;
+
+    $scope.waiting = function (value) {
+        if (value == true) {
+            $scope.hideduringloading = true;
+            $scope.loading = false;
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideduringloading = false;
+            $scope.loading = true;
+            document.body.style.cursor = "default";
+        }
+    };
+    $scope.waiting();
 
     $scope.init = function () {
         ProductService.getProducts().then(
@@ -188,18 +200,6 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
                 $scope.errormessages = $rootScope.PRODUCT_SAVE_ERROR_MSG;
                 $scope.waiting(false);
             });
-    };
-
-    $scope.waiting = function (value) {
-        if (value == true) {
-            $scope.hideduringloading = true;
-            $scope.loading = false;
-            document.body.style.cursor = "wait";
-        } else {
-            $scope.hideduringloading = false;
-            $scope.loading = true;
-            document.body.style.cursor = "default";
-        }
     };
 
 });

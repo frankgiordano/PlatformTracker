@@ -2,7 +2,6 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
 
     $scope.incident = {};
     $scope.hideduringloading = false;
-    $scope.loading = true;
 
     $scope.init = function () {
         IncidentService.getIncidents().then(
@@ -16,6 +15,19 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                 });
             });
     };
+
+    $scope.waiting = function (value) {
+        if (value == true) {
+            $scope.hideduringloading = true;
+            $scope.loading = false;
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideduringloading = false;
+            $scope.loading = true;
+            document.body.style.cursor = "default";
+        }
+    };
+    $scope.waiting();
 
     $scope.refreshData = function () {
         var newData = $scope.init();
@@ -701,18 +713,6 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         $scope.errormessages = null;
         $scope.chronmessages = null;
         $scope.chronerrormessages = null;
-    };
-
-    $scope.waiting = function (value) {
-        if (value == true) {
-            $scope.hideduringloading = true;
-            $scope.loading = false;
-            document.body.style.cursor = "wait";
-        } else {
-            $scope.hideduringloading = false;
-            $scope.loading = true;
-            document.body.style.cursor = "default";
-        }
     };
 
 });

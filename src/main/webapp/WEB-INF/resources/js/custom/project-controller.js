@@ -2,7 +2,6 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
 
     $scope.project = {};
     $scope.hideduringloading = false;
-    $scope.loading = true;
 
     (function () {
         OwnersService.getOwners().then(
@@ -16,6 +15,19 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                 });
             });
     })();
+
+    $scope.waiting = function (value) {
+        if (value == true) {
+            $scope.hideduringloading = true;
+            $scope.loading = false;
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideduringloading = false;
+            $scope.loading = true;
+            document.body.style.cursor = "default";
+        }
+    };
+    $scope.waiting(false);
 
     $scope.clearMsg = function () {
         $scope.messages = null;
@@ -399,18 +411,6 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         $location.path('/project/search');
     };
 
-    $scope.waiting = function (value) {
-        if (value == true) {
-            $scope.hideduringloading = true;
-            $scope.loading = false;
-            document.body.style.cursor = "wait";
-        } else {
-            $scope.hideduringloading = false;
-            $scope.loading = true;
-            document.body.style.cursor = "default";
-        }
-    };
-
 });
 
 app.controller('ComplexController', [
@@ -430,7 +430,7 @@ app.controller('ComplexController', [
 ]);
 
 app.controller('ResolutionProjectLinkingController', function ($rootScope, $scope, ResolutionService, $location, $routeParams, $window) {
-
+    
     $scope.hidebutton = false;
     $scope.filterOptions = {
         filterText: ''
@@ -464,8 +464,20 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
             width: '40%'
         }]
     };
-
     $scope.myData = [];
+
+    $scope.waiting = function (value) {
+        if (value == true) {
+            $scope.hideduringloading = true;
+            $scope.loading = false;
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideduringloading = false;
+            $scope.loading = true;
+            document.body.style.cursor = "default";
+        }
+    };
+    $scope.waiting(false);
 
     $scope.linkResolutions = function () {
         ResolutionService.getResolutions().then(
@@ -491,7 +503,13 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
         // $scope.gridOptions.selectRow(0, true);
     });
 
+    $scope.link = function () {
+        $scope.waiting(true);
+        $scope.getSelectedRows();
+    }
+
     $scope.getSelectedRows = function () {
+        $scope.clearMsg();
         var resolutions = [];
         var inputs = [];
         for (i = 0; i < $scope.myData.length; ++i) {
@@ -526,7 +544,8 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
         }
 
         if (inputs.length == 0) {
-            $scope.messages = "Nothing changed."
+            $scope.messages = "No updates to process.";
+            $scope.waiting(false);
             return;
         }
 
@@ -543,27 +562,35 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
                 });
                 if (numForOpOne > 0) {
                     if (numForOpOne === 1)
-                        message = "Linked " + numForOpOne + " resolution to project successfully. ";
+                        message = "Linked " + numForOpOne + " resolution to Project ID " + $routeParams.project + " successfully. ";
                     else 
-                        message = "Linked " + numForOpOne + " resolutions to project successfully. ";
+                        message = "Linked " + numForOpOne + " resolutions to Project ID " + $routeParams.project + " successfully. ";
                 }
                 if (numForOpTwo > 0) {
                     if (numForOpTwo === 1)
-                        message = message +  "Unlinked " + numForOpTwo + " resolution to project successfully.";
+                        message = message +  "Unlinked " + numForOpTwo + " resolution to Project ID " + $routeParams.project + " successfully.";
                     else 
-                        message = message + "Unlinked " + numForOpTwo + " resolutions to project successfully.";
+                        message = message + "Unlinked " + numForOpTwo + " resolutions to Project ID " + $routeParams.project + " successfully.";
                 }
                 $scope.messages = message;
                 $scope.hidebutton = true;
+                $scope.waiting(false);
                 return;
             },
             function error() {
                 $scope.errormessages = $rootScope.PROJECT_LINK_RESOLUTON_ERROR_MSG;
+                $scope.waiting(false);
             });
     }
 
     $scope.close = function () {
-        $window.close()
+        $window.close();
+        $scope.clearMsg();
+    }
+
+    $scope.clearMsg = function () {
+        $scope.messages = null;
+        $scope.errormessages = null;
     }
 
 });

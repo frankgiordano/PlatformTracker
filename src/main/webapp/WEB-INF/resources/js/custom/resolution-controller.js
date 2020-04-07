@@ -2,7 +2,19 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
 
     $scope.resolution = {};
     $scope.hideduringloading = false;
-    $scope.loading = true;
+
+    $scope.waiting = function (value) {
+        if (value == true) {
+            $scope.hideduringloading = true;
+            $scope.loading = false;
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideduringloading = false;
+            $scope.loading = true;
+            document.body.style.cursor = "default";
+        }
+    };
+    $scope.waiting();
 
     (function () {
         OwnersService.getOwners().then(
@@ -356,18 +368,6 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
     $scope.new = function () {
         $location.path('/resolution/create');
     };
-
-    $scope.waiting = function(value) {
-        if (value == true) { 
-            $scope.hideduringloading = true;
-            $scope.loading = false;
-            document.body.style.cursor = "wait";
-        } else {
-            $scope.hideduringloading = false;
-            $scope.loading = true;
-            document.body.style.cursor = "default";
-        }
-    }
 
 });
 
