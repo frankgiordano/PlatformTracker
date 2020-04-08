@@ -3,7 +3,7 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
     $scope.hideduringloading = false;
 
     $scope.waiting = function (value) {
-        if (value == true) {
+        if (value === true) {
             $scope.hideduringloading = true;
             $scope.loading = false;
             document.body.style.cursor = "wait";

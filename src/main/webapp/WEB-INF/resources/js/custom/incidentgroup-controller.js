@@ -24,7 +24,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
     $scope.hideduringloading = false;
 
     $scope.waiting = function (value) {
-        if (value == true) {
+        if (value === true) {
             $scope.hideduringloading = true;
             $scope.loading = false;
             document.body.style.cursor = "wait";

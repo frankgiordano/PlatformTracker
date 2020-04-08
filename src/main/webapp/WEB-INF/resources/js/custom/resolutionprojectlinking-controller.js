@@ -36,7 +36,7 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
     $scope.myData = [];
 
     $scope.waiting = function (value) {
-        if (value == true) {
+        if (value === true) {
             $scope.hideduringloading = true;
             $scope.loading = false;
             document.body.style.cursor = "wait";
