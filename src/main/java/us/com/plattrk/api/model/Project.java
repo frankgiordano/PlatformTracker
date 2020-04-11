@@ -69,9 +69,9 @@ public class Project implements Searchable {
 
     public Project(Long id, String name, String owners, String description,
                    Long eceId, ReferenceData status, Long estEffort,
-                   Long actualEffort, java.util.Date actualCompletionDate,
-                   java.util.Date estcompletionDate, ReferenceData pdlcStatus,
-                   java.util.Date recordingDate, java.util.Date statusChangeDate, ReferenceData wikiType,
+                   Long actualEffort, Date actualCompletionDate,
+                   Date estcompletionDate, ReferenceData pdlcStatus,
+                   Date recordingDate, Date statusChangeDate, ReferenceData wikiType,
                    String jiraId, int conflenceId) {
         this.id = id;
         this.owners = owners;

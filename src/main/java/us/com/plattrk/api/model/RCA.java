@@ -29,8 +29,8 @@ public class RCA implements Searchable {
     }
 
     public RCA(Long id, String owner, ReferenceData category,
-            ReferenceData resource, String problem, java.util.Date dueDate,
-            java.util.Date completionDate, ReferenceData status,
+            ReferenceData resource, String problem, Date dueDate,
+            Date completionDate, ReferenceData status,
             IncidentGroup incidentGroup, String whys) {
         this.id = id;
         this.owner = owner;

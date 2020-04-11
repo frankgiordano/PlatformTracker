@@ -47,8 +47,8 @@ public class IncidentResolution {
         this.id = id;
     }
 
-    public IncidentResolution(Long id, String description, java.util.Date actualCompletionDate,
-                              String horizonName, java.util.Date estCompletionDate) {
+    public IncidentResolution(Long id, String description, Date actualCompletionDate,
+                              String horizonName, Date estCompletionDate) {
         this.description = description;
         this.horizonName = horizonName;
         this.id = id;
@@ -83,8 +83,8 @@ public class IncidentResolution {
     }
 
     public IncidentResolution(Long id, String owner, String description,
-                              java.util.Date actualCompletionDate, String horizonName,
-                              java.util.Date estCompletionDate, String resolutionProject,
+                              Date actualCompletionDate, String horizonName,
+                              Date estCompletionDate, String resolutionProject,
                               String statusName, String typeName, String sriArtifact,
                               String incidentGroupName, Long projectId) {
         this.id = id;
