@@ -19,7 +19,7 @@ import us.com.plattrk.api.model.Product;
 
 public class MailSocketImpl implements Mail {
 
-    private static Logger log = LoggerFactory.getLogger(IncidentServiceImpl.class);
+    private static Logger log = LoggerFactory.getLogger(MailSocketImpl.class);
 
     private Type type;
     private Incident incident;

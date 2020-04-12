@@ -33,6 +33,7 @@ import javax.servlet.ServletContext;
 
 @Service(value = "IncidentService")
 public class IncidentServiceImpl implements IncidentService, ServletContextAware {
+
     private static Logger log = LoggerFactory.getLogger(IncidentServiceImpl.class);
 
     @Autowired

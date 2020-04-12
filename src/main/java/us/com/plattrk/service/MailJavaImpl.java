@@ -29,7 +29,7 @@ import us.com.plattrk.api.model.Product;
 
 public class MailJavaImpl implements Mail {
 
-    private static Logger log = LoggerFactory.getLogger(IncidentServiceImpl.class);
+    private static Logger log = LoggerFactory.getLogger(MailJavaImpl.class);
 
     private Type type;
     private Incident incident;
