@@ -16,7 +16,7 @@ import us.com.plattrk.repository.ReferenceDataRepository;
 public class ReferenceDataServiceImpl implements ReferenceDataService {
 
     @Autowired
-    ReferenceDataRepository refRepository;
+    private ReferenceDataRepository refRepository;
 
     private static final ConcurrentMap<Long, List<ReferenceData>> referenceData = new ConcurrentHashMap();
 
@@ -25,7 +25,7 @@ public class ReferenceDataServiceImpl implements ReferenceDataService {
         List<ReferenceData> result = referenceData.get(groupId);
         if (result == null || result.size() == 0) {
             result = refRepository.getReferenceDatasByGroupId(groupId);
-            if (result != null && result.size() == 0)
+            if (!result.isEmpty())
                 referenceData.put(groupId, result);
         }
         return result;

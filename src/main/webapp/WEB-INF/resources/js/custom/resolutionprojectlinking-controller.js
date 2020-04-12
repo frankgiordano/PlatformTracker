@@ -50,7 +50,7 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
 
     $scope.linkResolutions = function () {
         ResolutionService.getResolutions().then(
-            function success(response, status, headers, config) {
+            function success(response) {
                 var i, resolution;
                 for (i = 0; i < response.length; ++i) {
                     resolution = response[i];

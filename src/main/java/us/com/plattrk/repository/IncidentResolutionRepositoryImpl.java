@@ -1,6 +1,7 @@
 package us.com.plattrk.repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
@@ -30,17 +31,13 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
 
     @Override
     public IncidentResolution deleteResolution(Long id) {
-        IncidentResolution resolution = null;
-        try {
-            resolution = em.find(IncidentResolution.class, id);
-            em.remove(resolution);
+        Optional<IncidentResolution> resolution = Optional.of(em.find(IncidentResolution.class, id));
+        resolution.ifPresent(lambdaWrapper(r -> {
+            em.remove(r);
             em.flush();
-        } catch (PersistenceException e) {
-            log.error("IncidentResolution::deleteResolution - failure deleting resolution id " + id + ", msg = " + e.getMessage());
-            throw (e);
-        }
+        }));
 
-        return resolution;
+        return resolution.orElse(null);
     }
 
     @Override
@@ -64,17 +61,6 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
         return resolutions;
     }
 
-    private static Consumer<IncidentResolution> lambdaWrapper(Consumer<IncidentResolution> consumer, List<IncidentResolution> resolutions) {
-        return i -> {
-            try {
-                consumer.accept(i);
-            } catch (PersistenceException e) {
-                log.error("IncidentResolution::saveResolutions - failure saving resolution = " + i.toString() + ", msg = " + e.getMessage());
-                resolutions.remove(i);
-            }
-        };
-    }
-
     @Override
     public IncidentResolution getResolution(Long id) {
         IncidentResolution incidentResolution = em.find(IncidentResolution.class, id);
@@ -91,6 +77,28 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
     public List<IncidentResolution> getGroupResolutions(Long id) {
         List<IncidentResolution> myResult = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_PER_GROUP).setParameter("pid", id).getResultList();
         return myResult;
+    }
+
+    private static Consumer<IncidentResolution> lambdaWrapper(Consumer<IncidentResolution> consumer, List<IncidentResolution> resolutions) {
+        return i -> {
+            try {
+                consumer.accept(i);
+            } catch (PersistenceException e) {
+                log.error("IncidentResolution::saveResolutions - failure saving resolution = " + i.toString() + ", msg = " + e.getMessage());
+                resolutions.remove(i);
+            }
+        };
+    }
+
+    private static Consumer<IncidentResolution> lambdaWrapper(Consumer<IncidentResolution> consumer) {
+        return i -> {
+            try {
+                consumer.accept(i);
+            } catch (PersistenceException e) {
+                log.error("IncidentResolution::deleteResolution - failure deleting resolution id " + i.getId() + ", msg = " + e.getMessage());
+                throw (e);
+            }
+        };
     }
 
 }

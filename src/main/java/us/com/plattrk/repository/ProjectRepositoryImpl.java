@@ -1,7 +1,9 @@
 package us.com.plattrk.repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,21 +32,16 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public Project deleteProject(Long id) {
-        Project project = null;
-        try {
-            project = em.find(Project.class, id);
-            Set<IncidentResolution> resolutions = project.getResolutions();
-            for (IncidentResolution item : resolutions) {
-                item.setResolutionProject(null);
-            }
-            em.remove(project);
+        Optional<Project> project = Optional.of(em.find(Project.class, id));
+        project.ifPresent(lambdaWrapper(p -> {
+            Set<IncidentResolution> resolutions = p.getResolutions();
+            // get project's associated resolutions and in each resolution null out its link to this project
+            resolutions.forEach((element -> element.setResolutionProject(null)));
+            em.remove(p);
             em.flush();
-        } catch (PersistenceException e) {
-            log.error("ProjectRepositoryImpl::deleteProject - failure deleting project id " + id + ", msg = " + e.getMessage());
-            throw (e);
-        }
+        }));
 
-        return project;
+        return project.orElse(null);
     }
 
     @Override
@@ -68,6 +65,17 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     public Project getProject(Long id) {
         Project incidentProject = em.find(Project.class, id);
         return incidentProject;
+    }
+
+    private static Consumer<Project> lambdaWrapper(Consumer<Project> consumer) {
+        return i -> {
+            try {
+                consumer.accept(i);
+            } catch (PersistenceException e) {
+                log.error("ProjectRepositoryImpl::deleteProject - failure deleting project id " + i.getId() + ", msg = " + e.getMessage());
+                throw (e);
+            }
+        };
     }
 
 }

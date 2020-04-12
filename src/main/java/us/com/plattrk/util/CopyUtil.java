@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 
 public class CopyUtil {
+
     private static Logger log = LoggerFactory.getLogger(CopyUtil.class);
 
     private static final String METHOD_CLONE = "clone";

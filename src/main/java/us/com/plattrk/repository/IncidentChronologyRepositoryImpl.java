@@ -2,7 +2,9 @@ package us.com.plattrk.repository;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -41,18 +43,15 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
 
     @Override
     public IncidentChronology deleteIncidentChronology(Long id) {
-        IncidentChronology chronology = null;
-        try {
-            chronology = em.find(IncidentChronology.class, id);
-            chronology.setIncident(null);    // need to remove the reference to the other side of this mapping or else it will delete the incident along with the chronology...
-            em.remove(chronology);
+        Optional<IncidentChronology> chronology = Optional.of(em.find(IncidentChronology.class, id));
+        chronology.ifPresent(lambdaWrapper(c -> {
+            // need to remove the reference to the other side of this mapping or else it will delete the incident along with the chronology.
+            c.setIncident(null);
+            em.remove(c);
             em.flush();
-        } catch (PersistenceException e) {
-            log.error("IncidentChronologyRepositoryImpl::deleteIncidentChronology - failure deleting chronology id " + id + ", msg = " + e.getMessage());
-            throw (e);
-        }
+        }));
 
-        return chronology;
+        return chronology.orElse(null);
     }
 
     @Override
@@ -74,6 +73,17 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
     @Override
     public Incident getIncidentOfChronology(Long id) {
         return em.find(Incident.class, id);
+    }
+
+    private static Consumer<IncidentChronology> lambdaWrapper(Consumer<IncidentChronology> consumer) {
+        return i -> {
+            try {
+                consumer.accept(i);
+            } catch (PersistenceException e) {
+                log.error("IncidentChronologyRepositoryImpl::deleteIncidentChronology - failure deleting chronology id " + i.getId() + ", msg = " + e.getMessage());
+                throw (e);
+            }
+        };
     }
 
 }

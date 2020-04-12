@@ -2,6 +2,7 @@ package us.com.plattrk.repository;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -37,7 +38,8 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
     @Override
     public Set<Incident> getGroupIncidents(Long id) {
         IncidentGroup incidentGroup = em.find(IncidentGroup.class, id);
-        return incidentGroup.getIncidents();
+        Optional<Set<Incident>> incidents = Optional.of(incidentGroup.getIncidents());
+        return incidents.orElse(new HashSet<Incident>());
     }
 
     @Override
@@ -48,23 +50,18 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
 
     @Override
     public IncidentGroup deleteGroup(Long id) {
-        IncidentGroup group = null;
-        try {
-            group = em.find(IncidentGroup.class, id);
-            em.remove(group);
+        Optional<IncidentGroup> group = Optional.of(em.find(IncidentGroup.class, id));
+        group.ifPresent(lambdaWrapper(g -> {
+            em.remove(g);
             em.flush();
-        } catch (PersistenceException e) {
-            log.error("IncidentGroupRepositoryImpl::deleteGroup - failure deleting group id " + id + ", msg = " + e.getMessage());
-            throw (e);
-        }
+        }));
 
-        // workaround where remove no longer sends a delete to the db to error back on constraint like before.. 
-        IncidentGroup groupCheck = em.find(IncidentGroup.class, id);
-        if (groupCheck != null) {
+        Optional<IncidentGroup> groupCheck = Optional.of(em.find(IncidentGroup.class, id));
+        if (groupCheck.isPresent()) {
             throw new PersistenceException("ConstraintErrorException");
         }
 
-        return group;
+        return group.orElse(null);
     }
 
     @Override
@@ -125,5 +122,15 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
         };
     }
 
+    private static Consumer<IncidentGroup> lambdaWrapper(Consumer<IncidentGroup> consumer) {
+        return i -> {
+            try {
+                consumer.accept(i);
+            } catch (PersistenceException e) {
+                log.error("IncidentGroupRepositoryImpl::deleteGroup - failure deleting group id " + i.getId() + ", msg = " + e.getMessage());
+                throw (e);
+            }
+        };
+    }
 
 }

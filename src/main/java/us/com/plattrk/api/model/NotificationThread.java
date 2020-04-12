@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import us.com.plattrk.repository.IncidentChronologyRepository;
 import us.com.plattrk.repository.IncidentRepository;
-import us.com.plattrk.service.IncidentServiceImpl;
 import us.com.plattrk.service.MailJavaFormatImpl;
 import us.com.plattrk.service.MailJavaImpl;
 import us.com.plattrk.service.MailService;
@@ -17,7 +16,7 @@ import us.com.plattrk.service.MailServiceImpl;
 
 public class NotificationThread implements Runnable {
 
-    private static Logger log = LoggerFactory.getLogger(IncidentServiceImpl.class);
+    private static Logger log = LoggerFactory.getLogger(NotificationThread.class);
 
     // this is wired via xml configuration to allow us to easily switch between socket and java mail implementations.
     private MailService mailService;

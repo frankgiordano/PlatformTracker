@@ -1,6 +1,8 @@
 package us.com.plattrk.repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,17 +32,13 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Product deleteProduct(Long id) {
-        Product product = null;
-        try {
-            product = em.find(Product.class, id);
-            em.remove(product);
+        Optional<Product> product = Optional.of(em.find(Product.class, id));
+        product.ifPresent(lambdaWrapper(p -> {
+            em.remove(p);
             em.flush();
-        } catch (PersistenceException e) {
-            log.error("ProductRepositoryImpl::deleteProduct - failure deleting product id " + id + ", msg = " + e.getMessage());
-            throw (e);
-        }
+        }));
 
-        return product;
+        return product.orElse(null);
     }
 
     @Override
@@ -77,6 +75,17 @@ public class ProductRepositoryImpl implements ProductRepository {
         TypedQuery<Product> query = em.createNamedQuery(Product.FIND_ALL_ACTIVE_PRODUCTS, Product.class);
         List<Product> myResult = query.getResultList();
         return myResult;
+    }
+
+    private static Consumer<Product> lambdaWrapper(Consumer<Product> consumer) {
+        return i -> {
+            try {
+                consumer.accept(i);
+            } catch (PersistenceException e) {
+                log.error("ProductRepositoryImpl::deleteProduct - failure deleting product id " + i.getId() + ", msg = " + e.getMessage());
+                throw (e);
+            }
+        };
     }
 
 }

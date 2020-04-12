@@ -1,6 +1,8 @@
 package us.com.plattrk.repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,17 +31,13 @@ public class RCARepositoryImpl implements RCARepository {
 
     @Override
     public RCA deleteRCA(Long id) {
-        RCA rca = null;
-        try {
-            rca = em.find(RCA.class, id);
-            em.remove(rca);
+        Optional<RCA> rootCause = Optional.of(em.find(RCA.class, id));
+        rootCause.ifPresent(lambdaWrapper(rc -> {
+            em.remove(rc);
             em.flush();
-        } catch (PersistenceException e) {
-            log.error("RCARepositoryImpl::deleteRCA - failure deleting root cause id " + id + ", msg = " + e.getMessage());
-            throw (e);
-        }
+        }));
 
-        return rca;
+        return rootCause.orElse(null);
     }
 
     @Override
@@ -63,6 +61,17 @@ public class RCARepositoryImpl implements RCARepository {
     public RCA getRCA(Long id) {
         RCA incidentRCA = em.find(RCA.class, id);
         return incidentRCA;
+    }
+
+    private static Consumer<RCA> lambdaWrapper(Consumer<RCA> consumer) {
+        return i -> {
+            try {
+                consumer.accept(i);
+            } catch (PersistenceException e) {
+                log.error("RCARepositoryImpl::deleteRCA - failure deleting root cause id " + i.getId() + ", msg = " + e.getMessage());
+                throw (e);
+            }
+        };
     }
 
 }

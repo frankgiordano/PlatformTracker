@@ -138,31 +138,26 @@ public class MailSocketImpl implements Mail {
     @Override
     public void setBody(String body) {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void setSubject(String subject) {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void setAllEmailAddresses(List<String> allEmailAddresses) {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void setFileName(String fileName) {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void setFile(String file) {
         // TODO Auto-generated method stub
-
     }
 
 }

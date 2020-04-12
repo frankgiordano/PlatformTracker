@@ -1,9 +1,7 @@
 package us.com.plattrk.repository;
 
-import java.util.Date;
-import java.util.List;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Consumer;
 
 import javax.persistence.*;
 
@@ -11,12 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import us.com.plattrk.api.model.ErrorCondition;
-import us.com.plattrk.api.model.Incident;
-import us.com.plattrk.api.model.IncidentChronology;
-import us.com.plattrk.api.model.IncidentGroup;
-import us.com.plattrk.api.model.Product;
-import us.com.plattrk.api.model.ReferenceData;
+import us.com.plattrk.api.model.*;
 
 @Repository
 public class IncidentRepositoryImpl implements IncidentRepository {
@@ -35,17 +28,13 @@ public class IncidentRepositoryImpl implements IncidentRepository {
 
     @Override
     public Incident deleteIncident(Long id) {
-        Incident incident = null;
-        try {
-            incident = em.find(Incident.class, id);
-            em.remove(incident);
+        Optional<Incident> incident = Optional.of(em.find(Incident.class, id));
+        incident.ifPresent(lambdaWrapper(i -> {
+            em.remove(i);
             em.flush();
-        } catch (PersistenceException e) {
-            log.error("IncidentRepositoryImpl::deleteIncident - failure deleting incident id " + id + ", msg = " + e.getMessage());
-            throw (e);
-        }
+        }));
 
-        return incident;
+        return incident.orElse(null);
     }
 
     @Override
@@ -191,7 +180,8 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     @Override
     public IncidentGroup getGroup(Long id) {
         Incident incident = em.find(Incident.class, id);
-        return incident.getIncidentGroup();
+        Optional<IncidentGroup> incidentGroup = Optional.of(incident.getIncidentGroup());
+        return incidentGroup.orElse(null);
     }
 
     @Override
@@ -205,25 +195,40 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     @Override
     public Set<IncidentChronology> getChronologies(Long id) {
         Incident incident = em.find(Incident.class, id);
-        return incident.getChronologies();
+        Optional<Set<IncidentChronology>> chronologies = Optional.of(incident.getChronologies());
+        return chronologies.orElse(new HashSet<IncidentChronology>());
     }
 
     @Override
     public Set<Product> getProducts(Long id) {
         Incident incident = em.find(Incident.class, id);
-        return incident.getProducts();
+        Optional<Set<Product>> products = Optional.of(incident.getProducts());
+        return products.orElse(new HashSet<Product>());
     }
 
     @Override
     public ErrorCondition getErrorCode(Long id) {
         Incident incident = em.find(Incident.class, id);
-        return incident.getError();
+        Optional<ErrorCondition> errorCode = Optional.of(incident.getError());
+        return errorCode.orElse(null);
     }
 
     @Override
     public ReferenceData getApplicationStatus(Long id) {
         Incident incident = em.find(Incident.class, id);
-        return incident.getApplicationStatus();
+        Optional<ReferenceData> rd = Optional.of(incident.getApplicationStatus());
+        return rd.orElse(null);
+    }
+
+    private static Consumer<Incident> lambdaWrapper(Consumer<Incident> consumer) {
+        return i -> {
+            try {
+                consumer.accept(i);
+            } catch (PersistenceException e) {
+                log.error("IncidentRepositoryImpl::deleteIncident - failure deleting incident id " + i.getId() + ", msg = " + e.getMessage());
+                throw (e);
+            }
+        };
     }
 
 }
