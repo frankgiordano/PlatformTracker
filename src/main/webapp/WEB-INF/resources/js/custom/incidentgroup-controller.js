@@ -415,7 +415,7 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
         RcaService.saveRca(rca).then(
             function success(response) {
                 if (response) {
-                    $scope.messages = $scope.selectedCategory.displayName + " Root Cause created for Group " + '"' + $scope.$parent.selectedGroup.name + '".';
+                    $scope.messages = "New Root Cause created for Group " + '"' + $scope.$parent.selectedGroup.name + '".';
                     $scope.errormessages = null;
                     $scope.disableButton = true;
                 }
