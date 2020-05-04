@@ -3,21 +3,21 @@
   <display-name>DT application powered by Angularjs Bootstrap Spring JPA Hibernate</display-name>
   <listener>
     <listener-class>
-			org.springframework.web.context.ContextLoaderListener
-		</listener-class>
+        org.springframework.web.context.ContextLoaderListener
+    </listener-class>
   </listener>
   <listener>
     <listener-class>
-			org.springframework.security.web.session.HttpSessionEventPublisher
-		</listener-class>
+        org.springframework.security.web.session.HttpSessionEventPublisher
+    </listener-class>
   </listener>
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
-			/WEB-INF/spring/application-context-config.xml
-            /WEB-INF/spring/security-context-config.xml
-            /WEB-INF/spring/persistence-context-config.xml
-		</param-value>
+        /WEB-INF/spring/application-context-config.xml
+        /WEB-INF/spring/security-context-config.xml
+        /WEB-INF/spring/persistence-context-config.xml
+    </param-value>
   </context-param>
   <context-param>
     <param-name>log4jConfigLocation</param-name>

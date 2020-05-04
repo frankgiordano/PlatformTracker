@@ -1,5 +1,4 @@
 <div data-ng-init="init()">
-
     <div ng-hide="selectedProduct">
         <div>
             <h2>Search Projects</h2>
@@ -18,7 +17,6 @@
                     <input type="text" ng-model="search" class="form-control" placeholder="Search by name">
                 </div>
             </div>
-
         </form>
 
         <table class="table table-striped table-hover">
@@ -91,13 +89,12 @@
                     <td>{{project.estcompletionDate | dateFormatMinusTime}}</td>
                     <td>{{project.actualCompletionDate | dateFormatMinusTime}}</td>
                     <td>{{project.estEffort}}</td>
-                    <td>{{project.actualEffort}}</td></td>
+                    <td>{{project.actualEffort}}</td>
                     <td>{{project.conflenceId}}</td>
                     <td>{{project.jiraId}}</td>
                 </tr>
             </tbody>
         </table>
-
         <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"
             on-page-change="getData(newPageNumber)">
         </dir-pagination-controls>

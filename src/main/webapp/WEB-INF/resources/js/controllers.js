@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('myApp.controllers', []).
-  controller('UsersCtrl', ['$scope', '$http', function($scope, $http) {
+    controller('UsersCtrl', ['$scope', '$http', function ($scope, $http) {
 
         $scope.filterOptions = {
             filterText: "",
@@ -17,8 +17,8 @@ angular.module('myApp.controllers', []).
         };
 
 
-        $scope.setPagingData = function(data, page, pageSize){
-//            var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
+        $scope.setPagingData = function (data, page, pageSize) {
+            //            var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
             $scope.myData = data.content;
             $scope.totalServerItems = data.page.totalElements;
             if (!$scope.$$phase) {
@@ -32,18 +32,18 @@ angular.module('myApp.controllers', []).
                 var data;
                 if (searchText) {
                     var ft = searchText.toLowerCase();
-                    $http({method: 'GET', url: '/users', params: {'limit': $scope.pagingOptions.pageSize, 'page': $scope.pagingOptions.currentPage}})
+                    $http({ method: 'GET', url: '/users', params: { 'limit': $scope.pagingOptions.pageSize, 'page': $scope.pagingOptions.currentPage } })
                         .success(function (largeLoad) {
-                        data = largeLoad.filter(function(item) {
-                            return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
+                            data = largeLoad.filter(function (item) {
+                                return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
+                            });
+                            $scope.setPagingData(data, page, pageSize);
                         });
-                        $scope.setPagingData(data,page,pageSize);
-                    });
                 } else {
-                    $http({method: 'GET', url: '/users', params: {'limit': $scope.pagingOptions.pageSize, 'page': $scope.pagingOptions.currentPage}})
+                    $http({ method: 'GET', url: '/users', params: { 'limit': $scope.pagingOptions.pageSize, 'page': $scope.pagingOptions.currentPage } })
                         .success(function (largeLoad) {
-                        $scope.setPagingData(largeLoad,page,pageSize);
-                    });
+                            $scope.setPagingData(largeLoad, page, pageSize);
+                        });
                 }
             }, 100);
         };
@@ -70,8 +70,8 @@ angular.module('myApp.controllers', []).
         }, true);
 
 
-        $scope.myColumnDefs = [{ field: 'firstName', displayName: 'First Name'},
-            { field: 'lastName', displayName: 'Last Name' }];
+        $scope.myColumnDefs = [{ field: 'firstName', displayName: 'First Name' },
+        { field: 'lastName', displayName: 'Last Name' }];
 
 
         $scope.gridOptions = {
@@ -88,6 +88,4 @@ angular.module('myApp.controllers', []).
             filterOptions: $scope.filterOptions
         };
 
-
-
-  }]);
+    }]);

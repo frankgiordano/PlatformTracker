@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-	<!-- Scans the classpath of this application for @Components to deploy as 
-		beans -->
-	<context:component-scan base-package="us.com.plattrk" >
-	<!-- 	<context:exclude-filter type="assignable" expression="MailSocketImpl" /> -->
-	</context:component-scan>    
+    <!-- Scans the classpath of this application for @Components to deploy as 
+        beans -->
+    <context:component-scan base-package="us.com.plattrk" >
+    <!-- 	<context:exclude-filter type="assignable" expression="MailSocketImpl" /> -->
+    </context:component-scan>    
 
-	<task:annotation-driven />
+    <task:annotation-driven />
 
-	<!-- Configures the @Controller programming model -->
-	<mvc:annotation-driven>
-		<mvc:message-converters>
-			<!-- Use the HibernateAware mapper instead of the default -->
-			<bean
-				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-				<property name="objectMapper">
-					<bean class="us.com.plattrk.util.HibernateAwareObjectMapper" />
-				</property>
-			</bean>
-		</mvc:message-converters>
-	</mvc:annotation-driven>
-	
+    <!-- Configures the @Controller programming model -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <!-- Use the HibernateAware mapper instead of the default -->
+            <bean
+                class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="us.com.plattrk.util.HibernateAwareObjectMapper" />
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    
 
-	<!-- Configures Handler Interceptors -->
-	<mvc:interceptors>
-		<!-- Changes the locale when a 'locale' request parameter is sent; e.g. 
-			/?locale=de -->
-		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
-	</mvc:interceptors>
+    <!-- Configures Handler Interceptors -->
+    <mvc:interceptors>
+        <!-- Changes the locale when a 'locale' request parameter is sent; e.g. 
+            /?locale=de -->
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+    </mvc:interceptors>
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
-		up static resources in the ${webappRoot}/WEB-INF/resources/ directory -->
-	<mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+        up static resources in the ${webappRoot}/WEB-INF/resources/ directory -->
+    <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
 
 
-	<mvc:view-controller path="/"
-		view-name="/resources/html/templates/index.html" />
+    <mvc:view-controller path="/"
+        view-name="/resources/html/templates/index.html" />
 
-	<!-- Saves a locale change using a cookie -->
-	<bean id="localeResolver"
-		class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
+    <!-- Saves a locale change using a cookie -->
+    <bean id="localeResolver"
+        class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
 
-	<!-- Application Message Bundle -->
-	<bean id="messageSource"
-		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basenames">
-			<list>
-				<value>/WEB-INF/resources/properties/clientMessages</value>
-			</list>
-		</property>
-		<property name="cacheSeconds" value="0" />
-	</bean>
+    <!-- Application Message Bundle -->
+    <bean id="messageSource"
+        class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>/WEB-INF/resources/properties/clientMessages</value>
+            </list>
+        </property>
+        <property name="cacheSeconds" value="0" />
+    </bean>
 
-	<bean id="appProperties" 
+    <bean id="appProperties" 
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="singleton" value="true"/>
 
@@ -81,35 +81,35 @@
                         <prop key="SUBJECTMSG">${SUBJECTMSG}</prop>                               
                 </props>
         </property>
-	</bean>
-	
-	<bean name="notificationThread"
-		scope="prototype"
-		class="us.com.plattrk.api.model.NotificationThread">
-		<property name="mailService" ref="mailService"/>
-	</bean>
-	
-	<bean name="Report"
-		scope="prototype"
-		class="us.com.plattrk.service.ReportImpl">
-		<property name="mailService" ref="mailService"/>
-	</bean>
-	
-	<bean name="mailService"
-		scope="prototype"
-		class="us.com.plattrk.service.MailServiceImpl">
-		<property name="mail" ref="mail"/>
-	</bean>
-	
-	<bean name="mail"
-		scope="prototype"
-		class="us.com.plattrk.service.MailJavaImpl">
-		<property name="mailFormat" ref="mailFormat"/>
-	</bean>
-	
-	<bean name="mailFormat"
-		scope="prototype"
-		class="us.com.plattrk.service.MailJavaFormatImpl">
-	</bean>
+    </bean>
+    
+    <bean name="notificationThread"
+        scope="prototype"
+        class="us.com.plattrk.api.model.NotificationThread">
+        <property name="mailService" ref="mailService"/>
+    </bean>
+    
+    <bean name="Report"
+        scope="prototype"
+        class="us.com.plattrk.service.ReportImpl">
+        <property name="mailService" ref="mailService"/>
+    </bean>
+    
+    <bean name="mailService"
+        scope="prototype"
+        class="us.com.plattrk.service.MailServiceImpl">
+        <property name="mail" ref="mail"/>
+    </bean>
+    
+    <bean name="mail"
+        scope="prototype"
+        class="us.com.plattrk.service.MailJavaImpl">
+        <property name="mailFormat" ref="mailFormat"/>
+    </bean>
+    
+    <bean name="mailFormat"
+        scope="prototype"
+        class="us.com.plattrk.service.MailJavaFormatImpl">
+    </bean>
 
 </beans>

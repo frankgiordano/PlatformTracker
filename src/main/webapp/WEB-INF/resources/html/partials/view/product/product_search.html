@@ -1,203 +1,195 @@
 <div data-ng-init="init()">
+    <div ng-hide="selectedProduct">
+        <div>
+            <h2>Search Products</h2>
+        </div>
 
-       <div ng-hide="selectedProduct">
-              <div>
-                     <h2>Search Products</h2>
-              </div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-xs-2">Count Total</label>
+                <div class="col-xs-10 form-control-static">
+                    {{data.total_count}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2">Search by Name</label>
+                <div class="col-xs-6">
+                    <input type="text" ng-model="search" class="form-control" placeholder="Search by name">
+                </div>
+            </div>
+        </form>
 
-              <form class="form-horizontal">
-			<div class="form-group">
-				<label class="control-label col-xs-2">Count Total</label>
-				<div class="col-xs-10 form-control-static">
-					{{data.total_count}}
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label col-xs-2">Search by Name</label>
-				<div class="col-xs-6">
-					<input type="text" ng-model="search" class="form-control" placeholder="Search by name">
-				</div>
-			</div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th ng-click="sort('Id')">Id
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='Id'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('platform')">Platform
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='platform'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('incidentName')">Name
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='incidentName'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('clientName')">Client Name
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='clientName'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('shortName')">Short Name
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='shortName'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('owner')">Owner
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='owner'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('startDate')">Start Date
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='startDate'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('endDate')">End Date
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='endDate'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('maxWeeklyUptime')">Max Weekly Uptime
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='maxWeeklyUptime'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('revenue')">Revenue %
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='revenue'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('users')">User %
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='users'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="btn-link" dir-paginate="product in data.results|orderBy:sortKey:reverse|itemsPerPage:10"
+                    total-items="data.total_count" ng-click="select(product);clearMsg();">
+                    <td>{{product.id}}</td>
+                    <td>{{product.platform}}</td>
+                    <td>{{product.incidentName}}</td>
+                    <td>{{product.clientName}}</td>
+                    <td>{{product.shortName}}</td>
+                    <td>{{product.owner}}</td>
+                    <td>{{product.startDate | dateFormatMinusTime}}</td>
+                    <td>{{product.endDate | dateFormatMinusTime}}</td>
+                    <td>{{product.maxWeeklyUptime}}</td>
+                    <td>{{product.revenue | percentage}}</td>
+                    <td>{{product.users | percentage}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"
+            on-page-change="getData(newPageNumber)">
+        </dir-pagination-controls>
+    </div>
 
-		</form>
+    <form class="form-horizontal" ng-show="selectedProduct">
+        <div>
+            <h2>Product Detail</h2>
+        </div>
 
-              <table class="table table-striped table-hover">
-                     <thead>
-                            <tr>
-                                   <th ng-click="sort('Id')">Id
-						<span class="glyphicon sort-icon" ng-show="sortKey=='Id'"
-							ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                                   </th>
-                                   <th ng-click="sort('platform')">Platform
-						<span class="glyphicon sort-icon" ng-show="sortKey=='platform'"
-							ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-					</th>
-					<th ng-click="sort('incidentName')">Name
-						<span class="glyphicon sort-icon" ng-show="sortKey=='incidentName'"
-							ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-					</th>
-					<th ng-click="sort('clientName')">Client Name
-						<span class="glyphicon sort-icon" ng-show="sortKey=='clientName'"
-							ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-					</th>
-					<th ng-click="sort('shortName')">Short Name
-						<span class="glyphicon sort-icon" ng-show="sortKey=='shortName'"
-							ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-					</th>
-					<th ng-click="sort('owner')">Owner
-						<span class="glyphicon sort-icon" ng-show="sortKey=='owner'"
-							ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-					</th>
-					<th ng-click="sort('startDate')">Start Date
-						<span class="glyphicon sort-icon" ng-show="sortKey=='startDate'"
-							ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-					</th>
-					<th ng-click="sort('endDate')">End Date
-						<span class="glyphicon sort-icon" ng-show="sortKey=='endDate'"
-							ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-					</th>
-					<th ng-click="sort('maxWeeklyUptime')">Max Weekly Uptime
-						<span class="glyphicon sort-icon" ng-show="sortKey=='maxWeeklyUptime'"
-							ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-					</th>
-					<th ng-click="sort('revenue')">Revenue %
-						<span class="glyphicon sort-icon" ng-show="sortKey=='revenue'"
-							ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                                   </th>
-                                   <th ng-click="sort('users')">User %
-						<span class="glyphicon sort-icon" ng-show="sortKey=='users'"
-							ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-					</th>
-                            </tr>
-                     </thead>
-                     <tbody>
-                            <tr class="btn-link" dir-paginate="product in data.results|orderBy:sortKey:reverse|itemsPerPage:10"
-                                   total-items="data.total_count" ng-click="select(product);clearMsg();">
-                                   <td>{{product.id}}</td>
-                                   <td>{{product.platform}}</td>
-                                   <td>{{product.incidentName}}</td>
-                                   <td>{{product.clientName}}</td>
-                                   <td>{{product.shortName}}</td>
-                                   <td>{{product.owner}}</td>
-                                   <td>{{product.startDate | dateFormatMinusTime}}</td>
-                                   <td>{{product.endDate | dateFormatMinusTime}}</td>
-                                   <td>{{product.maxWeeklyUptime}}</td>
-                                   <td>{{product.revenue | percentage}}</td>
-                                   <td>{{product.users | percentage}}</td>
-                            </tr>
-                     </tbody>
-              </table>
+        <div ng-hide="loading">
+            <div class="row">
+                <div style="clear:both;">&nbsp;</div>
+                <div class="col-sm-12">
+                    <progressbar class="progress-striped active" max="200" value="200" type="info">
+                        <i>SAVING....</i></progressbar>
+                    <div style="clear:both;">&nbsp;</div>
+                </div>
+            </div>
+        </div>
 
-              <dir-pagination-controls 
-                     max-size="5" 
-                     direction-links="true" 
-                     boundary-links="true"
-                     on-page-change="getData(newPageNumber)">
-              </dir-pagination-controls>
-       </div>
+        <div ng-hide="hideduringloading">
+            <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+            <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages">
+            </div>
 
-       <form class="form-horizontal" ng-show="selectedProduct">
-              <div>
-                     <h2>Product Detail</h2>
-              </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Platform</label>
+                <div class="col-sm-6">
+                    <select ng-model="selectedProduct.platform" class="form-control"
+                        ng-options="c.name as c.name for c in platforms">
+                    </select>
+                </div>
+            </div>
 
-              <div ng-hide="loading">
-                     <div class="row">
-                            <div style="clear:both;">&nbsp;</div>
-                            <div class="col-sm-12">
-                                   <progressbar class="progress-striped active" max="200" value="200" type="info">
-                                          <i>SAVING....</i></progressbar>
-                                   <div style="clear:both;">&nbsp;</div>
-                            </div>
-                     </div>
-              </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" ng-model="selectedProduct.incidentName">
+                </div>
+            </div>
 
-              <div ng-hide="hideduringloading">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Client Name</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" ng-model="selectedProduct.clientName">
+                </div>
+            </div>
 
-                     <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-                     <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Short Name</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" ng-model="selectedProduct.shortName">
+                </div>
+            </div>
 
-                     <div class="form-group">
-                            <label class="col-sm-2 control-label">Platform</label>
-                            <div class="col-sm-6">
-                                   <select ng-model="selectedProduct.platform" class="form-control"
-                                          ng-options="c.name as c.name for c in platforms">
-                                   </select>
-                            </div>
-                     </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Owner(s)</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" ng-model="selectedProduct.owner">
+                </div>
+            </div>
 
-                     <div class="form-group">
-                            <label class="col-sm-2 control-label">Name</label>
-                            <div class="col-sm-6">
-                                   <input type="text" class="form-control" ng-model="selectedProduct.incidentName">
-                            </div>
-                     </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Start Date</label>
+                <div class="col-sm-6">
+                    <input type="date" class="form-control" ng-model="selectedProduct.startDate">
+                </div>
+            </div>
 
-                     <div class="form-group">
-                            <label class="col-sm-2 control-label">Client Name</label>
-                            <div class="col-sm-6">
-                                   <input type="text" class="form-control" ng-model="selectedProduct.clientName">
-                            </div>
-                     </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">End Date</label>
+                <div class="col-sm-6">
+                    <input type="date" class="form-control" ng-model="selectedProduct.endDate">
+                </div>
+            </div>
 
-                     <div class="form-group">
-                            <label class="col-sm-2 control-label">Short Name</label>
-                            <div class="col-sm-6">
-                                   <input type="text" class="form-control" ng-model="selectedProduct.shortName">
-                            </div>
-                     </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Max Weekly Uptime</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" ng-model="selectedProduct.maxWeeklyUptime">
+                </div>
+            </div>
 
-                     <div class="form-group">
-                            <label class="col-sm-2 control-label">Owner(s)</label>
-                            <div class="col-sm-6">
-                                   <input type="text" class="form-control" ng-model="selectedProduct.owner">
-                            </div>
-                     </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Revenue %</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" ng-model="selectedProduct.revenue">
+                </div>
+            </div>
 
-                     <div class="form-group">
-                            <label class="col-sm-2 control-label">Start Date</label>
-                            <div class="col-sm-6">
-                                   <input type="date" class="form-control" ng-model="selectedProduct.startDate">
-                            </div>
-                     </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">User %</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" ng-model="selectedProduct.users">
+                </div>
+            </div>
 
-                     <div class="form-group">
-                            <label class="col-sm-2 control-label">End Date</label>
-                            <div class="col-sm-6">
-                                   <input type="date" class="form-control" ng-model="selectedProduct.endDate">
-                            </div>
-                     </div>
-
-                     <div class="form-group">
-                            <label class="col-sm-2 control-label">Max Weekly Uptime</label>
-                            <div class="col-sm-6">
-                                   <input type="text" class="form-control" ng-model="selectedProduct.maxWeeklyUptime">
-                            </div>
-                     </div>
-
-                     <div class="form-group">
-                            <label class="col-sm-2 control-label">Revenue %</label>
-                            <div class="col-sm-6">
-                                   <input type="text" class="form-control" ng-model="selectedProduct.revenue">
-                            </div>
-                     </div>
-
-                     <div class="form-group">
-                            <label class="col-sm-2 control-label">User %</label>
-                            <div class="col-sm-6">
-                                   <input type="text" class="form-control" ng-model="selectedProduct.users">
-                            </div>
-                     </div>
-
-                     <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                   <button class="btn btn-primary" ng-show="!disableButton"
-                                          ng-click="updateInSearch()">Save</button>
-                                   <button class="btn btn-primary" ng-show="!disableButton"
-                                          ng-click="showOnDelete()">Delete</button>
-                                   <button class="btn btn-primary" ng-click="cancel()">Back</button>
-                            </div>
-                     </div>
-              </div>
-       </form>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-primary" ng-show="!disableButton" ng-click="updateInSearch()">Save</button>
+                    <button class="btn btn-primary" ng-show="!disableButton" ng-click="showOnDelete()">Delete</button>
+                    <button class="btn btn-primary" ng-click="cancel()">Back</button>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>

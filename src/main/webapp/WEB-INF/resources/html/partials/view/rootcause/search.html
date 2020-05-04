@@ -1,5 +1,5 @@
 <div>
-	<h2>Search Root Causes</h2>
+    <h2>Search Root Causes</h2>
 </div>
 
 <link rel="stylesheet" type="text/css" href="resources/css/ng-grid/styles.css">
@@ -7,21 +7,21 @@
 <link rel="stylesheet" type="text/css" href="resources/css/ng-grid/jquery-ui.css">
 
 <div data-ng-init="init()">
-	<table class="table table-responsive" class="form-control">
-		<tr>
-			<td class="editable-content table-responsive">
-				<div class="pull-left">
-					<strong>Filter:&nbsp;</strong><input type="text" class="form-control"
-						ng-model="filterOptions.filterText" />
-				</div>
-			</td>
-			<td><br />
-				<div class="pull-right">
-					<button data-ng-disabled="progress.active()" data-ng-click="new()"
-						class="btn btn-default pull-right">Create</button>
-				</div>
-			</td>
-		</tr>
-	</table>
-	<div class="gridStyle" ng-grid="gridOptions"></div>
+    <table class="table table-responsive" class="form-control">
+        <tr>
+            <td class="editable-content table-responsive">
+                <div class="pull-left">
+                    <strong>Filter:&nbsp;</strong><input type="text" class="form-control"
+                        ng-model="filterOptions.filterText" />
+                </div>
+            </td>
+            <td><br />
+                <div class="pull-right">
+                    <button data-ng-disabled="progress.active()" data-ng-click="new()"
+                        class="btn btn-default pull-right">Create</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="gridStyle" ng-grid="gridOptions"></div>
 </div>

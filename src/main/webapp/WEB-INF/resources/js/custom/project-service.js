@@ -2,7 +2,7 @@ app.service('ProjectService', function ($http, $q, ReferenceDataService) {
     this.getProjects = function () {
         var d = $q.defer();
 
-        $http.get('project/retrieve')
+        $http.get('                                                                                                                                                                     ')
             .success(function (response) {
                 d.resolve(response);
             })
