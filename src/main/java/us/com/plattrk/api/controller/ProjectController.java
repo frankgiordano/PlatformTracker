@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import us.com.plattrk.api.model.Project;
 import us.com.plattrk.service.ProjectService;
+import us.com.plattrk.util.PageWrapper;
 
 @RestController
 @RequestMapping(value = "/project")
@@ -20,27 +21,33 @@ public class ProjectController {
     private ProjectService projectService;
 
     @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/retrieve", method = RequestMethod.GET, produces = "application/json")
+    public List<Project> getProjects() {
+        return projectService.getProjects();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/retrieve/{searchTerm}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
+    PageWrapper<Project> search(@PathVariable String searchTerm, @PathVariable Long pageIndex) {
+        return projectService.search(searchTerm, pageIndex);
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
     public Project deleteProject(@PathVariable Long id) {
         return projectService.deleteProject(id);
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json")
-    public List<Project> getProjects() {
-        return projectService.getProjects();
+    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
+    public Project saveProject(@RequestBody Project project) {
+        return projectService.saveProject(project);
     }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = "application/json")
     public Project getProject(@PathVariable Long id) {
         return projectService.getProject(id);
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
-    public Project saveProject(@RequestBody Project project) {
-        return projectService.saveProject(project);
     }
 
 }

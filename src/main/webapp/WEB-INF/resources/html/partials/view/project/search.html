@@ -1,27 +1,105 @@
-<div>
-	<h2>Search Projects</h2>
-</div>
-
-<link rel="stylesheet" type="text/css" href="resources/css/ng-grid/styles.css">
-<link rel="stylesheet" type="text/css" href="resources/css/ng-grid/ng-grid.css">
-<link rel="stylesheet" type="text/css" href="resources/css/ng-grid/jquery-ui.css">
-
 <div data-ng-init="init()">
-	<table class="table table-responsive" class="form-control">
-		<tr>
-			<td class="editable-content table-responsive">
-				<div class="pull-left">
-					<strong>Filter:&nbsp;</strong><input type="text" class="form-control"
-						ng-model="filterOptions.filterText" />
-				</div>
-			</td>
-			<td><br />
-				<div class="pull-right">
-					<button data-ng-disabled="progress.active()" data-ng-click="new()"
-						class="btn btn-default pull-right">Create</button>
-				</div>
-			</td>
-		</tr>
-	</table>
-	<div class="gridStyle" ng-grid="gridOptions"></div>
+
+    <div ng-hide="selectedProduct">
+        <div>
+            <h2>Search Projects</h2>
+        </div>
+
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-xs-2">Count Total</label>
+                <div class="col-xs-10 form-control-static">
+                    {{data.total_count}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2">Search by Name</label>
+                <div class="col-xs-6">
+                    <input type="text" ng-model="search" class="form-control" placeholder="Search by name">
+                </div>
+            </div>
+
+        </form>
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th ng-click="sort('Id')">Id
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='Id'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('incidentName')">Name
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='name'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('shortName')">Status
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='status.displayName'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('clientName')">Owner
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='owners'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('users')">PDLC Status
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='pdlcStatus.displayName'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('revenue')">Recording Date
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='recordingDate'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('users')">Status Change Date
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='pdlcStatus.statusChangeDate'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('startDate')">Due Date
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='estcompletionDate'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('maxWeeklyUptime')">Completion Date
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='actualCompletionDate'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('endDate')">Estimate Effort
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='estEffort'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('platform')">Actual Effort
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='actualEffort'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('owner')">Conflence ID
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='conflenceId'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('users')">Jira ID
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='jiraId'"
+                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="btn-link" dir-paginate="project in data.results|orderBy:sortKey:reverse|itemsPerPage:10"
+                    total-items="data.total_count" ng-click="select(project.id)">
+                    <td>{{project.id}}</td>
+                    <td>{{project.name}}</td>
+                    <td>{{project.status.displayName}}</td>
+                    <td>{{project.owners}}</td>
+                    <td>{{project.pdlcStatus.displayName}}</td>
+                    <td>{{project.recordingDate | dateFormatMinusTime}}</td>
+                    <td>{{project.pdlcStatus.statusChangeDate}}</td>
+                    <td>{{project.estcompletionDate | dateFormatMinusTime}}</td>
+                    <td>{{project.actualCompletionDate | dateFormatMinusTime}}</td>
+                    <td>{{project.estEffort}}</td>
+                    <td>{{project.actualEffort}}</td></td>
+                    <td>{{project.conflenceId}}</td>
+                    <td>{{project.jiraId}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"
+            on-page-change="getData(newPageNumber)">
+        </dir-pagination-controls>
+    </div>
 </div>

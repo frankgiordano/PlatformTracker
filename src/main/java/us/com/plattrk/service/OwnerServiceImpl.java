@@ -26,8 +26,8 @@ public class OwnerServiceImpl implements OwnerService {
 
     public List<OwnerInfo> getOwnerList() {
         owners.clear();
-        OwnerInfo owner = new OwnerInfo("guest", "guest");
-        owners.add(owner);
+        owners.add(new OwnerInfo("guest", "guest"));
+        owners.add(new OwnerInfo("giofr01", "Frank Giordano"));
         owners.sort(Comparator.comparing(OwnerInfo::getDisplayName, String::compareToIgnoreCase));
         return owners;
     }

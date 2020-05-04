@@ -30,23 +30,35 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @Table(name = "Product")
 @Cacheable(true)
 @NamedQueries({
-    @NamedQuery(name = Product.FIND_ALL_PRODUCTS_RELATIONS, 
-                query = "Select p from Product p", 
-                hints={@QueryHint(name="org.hibernate.cacheable", value="true")}),
-    @NamedQuery(name = Product.FIND_ALL_PRODUCTS, 
-                query = "Select new us.com.plattrk.api.model.Product(i.id, i.incidentName, i.clientName, i.shortName, i.owner, i.startDate, i.endDate, i.maxWeeklyUptime, i.platform, i.revenue, i.users) from Product as i",
-                hints={@QueryHint(name="org.hibernate.cacheable", value="true")}),
-    @NamedQuery(name = Product.FIND_ALL_ACTIVE_PRODUCTS, 
-                query = "Select new us.com.plattrk.api.model.Product(i.id, i.incidentName, i.clientName, i.shortName, i.owner, i.startDate, i.endDate, i.maxWeeklyUptime, i.platform, i.revenue, i.users) from Product as i where i.endDate IS NULL",
-                hints={@QueryHint(name="org.hibernate.cacheable", value="true")}),
+        @NamedQuery(name = Product.FIND_ALL_PRODUCTS_RELATIONS,
+                query = "Select p from Product p",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
+        @NamedQuery(name = Product.FIND_ALL_PRODUCTS,
+                query = "Select new us.com.plattrk.api.model.Product(pd.id, pd.incidentName, pd.clientName, pd.shortName, pd.owner, pd.startDate, pd.endDate, pd.maxWeeklyUptime, pd.platform, pd.revenue, pd.users) from Product as pd",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
+        @NamedQuery(name = Product.FIND_ALL_PRODUCTS_BY_CRITERIA,
+                query = "Select new us.com.plattrk.api.model.Product(pd.id, pd.incidentName, pd.clientName, pd.shortName, pd.owner, pd.startDate, pd.endDate, pd.maxWeeklyUptime, pd.platform, pd.revenue, pd.users) from Product as pd where lower(pd.incidentName) LIKE (:name) order by pd.incidentName",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = Product.FIND_ALL_ACTIVE_PRODUCTS,
+                query = "Select new us.com.plattrk.api.model.Product(pd.id, pd.incidentName, pd.clientName, pd.shortName, pd.owner, pd.startDate, pd.endDate, pd.maxWeeklyUptime, pd.platform, pd.revenue, pd.users) from Product as pd where pd.endDate IS NULL",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
+        @NamedQuery(name = Product.ALL_PRODUCTS_COUNT_BY_CRITERIA,
+                query = "Select count(pd.id) from Product as pd where lower(pd.incidentName) LIKE (:name) order by pd.incidentName",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = Product.ALL_PRODUCTS_COUNT,
+                query = "Select count(pd.id) from Product pd",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
 })
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Product.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Product.class)
 public class Product {
-    
+
     public static final String FIND_ALL_PRODUCTS_RELATIONS = "findAllProductsRelations";
     public static final String FIND_ALL_PRODUCTS = "findAllProducts";
     public static final String FIND_ALL_ACTIVE_PRODUCTS = "findAllActiveProducts";
-    
+    public static final String FIND_ALL_PRODUCTS_BY_CRITERIA = "findAllProductsByCriteria";
+    public static final String ALL_PRODUCTS_COUNT_BY_CRITERIA = "AllProductsCountByCriteria";
+    public static final String ALL_PRODUCTS_COUNT = "AllProductsCount";
+
     private Long id;
     private String incidentName;
     private String clientName;
@@ -60,13 +72,13 @@ public class Product {
     private Set<ProductUsers> productUsers = new HashSet<ProductUsers>();
     private Set<ProductComponent> productComponents = new HashSet<ProductComponent>();
     private String platform;
-    
+
     public Product() {
     }
 
     public Product(Long id, String incidentName, String clientName,
-            String shortName, String owner, Date startDate, Date endDate,
-            int maxWeeklyUptime, String platform, Double revenue, Double users) {
+                   String shortName, String owner, Date startDate, Date endDate,
+                   int maxWeeklyUptime, String platform, Double revenue, Double users) {
         this.id = id;
         this.incidentName = incidentName;
         this.clientName = clientName;
@@ -79,10 +91,10 @@ public class Product {
         this.users = users;
         this.platform = platform;
     }
-    
+
     @Id
     @Column(name = "product_id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -91,7 +103,7 @@ public class Product {
         this.id = id;
     }
 
-    @Column(name = "incident_name", columnDefinition="VARCHAR(50)" , nullable = false)
+    @Column(name = "incident_name", columnDefinition = "VARCHAR(50)", nullable = false)
     public String getIncidentName() {
         return incidentName;
     }
@@ -100,7 +112,7 @@ public class Product {
         this.incidentName = incidentName;
     }
 
-    @Column(name = "client_name", columnDefinition="VARCHAR(50)", nullable = false)
+    @Column(name = "client_name", columnDefinition = "VARCHAR(50)", nullable = false)
     public String getClientName() {
         return clientName;
     }
@@ -109,7 +121,7 @@ public class Product {
         this.clientName = clientName;
     }
 
-    @Column(name = "short_name", columnDefinition="VARCHAR(10)", nullable = false)
+    @Column(name = "short_name", columnDefinition = "VARCHAR(10)", nullable = false)
     public String getShortName() {
         return shortName;
     }
@@ -118,7 +130,7 @@ public class Product {
         this.shortName = shortName;
     }
 
-    @Column(name = "owner", columnDefinition="VARCHAR(50)", nullable = true)
+    @Column(name = "owner", columnDefinition = "VARCHAR(50)", nullable = true)
     public String getOwner() {
         return owner;
     }
@@ -128,8 +140,8 @@ public class Product {
     }
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "start_date",  nullable = false)
-    @JsonDeserialize(using=JsonDateMinusTimeDeserializer.class)
+    @Column(name = "start_date", nullable = false)
+    @JsonDeserialize(using = JsonDateMinusTimeDeserializer.class)
     public Date getStartDate() {
         return startDate;
     }
@@ -138,9 +150,9 @@ public class Product {
         this.startDate = startDate;
     }
 
-    @Temporal(TemporalType.DATE)	
-    @Column(name = "end_date",  nullable = true)
-    @JsonDeserialize(using=JsonDateMinusTimeDeserializer.class)
+    @Temporal(TemporalType.DATE)
+    @Column(name = "end_date", nullable = true)
+    @JsonDeserialize(using = JsonDateMinusTimeDeserializer.class)
     public Date getEndDate() {
         return endDate;
     }
@@ -158,7 +170,7 @@ public class Product {
         this.maxWeeklyUptime = maxWeeklyUptime;
     }
 
-    @Column(name = "revenue", columnDefinition="Decimal(10,3) default '0'", nullable = true)
+    @Column(name = "revenue", columnDefinition = "Decimal(10,3) default '0'", nullable = true)
     public Double getRevenue() {
         return revenue;
     }
@@ -167,7 +179,7 @@ public class Product {
         this.revenue = revenue;
     }
 
-    @Column(name = "users", columnDefinition="Decimal(10,3) default '0'", nullable = true)
+    @Column(name = "users", columnDefinition = "Decimal(10,3) default '0'", nullable = true)
     public Double getUsers() {
         return users;
     }
@@ -176,8 +188,8 @@ public class Product {
         this.users = users;
     }
 
-    @org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<ProductUsers> getProductUsers() {
         return productUsers;
     }
@@ -186,8 +198,8 @@ public class Product {
         this.productUsers = productUsers;
     }
 
-    @org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<ProductComponent> getProductComponents() {
         return productComponents;
     }
@@ -196,7 +208,7 @@ public class Product {
         this.productComponents = productComponents;
     }
 
-    @Column(name = "platform", columnDefinition="VARCHAR(50)", nullable = false)
+    @Column(name = "platform", columnDefinition = "VARCHAR(50)", nullable = false)
     public String getPlatform() {
         return platform;
     }

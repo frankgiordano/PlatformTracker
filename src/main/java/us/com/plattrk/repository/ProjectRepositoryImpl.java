@@ -8,18 +8,26 @@ import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.api.model.Project;
+import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.util.RepositoryUtil;
 
 @Repository
 public class ProjectRepositoryImpl implements ProjectRepository {
 
     private static Logger log = LoggerFactory.getLogger(ProjectRepositoryImpl.class);
+    private static final int PAGE_SIZE = 10;
+
+    @Autowired
+    private RepositoryUtil repositoryUtil;
 
     @PersistenceContext
     private EntityManager em;
@@ -28,6 +36,27 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     public List<Project> getProjects() {
         List<Project> myResult = em.createNamedQuery(Project.FIND_ALL_PROJECTS).getResultList();
         return myResult;
+    }
+
+    @Override
+    public PageWrapper<Project> getProjectsByCriteria(String searchTerm, Long pageIndex) {
+        Long total;
+        List<Project> result;
+        Query query;
+
+        if (!searchTerm.equals("*")) {
+            query = em.createNamedQuery(Project.FIND_ALL_PROJECTS_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
+            result = repositoryUtil.criteriaResults(pageIndex, query, PAGE_SIZE);
+            Query queryTotal = em.createNamedQuery(Project.ALL_PROJECTS_COUNT_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
+            total = (long) queryTotal.getSingleResult();
+        } else {
+            query = em.createNamedQuery(Project.FIND_ALL_PROJECTS);
+            result = repositoryUtil.criteriaResults(pageIndex, query, PAGE_SIZE);
+            Query queryTotal = em.createNamedQuery(Project.ALL_PROJECTS_COUNT);
+            total = (long) queryTotal.getSingleResult();
+        }
+
+        return new PageWrapper<Project>(result, total);
     }
 
     @Override

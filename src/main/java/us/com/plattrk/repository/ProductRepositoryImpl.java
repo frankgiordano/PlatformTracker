@@ -4,22 +4,25 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.Product;
+import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.util.RepositoryUtil;
 
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
     private static Logger log = LoggerFactory.getLogger(ProductRepositoryImpl.class);
+    private static final int PAGE_SIZE = 10;
+
+    @Autowired
+    private RepositoryUtil repositoryUtil;
 
     @PersistenceContext
     private EntityManager em;
@@ -28,6 +31,27 @@ public class ProductRepositoryImpl implements ProductRepository {
     public List<Product> getProducts() {
         List<Product> myResult = em.createNamedQuery(Product.FIND_ALL_PRODUCTS).getResultList();
         return myResult;
+    }
+
+    @Override
+    public PageWrapper<Product> getProductsByCriteria(String searchTerm, Long pageIndex) {
+        Long total;
+        List<Product> result;
+        Query query;
+
+        if (!searchTerm.equals("*")) {
+            query = em.createNamedQuery(Product.FIND_ALL_PRODUCTS_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
+            result = repositoryUtil.criteriaResults(pageIndex, query, PAGE_SIZE);
+            Query queryTotal = em.createNamedQuery(Product.ALL_PRODUCTS_COUNT_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
+            total = (long) queryTotal.getSingleResult();
+        } else {
+            query = em.createNamedQuery(Product.FIND_ALL_PRODUCTS);
+            result = repositoryUtil.criteriaResults(pageIndex, query, PAGE_SIZE);
+            Query queryTotal = em.createNamedQuery(Product.ALL_PRODUCTS_COUNT);
+            total = (long) queryTotal.getSingleResult();
+        }
+
+        return new PageWrapper<Product>(result, total);
     }
 
     @Override
@@ -60,14 +84,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Product getProduct(Long id) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Incident getIncident(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return em.find(Product.class, id);
     }
 
     @Override

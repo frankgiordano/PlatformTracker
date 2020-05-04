@@ -24,19 +24,33 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import us.com.plattrk.search.Searchable;
-
 @Entity
 @Table(name = "Resolution_Project")
 @Cacheable(true)
-@NamedQueries({@NamedQuery(name = Project.FIND_ALL_PROJECTS, query = "Select new us.com.plattrk.api.model.Project(i.id, i.name, i.owners, i.description, i.eceId,"
-        + " i.status, i.estEffort, i.actualEffort, i.actualCompletionDate, i.estcompletionDate, i.pdlcStatus, "
-        + " i.recordingDate, i.statusChangeDate, i.wikiType, i.jiraId, i.conflenceId "
-        + ") from Project as i order by i.name", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")})
+@NamedQueries({
+        @NamedQuery(name = Project.FIND_ALL_PROJECTS,
+                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owners, pr.description, pr.eceId,"
+                        + " pr.status, pr.estEffort, pr.actualEffort, pr.actualCompletionDate, pr.estcompletionDate, pr.pdlcStatus, pr.recordingDate, pr.statusChangeDate, pr.wikiType, pr.jiraId," +
+                        " pr.conflenceId) from Project as pr order by pr.name",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = Project.FIND_ALL_PROJECTS_BY_CRITERIA,
+                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owners, pr.description, pr.eceId,"
+                        + " pr.status, pr.estEffort, pr.actualEffort, pr.actualCompletionDate, pr.estcompletionDate, pr.pdlcStatus, pr.recordingDate, pr.statusChangeDate, pr.wikiType, pr.jiraId," +
+                        " pr.conflenceId) from Project as pr where lower(pr.name) LIKE (:name) order by pr.name",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = Project.ALL_PROJECTS_COUNT_BY_CRITERIA,
+                query = "Select count(pr.id) from Project as pr where lower(pr.name) LIKE (:name) order by pr.name",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = Project.ALL_PROJECTS_COUNT,
+                query = "Select count(pr.id) from Project pr",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")})
 })
-public class Project implements Searchable {
+public class Project {
 
     public static final String FIND_ALL_PROJECTS = "findProjects";
+    public static final String FIND_ALL_PROJECTS_BY_CRITERIA = "FindAllProjectsByCriteria";
+    public static final String ALL_PROJECTS_COUNT_BY_CRITERIA = "AllProjectsCountByCriteria";
+    public static final String ALL_PROJECTS_COUNT = "AllProjectsCount";
 
     private Long id;
     private String name;
@@ -264,10 +278,6 @@ public class Project implements Searchable {
         this.conflenceId = conflenceId;
     }
 
-    public static String getFindAllProjects() {
-        return FIND_ALL_PROJECTS;
-    }
-
     @Override
     public String toString() {
         return "Project{" +
@@ -290,5 +300,5 @@ public class Project implements Searchable {
                 ", conflenceId=" + conflenceId +
                 '}';
     }
-    
+
 }

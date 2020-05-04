@@ -13,6 +13,19 @@ app.service('ProductService', function ($http, $q) {
         return d.promise;
     };
 
+    this.search = function (searchTerm, pageno) {
+        var d = $q.defer();
+        $http.get('product/products/retrieve/' + searchTerm + '/' + pageno)
+        .success(function (response) {
+            d.resolve(response);
+        })
+        .error(function () {
+            d.reject();
+        });
+
+        return d.promise;
+    };
+
     this.getActiveProducts = function () {
         var d = $q.defer();
 

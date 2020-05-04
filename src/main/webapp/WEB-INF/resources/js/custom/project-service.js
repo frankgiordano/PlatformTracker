@@ -2,13 +2,26 @@ app.service('ProjectService', function ($http, $q, ReferenceDataService) {
     this.getProjects = function () {
         var d = $q.defer();
 
-        $http.get('project/search')
+        $http.get('project/retrieve')
             .success(function (response) {
                 d.resolve(response);
             })
             .error(function () {
                 d.reject();
             });
+
+        return d.promise;
+    };
+
+    this.search = function (searchTerm, pageno) {
+        var d = $q.defer();
+        $http.get('project/retrieve/' + searchTerm + '/' + pageno)
+        .success(function (response) {
+            d.resolve(response);
+        })
+        .error(function () {
+            d.reject();
+        });
 
         return d.promise;
     };

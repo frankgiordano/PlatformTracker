@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.repository.ProductRepository;
+import us.com.plattrk.util.PageWrapper;
 
 @Service(value = "ProductService")
 public class ProductServiceImpl implements ProductService {
@@ -19,6 +19,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getProducts() {
         return productRepository.getProducts();
+    }
+
+    @Override
+    @Transactional
+    public PageWrapper<Product> search(String searchTerm, Long pageIndex) {
+        return productRepository.getProductsByCriteria(searchTerm, pageIndex);
+    }
+
+    @Override
+    public List<Product> getActiveProducts() {
+        return productRepository.getActiveProducts();
     }
 
     @Override
@@ -36,16 +47,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProduct(Long id) {
         return productRepository.getProduct(id);
-    }
-
-    @Override
-    public Incident getIncident(Long id) {
-        return productRepository.getIncident(id);
-    }
-
-    @Override
-    public List<Product> getActiveProducts() {
-        return productRepository.getActiveProducts();
     }
 
 }

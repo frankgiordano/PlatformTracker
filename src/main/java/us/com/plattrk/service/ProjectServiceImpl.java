@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import us.com.plattrk.api.model.Project;
 import us.com.plattrk.repository.ProjectRepository;
-import us.com.plattrk.repository.ReferenceDataRepository;
+import us.com.plattrk.util.PageWrapper;
 
 @Service(value = "ProjectService")
 public class ProjectServiceImpl implements ProjectService {
@@ -22,8 +22,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project getProject(Long id) {
-        return projectRepository.getProject(id);
+    @Transactional
+    public PageWrapper<Project> search(String searchTerm, Long pageIndex) {
+        return projectRepository.getProjectsByCriteria(searchTerm, pageIndex);
     }
 
     @Override
@@ -36,6 +37,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     public Project saveProject(Project project) {
         return projectRepository.saveProject(project);
+    }
+
+    @Override
+    public Project getProject(Long id) {
+        return projectRepository.getProject(id);
     }
 
 }

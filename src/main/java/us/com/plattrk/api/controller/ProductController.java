@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.service.ProductService;
+import us.com.plattrk.util.PageWrapper;
 
 @RestController
 @RequestMapping(value = "/product")
@@ -25,6 +25,12 @@ public class ProductController {
     @RequestMapping(value = "/products/retrieve", method = RequestMethod.GET, produces = "application/json")
     public List<Product> getProducts() {
         return productService.getProducts();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/products/retrieve/{searchTerm}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
+    PageWrapper<Product> search(@PathVariable String searchTerm, @PathVariable Long pageIndex) {
+        return productService.search(searchTerm, pageIndex);
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -49,12 +55,6 @@ public class ProductController {
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
     public Product saveProduct(@RequestBody Product product) {
         return productService.saveProduct(product);
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/retrieve/incident/{id}", method = RequestMethod.GET, produces = "application/json")
-    public Incident getIncident(@PathVariable Long id) {
-        return productService.getIncident(id);
     }
 
 }

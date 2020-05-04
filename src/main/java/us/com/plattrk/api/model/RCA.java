@@ -3,14 +3,13 @@ package us.com.plattrk.api.model;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import us.com.plattrk.search.Searchable;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "RCA")
 @NamedQueries({ @NamedQuery(name = RCA.FIND_ALL_RCAS, query = "Select new us.com.plattrk.api.model.RCAVO( i.id, i.owner, c.displayName, re.displayName, i.problem, i.dueDate, i.completionDate, s.displayName, ig.name, i.whys) from RCA as i join i.incidentGroup ig join i.status s join i.category c join i.resource re order by ig.name ") })
-public class RCA implements Searchable {
+public class RCA {
 
     public static final String FIND_ALL_RCAS = "findRCAs";
 

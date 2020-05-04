@@ -1,6 +1,49 @@
 app.controller('ProductController', function ($rootScope, $scope, ProductService, platforms, ModalService) {
 
     $scope.hideduringloading = false;
+    $scope.disableButton = false;
+    $scope.platforms = platforms;
+    $scope.selectedPlatform = $scope.platforms[5];
+    $scope.pageno = 1; // initialize page num to 1
+    $scope.total_count = 0;
+    $scope.itemsPerPage = 10; 
+    $scope.data = [];  
+
+    $scope.init = function () {
+        $scope.search = '*';
+        $scope.getData($scope.pageno);
+    };
+
+    $scope.getData = function (pageno) { 
+        $scope.pageno = pageno;
+
+        ProductService.search($scope.search, pageno).then(
+            function success(response) {
+                $scope.data = response;
+            },
+            function error() {
+                $rootScope.errors.push({
+                    code: "PRODUCTS_GET_FAILURE",
+                    message: "Error retrieving products."
+                });
+            });
+
+    };
+
+    $scope.sort = function (keyname) {
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+
+    $scope.$watch("search", function (val) {
+        if ($scope.search) {  // this needs to be a truthy test 	
+            $scope.getData($scope.pageno);
+        }
+        else {
+            $scope.search = '*';
+            $scope.getData($scope.pageno);
+        }
+    }, true);
 
     $scope.waiting = function (value) {
         if (value === true) {
@@ -15,24 +58,6 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
     };
     $scope.waiting();
 
-    $scope.init = function () {
-        ProductService.getProducts().then(
-            function success(response) {
-                $scope.products = response;
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "PRODUCTS_GET_FAILURE",
-                    message: "Error retrieving products."
-                });
-            });
-    };
-
-    // defaults
-    $scope.platforms = platforms;
-    $scope.selectedPlatform = $scope.platforms[5];
-    $scope.disableButton = false;
-
     $scope.select = function (product) {
         $scope.selectedProduct = product;
         $scope.selectedProduct.startDate = moment($scope.selectedProduct.startDate).format('YYYY-MM-DD');
@@ -41,8 +66,9 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
         $scope.disableButton = false;
     };
 
-    $scope.cancelP = function () {
+    $scope.cancel = function () {
         $scope.selectedProduct = null;
+        $scope.refreshData();
     };
 
     $scope.clearMsg = function () {
@@ -50,15 +76,8 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
         $scope.errormessages = null;
     };
 
-    clear = function () {
-        $scope.incidentName = null;
-        $scope.selectedPlatform = $scope.platforms[5];
-        $scope.clientName = null;
-        $scope.shortName = null;
-        $scope.owner = null;
-        $scope.startDate = null;
-        $scope.endDate = null;
-        $scope.maxWeeklyUptime = null;
+    $scope.refreshData = function () {
+        $scope.getData($scope.pageno);
     };
 
     $scope.showOnDelete = function () {
@@ -76,18 +95,14 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
             modal.element.modal({ backdrop: 'static' });
             modal.close.then(function (result) {
                 if (result.answer == 'Yes') {
-                    $scope.deleteP($scope.selectedProduct.id);
+                    deleteProduct($scope.selectedProduct.id);
                 }
             });
         });
     };
 
-    $scope.refreshData = function () {
-        var newData = $scope.init();
-        $scope.rowCollection = newData;
-    };
-
-    $scope.deleteP = function (id) {
+    // only used for showOnDelete dont't expose this method in $scope for wider use
+    var deleteProduct = function (id) {
         $scope.clearMsg();
 
         ProductService.deleteProduct(id).then(
@@ -109,7 +124,7 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
         $scope.clearMsg();
         $scope.waiting(true);
 
-        $scope.enforceRequiredFields();
+        enforceRequiredFields();
 
         var product = {
             "id": $scope.selectedProduct.id,
@@ -141,8 +156,9 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
             });
     };
 
+    // only used for updateInSearch dont't expose this method in $scope for wider use
     // just do this for required fields that are not defaulted dropdown fields.
-    $scope.enforceRequiredFields = function () {
+    var enforceRequiredFields = function () {
         if ($scope.selectedProduct.incidentName !== undefined &&
             $scope.selectedProduct.incidentName !== null &&
             $scope.selectedProduct.incidentName.trim() === "")

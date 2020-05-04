@@ -2,6 +2,10 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
 
     $scope.project = {};
     $scope.hideduringloading = false;
+    $scope.pageno = 1; // initialize page num to 1
+    $scope.total_count = 0;
+    $scope.itemsPerPage = 10; 
+    $scope.data = [];  
 
     (function () {
         OwnersService.getOwners().then(
@@ -15,6 +19,48 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                 });
             });
     })();
+
+    $scope.init = function () {
+        $scope.search = '*';
+        $scope.getData($scope.pageno);
+    };
+
+    $scope.getData = function (pageno) { 
+        $scope.pageno = pageno;
+
+        ProjectService.search($scope.search, pageno).then(
+            function success(response) {
+                $scope.data = response;
+            },
+            function error() {
+                $scope.errormessages = "PROJECT_GET_FAILURE - Retrieving projects failed, check logs or try again.";
+            });
+
+    };
+
+    $scope.sort = function (keyname) {
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+
+    $scope.$watch("search", function (val) {
+        if ($scope.search) {  // this needs to be a truthy test 	
+            $scope.getData($scope.pageno);
+        }
+        else {
+            $scope.search = '*';
+            $scope.getData($scope.pageno);
+        }
+    }, true);
+
+    $scope.refreshData = function () {
+        $scope.getData($scope.pageno);
+    };
+
+
+    $scope.select = function (id) {
+        $location.path('/project/edit/' + id);
+    }
 
     $scope.waiting = function (value) {
         if (value === true) {
@@ -74,118 +120,6 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                 });
             });
     }
-
-    $scope.saveFilter = function () {
-        $rootScope.resolutionFilterText = $scope.filterOptions.filterText;
-        console.log($scope.gridOptions.sortInfo);
-        $rootScope.resolutionsortInfo = $scope.gridOptions.sortInfo;
-    };
-
-    $scope.filterOptions = {
-        filterText: ''
-    };
-
-    $scope.gridOptions = {
-        data: 'myData',
-        filterOptions: $scope.filterOptions,
-        showFilter: true,
-        showFooter: true,
-        pagingOptions: $scope.pagingOptions,
-        enablePinning: true,
-        showGroupPanel: true,
-        enableColumnResize: true,
-        enableColumnReordering: true,
-        columnDefs: [{
-            field: "description",
-            displayName: 'Description',
-            width: '13%',
-            visible: false,
-            pinned: true
-        }, {
-            field: "id",
-            displayName: 'Id',
-            width: '6%',
-            cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a ng-click="saveFilter()" href="#/project/retrieve/{{row.getProperty(col.field)}}">{{row.getProperty(col.field)}}</a></div>',
-            pinned: true
-        }, {
-            field: "name",
-            displayName: 'Name',
-            width: '25%',
-            pinned: true
-        }, {
-            field: "owners",
-            displayName: 'Owners',
-            width: '13%'
-        }, {
-            field: "status.displayName",
-            displayName: 'Status',
-            width: '6%'
-        }, {
-            field: "conflenceId",
-            displayName: 'Conflence ID',
-            width: '4%'
-        }, {
-            field: "estcompletionDate",
-            displayName: 'Due Date',
-            width: '9%',
-            cellFilter: "date:'yyyy-MM-dd'"
-        }, {
-            field: "estEffort",
-            displayName: 'Estimate Effort',
-            width: '6%'
-        }, {
-            field: "actualCompletionDate",
-            displayName: 'Completion Date',
-            width: '9%',
-            cellFilter: "date:'yyyy-MM-dd'"
-        }, {
-            field: "actualEffort",
-            displayName: 'Actual Effort',
-            width: '6%'
-        }, {
-            field: "recordingDate",
-            displayName: 'Recording Date',
-            width: '9%',
-            cellFilter: "date:'yyyy-MM-dd'"
-        }, {
-            field: "pdlcStatus.displayName",
-            displayName: 'PDLC Status',
-            width: '7%'
-        }, {
-            field: "statusChangeDate",
-            displayName: 'Status Change Date',
-            width: '9%',
-            cellFilter: "date:'yyyy-MM-dd'"
-        }, {
-            field: "wikiType.displayName",
-            displayName: 'Solution Type',
-            width: '19%'
-        }, {
-            field: "jiraId",
-            displayName: 'Jira ID',
-            width: '4%'
-        }, {
-            field: "eceId",
-            displayName: 'ECDE ID',
-            width: '6%'
-        }]
-    };
-
-    $scope.myData = [];
-    $scope.init = function () {
-        if ($rootScope.resolutionFilterText != null) {
-            $scope.filterOptions.filterText = $rootScope.resolutionFilterText;
-            $scope.gridOptions.sortInfo = $rootScope.resolutionsortInfo;
-        }
-        ProjectService.getProjects().then(
-            function success(response, status, headers, config) {
-                var i, project;
-                $scope.myData = response;
-            },
-            function error() {
-                $scope.errormessages = "PROJECT_GET_FAILURE - Retrieving projects failed, check logs or try again.";
-            });
-    };
 
     $scope.getProject = function () {
         ProjectService.getProject($routeParams.id).then(
@@ -290,7 +224,6 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                 }
             });
         });
-
     };
 
     $scope.delete = function (project) {
@@ -328,7 +261,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             $scope.project.statusChangeDate = null;
         }
 
-        $scope.enforceRequiredFields();
+        enforceRequiredFields();
 
         var project = {
             "id": $scope.project.id,
@@ -372,7 +305,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     };
 
     // just do this for required fields that are not defaulted dropdown fields.
-    $scope.enforceRequiredFields = function () {
+    var enforceRequiredFields = function () {
         if ($scope.project.name !== undefined &&
             $scope.project.name !== null &&
             $scope.project.name.trim() === "")

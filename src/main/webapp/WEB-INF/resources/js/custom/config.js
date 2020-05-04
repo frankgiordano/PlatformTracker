@@ -165,11 +165,6 @@ app.config(function ($httpProvider) {
                         templateUrl: 'resources/html/partials/view/project/edit.html'
                     })
                     .when(
-                        '/project/retrieve/:id', {
-                        controller: 'ProjectController',
-                        templateUrl: 'resources/html/partials/view/project/edit.html'
-                    })
-                    .when(
                         '/project/delete/:id', {
                         controller: 'ProjectController',
                         templateUrl: 'resources/html/partials/view/project/delete.html'
