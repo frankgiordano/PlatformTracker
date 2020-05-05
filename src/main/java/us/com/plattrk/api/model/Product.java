@@ -42,10 +42,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
         @NamedQuery(name = Product.FIND_ALL_ACTIVE_PRODUCTS,
                 query = "Select new us.com.plattrk.api.model.Product(pd.id, pd.incidentName, pd.clientName, pd.shortName, pd.owner, pd.startDate, pd.endDate, pd.maxWeeklyUptime, pd.platform, pd.revenue, pd.users) from Product as pd where pd.endDate IS NULL",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
-        @NamedQuery(name = Product.ALL_PRODUCTS_COUNT_BY_CRITERIA,
+        @NamedQuery(name = Product.FIND_ALL_PRODUCTS_COUNT_BY_CRITERIA,
                 query = "Select count(pd.id) from Product as pd where lower(pd.incidentName) LIKE (:name) order by pd.incidentName",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
-        @NamedQuery(name = Product.ALL_PRODUCTS_COUNT,
+        @NamedQuery(name = Product.FIND_ALL_PRODUCTS_COUNT,
                 query = "Select count(pd.id) from Product pd",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
 })
@@ -56,8 +56,8 @@ public class Product {
     public static final String FIND_ALL_PRODUCTS = "findAllProducts";
     public static final String FIND_ALL_ACTIVE_PRODUCTS = "findAllActiveProducts";
     public static final String FIND_ALL_PRODUCTS_BY_CRITERIA = "findAllProductsByCriteria";
-    public static final String ALL_PRODUCTS_COUNT_BY_CRITERIA = "AllProductsCountByCriteria";
-    public static final String ALL_PRODUCTS_COUNT = "AllProductsCount";
+    public static final String FIND_ALL_PRODUCTS_COUNT_BY_CRITERIA = "FindAllProductsCountByCriteria";
+    public static final String FIND_ALL_PRODUCTS_COUNT = "FindAllProductsCount";
 
     private Long id;
     private String incidentName;

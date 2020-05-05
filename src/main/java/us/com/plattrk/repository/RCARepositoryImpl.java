@@ -7,18 +7,25 @@ import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import us.com.plattrk.api.model.RCA;
 import us.com.plattrk.api.model.RCAVO;
+import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.util.RepositoryUtil;
 
 @Repository
 public class RCARepositoryImpl implements RCARepository {
 
     private static Logger log = LoggerFactory.getLogger(RCARepositoryImpl.class);
+
+    @Autowired
+    private RepositoryUtil<RCA> repositoryUtil;
 
     @PersistenceContext
     private EntityManager em;
@@ -27,6 +34,27 @@ public class RCARepositoryImpl implements RCARepository {
     public List<RCAVO> getRCAs() {
         List<RCAVO> myResult = em.createNamedQuery(RCA.FIND_ALL_RCAS).getResultList();
         return myResult;
+    }
+
+    @Override
+    public PageWrapper<RCA> getRCAsByCriteria(String searchTerm, Long pageIndex) {
+        Long total;
+        List<RCA> result;
+        Query query;
+
+        if (!searchTerm.equals("*")) {
+            query = em.createNamedQuery(RCA.FIND_ALL_RCAS_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            Query queryTotal = em.createNamedQuery(RCA.FIND_ALL_RCAS_COUNT_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
+            total = (long) queryTotal.getSingleResult();
+        } else {
+            query = em.createNamedQuery(RCA.FIND_ALL_RCAS);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            Query queryTotal = em.createNamedQuery(RCA.FIND_ALL_RCAS_COUNT);
+            total = (long) queryTotal.getSingleResult();
+        }
+
+        return new PageWrapper<RCA>(result, total);
     }
 
     @Override

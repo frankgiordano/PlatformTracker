@@ -13,6 +13,18 @@ app.service('RcaService', function ($http, $q, ReferenceDataService, IncidentGro
         return d.promise;
     };
 
+    this.search = function (searchTerm, pageno) {
+        var d = $q.defer();
+        $http.get('rootcause/retrieve/' + searchTerm + '/' + pageno)
+            .success(function (response) {
+                d.resolve(response);
+            })
+            .error(function () {
+                d.reject();
+            });
+
+        return d.promise;
+    };
 
     this.getRcas = function (rca) {
         var d = $q.defer();

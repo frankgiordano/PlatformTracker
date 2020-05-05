@@ -19,10 +19,9 @@ import us.com.plattrk.util.RepositoryUtil;
 public class ProductRepositoryImpl implements ProductRepository {
 
     private static Logger log = LoggerFactory.getLogger(ProductRepositoryImpl.class);
-    private static final int PAGE_SIZE = 10;
 
     @Autowired
-    private RepositoryUtil repositoryUtil;
+    private RepositoryUtil<Product> repositoryUtil;
 
     @PersistenceContext
     private EntityManager em;
@@ -41,13 +40,13 @@ public class ProductRepositoryImpl implements ProductRepository {
 
         if (!searchTerm.equals("*")) {
             query = em.createNamedQuery(Product.FIND_ALL_PRODUCTS_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
-            result = repositoryUtil.criteriaResults(pageIndex, query, PAGE_SIZE);
-            Query queryTotal = em.createNamedQuery(Product.ALL_PRODUCTS_COUNT_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            Query queryTotal = em.createNamedQuery(Product.FIND_ALL_PRODUCTS_COUNT_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
             total = (long) queryTotal.getSingleResult();
         } else {
             query = em.createNamedQuery(Product.FIND_ALL_PRODUCTS);
-            result = repositoryUtil.criteriaResults(pageIndex, query, PAGE_SIZE);
-            Query queryTotal = em.createNamedQuery(Product.ALL_PRODUCTS_COUNT);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            Query queryTotal = em.createNamedQuery(Product.FIND_ALL_PRODUCTS_COUNT);
             total = (long) queryTotal.getSingleResult();
         }
 

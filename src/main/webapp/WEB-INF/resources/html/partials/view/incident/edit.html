@@ -4,14 +4,6 @@
             <img src="/plattrk/resources/images/back.jpg" width="50" height="50" />
         </a>
     </div>
-
-    <div style="padding-bottom: 2%; padding-top: 1%">
-        <h2>Incident Detail</h2>
-    </div>
-
-    <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-    <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
-
     <div ng-hide="loading">
         <div class="row">
             <div style="clear:both;">&nbsp;</div>
@@ -22,8 +14,12 @@
             </div>
         </div>
     </div>
-
     <div ng-hide="hideduringloading">
+        <div>
+            <h2>Incident Detail</h2>
+        </div>
+        <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+        <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
         <form class="form-horizontal" name="helpForm" novalidate role="form">
             <div data-ng-init="editIncidentSetup()">
                 <div class="form-group">
@@ -143,20 +139,18 @@
                         <input type="text" class="form-control" ng-model="incident.reviewedBy">
                     </div>
                 </div>
-
                 <hr>
-
                 <tabset vertical="true" type="pills">
                     <tab heading="Chronology">
                         <div>
-
                             <div>
                                 <hr>
                                 <h2>Chronology</h2>
                             </div>
-
-                            <div id="messages" class="alert alert-success" data-ng-show="chronmessages" data-ng-bind="chronmessages"></div>
-                            <div id="messages" class="alert alert-danger" data-ng-show="chronerrormessages" data-ng-bind="chronerrormessages"></div>
+                            <div id="messages" class="alert alert-success" data-ng-show="chronmessages"
+                                data-ng-bind="chronmessages"></div>
+                            <div id="messages" class="alert alert-danger" data-ng-show="chronerrormessages"
+                                data-ng-bind="chronerrormessages"></div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-2">Tag</label>
@@ -196,9 +190,7 @@
                                     </table>
                                 </div>
                             </div>
-
                             <div ng-hide="createChronology">
-
                                 <div style="clear:both;">&nbsp;</div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
@@ -209,13 +201,10 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div ng-show="createChronology">
-
                                 <div>
                                     <h2>Add Timeline Entry</h2>
                                 </div>
-
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Date Time</label>
                                     <div class="col-md-7">
@@ -254,13 +243,11 @@
                             </div>
                         </div>
                     </tab>
-
                     <tab heading="Corrective Action">
                         <div>
                             <hr>
                             <h2>Corrective Action</h2>
                         </div>
-
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Issue</label>
                             <div class="col-sm-7">
@@ -300,15 +287,12 @@
                                 </div>
                             </div>
                         </div>
-
                     </tab>
-
                     <tab heading="Impact">
                         <div>
                             <hr>
                             <h2>Impact</h2>
                         </div>
-
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Product(s) Impacted</label>
                             <div class="col-sm-7">
@@ -341,9 +325,7 @@
                             </div>
                         </div>
                     </tab>
-
                 </tabset>
-
                 <hr>
                 <div style="clear:both;">&nbsp;</div>
                 <div style="clear:both;">&nbsp;</div>
@@ -358,5 +340,4 @@
             </div>
         </form>
     </div>
-</div>
 </div>

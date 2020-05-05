@@ -1,16 +1,7 @@
-<div style="padding-bottom: 1%; padding-top: 2%">
-    <h2>Link Resolutions</h2>
-</div>
-
 <link rel="stylesheet" type="text/css" href="resources/css/ng-grid/styles.css">
 <link rel="stylesheet" type="text/css" href="resources/css/ng-grid/ng-grid.css">
 <link rel="stylesheet" type="text/css" href="resources/css/ng-grid/jquery-ui.css">
-
 <div data-ng-init="linkResolutions()">
-
-    <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-    <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
-
     <div ng-hide="loading">
         <div class="row">
             <div style="clear:both;">&nbsp;</div>
@@ -22,12 +13,16 @@
         </div>
     </div>
     <div ng-hide="hideduringloading">
+        <div style="padding-bottom: 1%; padding-top: 2%">
+            <h2>Link Resolutions</h2>
+        </div>
+        <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+        <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
         <div class="col-sm-3">
             <strong>Filter:&nbsp;&nbsp;&nbsp;</strong><input type="text" class="form-control"
                 ng-model="filterOptions.filterText" />
         </div>
         <br />
-
         <div align="right">
             <button ng-hide="hidebutton" class="btn btn-primary" data-ng-click="link();">
                 Link

@@ -24,10 +24,9 @@ import us.com.plattrk.util.RepositoryUtil;
 public class ProjectRepositoryImpl implements ProjectRepository {
 
     private static Logger log = LoggerFactory.getLogger(ProjectRepositoryImpl.class);
-    private static final int PAGE_SIZE = 10;
 
     @Autowired
-    private RepositoryUtil repositoryUtil;
+    private RepositoryUtil<Project> repositoryUtil;
 
     @PersistenceContext
     private EntityManager em;
@@ -46,13 +45,13 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
         if (!searchTerm.equals("*")) {
             query = em.createNamedQuery(Project.FIND_ALL_PROJECTS_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
-            result = repositoryUtil.criteriaResults(pageIndex, query, PAGE_SIZE);
-            Query queryTotal = em.createNamedQuery(Project.ALL_PROJECTS_COUNT_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            Query queryTotal = em.createNamedQuery(Project.FIND_ALL_PROJECTS_COUNT_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
             total = (long) queryTotal.getSingleResult();
         } else {
             query = em.createNamedQuery(Project.FIND_ALL_PROJECTS);
-            result = repositoryUtil.criteriaResults(pageIndex, query, PAGE_SIZE);
-            Query queryTotal = em.createNamedQuery(Project.ALL_PROJECTS_COUNT);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            Query queryTotal = em.createNamedQuery(Project.FIND_ALL_PROJECTS_COUNT);
             total = (long) queryTotal.getSingleResult();
         }
 

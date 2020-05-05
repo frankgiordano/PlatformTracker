@@ -29,19 +29,19 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @Cacheable(true)
 @NamedQueries({
         @NamedQuery(name = Project.FIND_ALL_PROJECTS,
-                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owners, pr.description, pr.eceId,"
-                        + " pr.status, pr.estEffort, pr.actualEffort, pr.actualCompletionDate, pr.estcompletionDate, pr.pdlcStatus, pr.recordingDate, pr.statusChangeDate, pr.wikiType, pr.jiraId," +
-                        " pr.conflenceId) from Project as pr order by pr.name",
+                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owners, pr.description, pr.ecdeId,"
+                        + " pr.status, pr.estEffort, pr.actualEffort, pr.actualCompletionDate, pr.estCompletionDate, pr.pdlcStatus, pr.recordingDate, pr.statusChangeDate, pr.wikiType, pr.jiraId," +
+                        " pr.confluenceId) from Project as pr order by pr.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = Project.FIND_ALL_PROJECTS_BY_CRITERIA,
-                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owners, pr.description, pr.eceId,"
-                        + " pr.status, pr.estEffort, pr.actualEffort, pr.actualCompletionDate, pr.estcompletionDate, pr.pdlcStatus, pr.recordingDate, pr.statusChangeDate, pr.wikiType, pr.jiraId," +
-                        " pr.conflenceId) from Project as pr where lower(pr.name) LIKE (:name) order by pr.name",
+                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owners, pr.description, pr.ecdeId,"
+                        + " pr.status, pr.estEffort, pr.actualEffort, pr.actualCompletionDate, pr.estCompletionDate, pr.pdlcStatus, pr.recordingDate, pr.statusChangeDate, pr.wikiType, pr.jiraId," +
+                        " pr.confluenceId) from Project as pr where lower(pr.name) LIKE (:name) order by pr.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
-        @NamedQuery(name = Project.ALL_PROJECTS_COUNT_BY_CRITERIA,
+        @NamedQuery(name = Project.FIND_ALL_PROJECTS_COUNT_BY_CRITERIA,
                 query = "Select count(pr.id) from Project as pr where lower(pr.name) LIKE (:name) order by pr.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
-        @NamedQuery(name = Project.ALL_PROJECTS_COUNT,
+        @NamedQuery(name = Project.FIND_ALL_PROJECTS_COUNT,
                 query = "Select count(pr.id) from Project pr",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")})
 })
@@ -49,27 +49,27 @@ public class Project {
 
     public static final String FIND_ALL_PROJECTS = "findProjects";
     public static final String FIND_ALL_PROJECTS_BY_CRITERIA = "FindAllProjectsByCriteria";
-    public static final String ALL_PROJECTS_COUNT_BY_CRITERIA = "AllProjectsCountByCriteria";
-    public static final String ALL_PROJECTS_COUNT = "AllProjectsCount";
+    public static final String FIND_ALL_PROJECTS_COUNT_BY_CRITERIA = "FindAllProjectsCountByCriteria";
+    public static final String FIND_ALL_PROJECTS_COUNT = "FindAllProjectsCount";
 
     private Long id;
     private String name;
     private String owners;
     private int isHighPriority;
     private String description;
-    private Long eceId;
+    private Long ecdeId;
     private ReferenceData status;
     private Long estEffort;
     private Long actualEffort;
     private Date actualCompletionDate;
     private Set<IncidentResolution> resolutions;
-    private Date estcompletionDate;
+    private Date estCompletionDate;
     private ReferenceData pdlcStatus;
     private Date recordingDate;
     private Date statusChangeDate;
     private ReferenceData wikiType;
     private String jiraId;
-    private int conflenceId;
+    private int confluenceId;
 
     public Project() {
     }
@@ -82,23 +82,23 @@ public class Project {
     }
 
     public Project(Long id, String name, String owners, String description,
-                   Long eceId, ReferenceData status, Long estEffort,
+                   Long ecdeId , ReferenceData status, Long estEffort,
                    Long actualEffort, Date actualCompletionDate,
-                   Date estcompletionDate, ReferenceData pdlcStatus,
+                   Date estCompletionDate, ReferenceData pdlcStatus,
                    Date recordingDate, Date statusChangeDate, ReferenceData wikiType,
-                   String jiraId, int conflenceId) {
+                   String jiraId, int confluenceId) {
         this.id = id;
         this.owners = owners;
         this.name = name;
         this.description = description;
-        this.eceId = eceId;
+        this.ecdeId  = ecdeId;
         this.status = status;
         this.estEffort = estEffort;
         this.actualEffort = actualEffort;
         if (actualCompletionDate != null)
             this.actualCompletionDate = new Date(actualCompletionDate.getTime());
-        if (estcompletionDate != null)
-            this.estcompletionDate = new Date(estcompletionDate.getTime());
+        if (estCompletionDate != null)
+            this.estCompletionDate = new Date(estCompletionDate.getTime());
         if (recordingDate != null)
             this.recordingDate = new Date(recordingDate.getTime());
         if (statusChangeDate != null)
@@ -106,7 +106,7 @@ public class Project {
         this.pdlcStatus = pdlcStatus;
         this.wikiType = wikiType;
         this.jiraId = jiraId;
-        this.conflenceId = conflenceId;
+        this.confluenceId = confluenceId;
     }
 
     @Id
@@ -156,12 +156,12 @@ public class Project {
         this.description = description;
     }
 
-    public Long getEceId() {
-        return eceId;
+    public Long getEcdeId() {
+        return ecdeId;
     }
 
-    public void setEceId(Long eceId) {
-        this.eceId = eceId;
+    public void setEcdeId(Long ecdeId) {
+        this.ecdeId = ecdeId;
     }
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -213,12 +213,12 @@ public class Project {
     @Temporal(TemporalType.DATE)
     @JsonDeserialize(using = JsonDateMinusTimeDeserializer.class)
     @Column(name = "ESTCOMPLETIONDATE", nullable = false)
-    public Date getEstcompletionDate() {
-        return estcompletionDate;
+    public Date getEstCompletionDate() {
+        return estCompletionDate;
     }
 
-    public void setEstcompletionDate(Date estcompletionDate) {
-        this.estcompletionDate = estcompletionDate;
+    public void setEstCompletionDate(Date estCompletionDate) {
+        this.estCompletionDate = estCompletionDate;
     }
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -270,12 +270,12 @@ public class Project {
         this.jiraId = jiraId;
     }
 
-    public int getConflenceId() {
-        return conflenceId;
+    public int getConfluenceId() {
+        return confluenceId;
     }
 
-    public void setConflenceId(int conflenceId) {
-        this.conflenceId = conflenceId;
+    public void setConfluenceId(int confluenceId) {
+        this.confluenceId = confluenceId;
     }
 
     @Override
@@ -286,18 +286,18 @@ public class Project {
                 ", owners='" + owners + '\'' +
                 ", isHighPriority=" + isHighPriority +
                 ", description='" + description + '\'' +
-                ", eceId=" + eceId +
+                ", ecdeId =" + ecdeId  +
                 ", status=" + status +
                 ", estEffort=" + estEffort +
                 ", actualEffort=" + actualEffort +
                 ", actualCompletionDate=" + actualCompletionDate +
-                ", estcompletionDate=" + estcompletionDate +
+                ", estCompletionDate=" + estCompletionDate +
                 ", pdlcStatus=" + pdlcStatus +
                 ", recordingDate=" + recordingDate +
                 ", statusChangeDate=" + statusChangeDate +
                 ", wikiType=" + wikiType +
                 ", jiraId='" + jiraId + '\'' +
-                ", conflenceId=" + conflenceId +
+                ", confluenceId=" + confluenceId +
                 '}';
     }
 

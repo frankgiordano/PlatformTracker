@@ -4,10 +4,13 @@ import java.util.List;
 
 import us.com.plattrk.api.model.RCA;
 import us.com.plattrk.api.model.RCAVO;
+import us.com.plattrk.util.PageWrapper;
 
 public interface RCARepository {
     
     public List<RCAVO> getRCAs();
+
+    public PageWrapper<RCA> getRCAsByCriteria(String searchTerm, Long pageIndex);
 
     public RCA deleteRCA(Long id);
 

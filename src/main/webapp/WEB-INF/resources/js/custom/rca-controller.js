@@ -3,7 +3,52 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     $scope.rca = {};
     $scope.whys = [];
     $scope.hideduringloading = false;
-    
+    $scope.pageno = 1; // initialize page num to 1
+    $scope.total_count = 0;
+    $scope.itemsPerPage = 10;
+    $scope.data = [];
+
+    $scope.init = function () {
+        $scope.search = '*';
+        $scope.getData($scope.pageno);
+    };
+
+    $scope.getData = function (pageno) {
+        $scope.pageno = pageno;
+
+        RcaService.search($scope.search, pageno).then(
+            function success(response) {
+                $scope.data = response;
+            },
+            function error() {
+                $scope.errormessages = "RCA_GET_FAILURE - Retrieving root causes failed, check logs or try again.";
+            });
+
+    };
+
+    $scope.sort = function (keyname) {
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+
+    $scope.$watch("search", function (val) {
+        if ($scope.search) {  // this needs to be a truthy test 	
+            $scope.getData($scope.pageno);
+        }
+        else {
+            $scope.search = '*';
+            $scope.getData($scope.pageno);
+        }
+    }, true);
+
+    $scope.refreshData = function () {
+        $scope.getData($scope.pageno);
+    };
+
+    $scope.select = function (id) {
+        $location.path('/rootcause/edit/' + id);
+    }
+
     $scope.waiting = function (value) {
         if (value === true) {
             $scope.hideduringloading = true;
@@ -112,90 +157,6 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                 });
             });
     }
-
-    $scope.saveFilter = function () {
-        $rootScope.resolutionFilterText = $scope.filterOptions.filterText;
-    };
-
-    $scope.filterOptions = {
-        filterText: ''
-    };
-
-    $scope.gridOptions = {
-        data: 'myData',
-        filterOptions: $scope.filterOptions,
-
-        showFooter: true,
-
-        enablePinning: true,
-        showGroupPanel: true,
-        enableColumnResize: true,
-        enableColumnReordering: true,
-        columnDefs: [{
-            field: "id",
-            displayName: 'Root Cause Id',
-            width: '7%',
-            cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a ng-click="saveFilter()" href="#/rootcause/retrieve/{{row.getProperty(col.field)}}">{{row.getProperty(col.field)}}</a></div>',
-            pinned: true
-        }, {
-            field: "incidentGroup",
-            displayName: 'Incident Group Name',
-            width: '33%',
-            pinned: true
-        }, {
-            field: "problem",
-            displayName: 'Problem',
-            width: '26%'
-        }, {
-            field: "status",
-            displayName: 'Status',
-            width: '7%'
-        }, {
-            field: "owner",
-            displayName: 'Owner',
-            width: '13%'
-        },
-        // { field: "whys", displayName:'Whys', width: '13%' },
-        {
-            field: "dueDate",
-            displayName: 'Due Date',
-            width: '11%',
-            cellFilter: "date:'yyyy-MM-dd'"
-        }, {
-            field: "completionDate",
-            displayName: 'Completion Date',
-            width: '11%',
-            cellFilter: "date:'yyyy-MM-dd'"
-        }, {
-            field: "category",
-            displayName: 'Category',
-            width: '13%'
-        }, {
-            field: "resource",
-            displayName: 'Resource',
-            width: '13%'
-        }
-        ]
-    };
-
-    $scope.myData = [];
-
-    $scope.init = function () {
-        if ($rootScope.resolutionFilterText != null) {
-            $scope.filterOptions.filterText = $rootScope.resolutionFilterText;
-        }
-
-        RcaService.getRcas().then(
-            function success(response, status, headers, config) {
-                $scope.myData = response;
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "ROOT_CAUSES_GET_FAILURE",
-                    message: "Error retrieving Root Causes."
-                });
-            });
-    };
 
     $scope.getRca = function () {
         RcaService.getRca($routeParams.id).then(

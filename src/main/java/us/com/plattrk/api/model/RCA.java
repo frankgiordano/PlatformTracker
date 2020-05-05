@@ -7,11 +7,29 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Date;
 
 @Entity
-@Table(name = "RCA")
-@NamedQueries({ @NamedQuery(name = RCA.FIND_ALL_RCAS, query = "Select new us.com.plattrk.api.model.RCAVO( i.id, i.owner, c.displayName, re.displayName, i.problem, i.dueDate, i.completionDate, s.displayName, ig.name, i.whys) from RCA as i join i.incidentGroup ig join i.status s join i.category c join i.resource re order by ig.name ") })
+@Table(name = "RCA")  // RCA = Root Cause Analysis
+@NamedQueries({
+        @NamedQuery(name = RCA.FIND_ALL_RCAS,
+                query = "Select new us.com.plattrk.api.model.RCAVO(rc.id, rc.owner, c.displayName, re.displayName, rc.problem, rc.dueDate, rc.completionDate," +
+                        " s.displayName, ig.name, rc.whys) from RCA as rc  join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re order by ig.name ",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = RCA.FIND_ALL_RCAS_BY_CRITERIA,
+                query = "Select new us.com.plattrk.api.model.RCAVO(rc.id, rc.owner, c.displayName, re.displayName, rc.problem, rc.dueDate, rc.completionDate," +
+                        " s.displayName, ig.name, rc.whys) from RCA as rc join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re where lower(ig.name) LIKE (:name) order by ig.name",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = RCA.FIND_ALL_RCAS_COUNT_BY_CRITERIA,
+                query = "Select count(rc.id) from RCA as rc join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re where lower(ig.name) LIKE (:name) order by ig.name",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = RCA.FIND_ALL_RCAS_COUNT,
+                query = "Select count(rc.id) from RCA as rc",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")})
+})
 public class RCA {
 
     public static final String FIND_ALL_RCAS = "findRCAs";
+    public static final String FIND_ALL_RCAS_BY_CRITERIA = "FindAllRCAsByCriteria";
+    public static final String FIND_ALL_RCAS_COUNT_BY_CRITERIA = "FindAllRCAsCountByCriteria";
+    public static final String FIND_ALL_RCAS_COUNT = "FindAllRCASsCount";
 
     private Long id;
     private ReferenceData category;
@@ -28,9 +46,9 @@ public class RCA {
     }
 
     public RCA(Long id, String owner, ReferenceData category,
-            ReferenceData resource, String problem, Date dueDate,
-            Date completionDate, ReferenceData status,
-            IncidentGroup incidentGroup, String whys) {
+               ReferenceData resource, String problem, Date dueDate,
+               Date completionDate, ReferenceData status,
+               IncidentGroup incidentGroup, String whys) {
         this.id = id;
         this.owner = owner;
         this.category = category;
@@ -39,8 +57,8 @@ public class RCA {
         if (dueDate != null)
             this.dueDate = new Date(dueDate.getTime());
         if (completionDate != null)
-            this.completionDate = new Date(completionDate.getTime());	
-        
+            this.completionDate = new Date(completionDate.getTime());
+
         this.status = status;
         this.incidentGroup = incidentGroup;
         this.whys = whys;
@@ -48,7 +66,7 @@ public class RCA {
 
     @Id
     @Column(name = "rca_id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -69,7 +87,7 @@ public class RCA {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "completion_date", nullable = true)
-    @JsonDeserialize(using=JsonDateMinusTimeDeserializer.class)
+    @JsonDeserialize(using = JsonDateMinusTimeDeserializer.class)
     public Date getCompletionDate() {
         return completionDate;
     }
@@ -80,7 +98,7 @@ public class RCA {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "due_date", nullable = true)
-    @JsonDeserialize(using=JsonDateMinusTimeDeserializer.class)
+    @JsonDeserialize(using = JsonDateMinusTimeDeserializer.class)
     public Date getDueDate() {
         return dueDate;
     }

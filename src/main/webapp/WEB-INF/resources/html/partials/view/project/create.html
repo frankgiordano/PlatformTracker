@@ -1,11 +1,4 @@
-<div style="padding-bottom: 1%; padding-top: 2%">
-    <h2>Create Project</h2>
-</div>
-
 <div data-ng-controller="ProjectController" class="table table-condensed">
-    <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-    <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
-
     <div ng-hide="loading">
         <div class="row">
             <div style="clear:both;">&nbsp;</div>
@@ -16,10 +9,13 @@
             </div>
         </div>
     </div>
-
     <div ng-hide="hideduringloading">
+        <div style="padding-bottom: 1%; padding-top: 2%">
+            <h2>Create Project</h2>
+        </div>
+        <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+        <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
         <form class="form-horizontal" name="helpForm" novalidate role="form">
-            <br /><br />
             <div class="form-group" class="form-control">
                 <label class="col-sm-2 control-label">Name</label>
                 <div class="col-sm-6">
@@ -52,7 +48,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">ECDE ID</label>
                 <div class="col-sm-6">
-                    <input type="text" ng-model="project.eceId" required class="form-control" />
+                    <input type="text" ng-model="project.ecdeId" required class="form-control" />
                 </div>
             </div>
             <div class="form-group">
@@ -76,7 +72,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Due Date</label>
                 <div class="col-sm-6">
-                    <input type="date" ng-model="project.estcompletionDate" class="form-control" required />
+                    <input type="date" ng-model="project.estCompletionDate" class="form-control" required />
                 </div>
             </div>
             <div class="form-group">
@@ -108,7 +104,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Confluence ID</label>
                 <div class="col-sm-6">
-                    <input type="text" ng-model="project.conflenceId" class="form-control">
+                    <input type="text" ng-model="project.confluenceId" class="form-control">
                 </div>
             </div>
             <div class="form-group" class="form-control">

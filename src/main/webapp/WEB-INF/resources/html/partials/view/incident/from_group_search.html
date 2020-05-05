@@ -2,8 +2,6 @@
     <div style="padding-bottom: 1%; padding-top: 2%">
         <h2>Incident Group Search</h2>
     </div>
-
-    <div style="clear:both;">&nbsp;</div>
     <form class="form-horizontal" name="helpForm" novalidate role="form">
         <div class="form-group">
             <label class="col-sm-2 control-label">Current Selected Group</label>
@@ -18,12 +16,10 @@
             </div>
         </div>
     </form>
-
     <div class="form-group">
         <label class="control-label pull-left">Count Total:</label>
         <div class="col-sm-7 form-control-static">{{tableParams.total()}}</div>
     </div>
-
     <div style="clear:both;">&nbsp;</div>
     <div>
         <button ng-click="tableParams.sorting({})" class="btn btn-primary pull-right">Clear sorting</button>
@@ -57,5 +53,4 @@
                     </tbody>
                 </table>
     </div>
-
 </div>

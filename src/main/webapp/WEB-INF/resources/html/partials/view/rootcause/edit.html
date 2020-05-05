@@ -1,11 +1,4 @@
-<div style="padding-bottom: 1%; padding-top: 2%">
-    <h2>Root Cause Detail</h2>
-</div>
-
 <div data-ng-controller="RootCauseController">
-    <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-    <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
-
     <div ng-hide="loading">
         <div class="row">
             <div style="clear:both;">&nbsp;</div>
@@ -16,11 +9,14 @@
             </div>
         </div>
     </div>
-
     <div ng-hide="hideduringloading">
+        <div style="padding-bottom: 1%; padding-top: 2%">
+            <h2>Root Cause Detail</h2>
+        </div>
+        <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+        <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
         <div data-ng-init="getRca()">
             <form class="form-horizontal" name="helpForm" novalidate role="form">
-                <br /><br />
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Incident Group Name</label>
                     <div class="col-sm-6">

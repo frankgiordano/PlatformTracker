@@ -136,7 +136,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                     $scope.project = response[3];
 
                     response[3].actualCompletionDate = moment(response[3].actualCompletionDate).format('YYYY-MM-DD');
-                    response[3].estcompletionDate = moment(response[3].estcompletionDate).format('YYYY-MM-DD');
+                    response[3].estCompletionDate = moment(response[3].estCompletionDate).format('YYYY-MM-DD');
                     response[3].recordingDate = moment(response[3].recordingDate).format('YYYY-MM-DD');
                     response[3].statusChangeDate = moment(response[3].statusChangeDate).format('YYYY-MM-DD');
 
@@ -249,8 +249,8 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             $scope.project.actualCompletionDate = null;
         }
 
-        if ($scope.project.estcompletionDate === "Invalid date") {
-            $scope.project.estcompletionDate = null;
+        if ($scope.project.estCompletionDate === "Invalid date") {
+            $scope.project.estCompletionDate = null;
         }
 
         if ($scope.project.recordingDate === "Invalid date") {
@@ -269,18 +269,18 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             "owners": $scope.project.owners,
             "isHighPriority": $scope.project.isHighPriority,
             "description": $scope.project.description,
-            "eceId": $scope.project.eceId,
+            "ecdeId": $scope.project.ecdeId,
             "status": $scope.project.status,
             "estEffort": $scope.project.estEffort,
             "actualEffort": $scope.project.actualEffort,
             "actualCompletionDate": $scope.project.actualCompletionDate,
-            "estcompletionDate": $scope.project.estcompletionDate,
+            "estCompletionDate": $scope.project.estCompletionDate,
             "pdlcStatus": $scope.project.pdlcStatus,
             "recordingDate": $scope.project.recordingDate,
             "statusChangeDate": $scope.project.statusChangeDate,
             "wikiType": $scope.project.wikiType,
             "jiraId": $scope.project.jiraId,
-            "conflenceId": $scope.project.conflenceId
+            "confluenceId": $scope.project.confluenceId
         };
 
         ProjectService.saveProject(project).then(
