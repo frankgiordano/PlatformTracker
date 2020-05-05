@@ -1,4 +1,4 @@
-<div>
+<div style="padding-bottom: 1%; padding-top: 2%">
     <h2>Create Resolution</h2>
 </div>
 
@@ -18,7 +18,6 @@
     </div>
 
     <div ng-hide="hideduringloading">
-
         <form class="form-horizontal" name="helpForm" novalidate role="form">
             <br /><br />
             <div class="form-group">
@@ -29,7 +28,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Horizon</label>
                 <div class="col-sm-6">
@@ -38,7 +36,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Owner</label>
                 <div class="col-sm-6">
@@ -46,7 +43,6 @@
                         output-model="ownerlist" item-label="userName" tick-property="ticked"></div>
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Status</label>
                 <div class="col-sm-6">
@@ -55,7 +51,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Estimated Completion
                     Date</label>
@@ -63,14 +58,12 @@
                     <input type="date" class="form-control" ng-model="resolution.estCompletionDate">
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Actual Completion Date</label>
                 <div class="col-sm-6">
                     <input type="date" class="form-control" ng-model="resolution.actualCompletionDate">
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Type</label>
                 <div class="col-sm-6">
@@ -79,21 +72,18 @@
                     </select>
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">SRI Artifact</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" ng-model="resolution.sriArtifact">
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Description</label>
                 <div class="col-sm-6">
                     <textarea type="text" class="form-control" rows="5" ng-model="resolution.description"></textarea>
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button class="btn btn-primary" data-ng-disabled="progress.active()"

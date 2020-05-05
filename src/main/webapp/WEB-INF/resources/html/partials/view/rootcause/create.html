@@ -1,4 +1,4 @@
-<div>
+<div style="padding-bottom: 1%; padding-top: 2%">
     <h2>Create Root Cause</h2>
 </div>
 
@@ -18,7 +18,6 @@
     </div>
 
     <div ng-hide="hideduringloading">
-
         <form class="form-horizontal" name="helpForm" novalidate role="form">
             <br /><br />
             <div class="form-group">
@@ -29,7 +28,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Status</label>
                 <div class="col-sm-6">
@@ -37,7 +35,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Owner</label>
                 <div class="col-sm-6">
@@ -45,14 +42,12 @@
                         output-model="ownerlist" item-label="userName" tick-property="ticked"></div>
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Problem Description</label>
                 <div class="col-sm-6">
                     <textarea type="text" class="form-control" rows="5" ng-model="rca.problem"></textarea>
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Why's?</label>
                 <div class="col-sm-6">
@@ -79,21 +74,18 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Due Date</label>
                 <div class="col-sm-6">
                     <input type="date" ng-model="rca.dueDate" class="form-control" required />
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Completion Date</label>
                 <div class="col-sm-6">
                     <input type="date" ng-model="rca.completionDate" class="form-control" required />
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Category</label>
                 <div class="col-sm-6">
@@ -102,7 +94,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="col-sm-2 control-label">Resource</label>
                 <div class="col-sm-6">
@@ -111,7 +102,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button class="btn btn-primary" ng-click="update(rca)" ng-show="!back">Submit</button>

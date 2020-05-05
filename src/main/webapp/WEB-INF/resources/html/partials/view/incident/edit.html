@@ -5,7 +5,7 @@
         </a>
     </div>
 
-    <div>
+    <div style="padding-bottom: 2%; padding-top: 1%">
         <h2>Incident Detail</h2>
     </div>
 
@@ -24,7 +24,6 @@
     </div>
 
     <div ng-hide="hideduringloading">
-
         <form class="form-horizontal" name="helpForm" novalidate role="form">
             <div data-ng-init="editIncidentSetup()">
                 <div class="form-group">
@@ -33,7 +32,6 @@
                     <label class="col-sm-1 control-label">Recorded By</label>
                     <div class="col-sm-3 form-control-static">{{incident.recordedBy}}</div>
                 </div>
-
                 <div class="form-group">
                     <label class="control-label col-md-2">Current Group</label>
                     <div class="col-md-3 form-control-static">{{groupModel.currentGroupName}}</div>
@@ -44,7 +42,6 @@
                             class="form-control">
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Status</label>
                     <div class="col-sm-3">
@@ -59,7 +56,6 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Start Date Time</label>
                     <div class="col-md-3">
@@ -88,7 +84,6 @@
                         </p>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Severity</label>
                     <div class="col-sm-3">
@@ -101,7 +96,6 @@
                         <input type="text" class="form-control" ng-model="incident.name">
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Owner</label>
                     <div class="col-sm-3">
@@ -114,7 +108,6 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Error Condition</label>
                     <div class="col-sm-3">
@@ -127,21 +120,18 @@
                             ng-options="c.name as c.name for c in locuss"></select>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Business Description</label>
                     <div class="col-sm-7">
                         <textarea type="text" class="form-control" rows="5" ng-model="incident.summary"></textarea>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Technical Description</label>
                     <div class="col-sm-7">
                         <textarea type="text" class="form-control" rows="5" ng-model="incident.description"></textarea>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Alerted By</label>
                     <div class="col-sm-3">
@@ -165,23 +155,21 @@
                                 <h2>Chronology</h2>
                             </div>
 
-                            <div id="messages" class="alert alert-success" data-ng-show="chronmessages"
-                                data-ng-bind="chronmessages">
-                            </div>
-                            <div id="messages" class="alert alert-danger" data-ng-show="chronerrormessages"
-                                data-ng-bind="chronerrormessages"></div>
+                            <div id="messages" class="alert alert-success" data-ng-show="chronmessages" data-ng-bind="chronmessages"></div>
+                            <div id="messages" class="alert alert-danger" data-ng-show="chronerrormessages" data-ng-bind="chronerrormessages"></div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-2">Tag</label>
-                                <div class="col-md-7 form-control-static">{{incident.tag}}</div>
-                            </div>
+                                <div class="col-md-7 form-control-static">{{incident.tag}}
 
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="control-label col-md-2">Description</label>
                                 <div class="col-md-7 form-control-static">
-                                    {{incident.description + " " + incident.summary}}</div>
+                                    {{incident.description + " " + incident.summary}}
+                                </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="control-label col-sm-2">TimeLine</label>
                                 <div class="col-sm-7">
@@ -244,7 +232,6 @@
                                         </p>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Description</label>
                                     <div class="col-sm-7">
@@ -252,7 +239,6 @@
                                             ng-model="createChronology.chronDescription"></textarea>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <button class="btn btn-primary" ng-disabled="disableButton"
@@ -282,7 +268,6 @@
                                     ng-model="incident.issue"></textarea>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Corrective Action</label>
                             <div class="col-sm-7">
@@ -290,7 +275,6 @@
                                     ng-model="incident.correctiveAction"></textarea>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Related Actions</label>
                             <div class="col-sm-7">
@@ -333,7 +317,6 @@
                                 </bs-select>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Customer Impact</label>
                             <div class="col-sm-7">
@@ -341,7 +324,6 @@
                                     ng-model="incident.customerImpact"></textarea>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="col-sm-2 control-label">% of Users Impacted</label>
                             <div class="col-sm-3">
@@ -352,7 +334,6 @@
                                 <input type="text" class="form-control" ng-model="incident.usersImpacted">
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Transaction IDs Impacted</label>
                             <div class="col-sm-7">
