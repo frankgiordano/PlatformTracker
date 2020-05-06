@@ -5,6 +5,7 @@ import java.util.Set;
 
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentGroup;
+import us.com.plattrk.util.PageWrapper;
 
 public interface IncidentGroupService {
 
@@ -13,6 +14,8 @@ public interface IncidentGroupService {
     public IncidentGroup getGroup(Long id);
 
     public Set<Incident> getGroupIncidents(Long id);
+
+    public PageWrapper<IncidentGroup> search(String searchTerm, Long pageIndex);
 
     public IncidentGroup deleteGroup(Long id);
 

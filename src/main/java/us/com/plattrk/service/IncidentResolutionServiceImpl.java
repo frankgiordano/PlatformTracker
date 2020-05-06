@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.api.model.IncidentResolutionVO;
 import us.com.plattrk.api.model.Project;
-import us.com.plattrk.api.model.Status;
 import us.com.plattrk.repository.IncidentResolutionRepository;
 import us.com.plattrk.repository.ProjectRepository;
 import us.com.plattrk.util.PageWrapper;
@@ -71,11 +70,6 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
 
         // send the updated incoming resolutions which contains the resolutions that were updated for the project
         return resolutions;
-    }
-
-    @Override
-    public List<Status> getStatusList() {
-        return resolutionRepository.getStatusList();
     }
 
     @Override

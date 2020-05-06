@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentGroup;
 import us.com.plattrk.service.IncidentGroupService;
+import us.com.plattrk.util.PageWrapper;
 
 @RestController
 @RequestMapping(value = "/group")
@@ -32,6 +33,18 @@ public class IncidentGroupController {
     @RequestMapping(value = "/incidents/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
     public Set<Incident> getGroupIncidents(@PathVariable Long id) {
         return incidentGroupService.getGroupIncidents(id);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/group/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
+    public IncidentGroup getGroups(@PathVariable Long id) {
+        return incidentGroupService.getGroup(id);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/groups/retrieve/{searchTerm}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
+    PageWrapper<IncidentGroup> search(@PathVariable String searchTerm, @PathVariable Long pageIndex) {
+        return incidentGroupService.search(searchTerm, pageIndex);
     }
     
     @PreAuthorize("isAuthenticated()")
