@@ -22,55 +22,55 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th ng-click="sort('Id')">Id
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='Id'"
+                    <th ng-click="sort('id')">Id
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='id'"
                             ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     </th>
-                    <th ng-click="sort('incidentName')">Name
+                    <th ng-click="sort('name')">Name
                         <span class="glyphicon sort-icon" ng-show="sortKey=='name'"
                             ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     </th>
-                    <th ng-click="sort('shortName')">Status
+                    <th ng-click="sort('status.displayName')">Status
                         <span class="glyphicon sort-icon" ng-show="sortKey=='status.displayName'"
                             ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     </th>
-                    <th ng-click="sort('clientName')">Owner
+                    <th ng-click="sort('owners')">Owner
                         <span class="glyphicon sort-icon" ng-show="sortKey=='owners'"
                             ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     </th>
-                    <th ng-click="sort('users')">PDLC Status
+                    <th ng-click="sort('pdlcStatus.displayName')">PDLC Status
                         <span class="glyphicon sort-icon" ng-show="sortKey=='pdlcStatus.displayName'"
                             ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     </th>
-                    <th ng-click="sort('revenue')">Recording Date
+                    <th ng-click="sort('recordingDate')">Recording Date
                         <span class="glyphicon sort-icon" ng-show="sortKey=='recordingDate'"
                             ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     </th>
-                    <th ng-click="sort('users')">Status Change Date
+                    <th ng-click="sort('pdlcStatus.statusChangeDate')">Status Change Date
                         <span class="glyphicon sort-icon" ng-show="sortKey=='pdlcStatus.statusChangeDate'"
                             ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     </th>
-                    <th ng-click="sort('startDate')">Due Date
+                    <th ng-click="sort('estCompletionDate')">Due Date
                         <span class="glyphicon sort-icon" ng-show="sortKey=='estCompletionDate'"
                             ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     </th>
-                    <th ng-click="sort('maxWeeklyUptime')">Completion Date
+                    <th ng-click="sort('actualCompletionDate')">Completion Date
                         <span class="glyphicon sort-icon" ng-show="sortKey=='actualCompletionDate'"
                             ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     </th>
-                    <th ng-click="sort('endDate')">Estimate Effort
+                    <th ng-click="sort('estEffort')">Estimate Effort
                         <span class="glyphicon sort-icon" ng-show="sortKey=='estEffort'"
                             ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     </th>
-                    <th ng-click="sort('platform')">Actual Effort
+                    <th ng-click="sort('actualEffort')">Actual Effort
                         <span class="glyphicon sort-icon" ng-show="sortKey=='actualEffort'"
                             ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     </th>
-                    <th ng-click="sort('owner')">Confluence ID
+                    <th ng-click="sort('confluenceId')">Confluence ID
                         <span class="glyphicon sort-icon" ng-show="sortKey=='confluenceId'"
                             ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     </th>
-                    <th ng-click="sort('users')">Jira ID
+                    <th ng-click="sort('jiraId')">Jira ID
                         <span class="glyphicon sort-icon" ng-show="sortKey=='jiraId'"
                             ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     </th>
