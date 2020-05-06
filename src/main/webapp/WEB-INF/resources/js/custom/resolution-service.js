@@ -13,6 +13,19 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
         return d.promise;
     };
 
+    this.search = function (searchTerm, pageno) {
+        var d = $q.defer();
+        $http.get('incidentResolution/retrieve/' + searchTerm + '/' + pageno)
+        .success(function (response) {
+            d.resolve(response);
+        })
+        .error(function () {
+            d.reject();
+        });
+
+        return d.promise;
+    };
+
     this.getGroupResolutions = function (id) {
         var d = $q.defer();
 

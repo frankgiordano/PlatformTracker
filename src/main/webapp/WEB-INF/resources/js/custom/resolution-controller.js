@@ -1,7 +1,52 @@
-app.controller('ResolutionRetrieveController', function ($rootScope, $scope, OwnersService, ResolutionService, $location, $routeParams, IncidentGroupService, ReferenceDataService, ModalService) {
+app.controller('ResolutionController', function ($rootScope, $scope, OwnersService, ResolutionService, $location, $routeParams, IncidentGroupService, ReferenceDataService, ModalService) {
 
     $scope.resolution = {};
     $scope.hideduringloading = false;
+    $scope.pageno = 1; // initialize page num to 1
+    $scope.total_count = 0;
+    $scope.itemsPerPage = 10;
+    $scope.data = [];
+
+    $scope.init = function () {
+        $scope.search = '*';
+        $scope.getData($scope.pageno);
+    };
+
+    $scope.getData = function (pageno) {
+        $scope.pageno = pageno;
+
+        ResolutionService.search($scope.search, pageno).then(
+            function success(response) {
+                $scope.data = response;
+            },
+            function error() {
+                $scope.errormessages = "RESOLUTIONS_GET_FAILURE - Retrieving resolutions failed, check logs or try again.";
+            });
+
+    };
+
+    $scope.sort = function (keyname) {
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+
+    $scope.$watch("search", function (val) {
+        if ($scope.search) {  // this needs to be a truthy test 	
+            $scope.getData($scope.pageno);
+        }
+        else {
+            $scope.search = '*';
+            $scope.getData($scope.pageno);
+        }
+    }, true);
+
+    $scope.refreshData = function () {
+        $scope.getData($scope.pageno);
+    };
+
+    $scope.select = function (id) {
+        $location.path('/resolution/edit/' + id);
+    }
 
     $scope.waiting = function (value) {
         if (value === true) {
@@ -80,90 +125,6 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
                 });
             });
     }
-
-    $scope.filterOptions = {
-        filterText: ''
-    };
-
-    $scope.getHeader = function () {
-        return $scope.gridOptions.columnDefs.displayName;
-    };
-
-    $scope.myData = [];
-
-    $scope.init = function () {
-        var i, resolution;
-        var projects = {};
-        for (i = 0; i < gridData.length; ++i) {
-            resolution = gridData[i];
-            resolution.status = resolution.statusName;
-            resolution.type = resolution.typeName;
-            resolution.horizon = resolution.horizonName;
-            resolution.incidentGroup = resolution.incidentGroupName;
-            resolution.resolutionProject = resolution.resolutionProjectName;
-        }
-        $scope.myData = gridData;
-    };
-
-    $scope.gridOptions = {
-        data: 'myData',
-        filterOptions: $scope.filterOptions,
-        showFooter: true,
-        showGroupPanel: true,
-        enableColumnResize: true,
-        enableColumnReordering: true,
-        columnDefs: [{
-            field: "id",
-            displayName: 'Resolution Id',
-            width: '7%',
-            cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/resolution/retrieve/{{row.getProperty(col.field)}}">{{row.getProperty(col.field)}}</a></div>',
-            pinned: true
-        }, {
-            field: "incidentGroup",
-            displayName: 'Incident Group Name',
-            width: '13%',
-            pinned: true
-        }, {
-            field: "description",
-            displayName: 'Description',
-            width: '36%',
-            pinned: true
-        }, {
-            field: "horizon",
-            displayName: 'Horizon',
-            width: '7%'
-        }, {
-            field: "owner",
-            displayName: 'Owner',
-            width: '13%'
-        }, {
-            field: "resolutionProject",
-            displayName: 'Resolution Project',
-            width: '13%'
-        }, {
-            field: "actualCompletionDate",
-            displayName: 'Actual Completion Date',
-            width: '5%',
-            cellFilter: "date:'yyyy-MM-dd'"
-        }, {
-            field: "estCompletionDate",
-            displayName: 'Estimated Completion Date',
-            width: '5%',
-            cellFilter: "date:'yyyy-MM-dd'"
-        }, {
-            field: "status",
-            displayName: 'Status',
-            width: '7%'
-        }, {
-            field: "type",
-            displayName: 'Type',
-            width: '7%'
-        }, {
-            field: "sriArtifact",
-            displayName: 'SRI Artifact',
-            width: '5%'
-        }]
-    };
 
     $scope.getIncidentResolution = function () {
         ResolutionService.getIncidentResolution($routeParams.id).then(
@@ -315,7 +276,7 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
             $scope.resolution.estcompletionDate = null;
         }
 
-        $scope.enforceRequiredFields();
+        enforceRequiredFields();
 
         var resolution = {
             "id": $scope.resolution.id,
@@ -352,7 +313,7 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
     };
 
     // just do this for required fields that are not defaulted dropdown fields.
-    $scope.enforceRequiredFields = function () {
+    var enforceRequiredFields = function () {
         if ($scope.resolution.owner === "")
             $scope.resolution.owner = null;
         if ($scope.resolution.description !== undefined &&
@@ -370,106 +331,3 @@ app.controller('ResolutionRetrieveController', function ($rootScope, $scope, Own
     };
 
 });
-
-var resolutionCtrl = app.controller('ResolutionReportController', function ($rootScope, $scope, $location, gridData) {
-    $scope.resolution = {};
-
-    $scope.filterAction = function (action) {
-        return action.isDeleted !== true;
-    };
-
-    $scope.filterOptions = {
-        filterText: ''
-    };
-
-    $scope.saveFilter = function () {
-        $rootScope.resolutionFilterText = $scope.filterOptions.filterText;
-    };
-
-    $scope.getHeader = function () {
-        return $scope.gridOptions.columnDefs.displayName;
-    };
-
-    $scope.myData = [];
-
-    $scope.init = function () {
-        if ($rootScope.resolutionFilterText != null) {
-            $scope.filterOptions.filterText = $rootScope.resolutionFilterText;
-        }
-
-        var i, resolution;
-        var projects = {};
-        $scope.myData = gridData;
-    };
-
-    $scope.gridOptions = {
-        data: 'myData',
-        filterOptions: $scope.filterOptions,
-        plugins: [new pluginNgGridCVSExport()],
-        showFooter: true,
-        enablePinning: true,
-        showGroupPanel: true,
-        enableColumnResize: true,
-        enableColumnReordering: true,
-        columnDefs: [{
-            field: "id",
-            displayName: 'Resolution Id',
-            width: '7%',
-            cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a ng-click="saveFilter()" href="#/resolution/retrieve/{{row.getProperty(col.field)}}">{{row.getProperty(col.field)}}</a></div>',
-            pinned: true
-        }, {
-            field: "incidentGroupName",
-            displayName: 'Incident Group Name',
-            width: '13%',
-            pinned: true
-        }, {
-            field: "description",
-            displayName: 'Description',
-            width: '36%',
-            pinned: true
-        }, {
-            field: "horizonName",
-            displayName: 'Horizon',
-            width: '9%'
-        }, {
-            field: "owner",
-            displayName: 'Owner',
-            width: '13%'
-        }, {
-            field: "statusName",
-            displayName: 'Status',
-            width: '7%'
-        }, {
-            field: "estCompletionDate",
-            displayName: 'Estimated Completion Date',
-            width: '11%',
-            cellFilter: "date:'yyyy-MM-dd'"
-        }, {
-            field: "resolutionProjectName",
-            displayName: 'Resolution Project',
-            width: '33%'
-        }, {
-            field: "actualCompletionDate",
-            displayName: 'Actual Completion Date',
-            width: '11%',
-            cellFilter: "date:'yyyy-MM-dd'"
-        }, {
-            field: "typeName",
-            displayName: 'Type',
-            width: '6%'
-        }, {
-            field: "sriArtifact",
-            displayName: 'SRI Artifact',
-            width: '6%'
-        }]
-    };
-
-    $scope.new = function () {
-        $location.path('/resolution/create');
-    };
-
-});
-
-resolutionCtrl.getResolutions = function (ResolutionService) {
-    return ResolutionService.getResolutions();
-}

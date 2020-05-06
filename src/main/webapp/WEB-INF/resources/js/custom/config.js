@@ -85,41 +85,33 @@ app.config(function ($httpProvider) {
                 })
                 .when(
                     '/resolution/search', {
-                    controller: 'ResolutionReportController',
+                    controller: 'ResolutionController',
                     templateUrl: 'resources/html/partials/view/resolution/resolution_search.html',
-                    resolve: {
-                        gridData: resolutionCtrl.getResolutions
-                    }
                 })
                 .when(
                     '/resolution/create/:incidentGroup', {
-                    controller: 'ResolutionRetrieveController',
+                    controller: 'ResolutionController',
                     templateUrl: 'resources/html/partials/view/resolution/resolution_create.html'
                 })
                 .when(
                     '/resolution/create', {
-                    controller: 'ResolutionRetrieveController',
+                    controller: 'ResolutionController',
                     templateUrl: 'resources/html/partials/view/resolution/resolution_create.html'
                 })
                 .when(
                     '/resolution/edit/:id', {
-                    controller: 'ResolutionRetrieveController',
+                    controller: 'ResolutionController',
                     templateUrl: 'resources/html/partials/view/resolution/resolution_edit.html'
                 })
                 .when(
                     '/resolution/retrieve/:id', {
-                    controller: 'ResolutionRetrieveController',
+                    controller: 'ResolutionController',
                     templateUrl: 'resources/html/partials/view/resolution/resolution_edit.html'
                 })
                 .when(
                     '/resolution/linkProject/:project', {
                     controller: 'ResolutionProjectLinkingController',
                     templateUrl: 'resources/html/partials/view/resolution/resolution_link_project.html'
-                })
-                .when(
-                    '/resolution/delete/:id', {
-                    controller: 'ResolutionRetrieveController',
-                    templateUrl: 'resources/html/partials/view/resolution/resolution_delete.html'
                 })
                 .when(
                     '/rootcause/search', {
