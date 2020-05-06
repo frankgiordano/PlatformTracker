@@ -8,18 +8,37 @@ import java.util.Date;
 @Entity
 @Table(name = "Incident_Resolution")
 @NamedQueries({
-        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS, query = " Select new us.com.plattrk.api.model.IncidentResolution(i.id, i.owner, i.description, i.actualCompletionDate, h.displayName,  i.estCompletionDate, p.name, "
-                + " s.displayName, t.displayName, i.sriArtifact,  ig.name, p.id )from IncidentResolution as i"
-                + " left outer join i.resolutionProject p inner join i.incidentGroup ig"
-                + " inner join i.status s inner join i.horizon h inner join i.type t order by ig.name", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
-        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_PER_GROUP, query = "Select new us.com.plattrk.api.model.IncidentResolution(r.id, r.description, r.actualCompletionDate, h.displayName, r.estCompletionDate) from IncidentResolution as r inner join r.horizon h where r.incidentGroup.id = :pid",
-                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")})
+        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS,
+                query = "Select new us.com.plattrk.api.model.IncidentResolution(res.id, res.owner, res.description, res.actualCompletionDate, h.displayName, " +
+                        "res.estCompletionDate, p.name, s.displayName, t.displayName, res.sriArtifact,  ig.name, p.id) from IncidentResolution as res " +
+                        "left outer join res.resolutionProject p inner join res.incidentGroup ig inner join res.status s inner join res.horizon h inner join res.type t " +
+                        "order by ig.name",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
+        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_PER_GROUP,
+                query = "Select new us.com.plattrk.api.model.IncidentResolution(res.id, res.description, res.actualCompletionDate, h.displayName, res.estCompletionDate) " +
+                        "from IncidentResolution as res inner join res.horizon h where res.incidentGroup.id = :pid",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
+        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_BY_CRITERIA,
+                query = "Select new us.com.plattrk.api.model.IncidentResolution(res.id, res.owner, res.description, res.actualCompletionDate, h.displayName, " +
+                        "res.estCompletionDate, p.name, s.displayName, t.displayName, res.sriArtifact,  ig.name, p.id) from IncidentResolution as res " +
+                        "left outer join res.resolutionProject p inner join res.incidentGroup ig inner join res.status s inner join res.horizon h inner join res.type t " +
+                        "where lower(ig.name) LIKE (:name) order by ig.name",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_CRITERIA,
+                query = "Select count(res.id) from IncidentResolution as res left outer join res.resolutionProject p inner join res.incidentGroup ig inner join res.status s " +
+                        "inner join res.horizon h inner join res.type t where lower(ig.name) LIKE (:name) order by ig.name",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT,
+                query = "Select count(res.id) from IncidentResolution res",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
 })
 public class IncidentResolution {
 
     public static final String FIND_ALL_RESOLUTIONS = "findAllResolutions";
-    public static final String FIND_ALL_STATUS = "findAllStatus";
     public static final String FIND_ALL_RESOLUTIONS_PER_GROUP = "findAllResolutionsPerGroup";
+    public static final String FIND_ALL_RESOLUTIONS_BY_CRITERIA = "findAllResolutionsByCriteria";
+    public static final String FIND_ALL_RESOLUTIONS_COUNT_BY_CRITERIA = "findAllResolutionsCountByCriteria";
+    public static final String FIND_ALL_RESOLUTIONS_COUNT = "findAllResolutionsCount";
 
     private Long id;
     private String description;
@@ -144,7 +163,7 @@ public class IncidentResolution {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "actual_completion_date", nullable = true)
-    @JsonDeserialize(using=JsonDateMinusTimeDeserializer.class)
+    @JsonDeserialize(using = JsonDateMinusTimeDeserializer.class)
     public Date getActualCompletionDate() {
         return actualCompletionDate;
     }
@@ -230,7 +249,7 @@ public class IncidentResolution {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "est_completion_date", nullable = false)
-    @JsonDeserialize(using=JsonDateMinusTimeDeserializer.class)
+    @JsonDeserialize(using = JsonDateMinusTimeDeserializer.class)
     public Date getEstCompletionDate() {
         return estCompletionDate;
     }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.api.model.IncidentResolutionVO;
 import us.com.plattrk.service.IncidentResolutionService;
+import us.com.plattrk.util.PageWrapper;
 
 @RestController
 @RequestMapping(value = "/incidentResolution")
@@ -22,21 +23,21 @@ public class IncidentResolutionController {
     private IncidentResolutionService incidentResolutionService;
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
-    public IncidentResolution deleteResolution(@PathVariable Long id) {
-        return incidentResolutionService.deleteResolution(id);
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/resolutions/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
-    public IncidentResolution getResolution(@PathVariable Long id) {
-        return incidentResolutionService.getIncidentResolution(id);
-    }
-
-    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/resolutions/retrieve", method = RequestMethod.GET, produces = "application/json")
     public List<IncidentResolution> getResolutions() {
         return incidentResolutionService.getIncidentResolutions();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/retrieve/{searchTerm}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
+    PageWrapper<IncidentResolution> search(@PathVariable String searchTerm, @PathVariable Long pageIndex) {
+        return incidentResolutionService.search(searchTerm, pageIndex);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
+    public IncidentResolution deleteResolution(@PathVariable Long id) {
+        return incidentResolutionService.deleteResolution(id);
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
@@ -54,6 +55,12 @@ public class IncidentResolutionController {
     @RequestMapping(value = "/retrieve/resolutions/{id}", method = RequestMethod.GET, produces = "application/json")
     public List<IncidentResolution> getGroupResolutions(@PathVariable Long id) {
         return incidentResolutionService.getGroupResolutions(id);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/resolutions/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
+    public IncidentResolution getResolution(@PathVariable Long id) {
+        return incidentResolutionService.getIncidentResolution(id);
     }
 
 }

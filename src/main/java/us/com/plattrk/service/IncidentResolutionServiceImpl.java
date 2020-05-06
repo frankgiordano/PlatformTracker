@@ -17,6 +17,7 @@ import us.com.plattrk.api.model.Project;
 import us.com.plattrk.api.model.Status;
 import us.com.plattrk.repository.IncidentResolutionRepository;
 import us.com.plattrk.repository.ProjectRepository;
+import us.com.plattrk.util.PageWrapper;
 
 @Service(value = "IncidentResolutionService")
 public class IncidentResolutionServiceImpl implements IncidentResolutionService {
@@ -30,24 +31,26 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
     private ProjectRepository projectRepository;
 
     @Override
+    public List<IncidentResolution> getIncidentResolutions() {
+        return resolutionRepository.getResolutions();
+    }
+
+    @Override
+    @Transactional
+    public PageWrapper<IncidentResolution> search(String searchTerm, Long pageIndex) {
+        return resolutionRepository.getResolutionsByCriteria(searchTerm, pageIndex);
+    }
+
+    @Override
     @Transactional
     public IncidentResolution deleteResolution(Long id) {
         return resolutionRepository.deleteResolution(id);
     }
 
     @Override
-    public IncidentResolution getIncidentResolution(Long id) {
-        return resolutionRepository.getResolution(id);
-    }
-
-    @Override
-    public List<IncidentResolution> getIncidentResolutions() {
-        return resolutionRepository.getResolutions();
-    }
-
-    @Override
-    public List<Status> getStatusList() {
-        return resolutionRepository.getStatusList();
+    @Transactional
+    public IncidentResolution saveResolution(IncidentResolution incidentResolution) {
+        return resolutionRepository.saveResolution(incidentResolution);
     }
 
     @Transactional
@@ -68,6 +71,21 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
 
         // send the updated incoming resolutions which contains the resolutions that were updated for the project
         return resolutions;
+    }
+
+    @Override
+    public List<Status> getStatusList() {
+        return resolutionRepository.getStatusList();
+    }
+
+    @Override
+    public List<IncidentResolution> getGroupResolutions(Long id) {
+        return resolutionRepository.getGroupResolutions(id);
+    }
+
+    @Override
+    public IncidentResolution getIncidentResolution(Long id) {
+        return resolutionRepository.getResolution(id);
     }
 
     private void updateIncomingResolutions(List<IncidentResolutionVO> resolutions, List<IncidentResolution> result) {
@@ -95,17 +113,6 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
             default:
                 log.error("IncidentResolutionServiceImpl::determineUpdate - ignoring no operation value given.");
         }
-    }
-
-    @Override
-    @Transactional
-    public IncidentResolution saveResolution(IncidentResolution incidentResolution) {
-        return resolutionRepository.saveResolution(incidentResolution);
-    }
-
-    @Override
-    public List<IncidentResolution> getGroupResolutions(Long id) {
-        return resolutionRepository.getGroupResolutions(id);
     }
 
 }

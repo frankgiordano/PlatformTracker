@@ -29,14 +29,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @Cacheable(true)
 @NamedQueries({
         @NamedQuery(name = Project.FIND_ALL_PROJECTS,
-                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owners, pr.description, pr.ecdeId,"
-                        + " pr.status, pr.estEffort, pr.actualEffort, pr.actualCompletionDate, pr.estCompletionDate, pr.pdlcStatus, pr.recordingDate, pr.statusChangeDate, pr.wikiType, pr.jiraId," +
-                        " pr.confluenceId) from Project as pr order by pr.name",
+                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owners, pr.description, pr.ecdeId, pr.status, pr.estEffort, " +
+                        "pr.actualEffort, pr.actualCompletionDate, pr.estCompletionDate, pr.pdlcStatus, pr.recordingDate, pr.statusChangeDate, pr.wikiType, " +
+                        "pr.jiraId, pr.confluenceId) from Project as pr order by pr.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = Project.FIND_ALL_PROJECTS_BY_CRITERIA,
-                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owners, pr.description, pr.ecdeId,"
-                        + " pr.status, pr.estEffort, pr.actualEffort, pr.actualCompletionDate, pr.estCompletionDate, pr.pdlcStatus, pr.recordingDate, pr.statusChangeDate, pr.wikiType, pr.jiraId," +
-                        " pr.confluenceId) from Project as pr where lower(pr.name) LIKE (:name) order by pr.name",
+                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owners, pr.description, pr.ecdeId, pr.status, pr.estEffort, " +
+                        "pr.actualEffort, pr.actualCompletionDate, pr.estCompletionDate, pr.pdlcStatus, pr.recordingDate, pr.statusChangeDate, pr.wikiType, " +
+                        "pr.jiraId, pr.confluenceId) from Project as pr where lower(pr.name) LIKE (:name) order by pr.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = Project.FIND_ALL_PROJECTS_COUNT_BY_CRITERIA,
                 query = "Select count(pr.id) from Project as pr where lower(pr.name) LIKE (:name) order by pr.name",
@@ -48,9 +48,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public class Project {
 
     public static final String FIND_ALL_PROJECTS = "findProjects";
-    public static final String FIND_ALL_PROJECTS_BY_CRITERIA = "FindAllProjectsByCriteria";
-    public static final String FIND_ALL_PROJECTS_COUNT_BY_CRITERIA = "FindAllProjectsCountByCriteria";
-    public static final String FIND_ALL_PROJECTS_COUNT = "FindAllProjectsCount";
+    public static final String FIND_ALL_PROJECTS_BY_CRITERIA = "findAllProjectsByCriteria";
+    public static final String FIND_ALL_PROJECTS_COUNT_BY_CRITERIA = "findAllProjectsCountByCriteria";
+    public static final String FIND_ALL_PROJECTS_COUNT = "findAllProjectsCount";
 
     private Long id;
     private String name;
@@ -82,7 +82,7 @@ public class Project {
     }
 
     public Project(Long id, String name, String owners, String description,
-                   Long ecdeId , ReferenceData status, Long estEffort,
+                   Long ecdeId, ReferenceData status, Long estEffort,
                    Long actualEffort, Date actualCompletionDate,
                    Date estCompletionDate, ReferenceData pdlcStatus,
                    Date recordingDate, Date statusChangeDate, ReferenceData wikiType,
@@ -91,7 +91,7 @@ public class Project {
         this.owners = owners;
         this.name = name;
         this.description = description;
-        this.ecdeId  = ecdeId;
+        this.ecdeId = ecdeId;
         this.status = status;
         this.estEffort = estEffort;
         this.actualEffort = actualEffort;
@@ -286,7 +286,7 @@ public class Project {
                 ", owners='" + owners + '\'' +
                 ", isHighPriority=" + isHighPriority +
                 ", description='" + description + '\'' +
-                ", ecdeId =" + ecdeId  +
+                ", ecdeId=" + ecdeId +
                 ", status=" + status +
                 ", estEffort=" + estEffort +
                 ", actualEffort=" + actualEffort +

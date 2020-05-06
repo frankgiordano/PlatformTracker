@@ -10,15 +10,18 @@ import java.util.Date;
 @Table(name = "RCA")  // RCA = Root Cause Analysis
 @NamedQueries({
         @NamedQuery(name = RCA.FIND_ALL_RCAS,
-                query = "Select new us.com.plattrk.api.model.RCAVO(rc.id, rc.owner, c.displayName, re.displayName, rc.problem, rc.dueDate, rc.completionDate," +
-                        " s.displayName, ig.name, rc.whys) from RCA as rc  join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re order by ig.name ",
+                query = "Select new us.com.plattrk.api.model.RCAVO(rc.id, rc.owner, c.displayName, re.displayName, rc.problem, rc.dueDate, rc.completionDate, " +
+                        "s.displayName, ig.name, rc.whys) from RCA as rc  join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re " +
+                        "order by ig.name ",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = RCA.FIND_ALL_RCAS_BY_CRITERIA,
-                query = "Select new us.com.plattrk.api.model.RCAVO(rc.id, rc.owner, c.displayName, re.displayName, rc.problem, rc.dueDate, rc.completionDate," +
-                        " s.displayName, ig.name, rc.whys) from RCA as rc join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re where lower(ig.name) LIKE (:name) order by ig.name",
+                query = "Select new us.com.plattrk.api.model.RCAVO(rc.id, rc.owner, c.displayName, re.displayName, rc.problem, rc.dueDate, rc.completionDate, " +
+                        "s.displayName, ig.name, rc.whys) from RCA as rc join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re " +
+                        "where lower(ig.name) LIKE (:name) order by ig.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = RCA.FIND_ALL_RCAS_COUNT_BY_CRITERIA,
-                query = "Select count(rc.id) from RCA as rc join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re where lower(ig.name) LIKE (:name) order by ig.name",
+                query = "Select count(rc.id) from RCA as rc join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re where lower(ig.name) " +
+                        "LIKE (:name) order by ig.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = RCA.FIND_ALL_RCAS_COUNT,
                 query = "Select count(rc.id) from RCA as rc",
@@ -27,9 +30,9 @@ import java.util.Date;
 public class RCA {
 
     public static final String FIND_ALL_RCAS = "findRCAs";
-    public static final String FIND_ALL_RCAS_BY_CRITERIA = "FindAllRCAsByCriteria";
-    public static final String FIND_ALL_RCAS_COUNT_BY_CRITERIA = "FindAllRCAsCountByCriteria";
-    public static final String FIND_ALL_RCAS_COUNT = "FindAllRCASsCount";
+    public static final String FIND_ALL_RCAS_BY_CRITERIA = "findAllRCAsByCriteria";
+    public static final String FIND_ALL_RCAS_COUNT_BY_CRITERIA = "findAllRCAsCountByCriteria";
+    public static final String FIND_ALL_RCAS_COUNT = "findAllRCASsCount";
 
     private Long id;
     private ReferenceData category;
