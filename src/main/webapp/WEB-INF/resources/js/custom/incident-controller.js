@@ -670,7 +670,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         switch (option) {
             case "incident":
                 if ($routeParams.sourceLocation === "fromsearchbygroup") {
-                    $location.path('/incident/groupsearch/' + $routeParams.gid);
+                    $location.path('/incident/fromgroupsearch/' + $routeParams.gid);
                 }
                 if ($routeParams.sourceLocation === "fromsearch") {
                     $location.path('/incident/globalsearch');

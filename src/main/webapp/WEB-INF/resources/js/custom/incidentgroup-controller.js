@@ -1,20 +1,4 @@
-app.controller('IncidentGroupController', function ($routeParams, $location, $rootScope, $filter, $scope, IncidentGroupService, ngTableParams, groupStatuses, ModalService) {
-    $scope.init = function () {
-        IncidentGroupService.getGroups().then(
-            function success(response) {
-                $scope.groups = response;
-                if ($routeParams.id) {
-                    $scope.changedGroup($routeParams.id);
-                }
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "GROUPS_GET_FAILURE",
-                    message: "Error retrieving groups."
-                });
-            });
-    };
-
+app.controller('IncidentGroupController', function ($routeParams, $location, $rootScope, $scope, IncidentGroupService, groupStatuses, ModalService) {
     // set the defaults
     $scope.groupStatuses = groupStatuses;
     $scope.selectedGroup = null;
@@ -22,6 +6,47 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
     $scope.createRootCA = null; // this variable handles the display of the RCA creation sub form
     $scope.disableButton = false;
     $scope.hideduringloading = false;
+    $scope.pageno = 1; // initialize page num to 1
+    $scope.total_count = 0;
+    $scope.itemsPerPage = 10;
+    $scope.data = [];
+
+    $scope.init = function () {
+        $scope.search = '*';
+        $scope.getData($scope.pageno);
+    };
+
+    $scope.getData = function (pageno) {
+        $scope.pageno = pageno;
+
+        IncidentGroupService.search($scope.search, pageno).then(
+            function success(response) {
+                $scope.data = response;
+            },
+            function error() {
+                $scope.errormessages = "RESOLUTIONS_GET_FAILURE - Retrieving resolutions failed, check logs or try again.";
+            });
+
+    };
+
+    $scope.sort = function (keyname) {
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+
+    $scope.$watch("search", function (val) {
+        if ($scope.search) {  // this needs to be a truthy test 	
+            $scope.getData($scope.pageno);
+        }
+        else {
+            $scope.search = '*';
+            $scope.getData($scope.pageno);
+        }
+    }, true);
+
+    $scope.refreshData = function () {
+        $scope.getData($scope.pageno);
+    };
 
     $scope.waiting = function (value) {
         if (value === true) {
@@ -36,73 +61,10 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
     };
     $scope.waiting();
 
-    var data = [];
-
-    $scope.tableParams = new ngTableParams({
-        page: 1, // show first page
-        count: 10, // count per page
-        sorting: {
-            startTime: 'desc' // initial sorting
-        }
-    }, {
-        total: data.length, // length of data
-        getData: function ($defer, params) {
-            // use build-in angular filter
-            var filteredData = params.filter() ?
-                $filter('filter')(data, params.filter()) :
-                data;
-            var orderedData = params.sorting() ?
-                $filter('orderBy')(filteredData, params.orderBy()) :
-                data;
-            params.total(orderedData.length); // set total for recalc pagination
-            $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-        }
-    });
-
-    $scope.refreshData = function () {
-        var newData = $scope.init();
-        $scope.rowCollection = newData;
-    };
-
-    $scope.select = function (option, object, sourceLocation) {
-        switch (option) {
-            case "incident":
-                $scope.selectedIncident = object;
-                $location.path('/incident/edit/' + sourceLocation + '/' + $scope.selectedIncident.id + '/' + $scope.selectedGroup.id);
-                break;
-            case "group":
-                $scope.selectedGroup = object;
-                $scope.disableButton = false;
-                break;
-        }
+    $scope.select = function (group) {
+        $scope.selectedGroup = group;
+        $scope.disableButton = false;
         $scope.clearDisplayMessages();
-    };
-
-    $scope.changedGroup = function (id) {
-        var value = null;
-        if (id)
-            value = Number(id);
-        else
-            value = Number($scope.selectedGroup.id);
-
-        IncidentGroupService.getGroupIncidents(value).then(
-            function success(response) {
-                var group = $scope.groups.filter(function (item) {
-                    return item.id === value;
-                });
-                $scope.selectedGroup = group[0];
-
-                data = response;
-                $scope.tableParams.total(data.length);
-                $scope.tableParams.reload();
-                $scope.tableParams.sorting({ startTime: 'desc' });
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "GROUPS_GET_FAILURE",
-                    message: "Error retrieving groups."
-                });
-            });
     };
 
     $scope.update = function () {
@@ -184,7 +146,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
                     }
                     if (response.length > 1)
                         $scope.messages = response.length + " orphan groups have been deleted.";
-                    else 
+                    else
                         $scope.messages = "1 orphan group have been deleted.";
                     $scope.disableButton = true;
                     document.body.style.cursor = "default";

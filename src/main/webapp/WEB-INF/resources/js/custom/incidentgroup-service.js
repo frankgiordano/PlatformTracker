@@ -13,6 +13,19 @@ app.service('IncidentGroupService', function ($http, $q) {
         return d.promise;
     };
 
+    this.search = function (searchTerm, pageno) {
+        var d = $q.defer();
+        $http.get('group/groups/retrieve/' + searchTerm + '/' + pageno)
+        .success(function (response) {
+            d.resolve(response);
+        })
+        .error(function () {
+            d.reject();
+        });
+
+        return d.promise;
+    };
+
     this.getGroupIncidents = function (id) {
         var d = $q.defer();
 

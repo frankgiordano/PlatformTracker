@@ -64,24 +64,19 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/incident/edit.html'
                 })
                 .when(
-                    '/incident/groupsearch', {
-                    controller: 'IncidentGroupController',
+                    '/incident/fromgroupsearch', {
+                    controller: 'IncidentFromGroupController',
                     templateUrl: 'resources/html/partials/view/incident/from_group_search.html'
                 })
                 .when(
-                    '/incident/groupsearch/:id', {
-                    controller: 'IncidentGroupController',
+                    '/incident/fromgroupsearch/:id', {
+                    controller: 'IncidentFromGroupController',
                     templateUrl: 'resources/html/partials/view/incident/from_group_search.html'
-                })
-                .when(
-                    '/incident/groupcreate', {
-                    controller: 'IncidentGroupController',
-                    templateUrl: 'resources/html/partials/view/incident/create_group.html'
                 })
                 .when(
                     '/incident/incidentgroupsearch', {
                     controller: 'IncidentGroupController',
-                    templateUrl: 'resources/html/partials/view/incident/group_search.html'
+                    templateUrl: 'resources/html/partials/view/incident_group/search.html'
                 })
                 .when(
                     '/resolution/search', {

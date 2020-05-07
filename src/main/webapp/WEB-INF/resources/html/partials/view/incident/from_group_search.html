@@ -1,4 +1,4 @@
-<div data-ng-controller="IncidentGroupController" data-ng-init="init()">
+<div data-ng-controller="IncidentFromGroupController" data-ng-init="init()">
     <div style="padding-bottom: 1%; padding-top: 2%">
         <h2>Incident Group Search</h2>
     </div>
@@ -30,7 +30,7 @@
                     class="table table-striped table-hover table-condensed">
                     <tbody>
                         <tr class="btn-link" ng-repeat="incident in $data"
-                            ng-click="select('incident', incident, 'fromsearchbygroup')">
+                            ng-click="select(incident, 'fromsearchbygroup')">
                             <td data-title="'Id'" sortable="'id'">{{incident.id}}</td>
                             <td data-title="'Tag'" sortable="'tag'" filter="{ 'tag': 'text' }">{{incident.tag}}</td>
                             <td data-title="'Status'" sortable="'status'">{{incident.status | closed}}</td>
