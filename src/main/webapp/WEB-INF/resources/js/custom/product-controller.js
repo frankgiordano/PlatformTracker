@@ -27,7 +27,6 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
                     message: "Error retrieving products."
                 });
             });
-
     };
 
     $scope.sort = function (keyname) {
@@ -146,7 +145,6 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
                     $scope.messages = "Product ID " + product.id + " has been saved.";
                     console.log("Product has been saved = " + JSON.stringify(response));
                     $scope.disableButton = true;
-                    $scope.refreshData();
                     $scope.waiting(false);
                 }
             },

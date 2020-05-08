@@ -4,18 +4,24 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     $scope.whys = [];
     $scope.hideduringloading = false;
     $scope.pageno = 1; // initialize page num to 1
+    $scope.search = '*';
     $scope.total_count = 0;
     $scope.itemsPerPage = 10;
     $scope.data = [];
 
     $scope.init = function () {
-        $scope.search = '*';
+        if ($routeParams.search !== undefined) {
+            $scope.search = $routeParams.search;
+        }
+        if ($routeParams.pageno !== undefined) {
+            $scope.pageno = $routeParams.pageno;
+        }
         $scope.getData($scope.pageno);
     };
 
     $scope.getData = function (pageno) {
         $scope.pageno = pageno;
-
+        $scope.currentPage = pageno;
         RcaService.search($scope.search, pageno).then(
             function success(response) {
                 $scope.data = response;
@@ -23,7 +29,6 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
             function error() {
                 $scope.errormessages = "RCA_GET_FAILURE - Retrieving root causes failed, check logs or try again.";
             });
-
     };
 
     $scope.sort = function (keyname) {
@@ -41,12 +46,8 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
         }
     }, true);
 
-    $scope.refreshData = function () {
-        $scope.getData($scope.pageno);
-    };
-
     $scope.select = function (id) {
-        $location.path('/rootcause/edit/' + id);
+        $location.path('/rootcause/edit/' + id + '/' + $scope.pageno + '/' + $scope.search);
     }
 
     $scope.waiting = function (value) {
@@ -159,6 +160,9 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     }
 
     $scope.getRca = function () {
+        // to keep track where we left off so when we click on back button return to same search results
+        $scope.search = $routeParams.search;
+        $scope.pageno = $routeParams.pageno;
         RcaService.getRca($routeParams.id).then(
             function success(response) {
                 if (response) {
@@ -367,7 +371,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     }
 
     $scope.cancel = function () {
-        $location.path('/rootcause/search');
+        $location.path('/rootcause/search' + '/' + $scope.pageno + '/' + $scope.search);
     };
 
 });

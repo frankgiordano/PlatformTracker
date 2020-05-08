@@ -84,6 +84,11 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/resolution/resolution_search.html',
                 })
                 .when(
+                    '/resolution/search/:pageno/:search', {
+                    controller: 'ResolutionController',
+                    templateUrl: 'resources/html/partials/view/resolution/resolution_search.html',
+                })
+                .when(
                     '/resolution/create/:incidentGroup', {
                     controller: 'ResolutionController',
                     templateUrl: 'resources/html/partials/view/resolution/resolution_create.html'
@@ -94,7 +99,7 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/resolution/resolution_create.html'
                 })
                 .when(
-                    '/resolution/edit/:id', {
+                    '/resolution/edit/:id/:pageno/:search', {
                     controller: 'ResolutionController',
                     templateUrl: 'resources/html/partials/view/resolution/resolution_edit.html'
                 })
@@ -114,12 +119,17 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/rootcause/search.html'
                 })
                 .when(
+                    '/rootcause/search/:pageno/:search', {
+                    controller: 'RootCauseController',
+                    templateUrl: 'resources/html/partials/view/rootcause/search.html'
+                })
+                .when(
                     '/rootcause/create', {
                     controller: 'RootCauseController',
                     templateUrl: 'resources/html/partials/view/rootcause/create.html'
                 })
                 .when(
-                    '/rootcause/edit/:id', {
+                    '/rootcause/edit/:id/:pageno/:search', {
                     controller: 'RootCauseController',
                     templateUrl: 'resources/html/partials/view/rootcause/edit.html'
                 })
@@ -139,12 +149,17 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/project/search.html'
                 })
                 .when(
+                    '/project/search/:pageno/:search', {
+                    controller: 'ProjectController',
+                    templateUrl: 'resources/html/partials/view/project/search.html'
+                })
+                .when(
                     '/project/create', {
                     controller: 'ProjectController',
                     templateUrl: 'resources/html/partials/view/project/create.html'
                 })
                 .when(
-                    '/project/edit/:id', {
+                    '/project/edit/:id/:pageno/:search', {
                     controller: 'ProjectController',
                     templateUrl: 'resources/html/partials/view/project/edit.html'
                 })

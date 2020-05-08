@@ -76,7 +76,7 @@
             </thead>
             <tbody>
                 <tr class="btn-link" dir-paginate="project in data.results|orderBy:sortKey:reverse|itemsPerPage:10"
-                    total-items="data.total_count" ng-click="select(project.id)">
+                    total-items="data.total_count" ng-click="select(project.id)" current-page="currentPage">
                     <td>{{project.id}}</td>
                     <td>{{project.name}}</td>
                     <td>{{project.status.displayName}}</td>

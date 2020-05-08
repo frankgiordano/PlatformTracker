@@ -26,7 +26,6 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
             function error() {
                 $scope.errormessages = "RESOLUTIONS_GET_FAILURE - Retrieving resolutions failed, check logs or try again.";
             });
-
     };
 
     $scope.sort = function (keyname) {
@@ -172,6 +171,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
     $scope.cancel = function () {
         $scope.selectedGroup = false;
         $scope.clearDisplayMessages();
+        $scope.refreshData();
     };
 
     $scope.clearDisplayMessages = function () {
