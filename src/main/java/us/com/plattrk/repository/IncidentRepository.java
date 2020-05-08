@@ -10,16 +10,25 @@ import us.com.plattrk.api.model.IncidentChronology;
 import us.com.plattrk.api.model.IncidentGroup;
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.api.model.ReferenceData;
+import us.com.plattrk.util.PageWrapper;
 
 public interface IncidentRepository {
 
     public Set<Incident> getIncidents();
 
+    public PageWrapper<Incident> getIncidentsByCriteria(String searchTerm, Long pageIndex);
+
     public Incident deleteIncident(Long id);
 
     public Incident saveIncident(Incident incident);
 
-    public Incident getIncident(Long id);
+    public boolean isIncidentOpen(Long id);
+
+    public List<Incident> getDateRangeIncidents(Date start, Date end);
+
+    public List<Incident> getDateRangeIncidentsByPriority(Date start, Date end, String priority);
+
+    public List<Incident> getDateRangeIncidentsByApplicationStatus(Date start, Date end, String applicationStatus);
 
     public IncidentGroup getGroup(Long id);
 
@@ -31,16 +40,10 @@ public interface IncidentRepository {
 
     public List<Incident> getOpenIncidents();
 
-    public boolean isIncidentOpen(Long id);
-
-    public List<Incident> getDateRangeIncidents(Date start, Date end);
-
-    public List<Incident> getDateRangeIncidentsByPriority(Date start, Date end, String priority);
-
-    public List<Incident> getDateRangeIncidentsByApplicationStatus(Date start, Date end, String applicationStatus);
-
     public ErrorCondition getErrorCode(Long id);
 
     public ReferenceData getApplicationStatus(Long id);
+
+    public Incident getIncident(Long id);
 
 }

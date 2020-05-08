@@ -51,6 +51,9 @@ public class Incident  {
     public static final String FIND_ALL_OPEN_INCIDENTS_BY_RANGE_RELATIONS = "findAllOpeIncidentsByRangeRelations";
     public static final String FIND_ALL_OPEN_INCIDENTS_BY_RANGE_AND_PRIORITY_RELATIONS = "findAllOpeIncidentsByRangeAndPriorityRelations";
     public static final String FIND_ALL_OPEN_INCIDENTS_BY_RANGE_AND_APPLICATIONSTATUS_RELATIONS = "findAllOpeIncidentsByRangeAndApplicationStatusRelations";
+    public static final String FIND_ALL_INCIDENTS_BY_CRITERIA = "findAllIncidentsByCriteria";
+    public static final String FIND_ALL_INCIDENTS_COUNT_BY_CRITERIA = "findAllIncidentsCountByCriteria";
+    public static final String FIND_ALL_INCIDENTS_COUNT = "findAllIncidentsCount";
     
     private Long id;
     private Long version;

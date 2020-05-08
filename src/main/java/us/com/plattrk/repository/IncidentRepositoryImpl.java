@@ -7,14 +7,20 @@ import javax.persistence.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import us.com.plattrk.api.model.*;
+import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.util.RepositoryUtil;
 
 @Repository
 public class IncidentRepositoryImpl implements IncidentRepository {
 
     private static Logger log = LoggerFactory.getLogger(IncidentRepositoryImpl.class);
+
+    @Autowired
+    private RepositoryUtil<Incident> repositoryUtil;
 
     @PersistenceContext
     private EntityManager em;
@@ -24,6 +30,27 @@ public class IncidentRepositoryImpl implements IncidentRepository {
         List<Incident> myResult = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS).getResultList();
         Set<Incident> incidents = new HashSet<Incident>(myResult);
         return incidents;
+    }
+
+    @Override
+    public PageWrapper<Incident> getIncidentsByCriteria(String searchTerm, Long pageIndex) {
+        Long total;
+        List<Incident> result;
+        Query query;
+
+        if (!searchTerm.equals("*")) {
+            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            Query queryTotal = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_COUNT_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
+            total = (long) queryTotal.getSingleResult();
+        } else {
+            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            Query queryTotal = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_COUNT);
+            total = (long) queryTotal.getSingleResult();
+        }
+
+        return new PageWrapper<Incident>(result, total);
     }
 
     @Override
@@ -125,18 +152,6 @@ public class IncidentRepositoryImpl implements IncidentRepository {
         return incomingIncident;
     }
 
-    public List<IncidentGroup> CheckIncidentGroup(String name) {
-        TypedQuery<IncidentGroup> query = em.createNamedQuery(Incident.FIND_INCIDENT_GROUP, IncidentGroup.class).setParameter("name", name);
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Incident> getOpenIncidents() {
-        String status = "Open";
-        TypedQuery<Incident> query = em.createNamedQuery(Incident.FIND_ALL_OPEN_INCIDENTS_RELATIONS, Incident.class).setParameter("status", status);
-        return query.getResultList();
-    }
-
     @Override
     public boolean isIncidentOpen(Long id) {
         Incident incident = em.find(Incident.class, id);
@@ -173,11 +188,6 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     }
 
     @Override
-    public Incident getIncident(Long id) {
-        return em.find(Incident.class, id);
-    }
-
-    @Override
     public IncidentGroup getGroup(Long id) {
         Incident incident = em.find(Incident.class, id);
         Optional<IncidentGroup> incidentGroup = Optional.of(incident.getIncidentGroup());
@@ -207,6 +217,13 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     }
 
     @Override
+    public List<Incident> getOpenIncidents() {
+        String status = "Open";
+        TypedQuery<Incident> query = em.createNamedQuery(Incident.FIND_ALL_OPEN_INCIDENTS_RELATIONS, Incident.class).setParameter("status", status);
+        return query.getResultList();
+    }
+
+    @Override
     public ErrorCondition getErrorCode(Long id) {
         Incident incident = em.find(Incident.class, id);
         Optional<ErrorCondition> errorCode = Optional.of(incident.getError());
@@ -220,6 +237,11 @@ public class IncidentRepositoryImpl implements IncidentRepository {
         return rd.orElse(null);
     }
 
+    @Override
+    public Incident getIncident(Long id) {
+        return em.find(Incident.class, id);
+    }
+
     private static Consumer<Incident> lambdaWrapper(Consumer<Incident> consumer) {
         return i -> {
             try {
@@ -229,6 +251,11 @@ public class IncidentRepositoryImpl implements IncidentRepository {
                 throw (e);
             }
         };
+    }
+
+    public List<IncidentGroup> CheckIncidentGroup(String name) {
+        TypedQuery<IncidentGroup> query = em.createNamedQuery(Incident.FIND_INCIDENT_GROUP, IncidentGroup.class).setParameter("name", name);
+        return query.getResultList();
     }
 
 }

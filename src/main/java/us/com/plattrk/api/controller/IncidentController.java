@@ -1,16 +1,12 @@
 package us.com.plattrk.api.controller;
 
-import us.com.plattrk.api.model.ErrorCondition;
-import us.com.plattrk.api.model.Incident;
-import us.com.plattrk.api.model.IncidentChronology;
-import us.com.plattrk.api.model.IncidentGroup;
-import us.com.plattrk.api.model.Product;
-import us.com.plattrk.api.model.ReferenceData;
+import us.com.plattrk.api.model.*;
 import us.com.plattrk.service.IncidentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import us.com.plattrk.util.PageWrapper;
 
 import javax.persistence.OptimisticLockException;
 import java.util.List;
@@ -30,14 +26,9 @@ public class IncidentController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
-    public Incident getIncident(@PathVariable Long id) {
-        return incidentService.getIncident(id);
-    }
-
-    @RequestMapping(value = "/retrieve/openincidents", method = RequestMethod.GET, produces = "application/json")
-    public List<Incident> getOpenIncidents() {
-        return incidentService.getOpenIncidents();
+    @RequestMapping(value = "/retrieve/{searchTerm}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
+    PageWrapper<Incident> search(@PathVariable String searchTerm, @PathVariable Long pageIndex) {
+        return incidentService.search(searchTerm, pageIndex);
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -65,9 +56,20 @@ public class IncidentController {
     }
 
     @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/retrieve/chronologies/{id}", method = RequestMethod.GET, produces = "application/json")
+    public Set<IncidentChronology> getChronologies(@PathVariable Long id) {
+        return incidentService.getChronologies(id);
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/retrieve/products/{id}", method = RequestMethod.GET, produces = "application/json")
     public Set<Product> getProducts(@PathVariable Long id) {
         return incidentService.getProducts(id);
+    }
+
+    @RequestMapping(value = "/retrieve/openincidents", method = RequestMethod.GET, produces = "application/json")
+    public List<Incident> getOpenIncidents() {
+        return incidentService.getOpenIncidents();
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -83,9 +85,9 @@ public class IncidentController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/retrieve/chronologies/{id}", method = RequestMethod.GET, produces = "application/json")
-    public Set<IncidentChronology> getChronologies(@PathVariable Long id) {
-        return incidentService.getChronologies(id);
+    @RequestMapping(value = "/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
+    public Incident getIncident(@PathVariable Long id) {
+        return incidentService.getIncident(id);
     }
 
 }

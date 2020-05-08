@@ -673,7 +673,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                     $location.path('/incident/fromgroupsearch/' + $routeParams.gid);
                 }
                 if ($routeParams.sourceLocation === "fromsearch") {
-                    $location.path('/incident/globalsearch');
+                    $location.path('/incident/search');
                 }
                 break;
             case "createChronology":

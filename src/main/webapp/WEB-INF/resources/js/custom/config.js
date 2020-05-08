@@ -44,7 +44,7 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/main.html'
                 })
                 .when(
-                    '/incident/globalsearch', {
+                    '/incident/search', {
                     controller: 'IncidentController',
                     templateUrl: 'resources/html/partials/view/incident/search.html'
                 })
@@ -81,37 +81,37 @@ app.config(function ($httpProvider) {
                 .when(
                     '/resolution/search', {
                     controller: 'ResolutionController',
-                    templateUrl: 'resources/html/partials/view/resolution/resolution_search.html',
+                    templateUrl: 'resources/html/partials/view/resolution/search.html',
                 })
                 .when(
                     '/resolution/search/:pageno/:search', {
                     controller: 'ResolutionController',
-                    templateUrl: 'resources/html/partials/view/resolution/resolution_search.html',
+                    templateUrl: 'resources/html/partials/view/resolution/search.html',
                 })
                 .when(
                     '/resolution/create/:incidentGroup', {
                     controller: 'ResolutionController',
-                    templateUrl: 'resources/html/partials/view/resolution/resolution_create.html'
+                    templateUrl: 'resources/html/partials/view/resolution/create.html'
                 })
                 .when(
                     '/resolution/create', {
                     controller: 'ResolutionController',
-                    templateUrl: 'resources/html/partials/view/resolution/resolution_create.html'
+                    templateUrl: 'resources/html/partials/view/resolution/create.html'
                 })
                 .when(
                     '/resolution/edit/:id/:pageno/:search', {
                     controller: 'ResolutionController',
-                    templateUrl: 'resources/html/partials/view/resolution/resolution_edit.html'
+                    templateUrl: 'resources/html/partials/view/resolution/edit.html'
                 })
                 .when(
                     '/resolution/retrieve/:id', {
                     controller: 'ResolutionController',
-                    templateUrl: 'resources/html/partials/view/resolution/resolution_edit.html'
+                    templateUrl: 'resources/html/partials/view/resolution/edit.html'
                 })
                 .when(
                     '/resolution/linkProject/:project', {
                     controller: 'ResolutionProjectLinkingController',
-                    templateUrl: 'resources/html/partials/view/resolution/resolution_link_project.html'
+                    templateUrl: 'resources/html/partials/view/resolution/link_project.html'
                 })
                 .when(
                     '/rootcause/search', {
@@ -169,14 +169,14 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/project/delete.html'
                 })
                 .when(
-                    '/product/globalsearch', {
+                    '/product/search', {
                     controller: 'ProductController',
-                    templateUrl: 'resources/html/partials/view/product/product_search.html'
+                    templateUrl: 'resources/html/partials/view/product/search.html'
                 })
                 .when(
                     '/product/create', {
                     controller: 'ProductController',
-                    templateUrl: 'resources/html/partials/view/product/product_create.html'
+                    templateUrl: 'resources/html/partials/view/product/create.html'
                 })
                 .when(
                     '/report/incidentreport', {
