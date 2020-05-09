@@ -69,7 +69,11 @@
                     <td>{{rootcause.incidentGroup}}</td>
                     <td>{{rootcause.status}}</td>
                     <td>{{rootcause.owner}}</td>
-                    <td>{{rootcause.problem}}</td>
+                    <td>
+                        <div my-qtip qtip-content="{{rootcause.problem}}">
+                            {{rootcause.problem | addEllipsis}}
+                        </div>
+                    </td>
                     <td>{{rootcause.dueDate | dateFormatMinusTime}}</td>
                     <td>{{rootcause.completionDate | dateFormatMinusTime}}</td>
                     <td>{{rootcause.category}}</td>

@@ -6,8 +6,8 @@ app.filter('percentage', ['$filter', function ($filter) {
 
 app.filter('addEllipsis', function () {
     return function (input) {
-        if (input.length > 100) {
-            return input.substring(0, 100) + '....';
+        if (input.length > 80) {
+            return input.substring(0, 80) + '....';
         } else return input;
     }
 });

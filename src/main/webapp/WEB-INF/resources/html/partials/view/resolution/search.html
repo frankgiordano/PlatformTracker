@@ -77,7 +77,11 @@
                 <td>{{resolution.actualCompletionDate | dateFormatMinusTime}}</td>
                 <td>{{resolution.typeName}}</td>
                 <td>{{resolution.sriArtifact}}</td>
-                <td>{{resolution.description}}</td>
+                <td>
+                    <div my-qtip qtip-content="{{resolution.description}}">
+                        {{resolution.description | addEllipsis}}
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
