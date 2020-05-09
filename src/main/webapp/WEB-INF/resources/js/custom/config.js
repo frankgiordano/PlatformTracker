@@ -191,22 +191,22 @@ app.config(function ($httpProvider) {
                 .when(
                     '/report/incidentreport', {
                     controller: 'IncidentReportController',
-                    templateUrl: 'resources/html/partials/view/report/incident_search_report.html'
+                    templateUrl: 'resources/html/partials/view/incident_report/by_search.html'
                 })
                 .when(
                     '/report/incidentweeklyreport', {
                     controller: 'IncidentWeeklyReportController',
-                    templateUrl: 'resources/html/partials/view/report/incident_weekly_report.html'
+                    templateUrl: 'resources/html/partials/view/incident_report/by_weekly.html'
                 })
                 .when(
                     '/report/incidentreportbyproduct', {
                     controller: 'IncidentWeeklyReportController',
-                    templateUrl: 'resources/html/partials/view/report/incident_report_by_product.html'
+                    templateUrl: 'resources/html/partials/view/incident_report/by_product.html'
                 })
                 .when(
                     '/report/incidentreportsettings', {
                     controller: 'IncidentWeeklyReportController',
-                    templateUrl: 'resources/html/partials/view/report/incident_report_settings.html'
+                    templateUrl: 'resources/html/partials/view/incident_report/settings.html'
                 })
                 .when(
                     '/login', {
