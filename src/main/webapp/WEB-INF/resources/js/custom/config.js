@@ -49,12 +49,22 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/incident/search.html'
                 })
                 .when(
+                    '/incident/search/:pageno/:search', {
+                    controller: 'IncidentController',
+                    templateUrl: 'resources/html/partials/view/incident/search.html'
+                })
+                .when(
                     '/incident/create', {
                     controller: 'IncidentController',
                     templateUrl: 'resources/html/partials/view/incident/create.html'
                 })
                 .when(
-                    '/incident/edit/:sourceLocation/:id', {
+                    '/incident/create/:pageno/:search', {
+                    controller: 'IncidentController',
+                    templateUrl: 'resources/html/partials/view/incident/create.html'
+                })
+                .when(
+                    '/incident/edit/:sourceLocation/:id/:pageno/:search', {
                     controller: 'IncidentController',
                     templateUrl: 'resources/html/partials/view/incident/edit.html'
                 })

@@ -2,19 +2,45 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
 
     $scope.incident = {};
     $scope.hideduringloading = false;
+    $scope.pageno = 1; // initialize page num to 1
+    $scope.search = '*';
+    $scope.total_count = 0;
+    $scope.itemsPerPage = 10;
+    $scope.data = [];
 
     $scope.init = function () {
-        IncidentService.getIncidents().then(
+        $scope.setRouteSearchParms();
+        $scope.getData($scope.pageno);
+    };
+
+    $scope.getData = function (pageno) {
+        $scope.pageno = pageno;
+        $scope.currentPage = pageno;
+        IncidentService.search($scope.search, pageno).then(
             function success(response) {
-                $scope.incidents = response;
+                $scope.data = response;
             },
             function error() {
-                $rootScope.errors.push({
-                    code: "INCIDENTS_GET_FAILURE",
-                    message: "Error retrieving incidents."
-                });
+                $scope.errormessages = "INCIDENTS_GET_FAILURE - Retrieving incidents failed, check logs or try again.";
             });
     };
+
+    $scope.sort = function (keyname) {
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+
+    $scope.$watch("search", function (val) {
+        if ($routeParams.sourceLocation === "fromsearchbygroup")
+            return;
+        if ($scope.search) {  // this needs to be a truthy test 	
+            $scope.getData($scope.pageno);
+        }
+        else {
+            $scope.search = '*';
+            $scope.getData($scope.pageno);
+        }
+    }, true);
 
     $scope.waiting = function (value) {
         if (value === true) {
@@ -49,6 +75,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     }());
 
     $scope.createSetup = function () {
+        $scope.setRouteSearchParms();
         // make sure it is the create screen no id in url
         if ($routeParams.id === undefined) {
             IncidentService.getErrorConditions().then(
@@ -88,6 +115,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     }
 
     $scope.editIncidentSetup = function () {
+        $scope.setRouteSearchParms();
         IncidentService.getIncidentPlus($routeParams.id).then(
             function success(response) {
                 if (response) {
@@ -97,9 +125,9 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                     $scope.applicationStatuses = response[3];
                     $scope.products = response[4];
 
-                    response[5].startTime = moment(response[5].startTime).format('MM-DD-YYYY HH:mm');;
+                    response[5].startTime = moment(response[5].startTime).format('MM-DD-YYYY HH:mm');
                     if (response[5].endTime)
-                        response[5].endTime = moment(response[5].endTime).format('MM-DD-YYYY HH:mm');;
+                        response[5].endTime = moment(response[5].endTime).format('MM-DD-YYYY HH:mm');
 
                     $scope.incident = response[5];
 
@@ -393,7 +421,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             }
         });
 
-        $scope.enforceRequiredFields();
+        enforceRequiredFields();
 
         var incident = {
             "id": $scope.incident.id,
@@ -488,7 +516,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     }
 
     // just do this for required fields that are not defaulted dropdown fields.
-    $scope.enforceRequiredFields = function () {
+    var enforceRequiredFields = function () {
         if ($scope.incident.description !== undefined &&
             $scope.incident.description !== null &&
             $scope.incident.description.trim() === "")
@@ -666,14 +694,14 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             });
     };
 
-    $scope.cancel = function (option) {
+    $scope.cancelEdit = function (option) {
         switch (option) {
             case "incident":
                 if ($routeParams.sourceLocation === "fromsearchbygroup") {
                     $location.path('/incident/fromgroupsearch/' + $routeParams.gid);
                 }
                 if ($routeParams.sourceLocation === "fromsearch") {
-                    $location.path('/incident/search');
+                    $location.path('/incident/search' + '/' + $scope.pageno + '/' + $scope.search);
                 }
                 break;
             case "createChronology":
@@ -686,12 +714,16 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         $scope.clearDisplayMessages();
     };
 
+    $scope.cancelCreate = function () {
+        $location.path('/incident/search' + '/' + $scope.pageno + '/' + $scope.search);
+    };
+
     $scope.select = function (option, object) {
         switch (option) {
             case "incident":
                 var sourceLocation = "fromsearch";
                 var incident = object;
-                $location.path('/incident/edit/' + sourceLocation + '/' + incident.id);
+                $location.path('/incident/edit/' + sourceLocation + '/' + incident.id + '/' + $scope.pageno + '/' + $scope.search);
                 break;
             case "chronology":
                 $scope.createChronology = new Object();
@@ -715,4 +747,18 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         $scope.chronerrormessages = null;
     };
 
+    $scope.new = function () {
+        $location.path('/incident/create' + '/' + $scope.pageno + '/' + $scope.search);
+    };
+
+    $scope.setRouteSearchParms = function () {
+        if ($routeParams.search !== undefined) {
+            $scope.search = $routeParams.search;
+        }
+        if ($routeParams.pageno !== undefined) {
+            $scope.pageno = $routeParams.pageno;
+        }
+    }
+
 });
+
