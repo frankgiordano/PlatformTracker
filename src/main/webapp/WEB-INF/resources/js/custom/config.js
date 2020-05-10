@@ -109,6 +109,11 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/resolution/create.html'
                 })
                 .when(
+                    '/resolution/create/:pageno/:search', {
+                    controller: 'ResolutionController',
+                    templateUrl: 'resources/html/partials/view/resolution/create.html'
+                })
+                .when(
                     '/resolution/edit/:id/:pageno/:search', {
                     controller: 'ResolutionController',
                     templateUrl: 'resources/html/partials/view/resolution/edit.html'
@@ -135,6 +140,11 @@ app.config(function ($httpProvider) {
                 })
                 .when(
                     '/rootcause/create', {
+                    controller: 'RootCauseController',
+                    templateUrl: 'resources/html/partials/view/rootcause/create.html'
+                })
+                .when(
+                    '/rootcause/create/:pageno/:search', {
                     controller: 'RootCauseController',
                     templateUrl: 'resources/html/partials/view/rootcause/create.html'
                 })
@@ -169,6 +179,11 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/project/create.html'
                 })
                 .when(
+                    '/project/create/:pageno/:search', {
+                    controller: 'ProjectController',
+                    templateUrl: 'resources/html/partials/view/project/create.html'
+                })
+                .when(
                     '/project/edit/:id/:pageno/:search', {
                     controller: 'ProjectController',
                     templateUrl: 'resources/html/partials/view/project/edit.html'
@@ -184,7 +199,17 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/product/search.html'
                 })
                 .when(
+                    '/product/search/:pageno/:search', {
+                    controller: 'ProductController',
+                    templateUrl: 'resources/html/partials/view/product/search.html'
+                })
+                .when(
                     '/product/create', {
+                    controller: 'ProductController',
+                    templateUrl: 'resources/html/partials/view/product/create.html'
+                })
+                .when(
+                    '/product/create/:pageno/:search', {
                     controller: 'ProductController',
                     templateUrl: 'resources/html/partials/view/product/create.html'
                 })

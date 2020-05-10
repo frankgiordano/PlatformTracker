@@ -77,7 +77,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     $scope.createSetup = function () {
         $scope.setRouteSearchParms();
         // make sure it is the create screen no id in url
-        if ($routeParams.id === undefined) {
+        if ($routeParams.id === null || $routeParams.id === undefined) {
             IncidentService.getErrorConditions().then(
                 function success(response) {
                     $scope.errors = response;
@@ -751,6 +751,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         $location.path('/incident/create' + '/' + $scope.pageno + '/' + $scope.search);
     };
 
+    // to keep track where we left off so when we click on back/cancel button return to same search results
     $scope.setRouteSearchParms = function () {
         if ($routeParams.search !== undefined) {
             $scope.search = $routeParams.search;

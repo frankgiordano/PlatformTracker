@@ -1,22 +1,24 @@
-app.controller('ProductController', function ($rootScope, $scope, ProductService, platforms, ModalService) {
+app.controller('ProductController', function ($rootScope, $scope, ProductService, $location, $routeParams, platforms, ModalService) {
 
     $scope.hideduringloading = false;
     $scope.disableButton = false;
     $scope.platforms = platforms;
     $scope.selectedPlatform = $scope.platforms[5];
     $scope.pageno = 1; // initialize page num to 1
+    $scope.search = '*';
     $scope.total_count = 0;
-    $scope.itemsPerPage = 10; 
-    $scope.data = [];  
+    $scope.itemsPerPage = 10;
+    $scope.data = [];
 
     $scope.init = function () {
-        $scope.search = '*';
+        $scope.setRouteSearchParms();
         $scope.getData($scope.pageno);
     };
 
-    $scope.getData = function (pageno) { 
+    $scope.getData = function (pageno) {
         $scope.pageno = pageno;
-
+        $scope.currentPage = pageno;
+        
         ProductService.search($scope.search, pageno).then(
             function success(response) {
                 $scope.data = response;
@@ -66,6 +68,7 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
     };
 
     $scope.cancel = function () {
+        $scope.clearMsg();
         $scope.selectedProduct = null;
         $scope.refreshData();
     };
@@ -215,5 +218,23 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
                 $scope.waiting(false);
             });
     };
+
+    $scope.new = function () {
+        $location.path('/product/create' + '/' + $scope.pageno + '/' + $scope.search);
+    };
+
+    $scope.cancelCreate = function () {
+        $location.path('/product/search' + '/' + $scope.pageno + '/' + $scope.search);
+    };
+
+    // to keep track where we left off so when we click on back/cancel button return to same search results
+    $scope.setRouteSearchParms = function () {
+        if ($routeParams.search !== undefined) {
+            $scope.search = $routeParams.search;
+        }
+        if ($routeParams.pageno !== undefined) {
+            $scope.pageno = $routeParams.pageno;
+        }
+    }
 
 });

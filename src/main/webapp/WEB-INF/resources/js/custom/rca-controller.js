@@ -10,12 +10,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     $scope.data = [];
 
     $scope.init = function () {
-        if ($routeParams.search !== undefined) {
-            $scope.search = $routeParams.search;
-        }
-        if ($routeParams.pageno !== undefined) {
-            $scope.pageno = $routeParams.pageno;
-        }
+        $scope.setRouteSearchParms();
         $scope.getData($scope.pageno);
     };
 
@@ -105,64 +100,65 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
             });
     })();
 
-    if ($routeParams.id == null) {
+    $scope.createSetup = function () {
+        $scope.setRouteSearchParms();
+        // make sure it is the create screen no id in url
+        if ($routeParams.id === null || $routeParams.id === undefined) {
+            $scope.clearMsg();
 
-        $scope.clearMsg();
+            (function () {
+                IncidentGroupService.getGroups().then(
+                    function success(response) {
+                        $scope.groups = response;
+                    },
+                    function error() {
+                        $rootScope.errors.push({
+                            code: "GROUPS_GET_FAILURE",
+                            message: "Error retrieving groups."
+                        });
+                    });
+            })();
 
-        (function () {
-            IncidentGroupService.getGroups().then(
+            $scope.categories1 = ReferenceDataService.getCategories().then(
                 function success(response) {
-                    $scope.groups = response;
+                    $scope.categories = response;
+                    $scope.rca.category = $scope.categories[0]
                 },
                 function error() {
                     $rootScope.errors.push({
-                        code: "GROUPS_GET_FAILURE",
-                        message: "Error retrieving groups."
+                        code: "CATEGORIES_GET_FAILURE",
+                        message: "Error retrieving categories."
                     });
                 });
-        })();
 
-        $scope.categories1 = ReferenceDataService.getCategories().then(
-            function success(response) {
-                $scope.categories = response;
-                $scope.rca.category = $scope.categories[0]
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "CATEGORIES_GET_FAILURE",
-                    message: "Error retrieving categories."
+            $scope.status1 = ReferenceDataService.getStatus().then(
+                function success(response) {
+                    $scope.status = response;
+                    $scope.rca.status = $scope.status[0];
+                },
+                function error() {
+                    $rootScope.errors.push({
+                        code: "STATUS_GET_FAILURE",
+                        message: "Error retrieving Status."
+                    });
                 });
-            });
 
-        $scope.status1 = ReferenceDataService.getStatus().then(
-            function success(response) {
-                $scope.status = response;
-                $scope.rca.status = $scope.status[0];
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "STATUS_GET_FAILURE",
-                    message: "Error retrieving Status."
+            $scope.resources1 = ReferenceDataService.getResources().then(
+                function success(response) {
+                    $scope.resources = response;
+                    $scope.rca.resource = $scope.resources[0];
+                },
+                function error() {
+                    $rootScope.errors.push({
+                        code: "RESOURCES_GET_FAILURE",
+                        message: "Error retrieving resources."
+                    });
                 });
-            });
-
-        $scope.resources1 = ReferenceDataService.getResources().then(
-            function success(response) {
-                $scope.resources = response;
-                $scope.rca.resource = $scope.resources[0];
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "RESOURCES_GET_FAILURE",
-                    message: "Error retrieving resources."
-                });
-            });
+        }
     }
 
     $scope.getRca = function () {
-        // to keep track where we left off so when we click on back button return to same search results
-        $scope.search = $routeParams.search;
-        $scope.pageno = $routeParams.pageno;
+        $scope.setRouteSearchParms();
         RcaService.getRca($routeParams.id).then(
             function success(response) {
                 if (response) {
@@ -347,10 +343,6 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
             $scope.rca.owner = null;
     }
 
-    $scope.new = function () {
-        $location.path('/rootcause/create');
-    };
-
     $scope.createResolution = function () {
         $scope.resolution = {};
         $routeParams.incidentGroup = $scope.rca.incidentGroup;
@@ -370,8 +362,22 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
         return false;
     }
 
+    $scope.new = function () {
+        $location.path('/rootcause/create' + '/' + $scope.pageno + '/' + $scope.search);
+    };
+
     $scope.cancel = function () {
         $location.path('/rootcause/search' + '/' + $scope.pageno + '/' + $scope.search);
     };
+
+    // to keep track where we left off so when we click on back/cancel button return to same search results
+    $scope.setRouteSearchParms = function () {
+        if ($routeParams.search !== undefined) {
+            $scope.search = $routeParams.search;
+        }
+        if ($routeParams.pageno !== undefined) {
+            $scope.pageno = $routeParams.pageno;
+        }
+    }
 
 });

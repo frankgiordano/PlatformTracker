@@ -22,12 +22,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     })();
 
     $scope.init = function () {
-        if ($routeParams.search !== undefined) {
-            $scope.search = $routeParams.search;
-        }
-        if ($routeParams.pageno !== undefined) {
-            $scope.pageno = $routeParams.pageno;
-        }
+        $scope.setRouteSearchParms();
         $scope.getData($scope.pageno);
     };
 
@@ -80,51 +75,52 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         $scope.errormessages = null;
     }
 
-    if ($routeParams.id == null) {
+    $scope.createSetup = function () {
+        $scope.setRouteSearchParms();
+        // make sure it is the create screen no id in url
+        if ($routeParams.id === null || $routeParams.id === undefined) {
+            $scope.clearMsg();
 
-        $scope.clearMsg();
-
-        $scope.pdlcStatus1 = ReferenceDataService.getPdlcStatus().then(
-            function success(response) {
-                $scope.pdlcStatus = response;
-                $scope.project.pdlcStatus = $scope.pdlcStatus[0];
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "PDLC_STATUS_GET_FAILURE",
-                    message: "Error retrieving PDLC status."
+            $scope.pdlcStatus1 = ReferenceDataService.getPdlcStatus().then(
+                function success(response) {
+                    $scope.pdlcStatus = response;
+                    $scope.project.pdlcStatus = $scope.pdlcStatus[0];
+                },
+                function error() {
+                    $rootScope.errors.push({
+                        code: "PDLC_STATUS_GET_FAILURE",
+                        message: "Error retrieving PDLC status."
+                    });
                 });
-            });
 
-        $scope.status1 = ReferenceDataService.getStatus().then(
-            function success(response) {
-                $scope.status = response;
-                $scope.project.status = $scope.status[0];
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "STATUS_GET_FAILURE",
-                    message: "Error retrieving status."
+            $scope.status1 = ReferenceDataService.getStatus().then(
+                function success(response) {
+                    $scope.status = response;
+                    $scope.project.status = $scope.status[0];
+                },
+                function error() {
+                    $rootScope.errors.push({
+                        code: "STATUS_GET_FAILURE",
+                        message: "Error retrieving status."
+                    });
                 });
-            });
 
-        $scope.wikiTypes1 = ReferenceDataService.getWikiTypes().then(
-            function success(response) {
-                $scope.wikiTypes = response;
-                $scope.project.wikiType = $scope.wikiTypes[0];
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "WIKI_TYPES_GET_FAILURE",
-                    message: "Error retrieving wiki types."
+            $scope.wikiTypes1 = ReferenceDataService.getWikiTypes().then(
+                function success(response) {
+                    $scope.wikiTypes = response;
+                    $scope.project.wikiType = $scope.wikiTypes[0];
+                },
+                function error() {
+                    $rootScope.errors.push({
+                        code: "WIKI_TYPES_GET_FAILURE",
+                        message: "Error retrieving wiki types."
+                    });
                 });
-            });
+        }
     }
 
     $scope.getProject = function () {
-        // to keep track where we left off so when we click on back button return to same search results
-        $scope.search = $routeParams.search;
-        $scope.pageno = $routeParams.pageno;
+        $scope.setRouteSearchParms();
         ProjectService.getProject($routeParams.id).then(
             function success(response) {
                 if (response) {
@@ -321,10 +317,6 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             $scope.project.owners = null;
     }
 
-    $scope.new = function () {
-        $location.path('/project/create');
-    };
-
     $scope.linkResolutions = function (project) {
         $scope.resolution = {};
         popitup('/plattrk/#/resolution/linkProject/' + project.id);
@@ -343,9 +335,23 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         return false;
     };
 
+    $scope.new = function () {
+        $location.path('/project/create' + '/' + $scope.pageno + '/' + $scope.search);
+    };
+
     $scope.cancel = function () {
         $location.path('/project/search' + '/' + $scope.pageno + '/' + $scope.search);
     };
+
+    // to keep track where we left off so when we click on back/cancel button return to same search results
+    $scope.setRouteSearchParms = function () {
+        if ($routeParams.search !== undefined) {
+            $scope.search = $routeParams.search;
+        }
+        if ($routeParams.pageno !== undefined) {
+            $scope.pageno = $routeParams.pageno;
+        }
+    }
 
 });
 

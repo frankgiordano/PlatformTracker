@@ -16,76 +16,79 @@
         <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
         <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
         <form class="form-horizontal" name="helpForm" novalidate role="form">
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Incident Group Name</label>
-                <div class="col-sm-6">
-                    <select class="form-control" ng-model="resolution.incidentGroup"
-                        ng-options="group.name for group in groups | orderBy: 'name'">
-                    </select>
+            <div data-ng-init="createSetup()">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Incident Group Name</label>
+                    <div class="col-sm-6">
+                        <select class="form-control" ng-model="resolution.incidentGroup"
+                            ng-options="group.name for group in groups | orderBy: 'name'">
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Horizon</label>
-                <div class="col-sm-6">
-                    <select class="form-control" ng-model="resolution.horizon"
-                        ng-options="item.displayName for item in horizons">
-                    </select>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Horizon</label>
+                    <div class="col-sm-6">
+                        <select class="form-control" ng-model="resolution.horizon"
+                            ng-options="item.displayName for item in horizons">
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Owner</label>
-                <div class="col-sm-6">
-                    <div multi-select input-model="owners" button-label="userName" helper-elements="filter"
-                        output-model="ownerlist" item-label="userName" tick-property="ticked"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Owner</label>
+                    <div class="col-sm-6">
+                        <div multi-select input-model="owners" button-label="userName" helper-elements="filter"
+                            output-model="ownerlist" item-label="userName" tick-property="ticked"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Status</label>
-                <div class="col-sm-6">
-                    <select class="form-control" ng-model="resolution.status"
-                        ng-options="item.displayName for item in status">
-                    </select>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Status</label>
+                    <div class="col-sm-6">
+                        <select class="form-control" ng-model="resolution.status"
+                            ng-options="item.displayName for item in status">
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Estimated Completion
-                    Date</label>
-                <div class="col-sm-6">
-                    <input type="date" class="form-control" ng-model="resolution.estCompletionDate">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Estimated Completion
+                        Date</label>
+                    <div class="col-sm-6">
+                        <input type="date" class="form-control" ng-model="resolution.estCompletionDate">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Actual Completion Date</label>
-                <div class="col-sm-6">
-                    <input type="date" class="form-control" ng-model="resolution.actualCompletionDate">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Actual Completion Date</label>
+                    <div class="col-sm-6">
+                        <input type="date" class="form-control" ng-model="resolution.actualCompletionDate">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Type</label>
-                <div class="col-sm-6">
-                    <select class="form-control" ng-model="resolution.type"
-                        ng-options="item.displayName for item in types">
-                    </select>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Type</label>
+                    <div class="col-sm-6">
+                        <select class="form-control" ng-model="resolution.type"
+                            ng-options="item.displayName for item in types">
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">SRI Artifact</label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="resolution.sriArtifact">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">SRI Artifact</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" ng-model="resolution.sriArtifact">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Description</label>
-                <div class="col-sm-6">
-                    <textarea type="text" class="form-control" rows="5" ng-model="resolution.description"></textarea>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Description</label>
+                    <div class="col-sm-6">
+                        <textarea type="text" class="form-control" rows="5"
+                            ng-model="resolution.description"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button class="btn btn-primary" data-ng-disabled="progress.active()"
-                        data-ng-click="update(resolution)" ng-show="!back">Submit</button>
-                    <button class="btn btn-primary" data-ng-disabled="progress.active()"
-                        data-ng-click="cancel()">Back</button>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button class="btn btn-primary" data-ng-disabled="progress.active()"
+                            data-ng-click="update(resolution)" ng-show="!back">Submit</button>
+                        <button class="btn btn-primary" data-ng-disabled="progress.active()"
+                            data-ng-click="cancel()">Back</button>
+                    </div>
                 </div>
             </div>
         </form>

@@ -9,12 +9,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     $scope.data = [];
 
     $scope.init = function () {
-        if ($routeParams.search !== undefined) {
-            $scope.search = $routeParams.search;
-        }
-        if ($routeParams.pageno !== undefined) {
-            $scope.pageno = $routeParams.pageno;
-        }
+        $scope.setRouteSearchParms();
         $scope.getData($scope.pageno);
     };
 
@@ -75,62 +70,65 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
             });
     })();
 
-    if ($routeParams.id == null) {
-        $scope.clearMsg();
-        (function () {
-            IncidentGroupService.getGroups().then(
+    $scope.createSetup = function () {
+        $scope.setRouteSearchParms();
+        // make sure it is the create screen no id in url
+        if ($routeParams.id === null || $routeParams.id === undefined) {
+            $scope.clearMsg();
+            
+            (function () {
+                IncidentGroupService.getGroups().then(
+                    function success(response) {
+                        $scope.groups = response;
+                    },
+                    function error() {
+                        $rootScope.errors.push({
+                            code: "GROUPS_GET_FAILURE",
+                            message: "Error retrieving groups."
+                        });
+                    });
+            })();
+
+            $scope.types1 = ReferenceDataService.getTypes().then(
                 function success(response) {
-                    $scope.groups = response;
+                    $scope.types = response;
+                    $scope.resolution.type = response[0];
                 },
                 function error() {
                     $rootScope.errors.push({
-                        code: "GROUPS_GET_FAILURE",
-                        message: "Error retrieving groups."
+                        code: "TYPES_GET_FAILURE",
+                        message: "Error retrieving types."
                     });
                 });
-        })();
 
-        $scope.types1 = ReferenceDataService.getTypes().then(
-            function success(response) {
-                $scope.types = response;
-                $scope.resolution.type = response[0];
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "TYPES_GET_FAILURE",
-                    message: "Error retrieving types."
+            $scope.status1 = ReferenceDataService.getStatus().then(
+                function success(response) {
+                    $scope.status = response;
+                    $scope.resolution.status = response[0];
+                },
+                function error() {
+                    $rootScope.errors.push({
+                        code: "STATUS_GET_FAILURE",
+                        message: "Error retrieving statuses."
+                    });
                 });
-            });
 
-        $scope.status1 = ReferenceDataService.getStatus().then(
-            function success(response) {
-                $scope.status = response;
-                $scope.resolution.status = response[0];
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "STATUS_GET_FAILURE",
-                    message: "Error retrieving statuses."
+            $scope.horizons1 = ReferenceDataService.getHorizons().then(
+                function success(response) {
+                    $scope.horizons = response;
+                    $scope.resolution.horizon = response[0];
+                },
+                function error() {
+                    $rootScope.errors.push({
+                        code: "HORIZONS_GET_FAILURE",
+                        message: "Error retrieving horizons."
+                    });
                 });
-            });
-
-        $scope.horizons1 = ReferenceDataService.getHorizons().then(
-            function success(response) {
-                $scope.horizons = response;
-                $scope.resolution.horizon = response[0];
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "HORIZONS_GET_FAILURE",
-                    message: "Error retrieving horizons."
-                });
-            });
+        }
     }
 
     $scope.getIncidentResolution = function () {
-        // to keep track where we left off so when we click on back button return to same search results
-        $scope.search = $routeParams.search;
-        $scope.pageno = $routeParams.pageno;
+        $scope.setRouteSearchParms();
         ResolutionService.getIncidentResolution($routeParams.id).then(
             function success(response) {
                 if (response) {
@@ -326,12 +324,22 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
             $scope.resolution.description = null;
     }
 
+    $scope.new = function () {
+        $location.path('/resolution/create' + '/' + $scope.pageno + '/' + $scope.search);
+    };
+
     $scope.cancel = function () {
         $location.path('/resolution/search' + '/' + $scope.pageno + '/' + $scope.search);
     };
 
-    $scope.new = function () {
-        $location.path('/resolution/create');
-    };
+    // to keep track where we left off so when we click on back/cancel button return to same search results
+    $scope.setRouteSearchParms = function () {
+        if ($routeParams.search !== undefined) {
+            $scope.search = $routeParams.search;
+        }
+        if ($routeParams.pageno !== undefined) {
+            $scope.pageno = $routeParams.pageno;
+        }
+    }
 
 });
