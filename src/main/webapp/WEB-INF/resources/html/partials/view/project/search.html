@@ -35,8 +35,8 @@
                     <span class="glyphicon sort-icon" ng-show="sortKey=='status.displayName'"
                         ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                 </th>
-                <th ng-click="sort('owners')">Owner
-                    <span class="glyphicon sort-icon" ng-show="sortKey=='owners'"
+                <th ng-click="sort('owner')">Owner
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='owner'"
                         ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                 </th>
                 <th ng-click="sort('pdlcStatus.displayName')">PDLC Status
@@ -83,7 +83,7 @@
                 <td>{{project.id}}</td>
                 <td>{{project.name}}</td>
                 <td>{{project.status.displayName}}</td>
-                <td>{{project.owners}}</td>
+                <td>{{project.owner}}</td>
                 <td>{{project.pdlcStatus.displayName}}</td>
                 <td>{{project.recordingDate | dateFormatMinusTime}}</td>
                 <td>{{project.pdlcStatus.statusChangeDate}}</td>

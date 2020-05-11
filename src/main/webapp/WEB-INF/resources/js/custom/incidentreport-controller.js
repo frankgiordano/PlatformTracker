@@ -104,8 +104,8 @@ app.controller('IncidentReportController', function ($rootScope, $filter, $scope
                     selectedIncident.summary = "";
                 }
 
-                if (!selectedIncident.reportOwner) {
-                    selectedIncident.reportOwner = "";
+                if (!selectedIncident.owner) {
+                    selectedIncident.owner = "";
                 }
 
                 if (!selectedIncident.customerImpact) {

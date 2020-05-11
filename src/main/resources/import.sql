@@ -1,9 +1,9 @@
 delete from REFERENCE_DATA 
 commit;
 
---update resolution_project set owners='Frank.Giordano', rd_status_id= 43, rd_pdlc_status_id=161 where project_id<80
---update resolution_project set owners='Frank.Giordano', rd_status_id= 43, rd_pdlc_status_id=161 where project_id<50;
---update resolution_project set owners='Frank.Giordano', rd_status_id= 43, rd_pdlc_status_id=161 where project_id<30;
+--update resolution_project set owner='Frank.Giordano', rd_status_id= 43, rd_pdlc_status_id=161 where project_id<80
+--update resolution_project set owner='Frank.Giordano', rd_status_id= 43, rd_pdlc_status_id=161 where project_id<50;
+--update resolution_project set owner='Frank.Giordano', rd_status_id= 43, rd_pdlc_status_id=161 where project_id<30;
 
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (40,'Open','Open',3);
 Insert into REFERENCE_DATA (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (41,'Closed','Closed',3);

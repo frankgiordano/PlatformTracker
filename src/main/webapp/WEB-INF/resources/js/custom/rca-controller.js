@@ -190,7 +190,6 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                     if (owners != null) {
                         ownersList = owners.split("|");
                     }
-                    var newOwners = [];
                     for (var i in ownersList) {
                         for (var j in $scope.owners) {
                             if (ownersList[i] === $scope.owners[j].userName) {
@@ -199,7 +198,6 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
 
                         }
                     }
-                    //  $scope.owners = newOwners;                    
 
                     var statusId = $scope.status.filter(function (item) {
                         return item.id === $scope.rca.status.id;

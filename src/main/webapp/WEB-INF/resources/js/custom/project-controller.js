@@ -142,12 +142,11 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                     OwnersService.getOwners().then(
                         function success(response) {
                             $scope.owners = response;
-                            var owners = $scope.project.owners;
+                            var owners = $scope.project.owner;
                             var ownersList = [];
                             if (owners != null) {
                                 ownersList = owners.split("|");
                             }
-                            var newOwners = [];
                             for (var i in ownersList) {
                                 for (var j in $scope.owners) {
                                     if (ownersList[i] === $scope.owners[j].userName) {
@@ -239,7 +238,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                 owners = owners + "|" + $scope.ownerlist[i].userName;
             }
             if (owners.length > 1)
-                $scope.project.owners = owners.substring(1, owners.length);
+                $scope.project.owner = owners.substring(1, owners.length);
         }
 
         $scope.back = false;
@@ -265,7 +264,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         var project = {
             "id": $scope.project.id,
             "name": $scope.project.name,
-            "owners": $scope.project.owners,
+            "owner": $scope.project.owner,
             "isHighPriority": $scope.project.isHighPriority,
             "description": $scope.project.description,
             "ecdeId": $scope.project.ecdeId,

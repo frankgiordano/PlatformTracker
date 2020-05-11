@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
                 query = "Select i from Incident i",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
         @NamedQuery(name = Incident.FIND_ALL_INCIDENTS,
-                query = "Select new us.com.plattrk.api.model.Incident(i.id, i.version, i.tag, i.name, i.reportOwner, i.summary, i.customerImpact, i.severity, " +
+                query = "Select new us.com.plattrk.api.model.Incident(i.id, i.version, i.tag, i.name, i.owner, i.summary, i.customerImpact, i.severity, " +
                         "i.description, e.name, a.displayName, i.locus, i.startTime, i.endTime, i.usersImpacted, i.transactionIdsImpacted, i.callsReceived, " +
                         "i.alertedBy, i.reviewedBy, i.status, i.correctiveAction, i.relatedActions, i.emailRecipents, i.recordedBy, i.issue) from Incident as i " +
                         "inner join i.error e inner join i.applicationStatus a",
@@ -43,7 +43,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
         @NamedQuery(name = Incident.FIND_ALL_OPEN_INCIDENTS_BY_RANGE_AND_APPLICATIONSTATUS_RELATIONS,
                 query = "Select i from Incident i inner join i.applicationStatus a where i.startTime >= (:startDate) and i.startTime < (:endDate) and a.displayName = (:applicationStatus)"),
         @NamedQuery(name = Incident.FIND_ALL_INCIDENTS_BY_CRITERIA,
-                query = "Select new us.com.plattrk.api.model.Incident(i.id, i.version, i.tag, i.name, i.reportOwner, i.summary, i.customerImpact, i.severity, " +
+                query = "Select new us.com.plattrk.api.model.Incident(i.id, i.version, i.tag, i.name, i.owner, i.summary, i.customerImpact, i.severity, " +
                         "i.description, e.name, a.displayName, i.locus, i.startTime, i.endTime, i.usersImpacted, i.transactionIdsImpacted, i.callsReceived, " +
                         "i.alertedBy, i.reviewedBy, i.status, i.correctiveAction, i.relatedActions, i.emailRecipents, i.recordedBy, i.issue) from Incident as i " +
                         "inner join i.error e inner join i.applicationStatus a where lower(i.tag) LIKE (:name) order by i.tag",
@@ -74,7 +74,7 @@ public class Incident {
     private Long version;
     private String tag;
     private String name;
-    private String reportOwner;
+    private String owner;
     private String summary;
     private String customerImpact;
     private String severity;
@@ -105,7 +105,7 @@ public class Incident {
     public Incident() {
     }
 
-    public Incident(Long id, Long version, String tag, String name, String reportOwner,
+    public Incident(Long id, Long version, String tag, String name, String owner,
                     String summary, String customerImpact, String severity,
                     String description, String errorName, String applicationStatusName, String locus, Date startTime,
                     Date endTime, double usersImpacted, int transactionIdsImpacted,
@@ -115,7 +115,7 @@ public class Incident {
         this.version = version;
         this.tag = tag;
         this.name = name;
-        this.reportOwner = reportOwner;
+        this.owner = owner;
         this.summary = summary;
         this.customerImpact = customerImpact;
         this.severity = severity;
@@ -188,13 +188,13 @@ public class Incident {
         this.name = name;
     }
 
-    @Column(name = "report_owner", columnDefinition = "VARCHAR(80)", nullable = true)
-    public String getReportOwner() {
-        return reportOwner;
+    @Column(name = "owner", columnDefinition = "VARCHAR(80)", nullable = true)
+    public String getOwner() {
+        return owner;
     }
 
-    public void setReportOwner(String reportOwner) {
-        this.reportOwner = reportOwner;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     @Column(name = "summary", columnDefinition = "VARCHAR(4000)", nullable = true)
@@ -456,7 +456,7 @@ public class Incident {
                 ", version=" + version +
                 ", tag='" + tag + '\'' +
                 ", name='" + name + '\'' +
-                ", reportOwner='" + reportOwner + '\'' +
+                ", owner='" + owner + '\'' +
                 ", customerImpact='" + customerImpact + '\'' +
                 ", severity='" + severity + '\'' +
                 ", description='" + description + '\'' +

@@ -1,4 +1,4 @@
-app.controller('ProductController', function ($rootScope, $scope, ProductService, $location, $routeParams, platforms, ModalService) {
+app.controller('ProductController', function ($rootScope, $scope, ProductService, $location, $routeParams, platforms, ModalService, OwnersService) {
 
     $scope.hideduringloading = false;
     $scope.disableButton = false;
@@ -18,7 +18,7 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
     $scope.getData = function (pageno) {
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
-        
+
         ProductService.search($scope.search, pageno).then(
             function success(response) {
                 $scope.data = response;
@@ -59,12 +59,41 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
     };
     $scope.waiting();
 
+    (function () {
+        OwnersService.getOwners().then(
+            function success(response) {
+                $scope.owners = response;
+            },
+            function error() {
+                $rootScope.errors.push({
+                    code: "OWNERS_GET_FAILURE",
+                    message: "Error retrieving owners."
+                });
+            });
+    })();
+
     $scope.select = function (product) {
         $scope.selectedProduct = product;
+
         $scope.selectedProduct.startDate = moment($scope.selectedProduct.startDate).format('YYYY-MM-DD');
         if ($scope.selectedProduct.endDate)
             $scope.selectedProduct.endDate = moment($scope.selectedProduct.endDate).format('YYYY-MM-DD');
+
         $scope.disableButton = false;
+
+        var owners = $scope.selectedProduct.owner;
+        var ownersList = [];
+        if (owners != null) {
+            ownersList = owners.split("|");
+        }
+        for (var i in ownersList) {
+            for (var j in $scope.owners) {
+                if (ownersList[i] === $scope.owners[j].userName) {
+                    $scope.owners[j].ticked = true;
+                }
+
+            }
+        }
     };
 
     $scope.cancel = function () {
@@ -128,6 +157,15 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
 
         enforceRequiredFields();
 
+        if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
+            var owners = "";
+            for (i = 0; i < $scope.ownerlist.length; i++) {
+                owners = owners + "|" + $scope.ownerlist[i].userName;
+            }
+            if (owners.length > 1)
+                $scope.selectedProduct.owner = owners.substring(1, owners.length);;
+        }
+
         var product = {
             "id": $scope.selectedProduct.id,
             "incidentName": $scope.selectedProduct.incidentName,
@@ -189,6 +227,15 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
             platform = null;
         } else {
             platform = $scope.selectedPlatform.value;
+        }
+
+        if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
+            var owners = "";
+            for (i = 0; i < $scope.ownerlist.length; i++) {
+                owners = owners + "|" + $scope.ownerlist[i].userName;
+            }
+            if (owners.length > 1)
+                $scope.owner = owners.substring(1, owners.length);;
         }
 
         var product = {

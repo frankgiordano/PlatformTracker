@@ -26,7 +26,7 @@ public class ProductUsers {
     public ProductUsers() {
     }
 
-    public ProductUsers(Date recrodingDate, int clients, int endUsers, Date recordingDate) {
+    public ProductUsers(Date recordingDate, int clients, int endUsers) {
         this.recordingDate = recordingDate;
         this.clients = clients;
         this.endUsers = endUsers;

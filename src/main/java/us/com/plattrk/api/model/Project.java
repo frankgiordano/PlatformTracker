@@ -29,12 +29,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @Cacheable(true)
 @NamedQueries({
         @NamedQuery(name = Project.FIND_ALL_PROJECTS,
-                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owners, pr.description, pr.ecdeId, pr.status, pr.estEffort, " +
+                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owner, pr.description, pr.ecdeId, pr.status, pr.estEffort, " +
                         "pr.actualEffort, pr.actualCompletionDate, pr.estCompletionDate, pr.pdlcStatus, pr.recordingDate, pr.statusChangeDate, pr.wikiType, " +
                         "pr.jiraId, pr.confluenceId) from Project as pr order by pr.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = Project.FIND_ALL_PROJECTS_BY_CRITERIA,
-                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owners, pr.description, pr.ecdeId, pr.status, pr.estEffort, " +
+                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owner, pr.description, pr.ecdeId, pr.status, pr.estEffort, " +
                         "pr.actualEffort, pr.actualCompletionDate, pr.estCompletionDate, pr.pdlcStatus, pr.recordingDate, pr.statusChangeDate, pr.wikiType, " +
                         "pr.jiraId, pr.confluenceId) from Project as pr where lower(pr.name) LIKE (:name) order by pr.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
@@ -54,7 +54,7 @@ public class Project {
 
     private Long id;
     private String name;
-    private String owners;
+    private String owner;
     private int isHighPriority;
     private String description;
     private Long ecdeId;
@@ -74,21 +74,21 @@ public class Project {
     public Project() {
     }
 
-    public Project(Long id, String name, String owners, String description) {
+    public Project(Long id, String name, String owner, String description) {
         this.id = id;
-        this.owners = owners;
+        this.owner = owner;
         this.name = name;
         this.description = description;
     }
 
-    public Project(Long id, String name, String owners, String description,
+    public Project(Long id, String name, String owner, String description,
                    Long ecdeId, ReferenceData status, Long estEffort,
                    Long actualEffort, Date actualCompletionDate,
                    Date estCompletionDate, ReferenceData pdlcStatus,
                    Date recordingDate, Date statusChangeDate, ReferenceData wikiType,
                    String jiraId, int confluenceId) {
         this.id = id;
-        this.owners = owners;
+        this.owner = owner;
         this.name = name;
         this.description = description;
         this.ecdeId = ecdeId;
@@ -129,13 +129,13 @@ public class Project {
         this.name = name;
     }
 
-    @Column(name = "owners", columnDefinition = "VARCHAR(256)", nullable = false)
-    public String getOwners() {
-        return owners;
+    @Column(name = "owner", columnDefinition = "VARCHAR(256)", nullable = false)
+    public String getOwner() {
+        return owner;
     }
 
-    public void setOwners(String owners) {
-        this.owners = owners;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     @Column(name = "is_high_priority", columnDefinition = "DECIMAL(1,0)", nullable = false)
@@ -283,7 +283,7 @@ public class Project {
         return "Project{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", owners='" + owners + '\'' +
+                ", owner='" + owner + '\'' +
                 ", isHighPriority=" + isHighPriority +
                 ", description='" + description + '\'' +
                 ", ecdeId=" + ecdeId +
