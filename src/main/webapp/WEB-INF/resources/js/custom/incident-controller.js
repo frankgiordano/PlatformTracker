@@ -1,4 +1,4 @@
-app.controller('IncidentController', function ($rootScope, $scope, IncidentGroupService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService) {
+app.controller('IncidentController', function ($rootScope, $scope, IncidentGroupService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService, OwnersService) {
 
     $scope.incident = {};
     $scope.hideduringloading = false;
@@ -73,6 +73,19 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                 });
             });
     }());
+
+    (function () {
+        OwnersService.getOwners().then(
+            function success(response) {
+                $scope.owners = response;
+            },
+            function error() {
+                $rootScope.errors.push({
+                    code: "OWNERS_GET_FAILURE",
+                    message: "Error retrieving owners."
+                });
+            });
+    })();
 
     $scope.createSetup = function () {
         $scope.setRouteSearchParms();
@@ -158,6 +171,20 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                             });
                         }
                         $scope.actions = newActions;
+                    }
+
+                    var owners = $scope.incident.owner;
+                    var ownersList = [];
+                    if (owners != null) {
+                        ownersList = owners.split("|");
+                    }
+                    for (var i in ownersList) {
+                        for (var j in $scope.owners) {
+                            if (ownersList[i] === $scope.owners[j].userName) {
+                                $scope.owners[j].ticked = true;
+                            }
+
+                        }
                     }
 
                     $scope.disableButton = false;
@@ -421,6 +448,8 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             }
         });
 
+        $scope.setOwner();
+
         enforceRequiredFields();
 
         var incident = {
@@ -579,6 +608,8 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             }
         }
 
+        $scope.setOwner();
+
         var incident = {
             "tag": $scope.incident.tag,
             "severity": $scope.incident.severity.value,
@@ -641,6 +672,17 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             }
         }
     };
+
+    $scope.setOwner = function () {
+        if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
+            var owners = "";
+            for (i = 0; i < $scope.ownerlist.length; i++) {
+                owners = owners + "|" + $scope.ownerlist[i].userName;
+            }
+            if (owners.length > 1)
+                $scope.incident.owner = owners.substring(1, owners.length);;
+        }
+    }
 
     $scope.getGroup = function (id) {
         $scope.clearDisplayMessages();

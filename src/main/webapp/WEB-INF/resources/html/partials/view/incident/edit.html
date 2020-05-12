@@ -95,7 +95,8 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Owner</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" ng-model="incident.owner">
+                        <div multi-select input-model="owners" button-label="userName" helper-elements="filter"
+                            output-model="ownerlist" item-label="userName" tick-property="ticked" selection-mode="single"></div>
                     </div>
                     <label class="col-sm-1 control-label">Application Status</label>
                     <div class="col-sm-3">
