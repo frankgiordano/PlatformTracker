@@ -7,3 +7,4 @@ bin/
 .springBeans
 npm-debug.log
 plattrk.iml
+.vscode/
