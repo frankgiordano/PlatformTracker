@@ -113,15 +113,10 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
     //	@Scheduled(cron="0 0 7 * * MON")
     public void weekEndReport() {
-        Calendar calWeekEnd = Calendar.getInstance();
-        Calendar calPrevious = Calendar.getInstance();
-        calWeekEnd.add(Calendar.DAY_OF_YEAR, -3);
-        calPrevious.add(Calendar.DAY_OF_YEAR, -1);
-        Date previousWeekEndDate = new Date(calWeekEnd.getTimeInMillis());
-        Date previousDayDate = new Date(calPrevious.getTimeInMillis());
+        SetWeekPrevCalendars calendars = new SetWeekPrevCalendars(-3, -1).invoke();
 
-        List<Incident> incidents = incidentRepository.getDateRangeIncidents(previousWeekEndDate, new Date());
-        report.generateWeekEndReport(incidents, previousWeekEndDate, previousDayDate);
+        List<Incident> incidents = incidentRepository.getDateRangeIncidents(calendars.getPreviousWeekDate(), new Date());
+        report.generateWeekEndReport(incidents, calendars.getPreviousWeekDate(), calendars.getPreviousDayDate());
     }
 
     //	@Scheduled(cron="0 0 10 * * MON")
@@ -130,35 +125,26 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
             return;
         }
 
-        Calendar calWeekly = Calendar.getInstance();
-        Calendar calPrevious = Calendar.getInstance();
-        calWeekly.add(Calendar.DAY_OF_YEAR, -7);
-        calPrevious.add(Calendar.DAY_OF_YEAR, -1);
-        Date previousWeeklyDate = new Date(calWeekly.getTimeInMillis());
-        Date previousDayDate = new Date(calPrevious.getTimeInMillis());
+        SetWeekPrevCalendars calendars = new SetWeekPrevCalendars(-7, -1).invoke();
 
-        // List<Incident> incidents = incidentRepository.getDateRangeIncidentsByPriority(previousWeeklyDate, new Date(), "P1");
-        List<Incident> incidents = incidentRepository.getDateRangeIncidentsByApplicationStatus(previousWeeklyDate, new Date(), "Down");
-        report.generateWeeklyReport(incidents, previousWeeklyDate, previousDayDate, null);
+        List<Incident> incidents = incidentRepository.getDateRangeIncidentsByApplicationStatus(calendars.getPreviousWeekDate(), new Date(), "Down");
+
+        report.generateWeeklyReport(incidents, calendars.getPreviousWeekDate(), calendars.getPreviousDayDate(), null);
     }
 
     @Override
     public boolean generateWeeklyReport(EmailAddress address) {
-        Calendar calWeekly = Calendar.getInstance();
-        Calendar calPrevious = Calendar.getInstance();
-        calWeekly.add(Calendar.DAY_OF_YEAR, -7);
-        calPrevious.add(Calendar.DAY_OF_YEAR, -1);
-        Date previousWeeklyDate = new Date(calWeekly.getTimeInMillis());
-        Date previousDayDate = new Date(calPrevious.getTimeInMillis());
+        SetWeekPrevCalendars calendars = new SetWeekPrevCalendars(-7, -1).invoke();
 
-        // List<Incident> incidents = incidentRepository.getDateRangeIncidentsByPriority(previousWeeklyDate, new Date(), "P1");
-        List<Incident> incidents = incidentRepository.getDateRangeIncidentsByApplicationStatus(previousWeeklyDate, new Date(), "Down");
+        List<Incident> incidents = incidentRepository.getDateRangeIncidentsByApplicationStatus(calendars.getPreviousWeekDate(), new Date(), "Down");
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
         Report report = (Report) wac.getBean("Report");
+
         if (address.getAddress().toLowerCase().equals("auto")) {
-            return report.generateWeeklyReport(incidents, previousWeeklyDate, previousDayDate, null);
+            return report.generateWeeklyReport(incidents, calendars.getPreviousWeekDate(), calendars.getPreviousDayDate(), null);
         }
-        return report.generateWeeklyReport(incidents, previousWeeklyDate, previousDayDate, address);
+
+        return report.generateWeeklyReport(incidents, calendars.getPreviousWeekDate(), calendars.getPreviousDayDate(), address);
     }
 
     @Override
@@ -250,7 +236,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         return incidentRepository.getIncident(id);
     }
 
-    public String fileName() {
+    private String fileName() {
         String file;
         if (System.getProperty("os.name").startsWith("Windows")) {
             file = "c:\\toggle";
@@ -260,11 +246,44 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         return file;
     }
 
-    public boolean getThreadByName(String threadName) {
+    private boolean getThreadByName(String threadName) {
         for (Thread t : Thread.getAllStackTraces().keySet()) {
             if (t.getName().equals(threadName)) return true;
         }
         return false;
+    }
+
+    private class SetWeekPrevCalendars {
+        private int week;
+        private int previous;
+        private Calendar calWeekly;
+        private Calendar calPrevious;
+        private Date previousWeekDate;
+
+        public SetWeekPrevCalendars(int week, int previous) {
+            this.week = week;
+            this.previous = previous;
+        }
+
+        public Date getPreviousWeekDate() {
+            return previousWeekDate;
+        }
+
+        public Date getPreviousDayDate() {
+            return previousDayDate;
+        }
+
+        private Date previousDayDate;
+
+        public SetWeekPrevCalendars invoke() {
+            calWeekly = Calendar.getInstance();
+            calPrevious = Calendar.getInstance();
+            calWeekly.add(Calendar.DAY_OF_YEAR, week);
+            calPrevious.add(Calendar.DAY_OF_YEAR, previous);
+            previousWeekDate = new Date(calWeekly.getTimeInMillis());
+            previousDayDate = new Date(calPrevious.getTimeInMillis());
+            return this;
+        }
     }
 
 }

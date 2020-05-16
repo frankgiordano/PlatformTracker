@@ -68,26 +68,22 @@ public class MailJavaImpl implements Mail {
 
         switch (type) {
             case INCIDENTSTART:
-                allEmailAddresses
-                        .addAll(Arrays.asList(appProperties.getProperty(incident.getEmailRecipents()).split(",")));
+                allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty(incident.getEmailRecipents()).split(",")));
                 subject = mailFormat.generateSubjectFormat(Type.INCIDENTSTART);
                 body = mailFormat.generateBodyFormat(false);
                 break;
             case INCIDENTUPDATE:
-                allEmailAddresses
-                        .addAll(Arrays.asList(appProperties.getProperty(incident.getEmailRecipents()).split(",")));
+                allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty(incident.getEmailRecipents()).split(",")));
                 subject = mailFormat.generateSubjectFormat(Type.INCIDENTUPDATE);
                 body = mailFormat.generateBodyFormat(false);
                 break;
             case INCIDENT55NOUPDATE:
-                allEmailAddresses
-                        .addAll(Arrays.asList(appProperties.getProperty("RTS Desktop Operations Only").split(",")));
+                allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty("RTS Desktop Operations Only").split(",")));
                 subject = mailFormat.generateSubjectFormat(Type.INCIDENT55NOUPDATE);
                 body = mailFormat.generateBodyFormat(false);
                 break;
             case INCIDENT1HNOUPDATE:
-                allEmailAddresses
-                        .addAll(Arrays.asList(appProperties.getProperty(incident.getEmailRecipents()).split(",")));
+                allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty(incident.getEmailRecipents()).split(",")));
                 subject = mailFormat.generateSubjectFormat(Type.INCIDENT1HNOUPDATE);
                 body = mailFormat.generateBodyFormat(false);
                 break;
@@ -97,20 +93,17 @@ public class MailJavaImpl implements Mail {
                 body = mailFormat.generateBodyFormat(false);
                 break;
             case INCIDENTCHRONOLOGYSTART:
-                allEmailAddresses
-                        .addAll(Arrays.asList(appProperties.getProperty(incident.getEmailRecipents()).split(",")));
+                allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty(incident.getEmailRecipents()).split(",")));
                 subject = mailFormat.generateSubjectFormat(Type.INCIDENTCHRONOLOGYSTART);
                 body = mailFormat.generateBodyFormat(false);
                 break;
             case INCIDENTEND:
-                allEmailAddresses
-                        .addAll(Arrays.asList(appProperties.getProperty(incident.getEmailRecipents()).split(",")));
+                allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty(incident.getEmailRecipents()).split(",")));
                 subject = mailFormat.generateSubjectFormat(Type.INCIDENTEND);
                 body = mailFormat.generateBodyFormat(false);
                 break;
             case INCIDENTCREATEEND:
-                allEmailAddresses
-                        .addAll(Arrays.asList(appProperties.getProperty(incident.getEmailRecipents()).split(",")));
+                allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty(incident.getEmailRecipents()).split(",")));
                 subject = mailFormat.generateSubjectFormat(Type.INCIDENTCREATEEND);
                 body = mailFormat.generateBodyFormat(false);
                 break;
@@ -129,7 +122,6 @@ public class MailJavaImpl implements Mail {
             }
         }
         return;
-
     }
 
     @Override

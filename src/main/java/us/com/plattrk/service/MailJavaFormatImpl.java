@@ -157,6 +157,7 @@ public class MailJavaFormatImpl implements MailFormat {
                 subject += "New problem impacting " + productsString.toString();
                 break;
             case INCIDENTUPDATE:
+            case INCIDENTCHRONOLOGYSTART:
                 subject += "Update to problem impacting " + productsString.toString();
                 break;
             case INCIDENT55NOUPDATE:
@@ -165,9 +166,6 @@ public class MailJavaFormatImpl implements MailFormat {
                 break;
             case INCIDENT2HNOUPDATE:
                 subject += "Escalate no update to problem impacting " + productsString.toString();
-                break;
-            case INCIDENTCHRONOLOGYSTART:
-                subject += "Update to problem impacting " + productsString.toString();
                 break;
             case INCIDENTEND:
                 subject += "Resolved problem impacting " + productsString.toString();
