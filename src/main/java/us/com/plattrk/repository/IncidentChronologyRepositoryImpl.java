@@ -20,7 +20,7 @@ import us.com.plattrk.api.model.IncidentChronology;
 @Repository
 public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepository {
 
-    private static Logger log = LoggerFactory.getLogger(IncidentChronologyRepositoryImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(IncidentChronologyRepositoryImpl.class);
 
     @PersistenceContext
     private EntityManager em;

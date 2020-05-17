@@ -22,7 +22,7 @@ import us.com.plattrk.util.RepositoryUtil;
 @Repository
 public class RCARepositoryImpl implements RCARepository {
 
-    private static Logger log = LoggerFactory.getLogger(RCARepositoryImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(RCARepositoryImpl.class);
 
     @Autowired
     private RepositoryUtil<RCA> repositoryUtil;

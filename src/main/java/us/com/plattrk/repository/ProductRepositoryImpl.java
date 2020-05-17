@@ -18,7 +18,7 @@ import us.com.plattrk.util.RepositoryUtil;
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
-    private static Logger log = LoggerFactory.getLogger(ProductRepositoryImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(ProductRepositoryImpl.class);
 
     @Autowired
     private RepositoryUtil<Product> repositoryUtil;

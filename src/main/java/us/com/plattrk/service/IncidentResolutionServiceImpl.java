@@ -21,7 +21,7 @@ import us.com.plattrk.util.PageWrapper;
 @Service(value = "IncidentResolutionService")
 public class IncidentResolutionServiceImpl implements IncidentResolutionService {
 
-    private static Logger log = LoggerFactory.getLogger(IncidentResolutionServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(IncidentResolutionServiceImpl.class);
 
     @Autowired
     private IncidentResolutionRepository resolutionRepository;

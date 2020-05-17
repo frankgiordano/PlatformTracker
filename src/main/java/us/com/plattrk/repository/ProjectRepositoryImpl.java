@@ -23,7 +23,7 @@ import us.com.plattrk.util.RepositoryUtil;
 @Repository
 public class ProjectRepositoryImpl implements ProjectRepository {
 
-    private static Logger log = LoggerFactory.getLogger(ProjectRepositoryImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(ProjectRepositoryImpl.class);
 
     @Autowired
     private RepositoryUtil<Project> repositoryUtil;

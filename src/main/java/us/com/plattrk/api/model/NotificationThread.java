@@ -16,7 +16,7 @@ import us.com.plattrk.service.MailServiceImpl;
 
 public class NotificationThread implements Runnable {
 
-    private static Logger log = LoggerFactory.getLogger(NotificationThread.class);
+    private static final Logger log = LoggerFactory.getLogger(NotificationThread.class);
 
     // this is wired via xml configuration to allow us to easily switch between socket and java mail implementations.
     private MailService mailService;

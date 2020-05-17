@@ -17,7 +17,7 @@ import us.com.plattrk.util.RepositoryUtil;
 @Repository
 public class IncidentRepositoryImpl implements IncidentRepository {
 
-    private static Logger log = LoggerFactory.getLogger(IncidentRepositoryImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(IncidentRepositoryImpl.class);
 
     @Autowired
     private RepositoryUtil<Incident> repositoryUtil;
