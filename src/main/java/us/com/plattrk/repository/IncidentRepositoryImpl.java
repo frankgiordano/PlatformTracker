@@ -253,7 +253,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
         };
     }
 
-    public List<IncidentGroup> CheckIncidentGroup(String name) {
+    private List<IncidentGroup> CheckIncidentGroup(String name) {
         TypedQuery<IncidentGroup> query = em.createNamedQuery(Incident.FIND_INCIDENT_GROUP, IncidentGroup.class).setParameter("name", name);
         return query.getResultList();
     }
