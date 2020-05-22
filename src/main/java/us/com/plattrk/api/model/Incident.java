@@ -53,7 +53,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = Incident.FIND_ALL_INCIDENTS_COUNT,
                 query = "Select count(i.id) from Incident i",
-                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")})
 })
 public class Incident {
 

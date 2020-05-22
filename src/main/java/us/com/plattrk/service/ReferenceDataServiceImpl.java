@@ -15,16 +15,16 @@ import us.com.plattrk.repository.ReferenceDataRepository;
 @Scope("singleton")
 public class ReferenceDataServiceImpl implements ReferenceDataService {
 
-    @Autowired
-    private ReferenceDataRepository refRepository;
-
     private static final ConcurrentMap<Long, List<ReferenceData>> referenceData = new ConcurrentHashMap();
+
+    @Autowired
+    private ReferenceDataRepository referenceDataRepository;
 
     @Override
     public List<ReferenceData> getReferencesByGroupId(Long groupId) {
         List<ReferenceData> result = referenceData.get(groupId);
-        if (result == null || result.size() == 0) {
-            result = refRepository.getReferenceDatasByGroupId(groupId);
+        if (result == null || result.isEmpty()) {
+            result = referenceDataRepository.getReferenceDataByGroupId(groupId);
             if (!result.isEmpty())
                 referenceData.put(groupId, result);
         }

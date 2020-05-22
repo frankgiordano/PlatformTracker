@@ -30,7 +30,7 @@ import java.util.Date;
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT,
                 query = "Select count(res.id) from IncidentResolution res",
-                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")})
 })
 public class IncidentResolution {
 

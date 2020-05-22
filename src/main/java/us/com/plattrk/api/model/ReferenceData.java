@@ -2,17 +2,16 @@ package us.com.plattrk.api.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "reference_data")
 @Cacheable(true)
+@NamedQueries({
+        @NamedQuery(name = ReferenceData.FIND_REFERENCES_BY_GROUP_ID,
+                query = "Select new us.com.plattrk.api.model.ReferenceData(rc.id, rc.displayName, rc.groupId, rc.description) from ReferenceData as rc where rc.groupId = :groupId order by rc.id",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")})
+})
 public class ReferenceData implements Serializable {
 
     public static final String FIND_REFERENCES_BY_GROUP_ID = "findReferencesByGroupId";

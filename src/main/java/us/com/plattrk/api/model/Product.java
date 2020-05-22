@@ -51,7 +51,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = Product.FIND_ALL_PRODUCTS_COUNT,
                 query = "Select count(pd.id) from Product pd",
-                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")})
 })
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Product.class)
 public class Product {

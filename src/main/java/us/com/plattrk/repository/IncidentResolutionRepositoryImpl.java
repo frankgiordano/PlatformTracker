@@ -100,7 +100,6 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
         return incidentResolution;
     }
 
-
     private static Consumer<IncidentResolution> lambdaWrapper(Consumer<IncidentResolution> consumer, List<IncidentResolution> resolutions) {
         return i -> {
             try {
