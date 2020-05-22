@@ -83,20 +83,17 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
         // find if there are any open incidents, if so loop through them and perform email notification if applicable. 
         // spawn a thread for each open incident and the thread performs the notification.
-        if (!openIncidents.isEmpty()) {
+        for (Incident incident : openIncidents) {
+            log.info("Open Incident found, in NotificationCheck processing " + incident.getStatus() + " " + incident.getTag() + " " + incident.getStartTime());
 
-            for (Incident incident : openIncidents) {
-                log.info("Open Incident found, in NotificationCheck processing " + incident.getStatus() + " " + incident.getTag() + " " + incident.getStartTime());
-
-                if (!getThreadByName(incident.getTag())) {
-                    // Thread thread = new Thread(new NotificationThread (i, appProperties)); // do this if you do not want to use spring container
-                    NotificationThread notificationThread = (NotificationThread) wac.getBean("notificationThread");
-                    notificationThread.setIncident(incident);
-                    notificationThread.setAppProperties(appProperties);
-                    Thread thread = new Thread(notificationThread);
-                    thread.setName(incident.getTag());
-                    thread.start();
-                }
+            if (!getThreadByName(incident.getTag())) {
+                // Thread thread = new Thread(new NotificationThread (i, appProperties)); // do this if you do not want to use spring container
+                NotificationThread notificationThread = (NotificationThread) wac.getBean("notificationThread");
+                notificationThread.setIncident(incident);
+                notificationThread.setAppProperties(appProperties);
+                Thread thread = new Thread(notificationThread);
+                thread.setName(incident.getTag());
+                thread.start();
             }
         }
     }
