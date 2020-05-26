@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Incident Group Name</label>
                     <div class="col-sm-6">
-                        <select class="form-control" ng-model="resolution.incidentGroup"
+                        <select required class="form-control" ng-model="resolution.incidentGroup"
                             ng-options="group.name for group in groups | orderBy: 'name'">
                         </select>
                     </div>
@@ -28,7 +28,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Horizon</label>
                     <div class="col-sm-6">
-                        <select class="form-control" ng-model="resolution.horizon"
+                        <select required class="form-control" ng-model="resolution.horizon"
                             ng-options="item.displayName for item in horizons">
                         </select>
                     </div>
@@ -36,14 +36,14 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Owner</label>
                     <div class="col-sm-6">
-                        <div multi-select input-model="owners" button-label="userName" helper-elements="filter"
+                        <div required multi-select input-model="owners" button-label="userName" helper-elements="filter"
                             output-model="ownerlist" item-label="userName" tick-property="ticked" selection-mode="single"></div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Status</label>
                     <div class="col-sm-6">
-                        <select class="form-control" ng-model="resolution.status"
+                        <select required class="form-control" ng-model="resolution.status"
                             ng-options="item.displayName for item in status">
                         </select>
                     </div>
@@ -52,7 +52,7 @@
                     <label class="col-sm-2 control-label">Estimated Completion
                         Date</label>
                     <div class="col-sm-6">
-                        <input type="date" class="form-control" ng-model="resolution.estCompletionDate">
+                        <input type="date" class="form-control" ng-model="resolution.estCompletionDate" required />
                     </div>
                 </div>
                 <div class="form-group">
@@ -78,7 +78,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-6">
-                        <textarea type="text" class="form-control" rows="5"
+                        <textarea required type="text" class="form-control" rows="5"
                             ng-model="resolution.description"></textarea>
                     </div>
                 </div>

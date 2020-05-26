@@ -20,7 +20,7 @@
                 <div class="form-group" class="form-control">
                     <label class="col-sm-2 control-label">Name</label>
                     <div class="col-sm-6">
-                        <input type="text" ng-model="project.name" class="form-control">
+                        <input type="text" ng-model="project.name" class="form-control" required />
                     </div>
                 </div>
                 <div class="form-group">
@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Owner</label>
                     <div class="col-sm-7">
-                        <div multi-select input-model="owners" button-label="userName" helper-elements="filter"
+                        <div required multi-select input-model="owners" button-label="userName" helper-elements="filter"
                             output-model="ownerlist" item-label="userName" tick-property="ticked"
                             selection-mode="single"></div>
                     </div>
@@ -50,8 +50,8 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">ECDE ID</label>
                     <div class="col-sm-6">
-                        <input type="text" placeholder="Enter a Number" ng-model="project.ecdeId" required
-                            class="form-control" only-digits />
+                        <input type="text" placeholder="Enter a Number" ng-model="project.ecdeId" class="form-control"
+                            only-digits />
                     </div>
                 </div>
                 <div class="form-group">
@@ -63,13 +63,14 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Status Change Date</label>
                     <div class="col-sm-6">
-                        <input type="date" ng-model="project.statusChangeDate" class="form-control" required />
+                        <input type="date" ng-model="project.statusChangeDate" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-6">
-                        <textarea type="text" rows="5" ng-model="project.description" class="form-control"></textarea>
+                        <textarea required type="text" rows="5" ng-model="project.description"
+                            class="form-control"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -81,7 +82,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Completion Date</label>
                     <div class="col-sm-6">
-                        <input type="date" class="form-control" ng-model="project.actualCompletionDate" required />
+                        <input type="date" class="form-control" ng-model="project.actualCompletionDate">
                     </div>
                 </div>
                 <div class="form-group">

@@ -41,7 +41,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Status</label>
                     <div class="col-sm-3">
-                        <select class="form-control" ng-model="incident.status"
+                        <select required class="form-control" ng-model="incident.status"
                             ng-options="c.name as c.name for c in incidentstatuss">
                         </select>
                     </div>
@@ -57,7 +57,7 @@
                     <div class="col-md-3">
                         <p class="input-group">
                             <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm"
-                                ng-model="incident.startTime" is-open="open.startTime" />
+                                ng-model="incident.startTime" is-open="open.startTime" required />
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default"
                                     ng-click="openCalendar($event, 'startTime')">
@@ -83,7 +83,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Severity</label>
                     <div class="col-sm-3">
-                        <select class="form-control" ng-model="incident.severity"
+                        <select required class="form-control" ng-model="incident.severity"
                             ng-options="c.name as c.name for c in severities">
                         </select>
                     </div>
@@ -114,7 +114,7 @@
                     </div>
                     <label class="col-sm-1 control-label">Locus</label>
                     <div class="col-sm-3">
-                        <select class="form-control" ng-model="incident.locus"
+                        <select required class="form-control" ng-model="incident.locus"
                             ng-options="c.name as c.name for c in locuss"></select>
                     </div>
                 </div>
@@ -127,7 +127,8 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Technical Description</label>
                     <div class="col-sm-7">
-                        <textarea type="text" class="form-control" rows="5" ng-model="incident.description"></textarea>
+                        <textarea required type="text" class="form-control" rows="5"
+                            ng-model="incident.description"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -313,19 +314,19 @@
                             <label class="col-sm-2 control-label">% of Users Impacted</label>
                             <div class="col-sm-3">
                                 <input type="text" placeholder="Enter a Number" class="form-control"
-                                    ng-model="incident.usersImpacted" only-digits>
+                                    ng-model="incident.usersImpacted" only-digits required />
                             </div>
                             <label class="col-sm-1 control-label">Calls Rec'd</label>
                             <div class="col-sm-3">
                                 <input type="text" placeholder="Enter a Number" class="form-control"
-                                    ng-model="incident.callsReceived" only-digits>
+                                    ng-model="incident.callsReceived" only-digits required />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Transaction IDs Impacted</label>
                             <div class="col-sm-7">
                                 <input type="text" placeholder="Enter a Number" class="form-control"
-                                    ng-model="incident.transactionIdsImpacted" only-digits>
+                                    ng-model="incident.transactionIdsImpacted" only-digits required />
                             </div>
                         </div>
                     </tab>
