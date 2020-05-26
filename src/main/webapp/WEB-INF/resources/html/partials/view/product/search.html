@@ -139,7 +139,8 @@
                 <label class="col-sm-2 control-label">Owner</label>
                 <div class="col-sm-6">
                     <div multi-select input-model="owners" button-label="userName" helper-elements="filter"
-                        output-model="ownerlist" item-label="userName" tick-property="ticked" selection-mode="single"></div>
+                        output-model="ownerlist" item-label="userName" tick-property="ticked" selection-mode="single">
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -157,19 +158,22 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Max Weekly Uptime</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="selectedProduct.maxWeeklyUptime">
+                    <input type="text" placeholder="Enter a Number" class="form-control"
+                        ng-model="selectedProduct.maxWeeklyUptime" only-digits>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Revenue %</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="selectedProduct.revenue">
+                    <input type="text" placeholder="Enter a Number" class="form-control"
+                        ng-model="selectedProduct.revenue" only-digits>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">User %</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="selectedProduct.users">
+                    <input type="text" placeholder="Enter a Number" class="form-control"
+                        ng-model="selectedProduct.users" only-digits>
                 </div>
             </div>
             <div class="form-group">

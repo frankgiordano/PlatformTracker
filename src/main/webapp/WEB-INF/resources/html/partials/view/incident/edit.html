@@ -96,7 +96,8 @@
                     <label class="col-sm-2 control-label">Owner</label>
                     <div class="col-sm-3">
                         <div multi-select input-model="owners" button-label="userName" helper-elements="filter"
-                            output-model="ownerlist" item-label="userName" tick-property="ticked" selection-mode="single"></div>
+                            output-model="ownerlist" item-label="userName" tick-property="ticked"
+                            selection-mode="single"></div>
                     </div>
                     <label class="col-sm-1 control-label">Application Status</label>
                     <div class="col-sm-3">
@@ -312,17 +313,20 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">% of Users Impacted</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" ng-model="incident.usersImpacted">
+                                <input type="text" placeholder="Enter a Number" class="form-control"
+                                    ng-model="incident.usersImpacted" only-digits>
                             </div>
                             <label class="col-sm-1 control-label">Calls Rec'd</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" ng-model="incident.usersImpacted">
+                                <input type="text" placeholder="Enter a Number" class="form-control"
+                                    ng-model="incident.usersImpacted" only-digits>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Transaction IDs Impacted</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" ng-model="incident.transactionIdsImpacted">
+                                <input type="text" placeholder="Enter a Number" class="form-control"
+                                    ng-model="incident.transactionIdsImpacted" only-digits>
                             </div>
                         </div>
                     </tab>

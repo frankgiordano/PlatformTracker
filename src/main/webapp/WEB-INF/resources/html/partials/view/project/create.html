@@ -35,7 +35,8 @@
                     <label class="col-sm-2 control-label">Owner</label>
                     <div class="col-sm-7">
                         <div multi-select input-model="owners" button-label="userName" helper-elements="filter"
-                            output-model="ownerlist" item-label="userName" tick-property="ticked" selection-mode="single"></div>
+                            output-model="ownerlist" item-label="userName" tick-property="ticked"
+                            selection-mode="single"></div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -49,7 +50,8 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">ECDE ID</label>
                     <div class="col-sm-6">
-                        <input type="text" ng-model="project.ecdeId" required class="form-control" />
+                        <input type="text" placeholder="Enter a Number" ng-model="project.ecdeId" required
+                            class="form-control" only-digits />
                     </div>
                 </div>
                 <div class="form-group">
@@ -93,19 +95,22 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Estimate Effort</label>
                     <div class="col-sm-6">
-                        <input type="text" ng-model="project.estEffort" class="form-control">
+                        <input type="text" placeholder="Enter a Number" ng-model="project.estEffort"
+                            class="form-control" only-digits>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Actual Effort</label>
                     <div class="col-sm-6">
-                        <input type="text" ng-model="project.actualEffort" class="form-control">
+                        <input type="text" placeholder="Enter a Number" ng-model="project.actualEffort"
+                            class="form-control" only-digits>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Confluence ID</label>
                     <div class="col-sm-6">
-                        <input type="text" ng-model="project.confluenceId" class="form-control">
+                        <input type="text" placeholder="Enter a Number" ng-model="project.confluenceId"
+                            class="form-control" only-digits>
                     </div>
                 </div>
                 <div class="form-group" class="form-control">
