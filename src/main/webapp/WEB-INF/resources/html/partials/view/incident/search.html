@@ -58,6 +58,10 @@
                 <th ng-click="sort('endTime')">End Time
                     <span class="glyphicon sort-icon" ng-show="sortKey=='endTime'"
                         ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                </th>
+                <th ng-click="sort('owner')">Owner
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='owner'"
+                        ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				</th>
 				<th ng-click="sort('usersImpacted')">Users Imp'ed
                     <span class="glyphicon sort-icon" ng-show="sortKey=='usersImpacted'"
@@ -89,6 +93,7 @@
 				<td>{{incident.locus}}</td>
 				<td>{{incident.startTime | dateFormatMinusTime}}</td>
                 <td>{{incident.endTime | dateFormatMinusTime}}</td>
+                <td>{{incident.owner}}</td>
 				<td>{{incident.usersImpacted}}</td>
 				<td>{{incident.callsReceived}}</td>
 				<td>{{incident.alertedBy}}</td>
