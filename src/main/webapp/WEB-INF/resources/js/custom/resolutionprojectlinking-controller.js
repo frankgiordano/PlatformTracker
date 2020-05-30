@@ -75,7 +75,7 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
     $scope.link = function () {
         $scope.waiting(true);
         $scope.getSelectedRows();
-    }
+    };
 
     $scope.getSelectedRows = function () {
         $scope.clearMsg();
@@ -150,16 +150,16 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
                 $scope.errormessages = $rootScope.PROJECT_LINK_RESOLUTON_ERROR_MSG;
                 $scope.waiting(false);
             });
-    }
+    };
 
     $scope.close = function () {
         $window.close();
         $scope.clearMsg();
-    }
+    };
 
     $scope.clearMsg = function () {
         $scope.messages = null;
         $scope.errormessages = null;
-    }
+    };
 
 });

@@ -41,7 +41,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     $scope.sort = function (keyname) {
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-    }
+    };
 
     $scope.$watch("search", function (val) {
         if ($scope.search) {  // this needs to be a truthy test 	
@@ -55,7 +55,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
 
     $scope.select = function (id) {
         $location.path('/project/edit/' + id + '/' + $scope.pageno + '/' + $scope.search);
-    }
+    };
 
     $scope.waiting = function (value) {
         if (value === true) {
@@ -73,7 +73,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     $scope.clearMsg = function () {
         $scope.messages = null;
         $scope.errormessages = null;
-    }
+    };
 
     $scope.createSetup = function () {
         $scope.setRouteSearchParms();
@@ -117,7 +117,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                     });
                 });
         }
-    }
+    };
 
     $scope.getProject = function () {
         $scope.setRouteSearchParms();
@@ -183,7 +183,6 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             function error() {
                 $scope.errormessages = "PROJECT_GET_FAILURE - Retrieving project failed, check logs or try again.";
             });
-
     };
 
     $scope.showComplex = function (project) {
@@ -259,6 +258,39 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             $scope.project.statusChangeDate = null;
         }
 
+        // Trigger validation flag.
+        $scope.submitted = true;
+        $scope.ownerRequired = false;
+        if ($scope.project.name === null ||
+            $scope.project.name === undefined ||
+            $scope.project.name.trim() === "") {
+            $scope.nameRequired = true;
+            $scope.projectForm.name.$invalid = true;
+        }
+        if ($scope.project.recordingDate === null ||
+            $scope.project.recordingDate === undefined ||
+            $scope.project.recordingDate.trim() === "") {
+            $scope.recordingDateRequired = true;
+            $scope.projectForm.recordingDate.$invalid = true;
+        }
+        if ($scope.project.description === null ||
+            $scope.project.description === undefined ||
+            $scope.project.description.trim() === "") {
+            $scope.descriptionRequired = true;
+            $scope.projectForm.description.$invalid = true;
+        }
+        if ($scope.project.estCompletionDate === null ||
+            $scope.project.estCompletionDate === undefined ||
+            $scope.project.estCompletionDate.trim() === "") {
+            $scope.dueDateRequired = true;
+            $scope.projectForm.dueDate.$invalid = true;
+        }
+        if ($scope.project.owner === null ||
+            $scope.project.owner === undefined) {
+            $scope.ownerRequired = true;
+        }
+        // End of validation
+
         enforceRequiredFields();
 
         var project = {
@@ -314,7 +346,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             $scope.project.description = null;
         if ($scope.project.owners === "")
             $scope.project.owners = null;
-    }
+    };
 
     $scope.linkResolutions = function (project) {
         $scope.resolution = {};
@@ -350,7 +382,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         if ($routeParams.pageno !== undefined) {
             $scope.pageno = $routeParams.pageno;
         }
-    }
+    };
 
 });
 

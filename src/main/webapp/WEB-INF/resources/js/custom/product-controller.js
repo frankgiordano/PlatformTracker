@@ -34,7 +34,7 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
     $scope.sort = function (keyname) {
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-    }
+    };
 
     $scope.$watch("search", function (val) {
         if ($scope.search) {  // this needs to be a truthy test 	
@@ -155,6 +155,34 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
         $scope.clearMsg();
         $scope.waiting(true);
 
+        // Trigger validation flag.
+        $scope.submitted = true;
+        if ($scope.selectedProduct.incidentName === undefined ||
+            $scope.selectedProduct.incidentName === null ||
+            $scope.selectedProduct.incidentName.trim() === "") {
+            $scope.incidentNameRequired = true;
+            $scope.productForm.incidentName.$invalid = true;
+        }
+        if ($scope.selectedProduct.startDate === undefined ||
+            $scope.selectedProduct.startDate === null ||
+            $scope.selectedProduct.startDate.trim() === "") {
+            $scope.startDateRequired = true;
+            $scope.productForm.startDate.$invalid = true;
+        }
+        if ($scope.selectedProduct.clientName === undefined ||
+            $scope.selectedProduct.clientName === null ||
+            $scope.selectedProduct.clientName.trim() === "") {
+            $scope.clientNameRequired = true;
+            $scope.productForm.clientName.$invalid = true;
+        }
+        if ($scope.selectedProduct.shortName === undefined ||
+            $scope.selectedProduct.shortName === null ||
+            $scope.selectedProduct.shortName === "") {
+            $scope.shortNameRequired = true;
+            $scope.productForm.shortName.$invalid = true;
+        }
+        // End of validation
+
         enforceRequiredFields();
 
         if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
@@ -163,7 +191,7 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
                 owners = owners + "|" + $scope.ownerlist[i].userName;
             }
             if (owners.length > 1)
-                $scope.selectedProduct.owner = owners.substring(1, owners.length);;
+                $scope.selectedProduct.owner = owners.substring(1, owners.length);
         }
 
         var product = {
@@ -213,29 +241,50 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
             $scope.selectedProduct.clientName !== null &&
             $scope.selectedProduct.clientName.trim() === "")
             $scope.selectedProduct.clientName = null;
-    }
+    };
 
     $scope.submit = function (form) {
+        var platform;
         $scope.clearMsg();
         $scope.waiting(true);
+
         // Trigger validation flag.
         $scope.submitted = true;
+        if ($scope.incidentName === null || $scope.incidentName === undefined || $scope.incidentName.trim() === "") {
+            $scope.incidentNameRequired = true;
+            $scope.productForm.incidentName.$invalid = true;
+        }
+        if ($scope.selectedPlatform === null || $scope.selectedPlatform === undefined) {
+            $scope.platformRequired = true;
+            $scope.productForm.platform.$invalid = true;
+        }
+        if ($scope.startDate === null || $scope.startDate === undefined) {
+            $scope.startDateRequired = true;
+            $scope.productForm.startDate.$invalid = true;
+        }
+        if ($scope.clientName === null || $scope.clientName === undefined || $scope.clientName.trim() === "") {
+            $scope.clientNameRequired = true;
+            $scope.productForm.clientName.$invalid = true;
+        }
+        if ($scope.shortName === null || $scope.shortName === undefined || $scope.shortName.trim() === "") {
+            $scope.shortNameRequired = true;
+            $scope.productForm.shortName.$invalid = true;
+        }
+        // End of validation
 
-        var platform;
-
-        if ($scope.selectedPlatform == null || $scope.selectedPlatform == undefined) {
+        if ($scope.selectedPlatform === null || $scope.selectedPlatform === undefined) {
             platform = null;
         } else {
             platform = $scope.selectedPlatform.value;
         }
 
-        if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
+        if ($scope.ownerlist !== null && $scope.ownerlist.length > 0) {
             var owners = "";
             for (i = 0; i < $scope.ownerlist.length; i++) {
                 owners = owners + "|" + $scope.ownerlist[i].userName;
             }
             if (owners.length > 1)
-                $scope.owner = owners.substring(1, owners.length);;
+                $scope.owner = owners.substring(1, owners.length);
         }
 
         var product = {
@@ -282,6 +331,6 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
         if ($routeParams.pageno !== undefined) {
             $scope.pageno = $routeParams.pageno;
         }
-    }
+    };
 
 });

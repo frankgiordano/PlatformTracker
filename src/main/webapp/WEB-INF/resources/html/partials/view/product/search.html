@@ -91,19 +91,19 @@
             on-page-change="getData(newPageNumber)">
         </dir-pagination-controls>
     </div>
-    <form class="form-horizontal" ng-show="selectedProduct">
-        <div style="padding-bottom: 1%; padding-top: 2%">
-            <h2>Product Detail</h2>
-        </div>
+    <form class="form-horizontal" name="productForm" ng-show="selectedProduct">
         <div ng-hide="loading">
             <div class="row">
                 <div style="clear:both;">&nbsp;</div>
                 <div class="col-sm-12">
                     <progressbar class="progress-striped active" max="200" value="200" type="info">
-                        <i>SAVING....</i></progressbar>
+                        <i>Saving Product....</i></progressbar>
                     <div style="clear:both;">&nbsp;</div>
                 </div>
             </div>
+        </div>
+        <div style="padding-bottom: 1%; padding-top: 2%">
+            <h2>Product Detail</h2>
         </div>
         <div ng-hide="hideduringloading">
             <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
@@ -112,27 +112,38 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Platform</label>
                 <div class="col-sm-6">
-                    <select required ng-model="selectedProduct.platform" class="form-control"
+                    <select name="platform" required data-ng-model="selectedProduct.platform" class="form-control"
                         ng-options="c.name as c.name for c in platforms">
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : productForm.incidentName.$invalid && submitted }">
                 <label class="col-sm-2 control-label">Name</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="selectedProduct.incidentName" required />
+                    <input type="text" name="incidentName" class="form-control" ng-model="selectedProduct.incidentName"
+                        ng-maxlength="50" ng-required="incidentNameRequired" required />
+                    <p ng-show="productForm.incidentName.$error.maxlength" class="help-block">Incident
+                        Name is too long.</p>
+                    <p ng-show="productForm.incidentName.$error.required" class="help-block">Required.
+                    </p>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : productForm.clientName.$invalid && submitted }">
                 <label class="col-sm-2 control-label">Client Name</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="selectedProduct.clientName" required />
+                    <input type="text" name="clientName" class="form-control" ng-model="selectedProduct.clientName"
+                        ng-required="clientNameRequired" required />
+                    <p ng-show="productForm.clientName.$error.required" class="help-block">Required.
+                    </p>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : productForm.shortName.$invalid && submitted }">
                 <label class="col-sm-2 control-label">Short Name</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="selectedProduct.shortName" required />
+                    <input type="text" name="shortName" class="form-control" ng-model="selectedProduct.shortName"
+                        ng-required="shortNameRequired" required />
+                    <p ng-show="productForm.shortName.$error.required" class="help-block">Required.
+                    </p>
                 </div>
             </div>
             <div class="form-group">
@@ -143,36 +154,39 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : productForm.startDate.$invalid && submitted }">
                 <label class="col-sm-2 control-label">Start Date</label>
                 <div class="col-sm-6">
-                    <input type="date" class="form-control" ng-model="selectedProduct.startDate" required />
+                    <input type="date" name="startDate" class="form-control" ng-model="selectedProduct.startDate"
+                        ng-required="startDateRequired" required />
+                    <p ng-show="productForm.startDate.$error.required" class="help-block">Required.
+                    </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">End Date</label>
                 <div class="col-sm-6">
-                    <input type="date" class="form-control" ng-model="selectedProduct.endDate">
+                    <input type="date" name="endDate" class="form-control" ng-model="selectedProduct.endDate">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Max Weekly Uptime</label>
                 <div class="col-sm-6">
-                    <input type="text" placeholder="Enter a Number" class="form-control"
+                    <input type="text" name="maxWeeklyUptime" placeholder="Enter a Number" class="form-control"
                         ng-model="selectedProduct.maxWeeklyUptime" only-digits required />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Revenue %</label>
                 <div class="col-sm-6">
-                    <input type="text" placeholder="Enter a Number" class="form-control"
+                    <input type="text" name="revenue" placeholder="Enter a Number" class="form-control"
                         ng-model="selectedProduct.revenue" only-digits>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">User %</label>
                 <div class="col-sm-6">
-                    <input type="text" placeholder="Enter a Number" class="form-control"
+                    <input type="text" name="user" placeholder="Enter a Number" class="form-control"
                         ng-model="selectedProduct.users" only-digits>
                 </div>
             </div>

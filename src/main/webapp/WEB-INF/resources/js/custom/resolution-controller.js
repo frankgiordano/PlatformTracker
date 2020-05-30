@@ -28,7 +28,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     $scope.sort = function (keyname) {
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-    }
+    };
 
     $scope.$watch("search", function (val) {
         if ($scope.search) {  // this needs to be a truthy test 	
@@ -42,7 +42,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
 
     $scope.select = function (id) {
         $location.path('/resolution/edit/' + id + '/' + $scope.pageno + '/' + $scope.search);
-    }
+    };
 
     $scope.waiting = function (value) {
         if (value === true) {
@@ -75,7 +75,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
         // make sure it is the create screen no id in url
         if ($routeParams.id === null || $routeParams.id === undefined) {
             $scope.clearMsg();
-            
+
             (function () {
                 IncidentGroupService.getGroups().then(
                     function success(response) {
@@ -125,7 +125,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
                     });
                 });
         }
-    }
+    };
 
     $scope.getIncidentResolution = function () {
         $scope.setRouteSearchParms();
@@ -234,7 +234,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     $scope.clearMsg = function () {
         $scope.messages = null;
         $scope.errormessages = null;
-    }
+    };
 
     $scope.update = function () {
         $scope.back = false;
@@ -277,6 +277,32 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
         if ($scope.resolution.estcompletionDate === "Invalid date") {
             $scope.resolution.estcompletionDate = null;
         }
+
+        // Trigger validation flag.
+        $scope.submitted = true;
+        $scope.ownerRequired = false;
+        if ($scope.resolution.incidentGroup === null ||
+            $scope.resolution.incidentGroup === undefined) {
+            $scope.nameRequired = true;
+            $scope.resolutionForm.name.$invalid = true;
+        }
+        if ($scope.resolution.owner === null ||
+            $scope.resolution.owner === undefined) {
+            $scope.ownerRequired = true;
+        }
+        if ($scope.resolution.description === null ||
+            $scope.resolution.description === undefined ||
+            $scope.resolution.description.trim() === "") {
+            $scope.descriptionRequired = true;
+            $scope.resolutionForm.description.$invalid = true;
+        }
+        if ($scope.resolution.estCompletionDate === null ||
+            $scope.resolution.estCompletionDate === undefined ||
+            $scope.resolution.estCompletionDate.trim() === "") {
+            $scope.estCompletionDateRequired = true;
+            $scope.resolutionForm.estCompletionDate.$invalid = true;
+        }
+        // End of validation
 
         enforceRequiredFields();
 
@@ -322,7 +348,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
             $scope.resolution.description !== null &&
             $scope.resolution.description.trim() === "")
             $scope.resolution.description = null;
-    }
+    };
 
     $scope.new = function () {
         $location.path('/resolution/create' + '/' + $scope.pageno + '/' + $scope.search);
@@ -340,6 +366,6 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
         if ($routeParams.pageno !== undefined) {
             $scope.pageno = $routeParams.pageno;
         }
-    }
+    };
 
 });

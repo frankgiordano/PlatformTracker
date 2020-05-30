@@ -3,7 +3,7 @@
         <div class="row">
             <div style="clear:both;">&nbsp;</div>
             <div class="col-sm-12">
-                <progressbar class="progress-striped active" max="200" value="200" type="info"><i>CREATING....</i>
+                <progressbar class="progress-striped active" max="200" value="200" type="info"><i>Creating Incident....</i>
                 </progressbar>
                 <div style="clear:both;">&nbsp;</div>
             </div>
@@ -15,7 +15,7 @@
         </div>
         <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
         <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
-        <form class="form-horizontal" name="helpForm" novalidate role="form">
+        <form class="form-horizontal" name="incidentForm" novalidate role="form">
             <div data-ng-init="createSetup()">
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Group</label>
                     <div class="col-sm-7">
-                        <input type="text" ng-model="incident.incidentGroup"
+                        <input type="text" name="group" ng-model="incident.incidentGroup"
                             typeahead="group.name for group in groups | filter:$viewValue | orderBy: 'name'"
                             class="form-control">
                     </div>
@@ -42,13 +42,13 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Status</label>
                     <div class="col-sm-3">
-                        <select class="form-control" ng-model="incident.status"
+                        <select name="status" class="form-control" ng-model="incident.status"
                             ng-options="incidentstatus.name for incidentstatus in incidentstatuss">
                         </select>
                     </div>
                     <label class="col-sm-1 control-label">Email RCPT</label>
                     <div class="col-sm-3">
-                        <select class="form-control" ng-model="incident.emailRecipents"
+                        <select name="emailRCPT" class="form-control" ng-model="incident.emailRecipents"
                             ng-options="recipent.name for recipent in recipents">
                         </select>
                     </div>
@@ -57,29 +57,33 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Corrective Action</label>
                         <div class="col-sm-7">
-                            <textarea type="text" class="form-control" rows="3"
+                            <textarea type="text" name="correctiveAction" class="form-control" rows="3"
                                 ng-model="incident.correctiveAction"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Start Date Time</label>
-                    <div class="col-md-3">
-                        <p class="input-group">
-                            <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm"
-                                ng-model="incident.startTime" is-open="open.startTime" required />
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default"
-                                    ng-click="openCalendar($event, 'startTime')">
-                                    <i class="fa fa-calendar"></i>
-                                </button>
-                            </span>
-                        </p>
+                    <div ng-class="{ 'has-error' : incidentForm.startTime.$invalid && submitted }">
+                        <label class="col-sm-2 control-label">Start Date Time </label>
+                        <div class="col-md-3">
+                            <p class="input-group">
+                                <input type="text" name="startTime" class="form-control"
+                                    datetime-picker="MM-dd-yyyy HH:mm" ng-model="incident.startTime"
+                                    is-open="open.startTime" required ng-required="startTimeRequired" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default"
+                                        ng-click="openCalendar($event, 'startTime')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                                <p ng-show="incidentForm.startTime.$error.required" class="help-block">Required.</p>
+                            </p>
+                        </div>
                     </div>
                     <label class="col-sm-1 control-label">End Date Time</label>
                     <div class="col-md-3">
                         <p class="input-group">
-                            <input type="text" class="form-control" datetime-picker="MM-dd-yyyy HH:mm"
+                            <input type="text" name="endTime" class="form-control" datetime-picker="MM-dd-yyyy HH:mm"
                                 ng-model="incident.endTime" is-open="open.endTime" />
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default"
@@ -93,13 +97,13 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Severity</label>
                     <div class="col-sm-3">
-                        <select required class="form-control" ng-model="incident.severity"
+                        <select required name="severity" class="form-control" ng-model="incident.severity"
                             ng-options="severity.name for severity in severities">
                         </select>
                     </div>
                     <label class="col-sm-1 control-label">Application Status</label>
                     <div class="col-sm-3">
-                        <select class="form-control" ng-model="incident.applicationStatus"
+                        <select name="appStatus" class="form-control" ng-model="incident.applicationStatus"
                             ng-options="applicationStatus.displayName for applicationStatus in applicationStatuses">
                         </select>
                     </div>
@@ -107,13 +111,13 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Locus</label>
                     <div class="col-sm-3">
-                        <select required class="form-control" ng-model="incident.locus"
+                        <select required name="locus" class="form-control" ng-model="incident.locus"
                             ng-options="locus.name for locus in locuss">
                         </select>
                     </div>
                     <label class="col-sm-1 control-label">Transaction IDs Impacted</label>
                     <div class="col-sm-3">
-                        <input type="text" placeholder="Enter a Number" class="form-control"
+                        <input type="text" name="transIDsImpacted" placeholder="Enter a Number" class="form-control"
                             ng-model="incident.transactionIdsImpacted" only-digits required />
                     </div>
                 </div>
@@ -126,60 +130,64 @@
                     </div>
                     <label class="col-sm-1 control-label">Name</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" ng-model="name">
+                        <input type="text" name="name" class="form-control" ng-model="name">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Business Description</label>
                     <div class="col-sm-7">
-                        <textarea type="text" class="form-control" rows="5" ng-model="incident.summary"></textarea>
+                        <textarea type="text" name="businessDescription" class="form-control" rows="5"
+                            ng-model="incident.summary"></textarea>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : incidentForm.technicalDescription.$invalid && submitted }">
                     <label class="col-sm-2 control-label">Technical Description</label>
                     <div class="col-sm-7">
-                        <textarea required type="text" class="form-control" rows="5"
-                            ng-model="incident.description"></textarea>
+                        <textarea required type="text" name="technicalDescription" class="form-control" rows="5"
+                            ng-model="incident.description" ng-required="technicalDescriptionRequired">
+                        </textarea>
+                        <p ng-show="incidentForm.technicalDescription.$error.required" class="help-block">Required.</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Error Condition</label>
                     <div class="col-sm-3">
-                        <select class="form-control" ng-model="incident.error"
+                        <select name="errorCondition" class="form-control" ng-model="incident.error"
                             ng-options="error.name for error in errors">
                         </select>
                     </div>
                     <label class="col-sm-1 control-label">Alerted By</label>
                     <div class="col-sm-3">
-                        <select required class="form-control" ng-model="incident.alertedBy"
+                        <select required name="alertedBy" class="form-control" ng-model="incident.alertedBy"
                             ng-options="alerted_by.name for alerted_by in alerted_bys">
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label"></label>
+                <div class="form-group" ng-class="{ 'has-error' : productsRequired && submitted }">
+                    <label class="col-sm-2 control-label">Product(s) Impacted</label>
                     <div class="col-sm-7">
                         <bs-select required ng-model="products" default-text="Select Associated Product(s).."
                             text-field="shortName" value-field="id" items="myProducts">
                         </bs-select>
+                        <p ng-show="productsRequired" class="help-block">Required.</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">% of Users Impacted</label>
                     <div class="col-sm-3">
-                        <input type="text" placeholder="Enter a Number" class="form-control"
+                        <input type="text" name="users" placeholder="Enter a Number" class="form-control"
                             ng-model="incident.usersImpacted" only-digits required />
                     </div>
                     <label class="col-sm-1 control-label">Calls Rec'd</label>
                     <div class="col-sm-3">
-                        <input type="text" placeholder="Enter a Number" class="form-control"
+                        <input type="text" name="calls" placeholder="Enter a Number" class="form-control"
                             ng-model="incident.callsReceived" only-digits required />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Customer Impact</label>
                     <div class="col-sm-7">
-                        <textarea type="text" class="form-control" rows="3"
+                        <textarea type="text" name="customerImpact" class="form-control" rows="3"
                             ng-model="incident.customerImpact"></textarea>
                     </div>
                 </div>

@@ -57,12 +57,19 @@
         </dir-pagination-controls>
     </div>
     <div ng-hide="createResolution || createRootCA">
-        <form class="form-horizontal" ng-show="selectedGroup">
+        <form class="form-horizontal" ng-show="selectedGroup" name="groupForm">
             <div ng-hide="loading">
                 <div class="row">
                     <div style="clear:both;">&nbsp;</div>
                     <div class="col-sm-12">
-                        <progressbar class="progress-striped active" max="200" value="200" type="info"><i>SAVING....</i>
+                        <progressbar ng-show="createResolution" class="progress-striped active" max="200" value="200"
+                            type="info"><i>Saving Resolution....</i>
+                        </progressbar>
+                        <progressbar ng-show="createRootCA" class="progress-striped active" max="200" value="200"
+                            type="info"><i>Saving Root Cause....</i>
+                        </progressbar>
+                        <progressbar ng-show="!createRootCA && !createResolution" class="progress-striped active"
+                            max="200" value="200" type="info"><i>Saving Group....</i>
                         </progressbar>
                         <div style="clear:both;">&nbsp;</div>
                     </div>
@@ -76,17 +83,21 @@
                 <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
                 <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages">
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : groupForm.groupName.$invalid && submitted }">
                     <label class="col-sm-2 control-label">Name</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" ng-model="selectedGroup.name">
+                        <input type="text" name="groupName" class="form-control" ng-model="selectedGroup.name" required
+                            ng-required="groupNameRequired">
+                        <p ng-show="groupForm.groupName.$error.required" class="help-block">Required.</p>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : groupForm.groupDescription.$invalid && submitted }">
                     <label class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-7">
-                        <textarea type="text" class="form-control" rows="5"
-                            ng-model="selectedGroup.description"></textarea>
+                        <textarea type="text" name="groupDescription" class="form-control" rows="5"
+                            ng-model="selectedGroup.description" required ng-required="groupDescriptionRequired">
+                        </textarea>
+                        <p ng-show="groupForm.groupDescription.$error.required" class="help-block">Required.</p>
                     </div>
                 </div>
                 <div class="form-group">
@@ -98,19 +109,20 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button class="btn btn-primary" ng-show="!disableButton" data-ng-click="update()">
+                        <button type="button" class="btn btn-primary" ng-show="!disableButton" data-ng-click="update()">
                             Save
                         </button>
-                        <button class="btn btn-primary" ng-show="!disableButton" ng-click="showOnDelete()">
+                        <button type="button" class="btn btn-primary" ng-show="!disableButton"
+                            ng-click="showOnDelete()">
                             Delete
                         </button>
-                        <button class="btn btn-primary" ng-show="!disableButton" ng-click="createRes()">
+                        <button type="button" class="btn btn-primary" ng-show="!disableButton" ng-click="createRes()">
                             Create Resolution
                         </button>
-                        <button class="btn btn-primary" ng-show="!disableButton" ng-click="createRCA()">
+                        <button type="button" class="btn btn-primary" ng-show="!disableButton" ng-click="createRCA()">
                             Create RCA
                         </button>
-                        <button class="btn btn-primary" ng-click="cancel()">
+                        <button type="button" class="btn btn-primary" ng-click="cancel()">
                             Back
                         </button>
                     </div>
@@ -118,7 +130,7 @@
             </div>
         </form>
     </div>
-    <form class="form-horizontal" ng-show="createResolution">
+    <form class="form-horizontal" ng-show="createResolution" name="resolutionForm">
         <div data-ng-controller="ResolutionChildController" class="table table-condensed">
             <div style="padding-bottom: 1%; padding-top: 2%">
                 <h2>Create Resolution</h2>
@@ -128,49 +140,54 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-md-2">Incident Group Name</label>
-                <div class="col-md-7 form-control-static">
+                <div name="name" class="col-md-7 form-control-static">
                     {{selectedGroup.name}}
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Horizon</label>
                 <div class="col-sm-7">
-                    <select class="form-control" ng-model="resolution.horizon"
+                    <select required name="horizon" class="form-control" ng-model="resolution.horizon"
                         ng-options="item.displayName for item in horizons">
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : ownerRequired && submitted }">
                 <label class="col-sm-2 control-label">Owner</label>
                 <div class="col-sm-6">
                     <div multi-select input-model="owners" button-label="userName" helper-elements="filter"
-                        output-model="ownerList" item-label="userName" tick-property="ticked"></div>
+                        output-model="ownerList" item-label="userName" tick-property="ticked">
+                    </div>
+                    <p ng-show="ownerRequired" class="help-block">Required.</p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Status</label>
                 <div class="col-sm-7">
-                    <select class="form-control" ng-model="resolution.status"
+                    <select name="status" class="form-control" ng-model="resolution.status"
                         ng-options="item.displayName for item in statuses">
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : resolutionForm.estCompletionDate.$invalid && submitted }">
                 <label class="col-sm-2 control-label">Estimated Completion Date</label>
                 <div class="col-sm-7">
-                    <input type="date" class="form-control" ng-model="resolution.estCompletionDate">
+                    <input type="date" name="estCompletionDate" class="form-control"
+                        ng-model="resolution.estCompletionDate" ng-required="estCompletionDateRequired">
+                    <p ng-show="resolutionForm.estCompletionDate.$error.required" class="help-block">Required.</p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Actual Completion Date</label>
                 <div class="col-sm-7">
-                    <input type="date" class="form-control" ng-model="resolution.actualCompletionDate">
+                    <input type="date" name="actualCompletionDate" class="form-control"
+                        ng-model="resolution.actualCompletionDate">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Type</label>
                 <div class="col-sm-7">
-                    <select class="form-control" ng-model="resolution.type"
+                    <select name="type" class="form-control" ng-model="resolution.type"
                         ng-options="item.displayName for item in types">
                     </select>
                 </div>
@@ -178,13 +195,16 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">SRI Artifact</label>
                 <div class="col-sm-7">
-                    <input type="text" class="form-control" ng-model="resolution.sriArtifact">
+                    <input type="text" name="sriArtifact" class="form-control" ng-model="resolution.sriArtifact">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : resolutionForm.description.$invalid && submitted }">
                 <label class="col-sm-2 control-label">Description</label>
                 <div class="col-sm-7">
-                    <textarea type="text" class="form-control" rows="5" ng-model="resolution.description"></textarea>
+                    <textarea type="text" name="description" class="form-control" rows="5"
+                        ng-model="resolution.description" ng-required="descriptionRequired">
+                    </textarea>
+                    <p ng-show="resolutionForm.description.$error.required" class="help-block">Required.</p>
                 </div>
             </div>
             <div class="form-group">
@@ -200,7 +220,7 @@
             </div>
         </div>
     </form>
-    <form class="form-horizontal" ng-show="createRootCA">
+    <form class="form-horizontal" ng-show="createRootCA" name="rootCauseForm">
         <div data-ng-controller="RootCauseChildController" class="table table-condensed">
             <div style="padding-bottom: 1%; padding-top: 2%">
                 <h2>Create Root Cause</h2>
@@ -210,28 +230,30 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-md-2">Incident Group Name</label>
-                <div class="col-md-7 form-control-static">
+                <div name="name" class="col-md-7 form-control-static">
                     {{$parent.selectedGroup.name}}
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Status</label>
                 <div class="col-sm-7">
-                    <select class="form-control" ng-model="rca.status"
+                    <select name="status" class="form-control" ng-model="rca.status"
                         ng-options="item.displayName for item in statuses">
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : ownerRequired && submitted }">
                 <label class="col-sm-2 control-label">Owner</label>
                 <div class="col-sm-6">
                     <div multi-select input-model="owners" button-label="userName" helper-elements="filter"
-                        output-model="ownerList" item-label="userName" tick-property="ticked"></div>
+                        output-model="ownerList" item-label="userName" tick-property="ticked">
+                    </div>
+                    <p ng-show="ownerRequired" class="help-block">Required.</p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Problem Description</label>
-                <div class="col-sm-7">
+                <div name="description" class="col-sm-7">
                     <textarea type="text" class="form-control" rows="5" ng-model="rca.problemDescription"></textarea>
                 </div>
             </div>
@@ -260,19 +282,19 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Due Date</label>
                 <div class="col-sm-7">
-                    <input type="date" ng-model="rca.dueDate" class="form-control">
+                    <input type="date" name="dueDate" ng-model="rca.dueDate" class="form-control">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Completion Date</label>
                 <div class="col-sm-7">
-                    <input type="date" ng-model="rca.completionDate" class="form-control">
+                    <input type="date" name="completionDate" ng-model="rca.completionDate" class="form-control">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Category</label>
                 <div class="col-sm-7">
-                    <select class="form-control" ng-model="rca.category"
+                    <select name="category" class="form-control" ng-model="rca.category"
                         ng-options="item.displayName for item in categories">
                     </select>
                 </div>
@@ -280,7 +302,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Resource</label>
                 <div class="col-sm-7">
-                    <select class="form-control" ng-model="rca.resource"
+                    <select name="resource" class="form-control" ng-model="rca.resource"
                         ng-options="item.displayName for item in resources">
                     </select>
                 </div>

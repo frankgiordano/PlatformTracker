@@ -31,7 +31,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
     $scope.sort = function (keyname) {
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-    }
+    };
 
     $scope.$watch("search", function (val) {
         if ($scope.search) {  // this needs to be a truthy test 	
@@ -70,6 +70,25 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
         $scope.clearDisplayMessages();
         $scope.waiting(true);
 
+        // Trigger validation flag.
+        $scope.submitted = true;
+        var isValid = true;
+        if ($scope.selectedGroup.name === null ||
+            $scope.selectedGroup.name === undefined ||
+            $scope.selectedGroup.name.trim() === "") {
+            $scope.groupNameRequired = true;
+            $scope.groupForm.groupName.$invalid = true;
+            isValid = false;
+        }
+        if ($scope.selectedGroup.description === null ||
+            $scope.selectedGroup.description === undefined ||
+            $scope.selectedGroup.description.trim() === "") {
+            $scope.groupDescriptionRequired = true;
+            $scope.groupForm.groupDescription.$invalid = true;
+            isValid = false;
+        }
+        // End of validation
+
         var group = {
             "id": $scope.selectedGroup.id,
             "name": $scope.selectedGroup.name,
@@ -77,20 +96,26 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
             "status": $scope.selectedGroup.status
         };
 
-        IncidentGroupService.saveGroup(group).then(
-            function success(response) {
-                if (response) {
-                    $scope.messages = "Group ID " + group.id + " has been saved.";
-                    console.log("Group ID " + group.id + " has been saved.");
-                    $scope.errormessages = null;
-                    $scope.disableButton = true;
-                }
-                $scope.waiting(false);
-            },
-            function error() {
-                $scope.errormessages = $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG;
-                $scope.waiting(false);
-            });
+        if (isValid === false) {
+            $scope.errormessages = $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG;
+            $scope.waiting(false);
+        } else {
+            IncidentGroupService.saveGroup(group).then(
+                function success(response) {
+                    if (response) {
+                        $scope.messages = "Group ID " + group.id + " has been saved.";
+                        console.log("Group ID " + group.id + " has been saved.");
+                        $scope.errormessages = null;
+                        $scope.disableButton = true;
+                    }
+                    $scope.waiting(false);
+                },
+                function error() {
+                    $scope.errormessages = $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG;
+                    $scope.waiting(false);
+                });
+        }
+
     };
 
     $scope.deleteG = function (id) {
@@ -269,6 +294,7 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
         $scope.messages = null;
         $scope.errormessages = null;
         $scope.waiting(false);
+        cleanFormValidation();
     };
 
     $scope.cancel = function () {
@@ -358,6 +384,15 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
                 $scope.rca.owner = owners.substring(1, owners.length);
         }
 
+        // Trigger validation flag.
+        $scope.submitted = true;
+        $scope.ownerRequired = false;
+        if ($scope.rca.owner === null ||
+            $scope.rca.owner === undefined) {
+            $scope.ownerRequired = true;
+        }
+        // End of validation
+
         var whys = $scope.whys.map(function (x) {
             return x.name
         }).join('|');
@@ -388,6 +423,10 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
                 $scope.waiting(false);
             });
     };
+
+    var cleanFormValidation = function () {
+        $scope.ownerRequired = false;
+    }
 
 });
 
@@ -478,6 +517,7 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, Refere
         $scope.resolution.actualCompletionDate = null;
         $scope.messages = null;
         $scope.errormessages = null;
+        cleanFormValidation();
     };
 
     $scope.cancel = function () {
@@ -497,6 +537,27 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, Refere
             if (owners.length > 1)
                 $scope.resolution.owner = owners.substring(1, owners.length);
         }
+
+        // Trigger validation flag.
+        $scope.submitted = true;
+        $scope.ownerRequired = false;
+        if ($scope.resolution.owner === null ||
+            $scope.resolution.owner === undefined) {
+            $scope.ownerRequired = true;
+        }
+        if ($scope.resolution.description === null ||
+            $scope.resolution.description === undefined ||
+            $scope.resolution.description.trim() === "") {
+            $scope.descriptionRequired = true;
+            $scope.resolutionForm.description.$invalid = true;
+        }
+        if ($scope.resolution.estCompletionDate === null ||
+            $scope.resolution.estCompletionDate === undefined ||
+            $scope.resolution.estCompletionDate.trim() === "") {
+            $scope.estCompletionDateRequired = true;
+            $scope.resolutionForm.estCompletionDate.$invalid = true;
+        }
+        // End of validation
 
         var resolution = {
             "description": $scope.resolution.description,
@@ -524,5 +585,13 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, Refere
                 $scope.waiting(false);
             });
     };
+
+    var cleanFormValidation = function () {
+        $scope.ownerRequired = false;
+        $scope.descriptionRequired = false;
+        $scope.resolutionForm.description.$invalid = false;
+        $scope.estCompletionDateRequired = false;
+        $scope.resolutionForm.estCompletionDate.$invalid = false;
+    }
 
 });

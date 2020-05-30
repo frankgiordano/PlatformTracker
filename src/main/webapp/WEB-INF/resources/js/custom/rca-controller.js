@@ -29,7 +29,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     $scope.sort = function (keyname) {
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-    }
+    };
 
     $scope.$watch("search", function (val) {
         if ($scope.search) {  // this needs to be a truthy test 	
@@ -43,7 +43,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
 
     $scope.select = function (id) {
         $location.path('/rootcause/edit/' + id + '/' + $scope.pageno + '/' + $scope.search);
-    }
+    };
 
     $scope.waiting = function (value) {
         if (value === true) {
@@ -155,7 +155,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                     });
                 });
         }
-    }
+    };
 
     $scope.getRca = function () {
         $scope.setRouteSearchParms();
@@ -278,7 +278,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     $scope.clearMsg = function () {
         $scope.messages = null;
         $scope.errormessages = null;
-    }
+    };
 
     $scope.update = function () {
         $scope.clearMsg();
@@ -290,7 +290,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                 owners = owners + "|" + $scope.ownerlist[i].userName;
             }
             if (owners.length > 1)
-                $scope.rca.owner = owners.substring(1, owners.length);;
+                $scope.rca.owner = owners.substring(1, owners.length);
         }
 
         var whys = $scope.whys.map(function (x) {
@@ -314,7 +314,21 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
         $scope.rca.category = categoryId[0];
         $scope.rca.whys = whys;
 
-        $scope.setEmptyStringToNull();
+        // Trigger validation flag.
+        $scope.submitted = true;
+        $scope.ownerRequired = false;
+        if ($scope.rca.incidentGroup === null ||
+            $scope.rca.incidentGroup === undefined) {
+            $scope.nameRequired = true;
+            $scope.rootCauseForm.name.$invalid = true;
+        }
+        if ($scope.rca.owner === null ||
+            $scope.rca.owner === undefined) {
+            $scope.ownerRequired = true;
+        }
+        // End of validation
+
+        enforceRequiredFields();
 
         RcaService.saveRca($scope.rca).then(
             function success(response) {
@@ -336,10 +350,10 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     };
 
     // just do this for required fields that are not defaulted dropdown fields.
-    $scope.setEmptyStringToNull = function () {
+    var enforceRequiredFields = function () {
         if ($scope.rca.owner === "")
             $scope.rca.owner = null;
-    }
+    };
 
     $scope.createResolution = function () {
         $scope.resolution = {};
@@ -358,7 +372,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
             newwin.focus()
         }
         return false;
-    }
+    };
 
     $scope.new = function () {
         $location.path('/rootcause/create' + '/' + $scope.pageno + '/' + $scope.search);
@@ -376,6 +390,6 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
         if ($routeParams.pageno !== undefined) {
             $scope.pageno = $routeParams.pageno;
         }
-    }
+    };
 
 });

@@ -87,25 +87,19 @@ app.value('alerted_bys', [{
 app.controller('MainController', function ($route, $rootScope, $scope, $location) {
 
     var SAVE_ERROR_MSG = "_SAVE_FAILURE - ";
-    var NUMBER_FIELD_WARNING = "Be aware to not enter a string value on a number field.";
     var CHECK_REQUIRED_FIELDS_MSG = "Check required fields: ";
-    $rootScope.REQUIRED_FIELDS_PRODUCT_MSG = CHECK_REQUIRED_FIELDS_MSG + "Platform, Incident Name, Start Date, Client Name, Short Name (10 character field) and Max Weekly Uptime. " + NUMBER_FIELD_WARNING;
-    $rootScope.REQUIRED_FILEDS_PROJECT_MSG = CHECK_REQUIRED_FIELDS_MSG + "Name, Owner, Recording Date, Description and Due Date. " + NUMBER_FIELD_WARNING;
-    $rootScope.REQUIRED_FILEDS_RC_MSG = CHECK_REQUIRED_FIELDS_MSG + "Incident Group Name and Owner.";
-    $rootScope.REQUIRED_FILEDS_RESOLUTION_MSG = CHECK_REQUIRED_FIELDS_MSG + "Incident Group name, Horizon, Owner, Estimated Completion Date and Description.";
-    $rootScope.REQUIRED_FILEDS_INCIDENT_MSG = CHECK_REQUIRED_FIELDS_MSG + "Start Date Time, Locus, Description, Error Condition and Products.";
-    $rootScope.REQUIRED_FILEDS_CHRONOLOGY_MSG = CHECK_REQUIRED_FIELDS_MSG + "Date Time and Description.";
-    $rootScope.REQUIRED_FILEDS_GROUP_MSG = CHECK_REQUIRED_FIELDS_MSG + "Name and Description.";
+    var GENERIC_ERROR_MSG = "Check for required fields or check console for error messages.";
+    $rootScope.REQUIRED_FIELDS_CHRONOLOGY_MSG = CHECK_REQUIRED_FIELDS_MSG + "Date Time and Description.";
     $rootScope.PROJECT_LINK_RESOLUTON_MSG = "Linking Resolution(s) to Project failed.";
     $rootScope.INCIDENT_VERSION_MSG = "Editing an older Incident detail version, please reload Incident detail from search page and try again. You may need to click on the Refresh Data button if one exist on the page.";
 
-    $rootScope.PRODUCT_SAVE_ERROR_MSG = "PRODUCT" + SAVE_ERROR_MSG + $rootScope.REQUIRED_FIELDS_PRODUCT_MSG;
-    $rootScope.PROJECT_SAVE_ERROR_MSG = "PROJECT" + SAVE_ERROR_MSG + $rootScope.REQUIRED_FILEDS_PROJECT_MSG;
-    $rootScope.RC_SAVE_ERROR_MSG = "ROOT_CAUSE" + SAVE_ERROR_MSG + $rootScope.REQUIRED_FILEDS_RC_MSG;
-    $rootScope.RESOLUTION_SAVE_ERROR_MSG = "RESOLUTION" + SAVE_ERROR_MSG + $rootScope.REQUIRED_FILEDS_RESOLUTION_MSG;
-    $rootScope.INCIDENT_SAVE_ERROR_MSG = "INCIDENT" + SAVE_ERROR_MSG + $rootScope.REQUIRED_FILEDS_INCIDENT_MSG;
-    $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG = "CHRONOLOGY" + SAVE_ERROR_MSG + $rootScope.REQUIRED_FILEDS_CHRONOLOGY_MSG;
-    $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG = "GROUP" + SAVE_ERROR_MSG + $rootScope.REQUIRED_FILEDS_GROUP_MSG;
+    $rootScope.PRODUCT_SAVE_ERROR_MSG = "PRODUCT" + SAVE_ERROR_MSG + GENERIC_ERROR_MSG;
+    $rootScope.PROJECT_SAVE_ERROR_MSG = "PROJECT" + SAVE_ERROR_MSG + GENERIC_ERROR_MSG;
+    $rootScope.RC_SAVE_ERROR_MSG = "ROOT_CAUSE" + SAVE_ERROR_MSG + GENERIC_ERROR_MSG;
+    $rootScope.RESOLUTION_SAVE_ERROR_MSG = "RESOLUTION" + SAVE_ERROR_MSG + GENERIC_ERROR_MSG;
+    $rootScope.INCIDENT_SAVE_ERROR_MSG = "INCIDENT" + SAVE_ERROR_MSG + GENERIC_ERROR_MSG;
+    $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG = "CHRONOLOGY" + SAVE_ERROR_MSG + $rootScope.REQUIRED_FIELDS_CHRONOLOGY_MSG;
+    $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG = "GROUP" + SAVE_ERROR_MSG + GENERIC_ERROR_MSG;
     $rootScope.PROJECT_LINK_RESOLUTON_ERROR_MSG = "PROJECT_LINK_RESOLUTON" + SAVE_ERROR_MSG + $rootScope.PROJECT_LINK_RESOLUTON_MSG;
     $rootScope.INCIDENT_VERSION_ERROR_MSG = "INCIDENT_VERSION" + SAVE_ERROR_MSG + $rootScope.INCIDENT_VERSION_MSG;
 

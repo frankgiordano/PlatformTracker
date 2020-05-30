@@ -28,7 +28,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     $scope.sort = function (keyname) {
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-    }
+    };
 
     $scope.$watch("search", function (val) {
         if ($routeParams.sourceLocation === "fromsearchbygroup")
@@ -125,7 +125,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
 
             $scope.showResolution = false;
         }
-    }
+    };
 
     $scope.editIncidentSetup = function () {
         $scope.setRouteSearchParms();
@@ -207,7 +207,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         $scope.locuss = locuss;
         $scope.alerted_bys = alerted_bys;
         $scope.groupStatuses = groupStatuses;
-    }
+    };
 
     // paid attention here.. this object is used for the ng-include directive which creates its own child scope.
     // since it relies on scope inheritance to resolve bindings, then a ng-model reference should have a '.' in it to
@@ -382,13 +382,9 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     $scope.update = function () {
         $scope.clearDisplayMessages();
         $scope.waiting(true);
-        // generate tag again just in case the products and start-time were changed
+
+        formValidation($scope);
         $scope.generateTag();
-        if (!$scope.incident.tag) {
-            $scope.errormessages = "INCIDENT_SAVE_FAILURE - problem with generating tag. Please fill in Start Date Time and Products.";
-            $scope.waiting(false);
-            return;
-        }
 
         var actions = $scope.actions.map(function (x) {
             return x.name
@@ -542,7 +538,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         $scope.incident.version++;
         $scope.disableButton = true;
         $scope.groupModel.selectedNewGroup = null;
-    }
+    };
 
     // just do this for required fields that are not defaulted dropdown fields.
     var enforceRequiredFields = function () {
@@ -550,22 +546,14 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             $scope.incident.description !== null &&
             $scope.incident.description.trim() === "")
             $scope.incident.description = null;
-    }
+    };
 
     $scope.submit = function () {
         $scope.clearDisplayMessages();
         $scope.waiting(true);
 
-        // generate tag if tag is empty and products and start-time exist.. 
-        if (!$scope.incident.tag) {
-
-            $scope.generateTag();
-            if (!$scope.incident.tag) {
-                $scope.errormessages = "INCIDENT_SAVE_FAILURE - Tag field not generated yet! Please fill in Start Date Time, Description and Products fields.";
-                $scope.waiting(false);
-                return;
-            }
-        }
+        formValidation($scope);
+        $scope.generateTag();
 
         // dates are currently in UTC format.. reset them to local timezone format for saving.. 
         var startTimeValue = new Date($scope.incident.startTime);
@@ -581,30 +569,28 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             }
         }
 
-        if (!$scope.incident.description) {
-            $scope.incident.errormessages = "INCIDENT_SAVE_FAILURE - Please fill in Description field.";
-            $scope.waiting(false);
-            return;
-        }
-
         var summary = "";
-        if ($scope.incident.summary) {
-            summary = $scope.incident.summary;
-        } else {
-            summary = " ";
-        }
-
         var group = null;
-        if ($scope.incident.incidentGroup) {
-            group = {
-                "name": $scope.incident.incidentGroup,
-                "description": $scope.incident.description + " " + summary,
+
+        if ($scope.incident.description) {
+
+            if ($scope.incident.summary) {
+                summary = $scope.incident.summary;
+            } else {
+                summary = " ";
             }
-        } else {
-            var myNameString = $scope.incident.description + " " + summary;
-            group = {
-                "name": myNameString.substring(0, 120),
-                "description": $scope.incident.description + " " + summary,
+
+            if ($scope.incident.incidentGroup) {
+                group = {
+                    "name": $scope.incident.incidentGroup,
+                    "description": $scope.incident.description + " " + summary,
+                }
+            } else {
+                var myNameString = $scope.incident.description + " " + summary;
+                group = {
+                    "name": myNameString.substring(0, 120),
+                    "description": $scope.incident.description + " " + summary,
+                }
             }
         }
 
@@ -680,9 +666,9 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                 owners = owners + "|" + $scope.ownerlist[i].userName;
             }
             if (owners.length > 1)
-                $scope.incident.owner = owners.substring(1, owners.length);;
+                $scope.incident.owner = owners.substring(1, owners.length);
         }
-    }
+    };
 
     $scope.getGroup = function (id) {
         $scope.clearDisplayMessages();
@@ -801,7 +787,28 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         if ($routeParams.pageno !== undefined) {
             $scope.pageno = $routeParams.pageno;
         }
-    }
+    };
 
 });
+
+function formValidation($scope) {
+    $scope.submitted = true;
+    $scope.productsRequired = false;
+    if ($scope.incident.description === null ||
+        $scope.incident.description === undefined ||
+        $scope.incident.description.trim() === "") {
+        $scope.technicalDescriptionRequired = true;
+        $scope.incidentForm.technicalDescription.$invalid = true;
+    }
+    if ($scope.incident.startTime === null ||
+        $scope.incident.startTime === undefined) {
+        $scope.startTimeRequired = true;
+        $scope.incidentForm.startTime.$invalid = true;
+    }
+    if ($scope.products === null ||
+        $scope.products === undefined ||
+        $scope.products.length === 0) {
+        $scope.productsRequired = true;
+    }
+}
 

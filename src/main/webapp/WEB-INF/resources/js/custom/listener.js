@@ -86,4 +86,5 @@ app.run(function ($rootScope, $http, $location, Base64Service, AuthenticationSer
                 $rootScope.errors.push({ code: "LOGOUT_FAILED", message: "Please try again." });
             })
     });
+    
 });

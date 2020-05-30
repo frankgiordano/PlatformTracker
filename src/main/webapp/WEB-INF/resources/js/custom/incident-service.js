@@ -124,7 +124,7 @@ app.service('IncidentService', function ($http, $q, ReferenceDataService, Incide
                 deferred.reject(errors);
             });
         return deferred.promise;
-    }
+    };
 
     this.getIncident = function (id) {
         var d = $q.defer();
@@ -223,6 +223,7 @@ app.service('IncidentService', function ($http, $q, ReferenceDataService, Incide
 
         return d.promise;
     };
+    
 });
 
 app.service('ChronologyService', function ($http, $q) {

@@ -3,7 +3,7 @@
         <div class="row">
             <div style="clear:both;">&nbsp;</div>
             <div class="col-sm-12">
-                <progressbar class="progress-striped active" max="200" value="200" type="info"><i>SAVING....</i>
+                <progressbar class="progress-striped active" max="200" value="200" type="info"><i>Saving Root Cause....</i>
                 </progressbar>
                 <div style="clear:both;">&nbsp;</div>
             </div>
@@ -16,35 +16,38 @@
         <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
         <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
         <div data-ng-init="getRca()">
-            <form class="form-horizontal" name="helpForm" novalidate role="form">
-                <div class="form-group">
+            <form class="form-horizontal" name="rootCauseForm" novalidate role="form">
+                <div class="form-group" ng-class="{ 'has-error' : rootCauseForm.name.$invalid && submitted }">
                     <label class="col-sm-2 control-label">Incident Group Name</label>
                     <div class="col-sm-6">
-                        <select required class="form-control" ng-model="rca.incidentGroup"
-                            ng-options="group.name for group in groups | orderBy: 'name'">
+                        <select required name="name" class="form-control" ng-model="rca.incidentGroup"
+                            ng-options="group.name for group in groups | orderBy: 'name'" ng-required="nameRequired">
                         </select>
+                        <p ng-show="rootCauseForm.name.$error.required" class="help-block">Required.</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Status</label>
                     <div class="col-sm-6">
-                        <select required class="form-control" ng-model="rca.status"
+                        <select required name="status" class="form-control" ng-model="rca.status"
                             ng-options="item.displayName for item in status">
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : ownerRequired && submitted }">
                     <label class="col-sm-2 control-label">Owner</label>
                     <div class="col-sm-6">
                         <div required multi-select input-model="owners" button-label="userName" helper-elements="filter"
                             output-model="ownerlist" item-label="userName" tick-property="ticked"
-                            selection-mode="single"></div>
+                            selection-mode="single">
+                        </div>
+                        <p ng-show="ownerRequired" class="help-block">Required.</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Problem Description</label>
                     <div class="col-sm-6">
-                        <textarea type="text" class="form-control" rows="5" ng-model="rca.problem"></textarea>
+                        <textarea type="text" name="description" class="form-control" rows="5" ng-model="rca.problem"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -74,19 +77,19 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Due Date</label>
                     <div class="col-sm-6">
-                        <input type="date" ng-model="rca.dueDate" class="form-control">
+                        <input type="date" name="dueDate" ng-model="rca.dueDate" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Completion Date</label>
                     <div class="col-sm-6">
-                        <input type="date" ng-model="rca.completionDate" class="form-control">
+                        <input type="date" name="completionDate" ng-model="rca.completionDate" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Category</label>
                     <div class="col-sm-6">
-                        <select class="form-control" ng-model="rca.category"
+                        <select class="form-control" name="category" ng-model="rca.category"
                             ng-options="item.displayName for item in categories">
                         </select>
                     </div>
@@ -94,7 +97,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Resource</label>
                     <div class="col-sm-6">
-                        <select class="form-control" ng-model="rca.resource"
+                        <select class="form-control" name="resource" ng-model="rca.resource"
                             ng-options="item.displayName for item in resources">
                         </select>
                     </div>

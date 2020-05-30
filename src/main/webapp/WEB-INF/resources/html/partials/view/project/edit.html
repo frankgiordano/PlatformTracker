@@ -3,7 +3,7 @@
         <div class="row">
             <div style="clear:both;">&nbsp;</div>
             <div class="col-sm-12">
-                <progressbar class="progress-striped active" max="200" value="200" type="info"><i>SAVING....</i>
+                <progressbar class="progress-striped active" max="200" value="200" type="info"><i>Saving Project....</i>
                 </progressbar>
                 <div style="clear:both;">&nbsp;</div>
             </div>
@@ -15,28 +15,31 @@
         </div>
         <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
         <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
-        <form class="form-horizontal" name="helpForm" novalidate role="form">
+        <form class="form-horizontal" name="projectForm" novalidate role="form">
             <div data-ng-init="getProject()"></div>
-            <div class="form-group" class="form-control">
+            <div class="form-group" ng-class="{ 'has-error' : projectForm.name.$invalid && submitted }">
                 <label class="col-sm-2 control-label">Name</label>
                 <div class="col-sm-6">
-                    <input type="text" ng-model="project.name" class="form-control" required />
+                    <input type="text" name="name" ng-model="project.name" class="form-control"
+                        ng-required="nameRequired" required />
+                    <p ng-show="projectForm.name.$error.required" class="help-block">Required.</p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Status</label>
                 <div class="col-sm-6">
-                    <select ng-model="project.status" ng-options="item.displayName for item in status"
+                    <select name="status" ng-model="project.status" ng-options="item.displayName for item in status"
                         class="form-control">
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : ownerRequired && submitted }">
                 <label class="col-sm-2 control-label">Owner</label>
                 <div class="col-sm-7">
                     <div required multi-select input-model="owners" button-label="userName" helper-elements="filter"
                         output-model="ownerlist" item-label="userName" tick-property="ticked" selection-mode="single">
                     </div>
+                    <p ng-show="ownerRequired" class="help-block">Required.</p>
                 </div>
             </div>
             <div class="form-group">
@@ -54,72 +57,76 @@
                         only-digits />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : projectForm.recordingDate.$invalid && submitted }">
                 <label class="col-sm-2 control-label">Recording Date</label>
                 <div class="col-sm-6">
-                    <input type="date" ng-model="project.recordingDate" class="form-control" required />
-
+                    <input type="date" name="recordingDate" ng-model="project.recordingDate" class="form-control"
+                        ng-required="recordingDateRequired" required />
+                    <p ng-show="projectForm.recordingDate.$error.required" class="help-block">Required.</p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Status Change Date</label>
                 <div class="col-sm-6">
                     <input type="date" ng-model="project.statusChangeDate" class="form-control">
-
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : projectForm.description.$invalid && submitted }">
                 <label class="col-sm-2 control-label">Description</label>
                 <div class="col-sm-6">
-                    <textarea required type="text" rows="5" ng-model="project.description"
-                        class="form-control"></textarea>
+                    <textarea required type="text" name="description" rows="5" ng-model="project.description"
+                        class="form-control" ng-required="descriptionRequired"></textarea>
+                    <p ng-show="projectForm.description.$error.required" class="help-block">Required.</p>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : projectForm.dueDate.$invalid && submitted }">
                 <label class="col-sm-2 control-label">Due Date</label>
                 <div class="col-sm-6">
-                    <input type="date" ng-model="project.estCompletionDate" class="form-control" required />
+                    <input type="date" name="dueDate" ng-model="project.estCompletionDate" class="form-control"
+                        ng-required="dueDateRequired" required />
+                    <p ng-show="projectForm.dueDate.$error.required" class="help-block">Required.</p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Completion Date</label>
                 <div class="col-sm-6">
-                    <input type="date" class="form-control" ng-model="project.actualCompletionDate">
+                    <input type="date" name="completionDate" class="form-control"
+                        ng-model="project.actualCompletionDate">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Solution Type</label>
                 <div class="col-sm-6">
-                    <select ng-model="project.wikiType" ng-options="item.displayName for item in wikiTypes"
-                        class="form-control">
+                    <select name="solutionType" ng-model="project.wikiType"
+                        ng-options="item.displayName for item in wikiTypes" class="form-control">
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Estimate Effort</label>
                 <div class="col-sm-6">
-                    <input type="text" placeholder="Enter a Number" ng-model="project.estEffort" class="form-control"
-                        only-digits>
+                    <input type="text" name="estimateEffort" placeholder="Enter a Number" ng-model="project.estEffort"
+                        class="form-control" only-digits>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Actual Effort</label>
                 <div class="col-sm-6">
-                    <input type="text" placeholder="Enter a Number" ng-model="project.actualEffort" class="form-control"
-                        only-digits>
+                    <input type="text" name="actualEffort" placeholder="Enter a Number" ng-model="project.actualEffort"
+                        class="form-control" only-digits>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Confluence ID</label>
                 <div class="col-sm-6">
-                    <input type="text" placeholder="Enter a Number" ng-model="project.confluenceId" class="form-control"
-                        only-digits>
+                    <input type="text" name="confluenceId" placeholder="Enter a Number" ng-model="project.confluenceId"
+                        class="form-control" only-digits>
                 </div>
             </div>
             <div class="form-group" class="form-control">
                 <label class="col-sm-2 control-label">Jira ID</label>
                 <div class="col-sm-6">
-                    <input type="text" ng-model="project.jiraId" class="form-control">
+                    <input type="text" name="jiraId" ng-model="project.jiraId" class="form-control">
                 </div>
             </div>
             <div class="form-group">

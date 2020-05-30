@@ -20,7 +20,7 @@ app.directive('myDatePickerStart', function () {
             });
         }
     };
-})
+});
 
 app.directive('onlyDigits', function () {
     return {
@@ -68,7 +68,7 @@ app.directive('myDatePickerEnd', function () {
             });
         }
     };
-})
+});
 
 app.directive('myDatePickerTime', function () {
     return {
@@ -92,7 +92,7 @@ app.directive('myDatePickerTime', function () {
             });
         }
     };
-})
+});
 
 app.directive('bsSelect', function () {
 
