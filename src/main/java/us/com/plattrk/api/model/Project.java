@@ -39,7 +39,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
                         "pr.jiraId, pr.confluenceId) from Project as pr where lower(pr.name) LIKE (:name) order by pr.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = Project.FIND_ALL_PROJECTS_COUNT_BY_CRITERIA,
-                query = "Select count(pr.id) from Project as pr where lower(pr.name) LIKE (:name) order by pr.name",
+                query = "Select count(pr.id) from Project as pr where lower(pr.name) LIKE (:name)",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = Project.FIND_ALL_PROJECTS_COUNT,
                 query = "Select count(pr.id) from Project pr",

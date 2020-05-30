@@ -31,23 +31,23 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @Cacheable(true)
 @NamedQueries({
         @NamedQuery(name = Product.FIND_ALL_PRODUCTS_RELATIONS,
-                query = "Select p from Product p",
+                query = "Select pd from Product pd",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
         @NamedQuery(name = Product.FIND_ALL_PRODUCTS,
                 query = "Select new us.com.plattrk.api.model.Product(pd.id, pd.incidentName, pd.clientName, pd.shortName, pd.owner, " +
-                        "pd.startDate, pd.endDate, pd.maxWeeklyUptime, pd.platform, pd.revenue, pd.users) from Product as pd",
+                        "pd.startDate, pd.endDate, pd.maxWeeklyUptime, pd.platform, pd.revenue, pd.users) from Product as pd order by pd.platform, pd.incidentName",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
         @NamedQuery(name = Product.FIND_ALL_PRODUCTS_BY_CRITERIA,
                 query = "Select new us.com.plattrk.api.model.Product(pd.id, pd.incidentName, pd.clientName, pd.shortName, pd.owner, " +
                         "pd.startDate, pd.endDate, pd.maxWeeklyUptime, pd.platform, pd.revenue, pd.users) from Product as pd " +
-                        "where lower(pd.incidentName) LIKE (:name) order by pd.incidentName",
+                        "where lower(pd.incidentName) LIKE (:name) order by pd.platform, pd.incidentName",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = Product.FIND_ALL_ACTIVE_PRODUCTS,
                 query = "Select new us.com.plattrk.api.model.Product(pd.id, pd.incidentName, pd.clientName, pd.shortName, pd.owner, " +
                         "pd.startDate, pd.endDate, pd.maxWeeklyUptime, pd.platform, pd.revenue, pd.users) from Product as pd where pd.endDate IS NULL",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
         @NamedQuery(name = Product.FIND_ALL_PRODUCTS_COUNT_BY_CRITERIA,
-                query = "Select count(pd.id) from Product as pd where lower(pd.incidentName) LIKE (:name) order by pd.incidentName",
+                query = "Select count(pd.id) from Product as pd where lower(pd.incidentName) LIKE (:name)",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = Product.FIND_ALL_PRODUCTS_COUNT,
                 query = "Select count(pd.id) from Product pd",

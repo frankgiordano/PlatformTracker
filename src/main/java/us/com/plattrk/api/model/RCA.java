@@ -21,7 +21,7 @@ import java.util.Date;
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = RCA.FIND_ALL_RCAS_COUNT_BY_CRITERIA,
                 query = "Select count(rc.id) from RCA as rc join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re where lower(ig.name) " +
-                        "LIKE (:name) order by ig.name",
+                        "LIKE (:name)",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = RCA.FIND_ALL_RCAS_COUNT,
                 query = "Select count(rc.id) from RCA as rc",

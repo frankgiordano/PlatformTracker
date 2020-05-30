@@ -26,7 +26,7 @@ import java.util.Date;
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_CRITERIA,
                 query = "Select count(res.id) from IncidentResolution as res left outer join res.resolutionProject p inner join res.incidentGroup ig inner join res.status s " +
-                        "inner join res.horizon h inner join res.type t where lower(ig.name) LIKE (:name) order by ig.name",
+                        "inner join res.horizon h inner join res.type t where lower(ig.name) LIKE (:name)",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT,
                 query = "Select count(res.id) from IncidentResolution res",
