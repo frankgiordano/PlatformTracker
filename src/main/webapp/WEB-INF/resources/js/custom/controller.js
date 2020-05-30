@@ -91,7 +91,7 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
     var GENERIC_ERROR_MSG = "Check for required fields or check console for error messages.";
     $rootScope.REQUIRED_FIELDS_CHRONOLOGY_MSG = CHECK_REQUIRED_FIELDS_MSG + "Date Time and Description.";
     $rootScope.PROJECT_LINK_RESOLUTON_MSG = "Linking Resolution(s) to Project failed.";
-    $rootScope.INCIDENT_VERSION_MSG = "Editing an older Incident detail version, please reload Incident detail from search page and try again. You may need to click on the Refresh Data button if one exist on the page.";
+    $rootScope.INCIDENT_VERSION_MSG = "Editing an older Incident detail version, please reload Incident detail from search page and try again.";
 
     $rootScope.PRODUCT_SAVE_ERROR_MSG = "PRODUCT" + SAVE_ERROR_MSG + GENERIC_ERROR_MSG;
     $rootScope.PROJECT_SAVE_ERROR_MSG = "PROJECT" + SAVE_ERROR_MSG + GENERIC_ERROR_MSG;
