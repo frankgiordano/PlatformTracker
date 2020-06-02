@@ -1,16 +1,19 @@
 <div data-ng-controller="ProjectController" class="table table-condensed">
+    <div>
+        <a href="#" class="" onclick="event.preventDefault();" ng-click="cancel()">
+            <img src="/plattrk/resources/images/back.jpg" width="50" height="50" />
+        </a>
+    </div>
     <div ng-hide="loading">
-        <div class="row">
-            <div style="clear:both;">&nbsp;</div>
+        <div class="row" style="padding-bottom: 1%; padding-top: 2%">
             <div class="col-sm-12">
                 <progressbar class="progress-striped active" max="200" value="200" type="info"><i>Creating Project....</i>
                 </progressbar>
-                <div style="clear:both;">&nbsp;</div>
             </div>
         </div>
     </div>
     <div ng-hide="hideduringloading">
-        <div style="padding-bottom: 1%; padding-top: 2%">
+        <div>
             <h2>Create Project</h2>
         </div>
         <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>

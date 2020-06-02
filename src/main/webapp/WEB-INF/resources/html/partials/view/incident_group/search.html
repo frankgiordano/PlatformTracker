@@ -58,9 +58,13 @@
     </div>
     <div ng-hide="createResolution || createRootCA">
         <form class="form-horizontal" ng-show="selectedGroup" name="groupForm">
+            <div>
+                <a href="#" class="" onclick="event.preventDefault();" ng-click="cancel()">
+                    <img src="/plattrk/resources/images/back.jpg" width="50" height="50" />
+                </a>
+            </div>
             <div ng-hide="loading">
-                <div class="row">
-                    <div style="clear:both;">&nbsp;</div>
+                <div class="row" style="padding-bottom: 1%; padding-top: 2%">
                     <div class="col-sm-12">
                         <progressbar ng-show="createResolution" class="progress-striped active" max="200" value="200"
                             type="info"><i>Saving Resolution....</i>
@@ -71,12 +75,11 @@
                         <progressbar ng-show="!createRootCA && !createResolution" class="progress-striped active"
                             max="200" value="200" type="info"><i>Saving Group....</i>
                         </progressbar>
-                        <div style="clear:both;">&nbsp;</div>
                     </div>
                 </div>
             </div>
             <div ng-hide="hideduringloading">
-                <div style="padding-bottom: 1%; padding-top: 2%">
+                <div>
                     <h2>Incident Group Detail</h2>
                 </div>
 
@@ -132,7 +135,12 @@
     </div>
     <form class="form-horizontal" ng-show="createResolution" name="resolutionForm">
         <div data-ng-controller="ResolutionChildController" class="table table-condensed">
-            <div style="padding-bottom: 1%; padding-top: 2%">
+            <div>
+                <a href="#" class="" onclick="event.preventDefault();" ng-click="cancel()">
+                    <img src="/plattrk/resources/images/back.jpg" width="50" height="50" />
+                </a>
+            </div>
+            <div>
                 <h2>Create Resolution</h2>
             </div>
             <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
@@ -222,7 +230,12 @@
     </form>
     <form class="form-horizontal" ng-show="createRootCA" name="rootCauseForm">
         <div data-ng-controller="RootCauseChildController" class="table table-condensed">
-            <div style="padding-bottom: 1%; padding-top: 2%">
+            <div>
+                <a href="#" class="" onclick="event.preventDefault();" ng-click="cancel()">
+                    <img src="/plattrk/resources/images/back.jpg" width="50" height="50" />
+                </a>
+            </div>
+            <div>
                 <h2>Create Root Cause</h2>
             </div>
             <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>

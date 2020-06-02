@@ -92,17 +92,20 @@
         </dir-pagination-controls>
     </div>
     <form class="form-horizontal" name="productForm" ng-show="selectedProduct">
+        <div>
+            <a href="#" class="" onclick="event.preventDefault();" ng-click="cancel()">
+                <img src="/plattrk/resources/images/back.jpg" width="50" height="50" />
+            </a>
+        </div>
         <div ng-hide="loading">
-            <div class="row">
-                <div style="clear:both;">&nbsp;</div>
+            <div class="row" style="padding-bottom: 1%; padding-top: 2%">
                 <div class="col-sm-12">
                     <progressbar class="progress-striped active" max="200" value="200" type="info">
                         <i>Saving Product....</i></progressbar>
-                    <div style="clear:both;">&nbsp;</div>
                 </div>
             </div>
         </div>
-        <div style="padding-bottom: 1%; padding-top: 2%">
+        <div>
             <h2>Product Detail</h2>
         </div>
         <div ng-hide="hideduringloading">
