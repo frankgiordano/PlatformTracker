@@ -1,88 +1,86 @@
 <div data-ng-init="init()">
-    <div ng-hide="selectedProduct">
-        <div style="padding-bottom: 1%; padding-top: 2%">
-            <h2>Search Root Causes</h2>
-        </div>
-        <form class="form-horizontal">
-            <div class="form-group">
-                <label class="control-label col-xs-2">Count Total</label>
-                <div class="col-xs-10 form-control-static">
-                    {{data.total_count}}
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-xs-2">Search by Name</label>
-                <div class="col-xs-3">
-                    <input type="text" ng-model="search" class="form-control" placeholder="Search by name">
-                </div>
-                <div class="col-xs-3 pull-right">
-                    <button data-ng-disabled="progress.active()" data-ng-click="new()"
-                        class="btn btn-default pull-right">Create</button>
-                </div>
-            </div>
-        </form>
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th ng-click="sort('id')">Id
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='id'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('incidentGroup')">Incident Group Name
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='incidentGroup'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('status')">Status
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='status'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('owner')">Owner
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='owner'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('problem')">Description
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='problem'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('dueDate')">Due Date
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='dueDate'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('completionDate')">Completion Date
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='completionDate'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('category')">Category
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='category'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('resource')">Resource
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='resource'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="btn-link" dir-paginate="rootcause in data.results|orderBy:sortKey:reverse|itemsPerPage:10"
-                    total-items="data.total_count" ng-click="select(rootcause.id)" current-page="currentPage">
-                    <td>{{rootcause.id}}</td>
-                    <td>{{rootcause.incidentGroup}}</td>
-                    <td>{{rootcause.status}}</td>
-                    <td>{{rootcause.owner}}</td>
-                    <td>
-                        <div my-qtip qtip-content="{{rootcause.problem}}">
-                            {{rootcause.problem | addEllipsis}}
-                        </div>
-                    </td>
-                    <td>{{rootcause.dueDate | dateFormatMinusTime}}</td>
-                    <td>{{rootcause.completionDate | dateFormatMinusTime}}</td>
-                    <td>{{rootcause.category}}</td>
-                    <td>{{rootcause.resource}}</td>
-                </tr>
-            </tbody>
-        </table>
-        <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"
-            on-page-change="getData(newPageNumber)">
-        </dir-pagination-controls>
+    <div style="padding-bottom: 1%; padding-top: 2%">
+        <h2>Search Root Causes</h2>
     </div>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-xs-2">Count Total</label>
+            <div class="col-xs-10 form-control-static">
+                {{data.total_count}}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-2">Search by Name</label>
+            <div class="col-xs-3">
+                <input type="text" ng-model="search" class="form-control" placeholder="Search by name">
+            </div>
+            <div class="col-xs-3 pull-right">
+                <button data-ng-disabled="progress.active()" data-ng-click="new()"
+                    class="btn btn-default pull-right">Create</button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th ng-click="sort('id')">Id
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='id'"
+                        ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                </th>
+                <th ng-click="sort('incidentGroup')">Incident Group Name
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='incidentGroup'"
+                        ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                </th>
+                <th ng-click="sort('status')">Status
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='status'"
+                        ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                </th>
+                <th ng-click="sort('owner')">Owner
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='owner'"
+                        ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                </th>
+                <th ng-click="sort('problem')">Description
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='problem'"
+                        ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                </th>
+                <th ng-click="sort('dueDate')">Due Date
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='dueDate'"
+                        ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                </th>
+                <th ng-click="sort('completionDate')">Completion Date
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='completionDate'"
+                        ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                </th>
+                <th ng-click="sort('category')">Category
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='category'"
+                        ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                </th>
+                <th ng-click="sort('resource')">Resource
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='resource'"
+                        ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="btn-link" dir-paginate="rootcause in data.results|orderBy:sortKey:reverse|itemsPerPage:10"
+                total-items="data.total_count" ng-click="select(rootcause.id)" current-page="currentPage">
+                <td>{{rootcause.id}}</td>
+                <td>{{rootcause.incidentGroup}}</td>
+                <td>{{rootcause.status}}</td>
+                <td>{{rootcause.owner}}</td>
+                <td>
+                    <div my-qtip qtip-content="{{rootcause.problem}}">
+                        {{rootcause.problem | addEllipsis}}
+                    </div>
+                </td>
+                <td>{{rootcause.dueDate | dateFormatMinusTime}}</td>
+                <td>{{rootcause.completionDate | dateFormatMinusTime}}</td>
+                <td>{{rootcause.category}}</td>
+                <td>{{rootcause.resource}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"
+        on-page-change="getData(newPageNumber)">
+    </dir-pagination-controls>
 </div>
