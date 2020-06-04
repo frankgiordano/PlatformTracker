@@ -36,8 +36,8 @@ public class IncidentGroupController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/group/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
-    public IncidentGroup getGroups(@PathVariable Long id) {
+    @RequestMapping(value = "/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
+    public IncidentGroup getGroup(@PathVariable Long id) {
         return incidentGroupService.getGroup(id);
     }
 

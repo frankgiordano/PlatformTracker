@@ -52,6 +52,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
     @Override
     public IncidentGroup getGroup(Long id) {
         IncidentGroup incidentGroup = em.find(IncidentGroup.class, id);
+        incidentGroup.setIncidents(null);
         return incidentGroup;
     }
 

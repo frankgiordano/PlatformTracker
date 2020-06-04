@@ -1,4 +1,18 @@
 app.service('IncidentGroupService', function ($http, $q) {
+    this.getGroup = function (id) {
+        var d = $q.defer();
+
+        $http.get('group/retrieve/' + id)
+            .success(function (response) {
+                d.resolve(response);
+            })
+            .error(function () {
+                d.reject();
+            });
+
+        return d.promise;
+    };
+
     this.getGroups = function () {
         var d = $q.defer();
 

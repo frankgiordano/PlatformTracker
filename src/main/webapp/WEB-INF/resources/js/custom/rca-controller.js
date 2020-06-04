@@ -357,8 +357,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
 
     $scope.createResolution = function () {
         $scope.resolution = {};
-        $routeParams.incidentGroup = $scope.rca.incidentGroup;
-        popitup('/plattrk/#/resolution/create/' + $scope.rca.incidentGroup.id);
+        popitup('/plattrk/#/resolution/create/fromRootCause/' + $scope.rca.incidentGroup.id);
     };
 
     function popitup(url) {

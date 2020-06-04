@@ -430,7 +430,7 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
 
 });
 
-app.controller('ResolutionChildController', function ($rootScope, $scope, ReferenceDataService, OwnersService, ResolutionService) {
+app.controller('ResolutionChildController', function ($rootScope, $scope, $routeParams, IncidentGroupService, ReferenceDataService, OwnersService, ResolutionService) {
 
     $scope.resolution = {};
     $scope.hideduringloading = false;
@@ -447,6 +447,22 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, Refere
         }
     };
     $scope.waiting();
+
+    $scope.createSetup = function () {
+        if ($routeParams.incidentGroup !== "") {
+            IncidentGroupService.getGroup($routeParams.incidentGroup).then(
+                function success(response) {
+                    $scope.selectedGroup = response;
+                    console.log("get = " + JSON.stringify(response));
+                },
+                function error() {
+                    $rootScope.errors.push({
+                        code: "GOURP_GET_FAILURE",
+                        message: "Error retrieving Incident Group."
+                    });
+                });
+        }
+    };
 
     (function () {
         ReferenceDataService.getHorizons().then(

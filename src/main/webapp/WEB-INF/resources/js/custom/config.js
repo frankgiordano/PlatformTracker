@@ -99,9 +99,9 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/resolution/search.html',
                 })
                 .when(
-                    '/resolution/create/:incidentGroup', {
-                    controller: 'ResolutionController',
-                    templateUrl: 'resources/html/partials/view/resolution/create.html'
+                    '/resolution/create/fromRootCause/:incidentGroup', {
+                    controller: 'ResolutionChildController',
+                    templateUrl: 'resources/html/partials/view/resolution/create_from_rc.html'
                 })
                 .when(
                     '/resolution/create', {
