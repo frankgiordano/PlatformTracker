@@ -24,9 +24,9 @@ app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, I
             emailAddress = {
                 "address": $scope.recipent
             };
-            $scope.errormessages = null;
+            $scope.errorMessages = null;
         } else {
-            $scope.errormessages = "Specify an email recipent.";
+            $scope.errorMessages = "Specify an email recipent.";
             return;
         }
 
@@ -36,15 +36,15 @@ app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, I
                 document.body.style.cursor = "default";
                 if (response === "true") {
                     $scope.messages = "Request processed successfully.";
-                    $scope.errormessages = null;
+                    $scope.errorMessages = null;
                 } else {
-                    $scope.errormessages = "Failure - Request unsuccessful.";
+                    $scope.errorMessages = "Failure - Request unsuccessful.";
                     $scope.messages = null;
                 }
             },
             function error() {
                 document.body.style.cursor = "default";
-                $scope.errormessages = "Failure - Request unsuccessful.";
+                $scope.errorMessages = "Failure - Request unsuccessful.";
                 $scope.messages = null;
             });
     };
@@ -55,30 +55,30 @@ app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, I
         var products = "";
 
         if ($scope.recipent) {
-            $scope.errormessages = null;
+            $scope.errorMessages = null;
         } else {
-            $scope.errormessages = "Specify an email recipent.";
+            $scope.errorMessages = "Specify an email recipent.";
             return;
         }
 
         if ($scope.selectedProducts) {
-            $scope.errormessages = null;
+            $scope.errorMessages = null;
         } else {
-            $scope.errormessages = "Specify a Product.";
+            $scope.errorMessages = "Specify a Product.";
             return;
         }
 
         if ($scope.startDate) {
-            $scope.errormessages = null;
+            $scope.errorMessages = null;
         } else {
-            $scope.errormessages = "Specify a Start Date.";
+            $scope.errorMessages = "Specify a Start Date.";
             return;
         }
 
         if ($scope.endDate) {
-            $scope.errormessages = null;
+            $scope.errorMessages = null;
         } else {
-            $scope.errormessages = "Specify a End Date.";
+            $scope.errorMessages = "Specify a End Date.";
             return;
         }
 
@@ -99,15 +99,15 @@ app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, I
                 document.body.style.cursor = "default";
                 if (response === "true") {
                     $scope.messages = "Request processed successfully.";
-                    $scope.errormessages = null;
+                    $scope.errorMessages = null;
                 } else {
-                    $scope.errormessages = "Failure - Request unsuccessful.";
+                    $scope.errorMessages = "Failure - Request unsuccessful.";
                     $scope.messages = null;
                 }
             },
             function error() {
                 document.body.style.cursor = "default";
-                $scope.errormessages = "Failure - Request unsuccessful.";
+                $scope.errorMessages = "Failure - Request unsuccessful.";
                 $scope.messages = null;
             });
     };

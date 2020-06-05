@@ -5,7 +5,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
     $scope.createResolution = null; // this variable handles the display of the resolution creation sub form
     $scope.createRootCA = null; // this variable handles the display of the RCA creation sub form
     $scope.disableButton = false;
-    $scope.hideduringloading = false;
+    $scope.hideDuringLoading = false;
     $scope.pageno = 1; // initialize page num to 1
     $scope.total_count = 0;
     $scope.itemsPerPage = 10;
@@ -24,7 +24,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
                 $scope.data = response;
             },
             function error() {
-                $scope.errormessages = "RESOLUTIONS_GET_FAILURE - Retrieving resolutions failed, check logs or try again.";
+                $scope.errorMessages = "RESOLUTIONS_GET_FAILURE - Retrieving resolutions failed, check logs or try again.";
             });
     };
 
@@ -49,11 +49,11 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
 
     $scope.waiting = function (value) {
         if (value === true) {
-            $scope.hideduringloading = true;
+            $scope.hideDuringLoading = true;
             $scope.loading = false;
             document.body.style.cursor = "wait";
         } else {
-            $scope.hideduringloading = false;
+            $scope.hideDuringLoading = false;
             $scope.loading = true;
             document.body.style.cursor = "default";
         }
@@ -97,7 +97,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
         };
 
         if (isValid === false) {
-            $scope.errormessages = $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG;
+            $scope.errorMessages = $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG;
             $scope.waiting(false);
         } else {
             IncidentGroupService.saveGroup(group).then(
@@ -105,13 +105,13 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
                     if (response) {
                         $scope.messages = "Group ID " + group.id + " has been saved.";
                         console.log("Group ID " + group.id + " has been saved.");
-                        $scope.errormessages = null;
+                        $scope.errorMessages = null;
                         $scope.disableButton = true;
                     }
                     $scope.waiting(false);
                 },
                 function error() {
-                    $scope.errormessages = $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG;
+                    $scope.errorMessages = $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG;
                     $scope.waiting(false);
                 });
         }
@@ -129,10 +129,10 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
             },
             function error(response) {
                 if (response.includes("ConstraintErrorException") || response.includes("ConstraintViolationException")) {
-                    $scope.errormessages = "GROUP_DELETE_FAILURE - Child associated entities still exist.";
+                    $scope.errorMessages = "GROUP_DELETE_FAILURE - Child associated entities still exist.";
                     return;
                 }
-                $scope.errormessages = "GROUP_DELETE_FAILURE - backend severe error, check logs and try again.";
+                $scope.errorMessages = "GROUP_DELETE_FAILURE - backend severe error, check logs and try again.";
             });
     };
 
@@ -164,7 +164,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
             function success(response) {
                 if (response) {
                     if (response.length === 0) {
-                        $scope.errormessages = "GROUP_ORPHANS_DELETE_FAILURE - Check logs, or no orphan groups to delete or problem deleting existing orphan groups.";
+                        $scope.errorMessages = "GROUP_ORPHANS_DELETE_FAILURE - Check logs, or no orphan groups to delete or problem deleting existing orphan groups.";
                         document.body.style.cursor = "default";
                         return;
                     }
@@ -178,7 +178,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
                 }
             },
             function error() {
-                $scope.errormessages = "GROUP_ORPHANS_DELETE_FAILURE - Check logs, or no orphan groups to delete or problem deleting existing orphan groups.";
+                $scope.errorMessages = "GROUP_ORPHANS_DELETE_FAILURE - Check logs, or no orphan groups to delete or problem deleting existing orphan groups.";
                 document.body.style.cursor = "default";
             });
     };
@@ -201,7 +201,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
 
     $scope.clearDisplayMessages = function () {
         $scope.messages = null;
-        $scope.errormessages = null;
+        $scope.errorMessages = null;
     };
 
 });
@@ -209,15 +209,15 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
 app.controller('RootCauseChildController', function ($rootScope, $scope, ReferenceDataService, RcaService, OwnersService, $filter) {
 
     $scope.rca = {};
-    $scope.hideduringloading = false;
+    $scope.hideDuringLoading = false;
 
     $scope.waiting = function (value) {
         if (value == true) {
-            $scope.hideduringloading = true;
+            $scope.hideDuringLoading = true;
             $scope.loading = false;
             document.body.style.cursor = "wait";
         } else {
-            $scope.hideduringloading = false;
+            $scope.hideDuringLoading = false;
             $scope.loading = true;
             document.body.style.cursor = "default";
         }
@@ -292,7 +292,7 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
         $scope.rca.completionDate = null;
         $scope.rca.owner = null;
         $scope.messages = null;
-        $scope.errormessages = null;
+        $scope.errorMessages = null;
         $scope.waiting(false);
         cleanFormValidation();
     };
@@ -413,13 +413,13 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
             function success(response) {
                 if (response) {
                     $scope.messages = "New Root Cause created for Group " + '"' + $scope.$parent.selectedGroup.name + '".';
-                    $scope.errormessages = null;
+                    $scope.errorMessages = null;
                     $scope.disableButton = true;
                 }
                 $scope.waiting(false);
             },
             function error() {
-                $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
+                $scope.errorMessages = $rootScope.RC_SAVE_ERROR_MSG;
                 $scope.waiting(false);
             });
     };
@@ -433,15 +433,15 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
 app.controller('ResolutionChildController', function ($rootScope, $scope, $routeParams, IncidentGroupService, ReferenceDataService, OwnersService, ResolutionService) {
 
     $scope.resolution = {};
-    $scope.hideduringloading = false;
+    $scope.hideDuringLoading = false;
 
     $scope.waiting = function (value) {
         if (value == true) {
-            $scope.hideduringloading = true;
+            $scope.hideDuringLoading = true;
             $scope.loading = false;
             document.body.style.cursor = "wait";
         } else {
-            $scope.hideduringloading = false;
+            $scope.hideDuringLoading = false;
             $scope.loading = true;
             document.body.style.cursor = "default";
         }
@@ -532,7 +532,7 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, $route
         $scope.resolution.estCompletionDate = null;
         $scope.resolution.actualCompletionDate = null;
         $scope.messages = null;
-        $scope.errormessages = null;
+        $scope.errorMessages = null;
         cleanFormValidation();
     };
 
@@ -591,13 +591,13 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, $route
             function success(response) {
                 if (response) {
                     $scope.messages = $scope.resolution.horizon.displayName + " Resolution created for Group " + '"' + $scope.selectedGroup.name + '".';
-                    $scope.errormessages = null;
+                    $scope.errorMessages = null;
                     $scope.disableButton = true;
                 }
                 $scope.waiting(false);
             },
             function error() {
-                $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
+                $scope.errorMessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
                 $scope.waiting(false);
             });
     };

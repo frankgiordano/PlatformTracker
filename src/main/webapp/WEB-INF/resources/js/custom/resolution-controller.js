@@ -1,7 +1,7 @@
 app.controller('ResolutionController', function ($rootScope, $scope, OwnersService, ResolutionService, $location, $routeParams, IncidentGroupService, ReferenceDataService, ModalService) {
 
     $scope.resolution = {};
-    $scope.hideduringloading = false;
+    $scope.hideDuringLoading = false;
     $scope.pageno = 1; // initialize page num to 1
     $scope.search = '*';
     $scope.total_count = 0;
@@ -21,7 +21,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
                 $scope.data = response;
             },
             function error() {
-                $scope.errormessages = "RESOLUTIONS_GET_FAILURE - Retrieving resolutions failed, check logs or try again.";
+                $scope.errorMessages = "RESOLUTIONS_GET_FAILURE - Retrieving resolutions failed, check logs or try again.";
             });
     };
 
@@ -46,11 +46,11 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
 
     $scope.waiting = function (value) {
         if (value === true) {
-            $scope.hideduringloading = true;
+            $scope.hideDuringLoading = true;
             $scope.loading = false;
             document.body.style.cursor = "wait";
         } else {
-            $scope.hideduringloading = false;
+            $scope.hideDuringLoading = false;
             $scope.loading = true;
             document.body.style.cursor = "default";
         }
@@ -220,7 +220,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
                             $scope.back = true;
                         },
                         function error() {
-                            $scope.errormessages = "RESOLUTION_DELETE_FAILURE - Check logs or child associated entities still exist.";
+                            $scope.errorMessages = "RESOLUTION_DELETE_FAILURE - Check logs or child associated entities still exist.";
                         });
                 }
             });
@@ -233,7 +233,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
 
     $scope.clearMsg = function () {
         $scope.messages = null;
-        $scope.errormessages = null;
+        $scope.errorMessages = null;
     };
 
     $scope.update = function () {
@@ -241,10 +241,10 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
         $scope.clearMsg();
         $scope.waiting(true);
 
-        if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
+        if ($scope.ownerList != null && $scope.ownerList.length > 0) {
             var owners = "";
-            for (i = 0; i < $scope.ownerlist.length; i++) {
-                owners = owners + "|" + $scope.ownerlist[i].userName;
+            for (i = 0; i < $scope.ownerList.length; i++) {
+                owners = owners + "|" + $scope.ownerList[i].userName;
             }
             if (owners.length > 1)
                 $scope.resolution.owner = owners.substring(1, owners.length);
@@ -335,7 +335,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
                 }
             },
             function error() {
-                $scope.errormessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
+                $scope.errorMessages = $rootScope.RESOLUTION_SAVE_ERROR_MSG;
                 $scope.waiting(false);
             });
     };

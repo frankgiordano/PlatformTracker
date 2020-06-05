@@ -10,7 +10,7 @@ app.controller('IncidentReportSettingsController', function ($scope, IncidentSer
                 }
             },
             function error() {
-                $scope.errormessages = "GET_SETTING_FAILURE - Retrieving toggle status failed, check logs or try again.";
+                $scope.errorMessages = "GET_SETTING_FAILURE - Retrieving toggle status failed, check logs or try again.";
             });
     };
 
@@ -26,17 +26,17 @@ app.controller('IncidentReportSettingsController', function ($scope, IncidentSer
                 if (response === "true") {
                     $scope.messages = "Saved successfully.";
                 } else {
-                    $scope.errormessages = "Failure on saving..";
+                    $scope.errorMessages = "Failure on saving..";
                 }
             },
             function error() {
-                $scope.errormessages = "SETTING_SAVE_FAILURE - Error saving toggle setting, check logs or try again.";
+                $scope.errorMessages = "SETTING_SAVE_FAILURE - Error saving toggle setting, check logs or try again.";
             });
     };
 
     $scope.clearMsg = function () {
         $scope.messages = null;
-        $scope.errormessages = null;
+        $scope.errorMessages = null;
     };
 
 });

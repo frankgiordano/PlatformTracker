@@ -21,15 +21,15 @@ app.controller('IncidentFromGroupController', function ($routeParams, $location,
     $scope.createResolution = null; // this variable handles the display of the resolution creation sub form
     $scope.createRootCA = null; // this variable handles the display of the RCA creation sub form
     $scope.disableButton = false;
-    $scope.hideduringloading = false;
+    $scope.hideDuringLoading = false;
 
     $scope.waiting = function (value) {
         if (value === true) {
-            $scope.hideduringloading = true;
+            $scope.hideDuringLoading = true;
             $scope.loading = false;
             document.body.style.cursor = "wait";
         } else {
-            $scope.hideduringloading = false;
+            $scope.hideDuringLoading = false;
             $scope.loading = true;
             document.body.style.cursor = "default";
         }
@@ -99,7 +99,7 @@ app.controller('IncidentFromGroupController', function ($routeParams, $location,
 
     $scope.clearDisplayMessages = function () {
         $scope.messages = null;
-        $scope.errormessages = null;
+        $scope.errorMessages = null;
     };
 
 });

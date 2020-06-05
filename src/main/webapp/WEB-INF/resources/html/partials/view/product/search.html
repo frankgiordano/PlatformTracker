@@ -108,9 +108,9 @@
         <div>
             <h2>Product Detail</h2>
         </div>
-        <div ng-hide="hideduringloading">
+        <div ng-hide="hideDuringLoading">
             <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-            <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages">
+            <div id="messages" class="alert alert-danger" data-ng-show="errorMessages" data-ng-bind="errorMessages">
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Platform</label>
@@ -153,7 +153,7 @@
                 <label class="col-sm-2 control-label">Owner</label>
                 <div class="col-sm-6">
                     <div multi-select input-model="owners" button-label="userName" helper-elements="filter"
-                        output-model="ownerlist" item-label="userName" tick-property="ticked" selection-mode="single">
+                        output-model="ownerList" item-label="userName" tick-property="ticked" selection-mode="single">
                     </div>
                 </div>
             </div>

@@ -57,7 +57,7 @@ app.run(function ($rootScope, $http, $location, Base64Service, AuthenticationSer
                 console.log("You have been successfully logged in.")
             },
             function error() {
-                $rootScope.errors.push({ code: "LOGIN_FAILED", message: $rootScope.errormessages });
+                $rootScope.errors.push({ code: "LOGIN_FAILED", message: $rootScope.errorMessages });
             });
     });
 
@@ -68,7 +68,7 @@ app.run(function ($rootScope, $http, $location, Base64Service, AuthenticationSer
         } else if (status == 403) {
             error = "You don't have permission to access.";
         }
-        //        $rootScope.errormessages = error;
+        //        $rootScope.errorMessages = error;
     });
 
     /**

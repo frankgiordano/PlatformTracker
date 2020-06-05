@@ -1,7 +1,7 @@
 app.controller('ProjectController', function ($rootScope, $scope, ProjectService, $location, $routeParams, OwnersService, ReferenceDataService, ModalService) {
 
     $scope.project = {};
-    $scope.hideduringloading = false;
+    $scope.hideDuringLoading = false;
     $scope.pageno = 1; // initialize page num to 1
     $scope.search = '*';
     $scope.total_count = 0;
@@ -34,7 +34,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                 $scope.data = response;
             },
             function error() {
-                $scope.errormessages = "PROJECT_GET_FAILURE - Retrieving projects failed, check logs or try again.";
+                $scope.errorMessages = "PROJECT_GET_FAILURE - Retrieving projects failed, check logs or try again.";
             });
     };
 
@@ -59,11 +59,11 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
 
     $scope.waiting = function (value) {
         if (value === true) {
-            $scope.hideduringloading = true;
+            $scope.hideDuringLoading = true;
             $scope.loading = false;
             document.body.style.cursor = "wait";
         } else {
-            $scope.hideduringloading = false;
+            $scope.hideDuringLoading = false;
             $scope.loading = true;
             document.body.style.cursor = "default";
         }
@@ -72,7 +72,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
 
     $scope.clearMsg = function () {
         $scope.messages = null;
-        $scope.errormessages = null;
+        $scope.errorMessages = null;
     };
 
     $scope.createSetup = function () {
@@ -177,11 +177,11 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                     });
                     $scope.project.wikiType = wikiTypesId[0];
                 } else {
-                    $scope.errormessages = "PROJECT_GET_FAILURE - Retrieving project failed, check logs or try again.";
+                    $scope.errorMessages = "PROJECT_GET_FAILURE - Retrieving project failed, check logs or try again.";
                 }
             },
             function error() {
-                $scope.errormessages = "PROJECT_GET_FAILURE - Retrieving project failed, check logs or try again.";
+                $scope.errorMessages = "PROJECT_GET_FAILURE - Retrieving project failed, check logs or try again.";
             });
     };
 
@@ -206,14 +206,14 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                                 $scope.messages = "Project ID " + project.id + " has been deleted.";
                                 console.log("Project ID " + project.id + " has been deleted.");
                             } else {
-                                $scope.errormessages = "PROJECT_DELETE_FAILURE - Check logs or invalid project.";
+                                $scope.errorMessages = "PROJECT_DELETE_FAILURE - Check logs or invalid project.";
                                 console.error("Project ID " + project.id + " was unable to be deleted.");
                             }
                             $scope.back = true;
                             return;
                         },
                         function error() {
-                            $scope.errormessages = "PROJECT_DELETE_FAILURE - Check logs or invalid project.";
+                            $scope.errorMessages = "PROJECT_DELETE_FAILURE - Check logs or invalid project.";
                             return;
                         });
                 } else {
@@ -231,10 +231,10 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         $scope.clearMsg();
         $scope.waiting(true);
 
-        if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
+        if ($scope.ownerList != null && $scope.ownerList.length > 0) {
             var owners = "";
-            for (i = 0; i < $scope.ownerlist.length; i++) {
-                owners = owners + "|" + $scope.ownerlist[i].userName;
+            for (i = 0; i < $scope.ownerList.length; i++) {
+                owners = owners + "|" + $scope.ownerList[i].userName;
             }
             if (owners.length > 1)
                 $scope.project.owner = owners.substring(1, owners.length);
@@ -329,7 +329,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                 }
             },
             function error() {
-                $scope.errormessages = $rootScope.PROJECT_SAVE_ERROR_MSG;
+                $scope.errorMessages = $rootScope.PROJECT_SAVE_ERROR_MSG;
                 $scope.waiting(false);
             });
     };

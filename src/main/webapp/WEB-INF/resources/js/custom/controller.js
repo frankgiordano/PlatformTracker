@@ -125,12 +125,12 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
         } else if (status == 403) {
             error = "You don't have permission to access.";
         }
-        // $scope.errormessages = error;
+        // $scope.errorMessages = error;
     });
 
     $scope.clearMsg = function () {
         $scope.messages = null;
-        $scope.errormessages = null;
+        $scope.errorMessages = null;
     };
 
 });

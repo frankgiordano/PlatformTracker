@@ -2,7 +2,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
 
     $scope.rca = {};
     $scope.whys = [];
-    $scope.hideduringloading = false;
+    $scope.hideDuringLoading = false;
     $scope.pageno = 1; // initialize page num to 1
     $scope.search = '*';
     $scope.total_count = 0;
@@ -22,7 +22,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                 $scope.data = response;
             },
             function error() {
-                $scope.errormessages = "RCA_GET_FAILURE - Retrieving root causes failed, check logs or try again.";
+                $scope.errorMessages = "RCA_GET_FAILURE - Retrieving root causes failed, check logs or try again.";
             });
     };
 
@@ -47,11 +47,11 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
 
     $scope.waiting = function (value) {
         if (value === true) {
-            $scope.hideduringloading = true;
+            $scope.hideDuringLoading = true;
             $scope.loading = false;
             document.body.style.cursor = "wait";
         } else {
-            $scope.hideduringloading = false;
+            $scope.hideDuringLoading = false;
             $scope.loading = true;
             document.body.style.cursor = "default";
         }
@@ -271,23 +271,23 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                 $scope.back = true;
             },
             function error() {
-                $scope.errormessages = "ROOT_CAUSE_DELETE_FAILURE - Check logs or invalid RCA.";
+                $scope.errorMessages = "ROOT_CAUSE_DELETE_FAILURE - Check logs or invalid RCA.";
             });
     };
 
     $scope.clearMsg = function () {
         $scope.messages = null;
-        $scope.errormessages = null;
+        $scope.errorMessages = null;
     };
 
     $scope.update = function () {
         $scope.clearMsg();
         $scope.waiting(true);
 
-        if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
+        if ($scope.ownerList != null && $scope.ownerList.length > 0) {
             var owners = "";
-            for (i = 0; i < $scope.ownerlist.length; i++) {
-                owners = owners + "|" + $scope.ownerlist[i].userName;
+            for (i = 0; i < $scope.ownerList.length; i++) {
+                owners = owners + "|" + $scope.ownerList[i].userName;
             }
             if (owners.length > 1)
                 $scope.rca.owner = owners.substring(1, owners.length);
@@ -344,7 +344,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                 }
             },
             function error() {
-                $scope.errormessages = $rootScope.RC_SAVE_ERROR_MSG;
+                $scope.errorMessages = $rootScope.RC_SAVE_ERROR_MSG;
                 $scope.waiting(false);
             });
     };

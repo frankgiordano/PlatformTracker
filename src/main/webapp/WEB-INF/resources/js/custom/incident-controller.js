@@ -1,7 +1,7 @@
 app.controller('IncidentController', function ($rootScope, $scope, IncidentGroupService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService, OwnersService) {
 
     $scope.incident = {};
-    $scope.hideduringloading = false;
+    $scope.hideDuringLoading = false;
     $scope.pageno = 1; // initialize page num to 1
     $scope.search = '*';
     $scope.total_count = 0;
@@ -21,7 +21,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                 $scope.data = response;
             },
             function error() {
-                $scope.errormessages = "INCIDENTS_GET_FAILURE - Retrieving incidents failed, check logs or try again.";
+                $scope.errorMessages = "INCIDENTS_GET_FAILURE - Retrieving incidents failed, check logs or try again.";
             });
     };
 
@@ -44,11 +44,11 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
 
     $scope.waiting = function (value) {
         if (value === true) {
-            $scope.hideduringloading = true;
+            $scope.hideDuringLoading = true;
             $scope.loading = false;
             document.body.style.cursor = "wait";
         } else {
-            $scope.hideduringloading = false;
+            $scope.hideDuringLoading = false;
             $scope.loading = true;
             document.body.style.cursor = "default";
         }
@@ -335,17 +335,17 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             function success(response) {
                 document.body.style.cursor = "default";
                 if (response) {
-                    $scope.chronmessages = "Chronology timeline for Incident tag " + $scope.incident.tag + " created.";
+                    $scope.chronMessages = "Chronology timeline for Incident tag " + $scope.incident.tag + " created.";
                     console.log("Chronology for Incident tag " + $scope.incident.tag + " created = " + JSON.stringify(response));
                     $scope.clear('chronology');
-                    $scope.chronerrormessages = null;
+                    $scope.chronErrorMessages = null;
                     $scope.getRelatedChronologies($scope.incident.id);
                 }
             },
             function error() {
                 document.body.style.cursor = "default";
-                $scope.chronerrormessages = $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG;
-                $scope.chronmessages = null;
+                $scope.chronErrorMessages = $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG;
+                $scope.chronMessages = null;
             });
     };
 
@@ -353,15 +353,15 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         ChronologyService.deleteChronology(item.id).then(
             function success(response) {
                 if (response) {
-                    $scope.chronmessages = "Chronology timeline for Incident tag " + $scope.incident.tag + " with id " + item.id + " deleted.";
+                    $scope.chronMessages = "Chronology timeline for Incident tag " + $scope.incident.tag + " with id " + item.id + " deleted.";
                     console.log("Chronology timeline for Incident tag " + $scope.incident.tag + " with Chronology timeline id " + item.id + " deleted.");
-                    $scope.chronerrormessages = null;
+                    $scope.chronErrorMessages = null;
                     $scope.getRelatedChronologies($scope.incident.id);
                 }
             },
             function error() {
-                $scope.chronerrormessages = "CHRONOLOGY_DELETE_FAILURE - Check logs or try again.";
-                $scope.chronmessages = null;
+                $scope.chronErrorMessages = "CHRONOLOGY_DELETE_FAILURE - Check logs or try again.";
+                $scope.chronMessages = null;
             });
     };
 
@@ -486,14 +486,14 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                 .then(function success(response) {
                     if (response) {
                         console.log("New Group has been saved = " + JSON.stringify(response));
-                        $scope.errormessages = null;
+                        $scope.errorMessages = null;
                         // no need to use response to attach it as group to incident to save
                         // backend will use group name associated existing one if any..
                         // this needs to be revisit if it still needs to be done this way. 
                         return IncidentService.saveIncident(incident);
                     }
                 }, function error() {
-                    $scope.errormessages = "GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs and try again.";
+                    $scope.errorMessages = "GROUP_SAVE_FAILURE - Creating new Group " + groupCurrentORNew.name + " failed, check logs and try again.";
                     $scope.waiting(false);
                     return $q.reject();
                 })
@@ -504,11 +504,11 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                     $scope.waiting(false);
                 }, function error(response) {
                     if (response.includes("OptimisticLockException")) {
-                        $scope.errormessages = $rootScope.INCIDENT_VERSION_ERROR_MSG;
+                        $scope.errorMessages = $rootScope.INCIDENT_VERSION_ERROR_MSG;
                         return;
                     }
                     $scope.waiting(false);
-                    $scope.errormessages = "Incident ID " + incident.id + " was unable to be saved with newly created Group " + groupCurrentORNew.name + ".";
+                    $scope.errorMessages = "Incident ID " + incident.id + " was unable to be saved with newly created Group " + groupCurrentORNew.name + ".";
                 });
         } else {
             // An existing current group is still there with no new group specified. Hence nothing special just save.
@@ -521,11 +521,11 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                 },
                 function error(response) {
                     if (response.includes("OptimisticLockException")) {
-                        $scope.errormessages = $rootScope.INCIDENT_VERSION_ERROR_MSG;
+                        $scope.errorMessages = $rootScope.INCIDENT_VERSION_ERROR_MSG;
                         $scope.waiting(false);
                         return;
                     }
-                    $scope.errormessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
+                    $scope.errorMessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
                     $scope.waiting(false);
                 });
         }
@@ -534,7 +534,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     $scope.postIncidentSave = function (incident) {
         $scope.getGroup(incident.id);
         $scope.messages = "Incident ID " + incident.id + " has been saved.";
-        $scope.errormessages = null;
+        $scope.errorMessages = null;
         $scope.incident.version++;
         $scope.disableButton = true;
         $scope.groupModel.selectedNewGroup = null;
@@ -563,7 +563,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
 
         if (endTimeValue) {
             if (startTimeValue > endTimeValue) {
-                $scope.errormessages = "INCIDENT_SAVE_FAILURE - End Date Time needs to be set after Start Date Time.";
+                $scope.errorMessages = "INCIDENT_SAVE_FAILURE - End Date Time needs to be set after Start Date Time.";
                 $scope.waiting(false);
                 return;
             }
@@ -630,13 +630,13 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                 if (response) {
                     $scope.messages = "New Incident has been saved.";
                     console.log("New Incident has been saved = " + JSON.stringify(response));
-                    $scope.errormessages = null;
+                    $scope.errorMessages = null;
                     $scope.disableButton = true;
                     $scope.waiting(false);
                 }
             },
             function error() {
-                $scope.errormessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
+                $scope.errorMessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
                 $scope.waiting(false);
             });
     };
@@ -660,10 +660,10 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     };
 
     $scope.setOwner = function () {
-        if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
+        if ($scope.ownerList != null && $scope.ownerList.length > 0) {
             var owners = "";
-            for (i = 0; i < $scope.ownerlist.length; i++) {
-                owners = owners + "|" + $scope.ownerlist[i].userName;
+            for (i = 0; i < $scope.ownerList.length; i++) {
+                owners = owners + "|" + $scope.ownerList[i].userName;
             }
             if (owners.length > 1)
                 $scope.incident.owner = owners.substring(1, owners.length);
@@ -770,9 +770,9 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
 
     $scope.clearDisplayMessages = function () {
         $scope.messages = null;
-        $scope.errormessages = null;
-        $scope.chronmessages = null;
-        $scope.chronerrormessages = null;
+        $scope.errorMessages = null;
+        $scope.chronMessages = null;
+        $scope.chronErrorMessages = null;
     };
 
     $scope.new = function () {

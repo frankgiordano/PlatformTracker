@@ -1,6 +1,6 @@
 app.controller('ProductController', function ($rootScope, $scope, ProductService, $location, $routeParams, platforms, ModalService, OwnersService) {
 
-    $scope.hideduringloading = false;
+    $scope.hideDuringLoading = false;
     $scope.disableButton = false;
     $scope.platforms = platforms;
     $scope.selectedPlatform = $scope.platforms[5];
@@ -48,11 +48,11 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
 
     $scope.waiting = function (value) {
         if (value === true) {
-            $scope.hideduringloading = true;
+            $scope.hideDuringLoading = true;
             $scope.loading = false;
             document.body.style.cursor = "wait";
         } else {
-            $scope.hideduringloading = false;
+            $scope.hideDuringLoading = false;
             $scope.loading = true;
             document.body.style.cursor = "default";
         }
@@ -104,7 +104,7 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
 
     $scope.clearMsg = function () {
         $scope.messages = null;
-        $scope.errormessages = null;
+        $scope.errorMessages = null;
     };
 
     $scope.refreshData = function () {
@@ -142,12 +142,12 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
                     $scope.messages = "Product ID " + id + " has been deleted.";
                     console.log("Product has been deleted = " + JSON.stringify(response));
                     $scope.refreshData();
-                    $scope.errormessages = null;
+                    $scope.errorMessages = null;
                     $scope.disableButton = true;
                 }
             },
             function error() {
-                $scope.errormessages = "PRODUCT_DELETE_FAILURE - Check logs or invalid Product.";
+                $scope.errorMessages = "PRODUCT_DELETE_FAILURE - Check logs or invalid Product.";
             });
     };
 
@@ -185,10 +185,10 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
 
         enforceRequiredFields();
 
-        if ($scope.ownerlist != null && $scope.ownerlist.length > 0) {
+        if ($scope.ownerList != null && $scope.ownerList.length > 0) {
             var owners = "";
-            for (i = 0; i < $scope.ownerlist.length; i++) {
-                owners = owners + "|" + $scope.ownerlist[i].userName;
+            for (i = 0; i < $scope.ownerList.length; i++) {
+                owners = owners + "|" + $scope.ownerList[i].userName;
             }
             if (owners.length > 1)
                 $scope.selectedProduct.owner = owners.substring(1, owners.length);
@@ -218,7 +218,7 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
                 }
             },
             function error() {
-                $scope.errormessages = $rootScope.PRODUCT_SAVE_ERROR_MSG;
+                $scope.errorMessages = $rootScope.PRODUCT_SAVE_ERROR_MSG;
                 $scope.waiting(false);
             });
     };
@@ -278,10 +278,10 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
             platform = $scope.selectedPlatform.value;
         }
 
-        if ($scope.ownerlist !== null && $scope.ownerlist.length > 0) {
+        if ($scope.ownerList !== null && $scope.ownerList.length > 0) {
             var owners = "";
-            for (i = 0; i < $scope.ownerlist.length; i++) {
-                owners = owners + "|" + $scope.ownerlist[i].userName;
+            for (i = 0; i < $scope.ownerList.length; i++) {
+                owners = owners + "|" + $scope.ownerList[i].userName;
             }
             if (owners.length > 1)
                 $scope.owner = owners.substring(1, owners.length);
@@ -310,7 +310,7 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
                 }
             },
             function error() {
-                $scope.errormessages = $rootScope.PRODUCT_SAVE_ERROR_MSG;
+                $scope.errorMessages = $rootScope.PRODUCT_SAVE_ERROR_MSG;
                 $scope.waiting(false);
             });
     };

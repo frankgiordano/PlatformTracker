@@ -1,6 +1,6 @@
 app.controller('ResolutionProjectLinkingController', function ($rootScope, $scope, ResolutionService, $routeParams, $window) {
     
-    $scope.hidebutton = false;
+    $scope.hideButton = false;
     $scope.filterOptions = {
         filterText: ''
     };
@@ -37,11 +37,11 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
 
     $scope.waiting = function (value) {
         if (value === true) {
-            $scope.hideduringloading = true;
+            $scope.hideDuringLoading = true;
             $scope.loading = false;
             document.body.style.cursor = "wait";
         } else {
-            $scope.hideduringloading = false;
+            $scope.hideDuringLoading = false;
             $scope.loading = true;
             document.body.style.cursor = "default";
         }
@@ -142,12 +142,12 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
                         message = message + "Unlinked " + numForOpTwo + " resolutions to Project ID " + $routeParams.project + " successfully.";
                 }
                 $scope.messages = message;
-                $scope.hidebutton = true;
+                $scope.hideButton = true;
                 $scope.waiting(false);
                 return;
             },
             function error() {
-                $scope.errormessages = $rootScope.PROJECT_LINK_RESOLUTON_ERROR_MSG;
+                $scope.errorMessages = $rootScope.PROJECT_LINK_RESOLUTON_ERROR_MSG;
                 $scope.waiting(false);
             });
     };
@@ -159,7 +159,7 @@ app.controller('ResolutionProjectLinkingController', function ($rootScope, $scop
 
     $scope.clearMsg = function () {
         $scope.messages = null;
-        $scope.errormessages = null;
+        $scope.errorMessages = null;
     };
 
 });
