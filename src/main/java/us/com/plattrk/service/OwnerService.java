@@ -1,9 +1,6 @@
 package us.com.plattrk.service;
 
-import java.io.IOException;
 import java.util.List;
-
-import javax.naming.NamingException;
 
 import us.com.plattrk.api.model.OwnerInfo;
 

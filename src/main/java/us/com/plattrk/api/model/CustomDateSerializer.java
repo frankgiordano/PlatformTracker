@@ -9,7 +9,6 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
-@SuppressWarnings("rawtypes")
 public class CustomDateSerializer extends JsonSerializer<Date> {
 
     @Override

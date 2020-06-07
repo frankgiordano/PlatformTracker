@@ -32,6 +32,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     private EntityManager em;
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Project> getProjects() {
         List<Project> myResult = em.createNamedQuery(Project.FIND_ALL_PROJECTS).getResultList();
         return myResult;

@@ -12,6 +12,7 @@ public class CopyUtil {
 
     private static final String METHOD_CLONE = "clone";
 
+    @SuppressWarnings("unchecked")
     public static <T extends Cloneable> T clone(T orig) {
         T obj = null;
 
@@ -26,6 +27,7 @@ public class CopyUtil {
         return obj;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends Collection<U>, U extends Cloneable> T cloneCollection(T orig) {
         return (T) cloneCollection(orig.getClass(), orig);
     }

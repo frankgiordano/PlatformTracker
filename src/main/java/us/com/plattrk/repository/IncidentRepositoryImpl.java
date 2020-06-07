@@ -26,6 +26,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     private EntityManager em;
 
     @Override
+    @SuppressWarnings("unchecked")
     public Set<Incident> getIncidents() {
         List<Incident> myResult = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS).getResultList();
         Set<Incident> incidents = new HashSet<Incident>(myResult);

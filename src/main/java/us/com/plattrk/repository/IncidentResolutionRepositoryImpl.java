@@ -30,6 +30,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
     private EntityManager em;
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<IncidentResolution> getResolutions() {
         List<IncidentResolution> myResult = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS).getResultList();
         return myResult;
@@ -89,6 +90,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<IncidentResolution> getGroupResolutions(Long id) {
         List<IncidentResolution> myResult = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_PER_GROUP).setParameter("pid", id).getResultList();
         return myResult;

@@ -111,6 +111,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<IncidentGroup> deleteAllOrphanGroups() {
         Predicate<IncidentGroup> isEmptyResolutions = group -> isEmptyGroupResolutions(group);
         Predicate<IncidentGroup> isEmptyRootCauses = group -> isEmptyGroupRootCause(group);

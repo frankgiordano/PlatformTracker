@@ -31,6 +31,7 @@ public class RCARepositoryImpl implements RCARepository {
     private EntityManager em;
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<RCAVO> getRCAs() {
         List<RCAVO> myResult = em.createNamedQuery(RCA.FIND_ALL_RCAS).getResultList();
         return myResult;

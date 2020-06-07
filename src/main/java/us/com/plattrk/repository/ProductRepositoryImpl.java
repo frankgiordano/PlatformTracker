@@ -27,6 +27,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     private EntityManager em;
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Product> getProducts() {
         List<Product> myResult = em.createNamedQuery(Product.FIND_ALL_PRODUCTS).getResultList();
         return myResult;

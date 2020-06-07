@@ -10,6 +10,7 @@ public class RepositoryUtil<T> {
 
     private static final int PAGE_SIZE = 10;
 
+    @SuppressWarnings("unchecked")
     public List<T> criteriaResults(Long pageIndex, Query query) {
         List<T> result;
 
