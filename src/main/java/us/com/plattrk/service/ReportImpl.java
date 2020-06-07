@@ -115,8 +115,7 @@ public class ReportImpl implements Report {
     }
 
     @Override
-    public boolean generateWeeklyReport(List<Incident> incidents, Date previousWeeklyDate, Date previousDayDate,
-            EmailAddress address) {
+    public boolean generateWeeklyReport(List<Incident> incidents, Date previousWeeklyDate, Date previousDayDate, EmailAddress address) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
         SimpleDateFormat dateFormatItem = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
@@ -863,7 +862,7 @@ public class ReportImpl implements Report {
     }
 
     private void fillRowStats(boolean matchFound, boolean byPercentage, Row row, List<Long> items,
-            Map<String, CellStyle> styles, Product product) {
+                              Map<String, CellStyle> styles, Product product) {
 
         double total = 0;
         Cell cell = row.createCell(4);
@@ -884,8 +883,8 @@ public class ReportImpl implements Report {
     }
 
     private void fillRowStatsCumulative(boolean matchFound, boolean byPercentage, Row row,
-            List<Long> totalDowntimeExternal, List<Long> totalDowntimeCLOUD, List<Long> totalDowntimeInternal,
-            Map<String, CellStyle> styles, Product product) {
+                                        List<Long> totalDowntimeExternal, List<Long> totalDowntimeCLOUD,
+                                        List<Long> totalDowntimeInternal, Map<String, CellStyle> styles, Product product) {
 
         double total = 0;
         Cell cell = row.createCell(4);
@@ -913,8 +912,8 @@ public class ReportImpl implements Report {
     }
 
     private void fillRowStatsCumulativeUptime(boolean matchFound, Row row, List<Long> totalDowntimeExternal,
-            List<Long> totalDowntimeCLOUD, List<Long> totalDowntimeInternal, Map<String, CellStyle> styles,
-            Product product) {
+                                              List<Long> totalDowntimeCLOUD, List<Long> totalDowntimeInternal,
+                                              Map<String, CellStyle> styles, Product product) {
 
         double total = 0;
         Cell cell = row.createCell(4);

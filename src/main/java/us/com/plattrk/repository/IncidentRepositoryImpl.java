@@ -164,26 +164,26 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     @Override
     public List<Incident> getDateRangeIncidents(Date start, Date end) {
         TypedQuery<Incident> query = em.createNamedQuery(Incident.FIND_ALL_OPEN_INCIDENTS_BY_RANGE_RELATIONS, Incident.class)
-                .setParameter("startDate", start, TemporalType.DATE)
-                .setParameter("endDate", end, TemporalType.DATE);
+                                       .setParameter("startDate", start, TemporalType.DATE)
+                                       .setParameter("endDate", end, TemporalType.DATE);
         return query.getResultList();
     }
 
     @Override
     public List<Incident> getDateRangeIncidentsByPriority(Date start, Date end, String priority) {
         TypedQuery<Incident> query = em.createNamedQuery(Incident.FIND_ALL_OPEN_INCIDENTS_BY_RANGE_AND_PRIORITY_RELATIONS, Incident.class)
-                .setParameter("startDate", start, TemporalType.DATE)
-                .setParameter("endDate", end, TemporalType.DATE)
-                .setParameter("priority", priority);
+                                       .setParameter("startDate", start, TemporalType.DATE)
+                                       .setParameter("endDate", end, TemporalType.DATE)
+                                       .setParameter("priority", priority);
         return query.getResultList();
     }
 
     @Override
     public List<Incident> getDateRangeIncidentsByApplicationStatus(Date start, Date end, String applicationStatus) {
         TypedQuery<Incident> query = em.createNamedQuery(Incident.FIND_ALL_OPEN_INCIDENTS_BY_RANGE_AND_APPLICATIONSTATUS_RELATIONS, Incident.class)
-                .setParameter("startDate", start, TemporalType.DATE)
-                .setParameter("endDate", end, TemporalType.DATE)
-                .setParameter("applicationStatus", applicationStatus);
+                                       .setParameter("startDate", start, TemporalType.DATE)
+                                       .setParameter("endDate", end, TemporalType.DATE)
+                                       .setParameter("applicationStatus", applicationStatus);
         return query.getResultList();
     }
 

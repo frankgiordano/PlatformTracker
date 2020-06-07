@@ -118,7 +118,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
 
         List<IncidentGroup> myResult = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS_RELATIONS).getResultList();
         List<IncidentGroup> removeList = myResult.stream().filter(isEmptyIncidents.and(isEmptyResolutions).and(isEmptyRootCauses))
-                .collect(Collectors.toList());
+                                                 .collect(Collectors.toList());
 
         removeList.forEach(lambdaWrapper(item -> {
             em.remove(item);

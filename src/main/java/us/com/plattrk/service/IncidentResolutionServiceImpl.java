@@ -58,7 +58,9 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
         Predicate<IncidentResolutionVO> isProjectId = resolution -> resolution.getProjectId() != null;
         Predicate<IncidentResolutionVO> isProjectIdPositive = resolution -> resolution.getProjectId() >= 0;
 
-        List<IncidentResolutionVO> saveResList = resolutions.stream().filter(isProjectId.and(isProjectIdPositive)).collect(Collectors.toList());
+        List<IncidentResolutionVO> saveResList = resolutions.stream()
+                                                            .filter(isProjectId.and(isProjectIdPositive))
+                                                            .collect(Collectors.toList());
         saveResList.forEach(resVO -> {
             IncidentResolution resolution = resolutionRepository.getResolution(resVO.getId());
             Project project = projectRepository.getProject(resVO.getProjectId());

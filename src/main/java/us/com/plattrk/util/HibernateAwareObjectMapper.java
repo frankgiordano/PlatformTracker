@@ -11,4 +11,5 @@ public class HibernateAwareObjectMapper extends ObjectMapper {
         hm.disable(Feature.USE_TRANSIENT_ANNOTATION);
         registerModule(hm);
     }
+
 }
