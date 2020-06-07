@@ -8,7 +8,8 @@
         <div class="row">
             <div style="clear:both;">&nbsp;</div>
             <div class="col-sm-12">
-                <progressbar class="progress-striped active" max="200" value="200" type="info"><i>Saving Incident....</i>
+                <progressbar class="progress-striped active" max="200" value="200" type="info"><i>Saving
+                        Incident....</i>
                 </progressbar>
                 <div style="clear:both;">&nbsp;</div>
             </div>
@@ -54,20 +55,21 @@
                 </div>
                 <div class="form-group">
                     <div ng-class="{ 'has-error' : incidentForm.startTime.$invalid && submitted }">
-                    <label class="col-sm-2 control-label">Start Date Time</label>
-                    <div class="col-md-3">
-                        <p class="input-group">
-                            <input type="text" name="startTime" class="form-control" datetime-picker="MM-dd-yyyy HH:mm"
-                                ng-model="incident.startTime" is-open="open.startTime" required  ng-required="startTimeRequired"/>
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default"
-                                    ng-click="openCalendar($event, 'startTime')">
-                                    <i class="fa fa-calendar"></i>
-                                </button>
-                            </span>
+                        <label class="col-sm-2 control-label">Start Date Time</label>
+                        <div class="col-md-3">
+                            <p class="input-group">
+                                <input type="text" name="startTime" class="form-control"
+                                    datetime-picker="MM-dd-yyyy HH:mm" ng-model="incident.startTime"
+                                    is-open="open.startTime" required ng-required="startTimeRequired" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default"
+                                        ng-click="openCalendar($event, 'startTime')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
                             <p ng-show="incidentForm.startTime.$error.required" class="help-block">Required.</p>
-                        </p>
-                    </div>
+                            </p>
+                        </div>
                     </div>
                     <label class="col-sm-1 control-label">End Date Time</label>
                     <div class="col-md-3">
@@ -128,7 +130,8 @@
                             ng-model="incident.summary"></textarea>
                     </div>
                 </div>
-                <div class="form-group" ng-class="{ 'has-error' : incidentForm.technicalDescription.$invalid && submitted }">
+                <div class="form-group"
+                    ng-class="{ 'has-error' : incidentForm.technicalDescription.$invalid && submitted }">
                     <label class="col-sm-2 control-label">Technical Description</label>
                     <div class="col-sm-7">
                         <textarea required type="text" name="technicalDescription" class="form-control" rows="5"
@@ -191,8 +194,10 @@
                                                 <td>{{item.description}}</td>
                                                 <td>{{item.recordedBy}}</td>
                                                 <td>
-                                                    <a ng-click="removeChronology(item)"><span
-                                                            class="glyphicon glyphicon-trash"></a>
+                                                    <a href="#" class="" onclick="event.preventDefault()"
+                                                        ng-click="removeChronology(item)">
+                                                        <span class="glyphicon glyphicon-trash"></span>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </tbody>
