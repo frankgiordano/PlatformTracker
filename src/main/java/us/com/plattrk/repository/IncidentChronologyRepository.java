@@ -15,6 +15,8 @@ public interface IncidentChronologyRepository {
 
     public Set<IncidentChronology> getChronologiesPerIncident(Long id);
 
-    public Incident getIncidentOfChronology(Long id);
+    public Incident getIncidentOfNewChronology(Long id);
+
+    public IncidentChronology getIncidentChronology(Long id);
 
 }

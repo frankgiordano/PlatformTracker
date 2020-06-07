@@ -71,8 +71,13 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
     }
 
     @Override
-    public Incident getIncidentOfChronology(Long id) {
+    public Incident getIncidentOfNewChronology(Long id) {
         return em.find(Incident.class, id);
+    }
+
+    @Override
+    public IncidentChronology getIncidentChronology(Long id) {
+        return em.find(IncidentChronology.class, id);
     }
 
     private static Consumer<IncidentChronology> lambdaWrapper(Consumer<IncidentChronology> consumer) {

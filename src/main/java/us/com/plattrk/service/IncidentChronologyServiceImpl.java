@@ -44,7 +44,7 @@ public class IncidentChronologyServiceImpl implements IncidentChronologyService 
     public IncidentChronology saveIncidentChronology(IncidentChronology chronology) {
         
         if (incidentChronologyRepository.saveIncidentChronology(chronology) != null) {
-            Incident incident = incidentChronologyRepository.getIncidentOfChronology(chronology.getIncident().getId());
+            Incident incident = incidentChronologyRepository.getIncidentOfNewChronology(chronology.getIncident().getId());
             if (incident.getStatus().equals("Closed")) {
                 WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
                 MailService mailService = (MailService) wac.getBean("mailService");
@@ -57,8 +57,7 @@ public class IncidentChronologyServiceImpl implements IncidentChronologyService 
 
     @Override
     public IncidentChronology getIncidentChronology(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return incidentChronologyRepository.getIncidentChronology(id);
     }
     
 }
