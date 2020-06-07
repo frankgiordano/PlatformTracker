@@ -349,19 +349,24 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     };
 
     $scope.removeChronology = function (item) {
-        ChronologyService.deleteChronology(item.id).then(
-            function success(response) {
-                if (response) {
-                    $scope.chronMessages = "Chronology timeline for Incident tag " + $scope.incident.tag + " with id " + item.id + " deleted.";
-                    console.log("Chronology timeline for Incident tag " + $scope.incident.tag + " with Chronology timeline id " + item.id + " deleted.");
-                    $scope.chronErrorMessages = null;
-                    $scope.getRelatedChronologies($scope.incident.id);
+        var title = "Incident Chronology";
+        var name = "Incident Chronology ID " + item.id;
+
+        ModalService.showModal({
+            templateUrl: "resources/html/templates/complex.html",
+            controller: "ComplexController",
+            inputs: {
+                title: "Delete " + title + " Confirmation:",
+                name: name
+            }
+        }).then(function (modal) {
+            modal.element.modal({ backdrop: 'static' });
+            modal.close.then(function (result) {
+                if (result.answer === 'Yes') {
+                    $scope.deleteChronology(item.id);
                 }
-            },
-            function error() {
-                $scope.chronErrorMessages = "CHRONOLOGY_DELETE_FAILURE - Check logs or try again.";
-                $scope.chronMessages = null;
             });
+        });
     };
 
     // get selected Incident's related chronologies for display
@@ -700,13 +705,13 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             modal.element.modal({ backdrop: 'static' });
             modal.close.then(function (result) {
                 if (result.answer === 'Yes') {
-                    $scope.deleteI($scope.incident.id);
+                    $scope.deleteIncident($scope.incident.id);
                 }
             });
         });
     };
 
-    $scope.deleteI = function (id) {
+    $scope.deleteIncident = function (id) {
         $scope.clearDisplayMessages();
         IncidentService.deleteIncident(id).then(
             function success(response) {
@@ -720,6 +725,20 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                 $scope.errormessages = "INCIDENT_DELETE_FAILURE - Check logs or invalid Incident.";
             });
     };
+
+    $scope.deleteChronology = function (id) {
+        ChronologyService.deleteChronology(id).then(function success(response) {
+            if (response) {
+                $scope.chronMessages = "Chronology timeline for Incident tag " + $scope.incident.tag + " with id " + id + " deleted.";
+                console.log("Chronology timeline for Incident tag " + $scope.incident.tag + " with Chronology timeline id " + id + " deleted.");
+                $scope.chronErrorMessages = null;
+                $scope.getRelatedChronologies($scope.incident.id);
+            }
+        }, function error() {
+            $scope.chronErrorMessages = "CHRONOLOGY_DELETE_FAILURE - Check logs or try again.";
+            $scope.chronMessages = null;
+        });
+    }
 
     $scope.cancelEdit = function (option) {
         switch (option) {
