@@ -12,7 +12,6 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
 
     $scope.init = function () {
         $scope.setRouteSearchParms();
-        $scope.getData($scope.pageno);
     };
 
     $scope.getData = function (pageno) {

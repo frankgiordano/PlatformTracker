@@ -10,7 +10,6 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
 
     $scope.init = function () {
         $scope.setRouteSearchParms();
-        $scope.getData($scope.pageno);
     };
 
     $scope.getData = function (pageno) {

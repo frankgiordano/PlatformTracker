@@ -10,7 +10,6 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
 
     $scope.init = function () {
         $scope.setRouteSearchParms();
-        $scope.getData($scope.pageno);
     };
 
     $scope.getData = function (pageno) {

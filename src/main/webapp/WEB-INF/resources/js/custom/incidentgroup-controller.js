@@ -13,7 +13,6 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
 
     $scope.init = function () {
         $scope.search = '*';
-        $scope.getData($scope.pageno);
     };
 
     $scope.getData = function (pageno) {

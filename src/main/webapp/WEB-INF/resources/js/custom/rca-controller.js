@@ -11,7 +11,6 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
 
     $scope.init = function () {
         $scope.setRouteSearchParms();
-        $scope.getData($scope.pageno);
     };
 
     $scope.getData = function (pageno) {
