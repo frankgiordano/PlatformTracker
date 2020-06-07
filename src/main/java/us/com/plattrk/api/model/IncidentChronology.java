@@ -26,13 +26,13 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Table(name = "Incident_Chronology")
 @NamedQueries({
     @NamedQuery(name = IncidentChronology.FIND_ALL_INCIDENT_CHRONOLOGY_RELATIONS, 
-                query = "Select g from IncidentChronology g", 
+                query = "Select ic from IncidentChronology ic",
                 hints={@QueryHint(name="org.hibernate.cacheable", value="false")}),
     @NamedQuery(name = IncidentChronology.FIND_ALL_INCIDENT_CHRONOLOGY,
-                query = "Select new us.com.plattrk.api.model.IncidentChronology(g.id, g.dateTime, g.description, g.recordedBy) from IncidentChronology as g",
+                query = "Select new us.com.plattrk.api.model.IncidentChronology(ic.id, ic.dateTime, ic.description, ic.recordedBy) from IncidentChronology as ic",
                 hints={@QueryHint(name="org.hibernate.cacheable", value="false")}),
     @NamedQuery(name = IncidentChronology.FIND_ALL_CHRONOLOGY_PER_INCIDENT,
-                query = "Select new us.com.plattrk.api.model.IncidentChronology(g.id, g.dateTime, g.description, g.recordedBy) from IncidentChronology as g JOIN g.incident i where i.id = (:id)",
+                query = "Select new us.com.plattrk.api.model.IncidentChronology(ic.id, ic.dateTime, ic.description, ic.recordedBy) from IncidentChronology as ic JOIN ic.incident i where i.id = (:id)",
                 hints={@QueryHint(name="org.hibernate.cacheable", value="false")})
 })
 public class IncidentChronology {
