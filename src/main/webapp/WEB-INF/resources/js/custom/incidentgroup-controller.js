@@ -7,7 +7,7 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
     $scope.disableButton = false;
     $scope.hideDuringLoading = false;
     $scope.pageno = 1; // initialize page num to 1
-    $scope.total_count = 0;
+    $scope.totalCount = 0;
     $scope.itemsPerPage = 10;
     $scope.data = [];
 
@@ -28,8 +28,8 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
             });
     };
 
-    $scope.sort = function (keyname) {
-        $scope.sortKey = keyname;   //set the sortKey to the param passed
+    $scope.sort = function (keyName) {
+        $scope.sortKey = keyName;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     };
 

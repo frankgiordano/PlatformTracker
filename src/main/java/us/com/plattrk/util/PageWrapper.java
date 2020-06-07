@@ -5,12 +5,12 @@ import java.util.List;
 public class PageWrapper<T> {
 
     private List<T> results;
-    private Long total_count;
+    private Long totalCount;
 
-    public PageWrapper(List<T> results, Long total_count) {
+    public PageWrapper(List<T> results, Long totalCount) {
         super();
         this.results = results;
-        this.total_count = total_count;
+        this.totalCount = totalCount;
     }
 
     public List<T> getResults() {
@@ -21,12 +21,12 @@ public class PageWrapper<T> {
         this.results = results;
     }
 
-    public Long getTotal_count() {
-        return total_count;
+    public Long getTotalCount() {
+        return totalCount;
     }
 
-    public void setTotal_count(Long total_count) {
-        this.total_count = total_count;
+    public void setTotalCount(Long totalCount) {
+        this.totalCount = totalCount;
     }
 
 }
