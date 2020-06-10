@@ -1,6 +1,7 @@
 package us.com.plattrk.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class RCAServiceImpl implements RCAService {
 
     @Override
     @Transactional
-    public PageWrapper<RCA> search(String searchTerm, Long pageIndex) {
-        return rcaRepository.getRCAsByCriteria(searchTerm, pageIndex);
+    public PageWrapper<RCA> search(Map<String, String> filtersMap) {
+        return rcaRepository.getRCAsByCriteria(filtersMap);
     }
 
     @Override

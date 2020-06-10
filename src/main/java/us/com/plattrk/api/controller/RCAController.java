@@ -1,6 +1,7 @@
 package us.com.plattrk.api.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,9 +30,9 @@ public class RCAController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/retrieve/{searchTerm}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
-    PageWrapper<RCA> search(@PathVariable String searchTerm, @PathVariable Long pageIndex) {
-        return rcaService.search(searchTerm, pageIndex);
+    @RequestMapping(value = "/retrieve/{grpName}/{desc}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
+    PageWrapper<RCA> search(@PathVariable Map<String, String> filtersMap) {
+        return rcaService.search(filtersMap);
     }
 
     @PreAuthorize("isAuthenticated()")

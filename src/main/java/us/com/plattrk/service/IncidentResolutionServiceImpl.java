@@ -2,6 +2,7 @@ package us.com.plattrk.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -36,8 +37,8 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
 
     @Override
     @Transactional
-    public PageWrapper<IncidentResolution> search(String searchTerm, Long pageIndex) {
-        return resolutionRepository.getResolutionsByCriteria(searchTerm, pageIndex);
+    public PageWrapper<IncidentResolution> search(Map<String, String> filtersMap) {
+        return resolutionRepository.getResolutionsByCriteria(filtersMap);
     }
 
     @Override

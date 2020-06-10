@@ -10,9 +10,12 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-xs-2">Search by Tag</label>
+            <label class="control-label col-xs-2">Search Filters</label>
             <div class="col-xs-3">
-                <input type="text" ng-model="search" class="form-control" placeholder="Search by tag">
+                <input type="text" ng-model="searchTag" class="form-control" placeholder="Search by tag">
+            </div>
+            <div class="col-xs-3">
+                <input type="text" ng-model="searchDesc" class="form-control" placeholder="Search by description">
             </div>
             <div class="col-xs-3 pull-right">
                 <button data-ng-disabled="progress.active()" data-ng-click="new()"
@@ -62,16 +65,16 @@
                 <th ng-click="sort('owner')">Owner
                     <span class="glyphicon sort-icon" ng-show="sortKey=='owner'"
                         ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-				</th>
-				<th ng-click="sort('usersImpacted')">Users Imp'ed
+                </th>
+                <th ng-click="sort('usersImpacted')">Users Imp'ed
                     <span class="glyphicon sort-icon" ng-show="sortKey=='usersImpacted'"
                         ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-				</th>
-				<th ng-click="sort('callsReceived')">Calls
+                </th>
+                <th ng-click="sort('callsReceived')">Calls
                     <span class="glyphicon sort-icon" ng-show="sortKey=='callsReceived'"
                         ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-				</th>
-				<th ng-click="sort('alertedBy')">AlertedBy
+                </th>
+                <th ng-click="sort('alertedBy')">AlertedBy
                     <span class="glyphicon sort-icon" ng-show="sortKey=='alertedBy'"
                         ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                 </th>
@@ -84,19 +87,19 @@
                 <td>{{incident.tag}}</td>
                 <td>{{incident.status}}</td>
                 <td>{{incident.severity}}</td>
-				<td>
-					<div my-qtip qtip-content="{{incident.description + ' ' + incident.summary}}">
-						{{incident.description + " " + incident.summary | addEllipsis}}
-					</div>
-				</td>
+                <td>
+                    <div my-qtip qtip-content="{{incident.description + ' ' + incident.summary}}">
+                        {{incident.description + " " + incident.summary | addEllipsis}}
+                    </div>
+                </td>
                 <td>{{incident.error}}</td>
-				<td>{{incident.locus}}</td>
-				<td>{{incident.startTime | dateFormatMinusTime}}</td>
+                <td>{{incident.locus}}</td>
+                <td>{{incident.startTime | dateFormatMinusTime}}</td>
                 <td>{{incident.endTime | dateFormatMinusTime}}</td>
                 <td>{{incident.owner}}</td>
-				<td>{{incident.usersImpacted}}</td>
-				<td>{{incident.callsReceived}}</td>
-				<td>{{incident.alertedBy}}</td>
+                <td>{{incident.usersImpacted}}</td>
+                <td>{{incident.callsReceived}}</td>
+                <td>{{incident.alertedBy}}</td>
             </tr>
         </tbody>
     </table>

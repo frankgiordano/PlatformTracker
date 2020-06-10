@@ -42,14 +42,32 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
                 query = "Select i from Incident i where i.startTime >= (:startDate) and i.startTime < (:endDate) and i.severity = (:priority)"),
         @NamedQuery(name = Incident.FIND_ALL_OPEN_INCIDENTS_BY_RANGE_AND_APPLICATIONSTATUS_RELATIONS,
                 query = "Select i from Incident i inner join i.applicationStatus a where i.startTime >= (:startDate) and i.startTime < (:endDate) and a.displayName = (:applicationStatus)"),
-        @NamedQuery(name = Incident.FIND_ALL_INCIDENTS_BY_CRITERIA,
+        @NamedQuery(name = Incident.FIND_ALL_INCIDENTS_BY_TAG_CRITERIA,
                 query = "Select new us.com.plattrk.api.model.Incident(i.id, i.version, i.tag, i.name, i.owner, i.summary, i.customerImpact, i.severity, " +
                         "i.description, e.name, a.displayName, i.locus, i.startTime, i.endTime, i.usersImpacted, i.transactionIdsImpacted, i.callsReceived, " +
                         "i.alertedBy, i.reviewedBy, i.status, i.correctiveAction, i.relatedActions, i.emailRecipents, i.recordedBy, i.issue) from Incident as i " +
-                        "inner join i.error e inner join i.applicationStatus a where lower(i.tag) LIKE (:name) order by i.startTime DESC",
+                        "inner join i.error e inner join i.applicationStatus a where lower(i.tag) LIKE (:tag) order by i.startTime DESC",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
-        @NamedQuery(name = Incident.FIND_ALL_INCIDENTS_COUNT_BY_CRITERIA,
-                query = "Select count(i.id) from Incident as i inner join i.error e inner join i.applicationStatus a where lower(i.tag) LIKE (:name)",
+        @NamedQuery(name = Incident.FIND_ALL_INCIDENTS_BY_DESC_CRITERIA,
+                query = "Select new us.com.plattrk.api.model.Incident(i.id, i.version, i.tag, i.name, i.owner, i.summary, i.customerImpact, i.severity, " +
+                        "i.description, e.name, a.displayName, i.locus, i.startTime, i.endTime, i.usersImpacted, i.transactionIdsImpacted, i.callsReceived, " +
+                        "i.alertedBy, i.reviewedBy, i.status, i.correctiveAction, i.relatedActions, i.emailRecipents, i.recordedBy, i.issue) from Incident as i " +
+                        "inner join i.error e inner join i.applicationStatus a where lower(i.description) LIKE (:desc) order by i.startTime DESC",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = Incident.FIND_ALL_INCIDENTS_BY_BOTH_CRITERIA,
+                query = "Select new us.com.plattrk.api.model.Incident(i.id, i.version, i.tag, i.name, i.owner, i.summary, i.customerImpact, i.severity, " +
+                        "i.description, e.name, a.displayName, i.locus, i.startTime, i.endTime, i.usersImpacted, i.transactionIdsImpacted, i.callsReceived, " +
+                        "i.alertedBy, i.reviewedBy, i.status, i.correctiveAction, i.relatedActions, i.emailRecipents, i.recordedBy, i.issue) from Incident as i " +
+                        "inner join i.error e inner join i.applicationStatus a where lower(i.tag) LIKE (:tag) and lower(i.description) LIKE (:desc) order by i.startTime DESC",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = Incident.FIND_ALL_INCIDENTS_COUNT_BY_TAG_CRITERIA,
+                query = "Select count(i.id) from Incident as i inner join i.error e inner join i.applicationStatus a where lower(i.tag) LIKE (:tag)",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = Incident.FIND_ALL_INCIDENTS_COUNT_BY_DESC_CRITERIA,
+                query = "Select count(i.id) from Incident as i inner join i.error e inner join i.applicationStatus a where lower(i.description) LIKE (:desc)",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = Incident.FIND_ALL_INCIDENTS_COUNT_BY_BOTH_CRITERIA,
+                query = "Select count(i.id) from Incident as i inner join i.error e inner join i.applicationStatus a where lower(i.tag) LIKE (:tag) and lower(i.description) LIKE (:desc)",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = Incident.FIND_ALL_INCIDENTS_COUNT,
                 query = "Select count(i.id) from Incident i",
@@ -66,8 +84,12 @@ public class Incident {
     public static final String FIND_ALL_OPEN_INCIDENTS_BY_RANGE_RELATIONS = "findAllOpeIncidentsByRangeRelations";
     public static final String FIND_ALL_OPEN_INCIDENTS_BY_RANGE_AND_PRIORITY_RELATIONS = "findAllOpeIncidentsByRangeAndPriorityRelations";
     public static final String FIND_ALL_OPEN_INCIDENTS_BY_RANGE_AND_APPLICATIONSTATUS_RELATIONS = "findAllOpeIncidentsByRangeAndApplicationStatusRelations";
-    public static final String FIND_ALL_INCIDENTS_BY_CRITERIA = "findAllIncidentsByCriteria";
-    public static final String FIND_ALL_INCIDENTS_COUNT_BY_CRITERIA = "findAllIncidentsCountByCriteria";
+    public static final String FIND_ALL_INCIDENTS_BY_TAG_CRITERIA = "findAllIncidentsByTagCriteria";
+    public static final String FIND_ALL_INCIDENTS_BY_DESC_CRITERIA = "findAllIncidentsByDescCriteria";
+    public static final String FIND_ALL_INCIDENTS_BY_BOTH_CRITERIA = "findAllIncidentsByBothCriteria";
+    public static final String FIND_ALL_INCIDENTS_COUNT_BY_TAG_CRITERIA = "findAllIncidentsCountByTagCriteria";
+    public static final String FIND_ALL_INCIDENTS_COUNT_BY_DESC_CRITERIA = "findAllIncidentsCountByDescCriteria";
+    public static final String FIND_ALL_INCIDENTS_COUNT_BY_BOTH_CRITERIA = "findAllIncidentsCountByBothCriteria";
     public static final String FIND_ALL_INCIDENTS_COUNT = "findAllIncidentsCount";
 
     private Long id;

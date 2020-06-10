@@ -13,9 +13,9 @@ app.service('IncidentService', function ($http, $q, ReferenceDataService, Incide
         return d.promise;
     };
 
-    this.search = function (searchTerm, pageno) {
+    this.search = function (search, pageno) {
         var d = $q.defer();
-        $http.get('incident/retrieve/' + searchTerm + '/' + pageno)
+        $http.get('incident/retrieve/' + search.tag + '/' + search.desc + '/' + pageno)
         .success(function (response) {
             d.resolve(response);
         })

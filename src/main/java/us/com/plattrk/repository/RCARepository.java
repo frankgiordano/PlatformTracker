@@ -1,6 +1,7 @@
 package us.com.plattrk.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import us.com.plattrk.api.model.RCA;
 import us.com.plattrk.api.model.RCAVO;
@@ -10,7 +11,7 @@ public interface RCARepository {
     
     public List<RCAVO> getRCAs();
 
-    public PageWrapper<RCA> getRCAsByCriteria(String searchTerm, Long pageIndex);
+    public PageWrapper<RCA> getRCAsByCriteria(Map<String, String> filtersMap);
 
     public RCA deleteRCA(Long id);
 

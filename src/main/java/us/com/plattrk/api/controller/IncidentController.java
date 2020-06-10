@@ -10,6 +10,7 @@ import us.com.plattrk.util.PageWrapper;
 
 import javax.persistence.OptimisticLockException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -26,9 +27,9 @@ public class IncidentController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/retrieve/{searchTerm}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
-    PageWrapper<Incident> search(@PathVariable String searchTerm, @PathVariable Long pageIndex) {
-        return incidentService.search(searchTerm, pageIndex);
+    @RequestMapping(value = "/retrieve/{tag}/{desc}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
+    PageWrapper<Incident> search(@PathVariable Map<String, String> filtersMap) {
+        return incidentService.search(filtersMap);
     }
 
     @PreAuthorize("isAuthenticated()")

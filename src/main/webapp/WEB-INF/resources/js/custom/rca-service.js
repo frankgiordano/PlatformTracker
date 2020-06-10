@@ -13,9 +13,9 @@ app.service('RcaService', function ($http, $q, ReferenceDataService, IncidentGro
         return d.promise;
     };
 
-    this.search = function (searchTerm, pageno) {
+    this.search = function (search, pageno) {
         var d = $q.defer();
-        $http.get('rootcause/retrieve/' + searchTerm + '/' + pageno)
+        $http.get('rootcause/retrieve/' + search.grpName + '/' + search.desc + '/' + pageno)
             .success(function (response) {
                 d.resolve(response);
             })

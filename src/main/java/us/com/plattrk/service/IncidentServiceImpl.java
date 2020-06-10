@@ -15,11 +15,7 @@ import us.com.plattrk.util.PageWrapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.ServletContext;
 
@@ -50,8 +46,8 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
     @Override
     @Transactional
-    public PageWrapper<Incident> search(String searchTerm, Long pageIndex) {
-        return incidentRepository.getIncidentsByCriteria(searchTerm, pageIndex);
+    public PageWrapper<Incident> search(Map<String, String> filtersMap) {
+        return incidentRepository.getIncidentsByCriteria(filtersMap);
     }
 
     @Override

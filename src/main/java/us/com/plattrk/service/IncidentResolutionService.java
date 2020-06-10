@@ -1,6 +1,7 @@
 package us.com.plattrk.service;
 
 import java.util.List;
+import java.util.Map;
 
 import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.api.model.IncidentResolutionVO;
@@ -10,7 +11,7 @@ public interface IncidentResolutionService {
     
     public List<IncidentResolution> getIncidentResolutions();
 
-    public PageWrapper<IncidentResolution> search(String searchTerm, Long pageIndex);
+    public PageWrapper<IncidentResolution> search(Map<String, String> filtersMap);
     
     public IncidentResolution deleteResolution(Long id);
     

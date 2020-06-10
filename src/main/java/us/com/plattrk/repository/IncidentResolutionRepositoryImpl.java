@@ -1,6 +1,7 @@
 package us.com.plattrk.repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -37,21 +38,47 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
     }
 
     @Override
-    public PageWrapper<IncidentResolution> getResolutionsByCriteria(String searchTerm, Long pageIndex) {
-        Long total;
-        List<IncidentResolution> result;
-        Query query;
+    public PageWrapper<IncidentResolution> getResolutionsByCriteria(Map<String, String> filtersMap) {
+        String grpName = filtersMap.get("grpName");
+        String desc = filtersMap.get("desc");
+        Long pageIndex = Long.parseLong(filtersMap.get("pageIndex"));
 
-        if (!searchTerm.equals("*")) {
-            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            Query queryTotal = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
-            total = (long) queryTotal.getSingleResult();
-        } else {
+        boolean isGrpNameEmpty = "*".equals(grpName);
+        boolean isDescEmpty = "*".equals(desc);
+        grpName = repositoryUtil.appendWildCard(grpName);
+        desc = repositoryUtil.appendWildCard(desc);
+
+        Query query;
+        List<IncidentResolution> result;
+        Long total;
+        if (isGrpNameEmpty && isDescEmpty) {
             query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS);
             result = repositoryUtil.criteriaResults(pageIndex, query);
-            Query queryTotal = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT);
-            total = (long) queryTotal.getSingleResult();
+            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT);
+            total = (long) query.getSingleResult();
+        } else if (!isGrpNameEmpty && isDescEmpty) {
+            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_BY_GRPNAME_CRITERIA)
+                      .setParameter("grpName", grpName);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_GRPNAME_CRITERIA)
+                      .setParameter("grpName", grpName);
+            total = (long) query.getSingleResult();
+        } else if (isGrpNameEmpty) {
+            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_BY_DESC_CRITERIA)
+                      .setParameter("desc", desc);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_DESC_CRITERIA)
+                      .setParameter("desc", desc);
+            total = (long) query.getSingleResult();
+        } else {
+            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_BY_BOTH_CRITERIA)
+                      .setParameter("grpName", grpName)
+                      .setParameter("desc", desc);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_BOTH_CRITERIA)
+                      .setParameter("grpName", grpName)
+                      .setParameter("desc", desc);
+            total = (long) query.getSingleResult();
         }
 
         return new PageWrapper<IncidentResolution>(result, total);

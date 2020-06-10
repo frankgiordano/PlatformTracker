@@ -14,14 +14,32 @@ import java.util.Date;
                         "s.displayName, ig.name, rc.whys) from RCA as rc  join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re " +
                         "order by ig.name ",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
-        @NamedQuery(name = RCA.FIND_ALL_RCAS_BY_CRITERIA,
+        @NamedQuery(name = RCA.FIND_ALL_RCAS_BY_GRPNAME_CRITERIA,
                 query = "Select new us.com.plattrk.api.model.RCAVO(rc.id, rc.owner, c.displayName, re.displayName, rc.problem, rc.dueDate, rc.completionDate, " +
                         "s.displayName, ig.name, rc.whys) from RCA as rc join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re " +
-                        "where lower(ig.name) LIKE (:name) order by ig.name",
+                        "where lower(ig.name) LIKE (:grpName) order by ig.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
-        @NamedQuery(name = RCA.FIND_ALL_RCAS_COUNT_BY_CRITERIA,
-                query = "Select count(rc.id) from RCA as rc join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re where lower(ig.name) " +
-                        "LIKE (:name)",
+        @NamedQuery(name = RCA.FIND_ALL_RCAS_BY_DESC_CRITERIA,
+                query = "Select new us.com.plattrk.api.model.RCAVO(rc.id, rc.owner, c.displayName, re.displayName, rc.problem, rc.dueDate, rc.completionDate, " +
+                        "s.displayName, ig.name, rc.whys) from RCA as rc join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re " +
+                        "where lower(rc.problem) LIKE (:desc) order by ig.name",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = RCA.FIND_ALL_RCAS_BY_BOTH_CRITERIA,
+                query = "Select new us.com.plattrk.api.model.RCAVO(rc.id, rc.owner, c.displayName, re.displayName, rc.problem, rc.dueDate, rc.completionDate, " +
+                        "s.displayName, ig.name, rc.whys) from RCA as rc join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re " +
+                        "where lower(ig.name) LIKE (:grpName) and lower(rc.problem) LIKE (:desc) order by ig.name",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = RCA.FIND_ALL_RCAS_COUNT_BY_GRPNAME_CRITERIA,
+                query = "Select count(rc.id) from RCA as rc join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re " +
+                        "where lower(ig.name) LIKE (:grpName)",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = RCA.FIND_ALL_RCAS_COUNT_BY_DESC_CRITERIA,
+                query = "Select count(rc.id) from RCA as rc join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re " +
+                        "where lower(rc.problem) LIKE (:desc)",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = RCA.FIND_ALL_RCAS_COUNT_BY_BOTH_CRITERIA,
+                query = "Select count(rc.id) from RCA as rc join rc.incidentGroup ig join rc.status s join rc.category c join rc.resource re " +
+                        "where lower(ig.name) LIKE (:grpName) and lower(rc.problem) LIKE (:desc)",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = RCA.FIND_ALL_RCAS_COUNT,
                 query = "Select count(rc.id) from RCA as rc",
@@ -30,8 +48,12 @@ import java.util.Date;
 public class RCA {
 
     public static final String FIND_ALL_RCAS = "findRCAs";
-    public static final String FIND_ALL_RCAS_BY_CRITERIA = "findAllRCAsByCriteria";
-    public static final String FIND_ALL_RCAS_COUNT_BY_CRITERIA = "findAllRCAsCountByCriteria";
+    public static final String FIND_ALL_RCAS_BY_GRPNAME_CRITERIA = "findAllRCAsByGrpNameCriteria";
+    public static final String FIND_ALL_RCAS_BY_DESC_CRITERIA = "findAllRCAsByDescCriteria";
+    public static final String FIND_ALL_RCAS_BY_BOTH_CRITERIA = "findAllRCAsByBothCriteria";
+    public static final String FIND_ALL_RCAS_COUNT_BY_GRPNAME_CRITERIA = "findAllRCAsCountByGrpNameCriteria";
+    public static final String FIND_ALL_RCAS_COUNT_BY_DESC_CRITERIA = "findAllRCAsCountByDescCriteria";
+    public static final String FIND_ALL_RCAS_COUNT_BY_BOTH_CRITERIA = "findAllRCAsCountByBothCriteria";
     public static final String FIND_ALL_RCAS_COUNT = "findAllRCASsCount";
 
     private Long id;
@@ -61,7 +83,6 @@ public class RCA {
             this.dueDate = new Date(dueDate.getTime());
         if (completionDate != null)
             this.completionDate = new Date(completionDate.getTime());
-
         this.status = status;
         this.incidentGroup = incidentGroup;
         this.whys = whys;

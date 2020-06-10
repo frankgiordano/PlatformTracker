@@ -1,6 +1,7 @@
 package us.com.plattrk.repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.api.model.RCA;
 import us.com.plattrk.api.model.RCAVO;
 import us.com.plattrk.util.PageWrapper;
@@ -38,21 +40,47 @@ public class RCARepositoryImpl implements RCARepository {
     }
 
     @Override
-    public PageWrapper<RCA> getRCAsByCriteria(String searchTerm, Long pageIndex) {
-        Long total;
-        List<RCA> result;
-        Query query;
+    public PageWrapper<RCA> getRCAsByCriteria(Map<String, String> filtersMap) {
+        String grpName = filtersMap.get("grpName");
+        String desc = filtersMap.get("desc");
+        Long pageIndex = Long.parseLong(filtersMap.get("pageIndex"));
 
-        if (!searchTerm.equals("*")) {
-            query = em.createNamedQuery(RCA.FIND_ALL_RCAS_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            Query queryTotal = em.createNamedQuery(RCA.FIND_ALL_RCAS_COUNT_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
-            total = (long) queryTotal.getSingleResult();
-        } else {
+        boolean isGrpNameEmpty = "*".equals(grpName);
+        boolean isDescEmpty = "*".equals(desc);
+        grpName = repositoryUtil.appendWildCard(grpName);
+        desc = repositoryUtil.appendWildCard(desc);
+
+        Query query;
+        List<RCA> result;
+        Long total;
+        if (isGrpNameEmpty && isDescEmpty) {
             query = em.createNamedQuery(RCA.FIND_ALL_RCAS);
             result = repositoryUtil.criteriaResults(pageIndex, query);
-            Query queryTotal = em.createNamedQuery(RCA.FIND_ALL_RCAS_COUNT);
-            total = (long) queryTotal.getSingleResult();
+            query = em.createNamedQuery(RCA.FIND_ALL_RCAS_COUNT);
+            total = (long) query.getSingleResult();
+        } else if (!isGrpNameEmpty && isDescEmpty) {
+            query = em.createNamedQuery(RCA.FIND_ALL_RCAS_BY_GRPNAME_CRITERIA)
+                      .setParameter("grpName", grpName);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            query = em.createNamedQuery(RCA.FIND_ALL_RCAS_COUNT_BY_GRPNAME_CRITERIA)
+                      .setParameter("grpName", grpName);
+            total = (long) query.getSingleResult();
+        } else if (isGrpNameEmpty) {
+            query = em.createNamedQuery(RCA.FIND_ALL_RCAS_BY_DESC_CRITERIA)
+                      .setParameter("desc", desc);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            query = em.createNamedQuery(RCA.FIND_ALL_RCAS_COUNT_BY_DESC_CRITERIA)
+                      .setParameter("desc", desc);
+            total = (long) query.getSingleResult();
+        } else {
+            query = em.createNamedQuery(RCA.FIND_ALL_RCAS_BY_BOTH_CRITERIA)
+                      .setParameter("grpName", grpName)
+                      .setParameter("desc", desc);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            query = em.createNamedQuery(RCA.FIND_ALL_RCAS_COUNT_BY_BOTH_CRITERIA)
+                      .setParameter("grpName", grpName)
+                      .setParameter("desc", desc);
+            total = (long) query.getSingleResult();
         }
 
         return new PageWrapper<RCA>(result, total);

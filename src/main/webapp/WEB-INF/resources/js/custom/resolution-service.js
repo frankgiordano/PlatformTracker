@@ -13,9 +13,9 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
         return d.promise;
     };
 
-    this.search = function (searchTerm, pageno) {
+    this.search = function (search, pageno) {
         var d = $q.defer();
-        $http.get('incidentResolution/retrieve/' + searchTerm + '/' + pageno)
+        $http.get('incidentResolution/retrieve/' + search.grpName + '/' + search.desc + '/' + pageno)
         .success(function (response) {
             d.resolve(response);
         })

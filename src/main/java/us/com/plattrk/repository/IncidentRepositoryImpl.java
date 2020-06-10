@@ -34,21 +34,48 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     }
 
     @Override
-    public PageWrapper<Incident> getIncidentsByCriteria(String searchTerm, Long pageIndex) {
-        Long total;
-        List<Incident> result;
-        Query query;
+    public PageWrapper<Incident> getIncidentsByCriteria(Map<String, String> filtersMap) {
+        String tag = filtersMap.get("tag");
+        String desc = filtersMap.get("desc");
+        Long pageIndex = Long.parseLong(filtersMap.get("pageIndex"));
 
-        if (!searchTerm.equals("*")) {
-            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            Query queryTotal = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_COUNT_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
-            total = (long) queryTotal.getSingleResult();
-        } else {
+        boolean isTagEmpty = "*".equals(tag);
+        boolean isDescEmpty = "*".equals(desc);
+        tag = repositoryUtil.appendWildCard(tag);
+        desc = repositoryUtil.appendWildCard(desc);
+
+        Query query;
+        List<Incident> result;
+        Long total;
+        if (isTagEmpty && isDescEmpty) {
             query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS);
             result = repositoryUtil.criteriaResults(pageIndex, query);
-            Query queryTotal = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_COUNT);
-            total = (long) queryTotal.getSingleResult();
+            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_COUNT);
+            total = (long) query.getSingleResult();
+        } else if (!isTagEmpty && isDescEmpty) {
+
+            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_BY_TAG_CRITERIA)
+                      .setParameter("tag", tag);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_COUNT_BY_TAG_CRITERIA)
+                      .setParameter("tag", tag);
+            total = (long) query.getSingleResult();
+        } else if (isTagEmpty) {
+            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_BY_DESC_CRITERIA)
+                      .setParameter("desc", desc);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_COUNT_BY_DESC_CRITERIA)
+                      .setParameter("desc", desc);
+            total = (long) query.getSingleResult();
+        } else {
+            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_BY_BOTH_CRITERIA)
+                      .setParameter("tag", tag)
+                      .setParameter("desc", desc);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_COUNT_BY_BOTH_CRITERIA)
+                      .setParameter("tag", tag)
+                      .setParameter("desc", desc);
+            total = (long) query.getSingleResult();
         }
 
         return new PageWrapper<Incident>(result, total);

@@ -3,7 +3,8 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     $scope.incident = {};
     $scope.hideDuringLoading = false;
     $scope.pageno = 1; // initialize page num to 1
-    $scope.search = '*';
+    $scope.searchTag = "";
+    $scope.searchDesc = "";
     $scope.totalCount = 0;
     $scope.itemsPerPage = 10;
     $scope.data = [];
@@ -15,7 +16,13 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     $scope.getData = function (pageno) {
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
-        IncidentService.search($scope.search, pageno).then(
+        var search = {
+            pageno: $scope.pageno,
+            tag: $scope.searchTag,
+            desc: $scope.searchDesc
+        };
+        $scope.checkFilters(search);
+        IncidentService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
             },
@@ -29,16 +36,16 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     };
 
-    $scope.$watch("search", function (val) {
+    $scope.$watch("searchTag", function (val) {
         if ($routeParams.sourceLocation === "fromsearchbygroup")
             return;
-        if ($scope.search) {  // this needs to be a truthy test 	
-            $scope.getData($scope.pageno);
-        }
-        else {
-            $scope.search = '*';
-            $scope.getData($scope.pageno);
-        }
+        $scope.getData($scope.pageno);
+    }, true);
+
+    $scope.$watch("searchDesc", function (val) {
+        if ($routeParams.sourceLocation === "fromsearchbygroup")
+            return;
+        $scope.getData($scope.pageno);
     }, true);
 
     $scope.waiting = function (value) {
@@ -747,7 +754,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                     $location.path('/incident/fromgroupsearch/' + $routeParams.gid);
                 }
                 if ($routeParams.sourceLocation === "fromsearch") {
-                    $location.path('/incident/search' + '/' + $scope.pageno + '/' + $scope.search);
+                    $location.path('/incident/search' + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc);
                 }
                 break;
             case "createChronology":
@@ -761,7 +768,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     };
 
     $scope.cancelCreate = function () {
-        $location.path('/incident/search' + '/' + $scope.pageno + '/' + $scope.search);
+        $location.path('/incident/search' + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc);
     };
 
     $scope.select = function (option, object) {
@@ -769,7 +776,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             case "incident":
                 var sourceLocation = "fromsearch";
                 var incident = object;
-                $location.path('/incident/edit/' + sourceLocation + '/' + incident.id + '/' + $scope.pageno + '/' + $scope.search);
+                $location.path('/incident/edit/' + sourceLocation + '/' + incident.id + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc);
                 break;
             case "chronology":
                 $scope.createChronology = new Object();
@@ -799,13 +806,23 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
 
     // to keep track where we left off so when we click on back/cancel button return to same search results
     $scope.setRouteSearchParms = function () {
-        if ($routeParams.search !== undefined) {
-            $scope.search = $routeParams.search;
+        if ($routeParams.searchTag !== undefined) {
+            $scope.searchTag = $routeParams.searchTag;
+        }
+        if ($routeParams.searchDesc !== undefined) {
+            $scope.searchDesc = $routeParams.searchDesc;
         }
         if ($routeParams.pageno !== undefined) {
             $scope.pageno = $routeParams.pageno;
         }
     };
+
+    $scope.checkFilters = function (search) {
+        if (search.tag.trim() === "")
+            search.tag = '*';
+        if (search.desc.trim() === "")
+            search.desc = '*';
+    }
 
 });
 

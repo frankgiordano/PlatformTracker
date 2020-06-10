@@ -18,15 +18,35 @@ import java.util.Date;
                 query = "Select new us.com.plattrk.api.model.IncidentResolution(res.id, res.description, res.actualCompletionDate, h.displayName, res.estCompletionDate) " +
                         "from IncidentResolution as res inner join res.horizon h where res.incidentGroup.id = :pid",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
-        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_BY_CRITERIA,
+        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_BY_GRPNAME_CRITERIA,
                 query = "Select new us.com.plattrk.api.model.IncidentResolution(res.id, res.owner, res.description, res.actualCompletionDate, h.displayName, " +
                         "res.estCompletionDate, p.name, s.displayName, t.displayName, res.sriArtifact,  ig.name, p.id) from IncidentResolution as res " +
                         "left outer join res.resolutionProject p inner join res.incidentGroup ig inner join res.status s inner join res.horizon h inner join res.type t " +
-                        "where lower(ig.name) LIKE (:name) order by ig.name",
+                        "where lower(ig.name) LIKE (:grpName) order by ig.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
-        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_CRITERIA,
+        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_BY_DESC_CRITERIA,
+                query = "Select new us.com.plattrk.api.model.IncidentResolution(res.id, res.owner, res.description, res.actualCompletionDate, h.displayName, " +
+                        "res.estCompletionDate, p.name, s.displayName, t.displayName, res.sriArtifact,  ig.name, p.id) from IncidentResolution as res " +
+                        "left outer join res.resolutionProject p inner join res.incidentGroup ig inner join res.status s inner join res.horizon h inner join res.type t " +
+                        "where lower(res.description) LIKE (:desc) order by ig.name",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_BY_BOTH_CRITERIA,
+                query = "Select new us.com.plattrk.api.model.IncidentResolution(res.id, res.owner, res.description, res.actualCompletionDate, h.displayName, " +
+                        "res.estCompletionDate, p.name, s.displayName, t.displayName, res.sriArtifact,  ig.name, p.id) from IncidentResolution as res " +
+                        "left outer join res.resolutionProject p inner join res.incidentGroup ig inner join res.status s inner join res.horizon h inner join res.type t " +
+                        "where lower(ig.name) LIKE (:grpName) and lower(res.description) LIKE (:desc) order by ig.name",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_GRPNAME_CRITERIA,
                 query = "Select count(res.id) from IncidentResolution as res left outer join res.resolutionProject p inner join res.incidentGroup ig inner join res.status s " +
-                        "inner join res.horizon h inner join res.type t where lower(ig.name) LIKE (:name)",
+                        "inner join res.horizon h inner join res.type t where lower(ig.name) LIKE (:grpName)",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_DESC_CRITERIA,
+                query = "Select count(res.id) from IncidentResolution as res left outer join res.resolutionProject p inner join res.incidentGroup ig inner join res.status s " +
+                        "inner join res.horizon h inner join res.type t where lower(res.description) LIKE (:desc)",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_BOTH_CRITERIA,
+                query = "Select count(res.id) from IncidentResolution as res left outer join res.resolutionProject p inner join res.incidentGroup ig inner join res.status s " +
+                        "inner join res.horizon h inner join res.type t where lower(ig.name) LIKE (:grpName) and lower(res.description) LIKE (:desc)",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT,
                 query = "Select count(res.id) from IncidentResolution res",
@@ -36,8 +56,12 @@ public class IncidentResolution {
 
     public static final String FIND_ALL_RESOLUTIONS = "findAllResolutions";
     public static final String FIND_ALL_RESOLUTIONS_PER_GROUP = "findAllResolutionsPerGroup";
-    public static final String FIND_ALL_RESOLUTIONS_BY_CRITERIA = "findAllResolutionsByCriteria";
-    public static final String FIND_ALL_RESOLUTIONS_COUNT_BY_CRITERIA = "findAllResolutionsCountByCriteria";
+    public static final String FIND_ALL_RESOLUTIONS_BY_GRPNAME_CRITERIA = "findAllResolutionsByGrpNameCriteria";
+    public static final String FIND_ALL_RESOLUTIONS_BY_DESC_CRITERIA = "findAllResolutionsByDescCriteria";
+    public static final String FIND_ALL_RESOLUTIONS_BY_BOTH_CRITERIA = "findAllResolutionsByBothCriteria";
+    public static final String FIND_ALL_RESOLUTIONS_COUNT_BY_GRPNAME_CRITERIA = "findAllResolutionsCountByGrpNameCriteria";
+    public static final String FIND_ALL_RESOLUTIONS_COUNT_BY_DESC_CRITERIA = "findAllResolutionsCountByDescCriteria";
+    public static final String FIND_ALL_RESOLUTIONS_COUNT_BY_BOTH_CRITERIA = "findAllResolutionsCountByBothCriteria";
     public static final String FIND_ALL_RESOLUTIONS_COUNT = "findAllResolutionsCount";
 
     private Long id;

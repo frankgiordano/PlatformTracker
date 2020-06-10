@@ -3,7 +3,8 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     $scope.resolution = {};
     $scope.hideDuringLoading = false;
     $scope.pageno = 1; // initialize page num to 1
-    $scope.search = '*';
+    $scope.searchGrpName = "";
+    $scope.searchDesc = "";
     $scope.totalCount = 0;
     $scope.itemsPerPage = 10;
     $scope.data = [];
@@ -15,7 +16,13 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     $scope.getData = function (pageno) {
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
-        ResolutionService.search($scope.search, pageno).then(
+        var search = {
+            pageno: $scope.pageno,
+            grpName: $scope.searchGrpName,
+            desc: $scope.searchDesc
+        };
+        $scope.checkFilters(search);
+        ResolutionService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
             },
@@ -29,18 +36,16 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     };
 
-    $scope.$watch("search", function (val) {
-        if ($scope.search) {  // this needs to be a truthy test 	
-            $scope.getData($scope.pageno);
-        }
-        else {
-            $scope.search = '*';
-            $scope.getData($scope.pageno);
-        }
+    $scope.$watch("searchGrpName", function (val) {
+        $scope.getData($scope.pageno);
+    }, true);
+
+    $scope.$watch("searchDesc", function (val) {
+        $scope.getData($scope.pageno);
     }, true);
 
     $scope.select = function (id) {
-        $location.path('/resolution/edit/' + id + '/' + $scope.pageno + '/' + $scope.search);
+        $location.path('/resolution/edit/' + id + '/' + $scope.pageno + '/' + $scope.searchGrpName + '/' + $scope.searchDesc);
     };
 
     $scope.waiting = function (value) {
@@ -350,21 +355,31 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     };
 
     $scope.new = function () {
-        $location.path('/resolution/create' + '/' + $scope.pageno + '/' + $scope.search);
+        $location.path('/resolution/create' + '/' + $scope.pageno + '/' + $scope.searchGrpName + '/' + $scope.searchDesc);
     };
 
     $scope.cancel = function () {
-        $location.path('/resolution/search' + '/' + $scope.pageno + '/' + $scope.search);
+        $location.path('/resolution/search' + '/' + $scope.pageno + '/'  + $scope.searchGrpName + '/' + $scope.searchDesc);
     };
 
     // to keep track where we left off so when we click on back/cancel button return to same search results
     $scope.setRouteSearchParms = function () {
-        if ($routeParams.search !== undefined) {
-            $scope.search = $routeParams.search;
+        if ($routeParams.searchGrpName !== undefined) {
+            $scope.searchGrpName = $routeParams.searchGrpName;
+        }
+        if ($routeParams.searchDesc !== undefined) {
+            $scope.searchDesc = $routeParams.searchDesc;
         }
         if ($routeParams.pageno !== undefined) {
             $scope.pageno = $routeParams.pageno;
         }
     };
+
+    $scope.checkFilters = function (search) {
+        if (search.grpName.trim() === "")
+            search.grpName = '*';
+        if (search.desc.trim() === "")
+            search.desc = '*';
+    }
 
 });

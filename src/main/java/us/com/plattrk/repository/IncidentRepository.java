@@ -2,21 +2,17 @@ package us.com.plattrk.repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import us.com.plattrk.api.model.ErrorCondition;
-import us.com.plattrk.api.model.Incident;
-import us.com.plattrk.api.model.IncidentChronology;
-import us.com.plattrk.api.model.IncidentGroup;
-import us.com.plattrk.api.model.Product;
-import us.com.plattrk.api.model.ReferenceData;
+import us.com.plattrk.api.model.*;
 import us.com.plattrk.util.PageWrapper;
 
 public interface IncidentRepository {
 
     public Set<Incident> getIncidents();
 
-    public PageWrapper<Incident> getIncidentsByCriteria(String searchTerm, Long pageIndex);
+    public PageWrapper<Incident> getIncidentsByCriteria(Map<String, String> filtersMap);
 
     public Incident deleteIncident(Long id);
 
