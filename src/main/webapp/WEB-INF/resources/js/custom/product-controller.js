@@ -249,23 +249,31 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
 
         // Trigger validation flag.
         $scope.submitted = true;
-        if ($scope.incidentName === null || $scope.incidentName === undefined || $scope.incidentName.trim() === "") {
+        if ($scope.incidentName === null ||
+            $scope.incidentName === undefined ||
+            $scope.incidentName.trim() === "") {
             $scope.incidentNameRequired = true;
             $scope.productForm.incidentName.$invalid = true;
         }
-        if ($scope.selectedPlatform === null || $scope.selectedPlatform === undefined) {
+        if ($scope.selectedPlatform === null ||
+            $scope.selectedPlatform === undefined) {
             $scope.platformRequired = true;
             $scope.productForm.platform.$invalid = true;
         }
-        if ($scope.startDate === null || $scope.startDate === undefined) {
+        if ($scope.startDate === null ||
+            $scope.startDate === undefined) {
             $scope.startDateRequired = true;
             $scope.productForm.startDate.$invalid = true;
         }
-        if ($scope.clientName === null || $scope.clientName === undefined || $scope.clientName.trim() === "") {
+        if ($scope.clientName === null ||
+            $scope.clientName === undefined ||
+            $scope.clientName.trim() === "") {
             $scope.clientNameRequired = true;
             $scope.productForm.clientName.$invalid = true;
         }
-        if ($scope.shortName === null || $scope.shortName === undefined || $scope.shortName.trim() === "") {
+        if ($scope.shortName === null ||
+            $scope.shortName === undefined ||
+            $scope.shortName.trim() === "") {
             $scope.shortNameRequired = true;
             $scope.productForm.shortName.$invalid = true;
         }

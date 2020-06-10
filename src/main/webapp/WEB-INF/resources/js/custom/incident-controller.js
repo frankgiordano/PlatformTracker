@@ -394,7 +394,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         $scope.clearDisplayMessages();
         $scope.waiting(true);
 
-        formValidation($scope);
+        $scope.formValidation();
         $scope.generateTag();
 
         var actions = $scope.actions.map(function (x) {
@@ -563,7 +563,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         $scope.clearDisplayMessages();
         $scope.waiting(true);
 
-        formValidation($scope);
+        $scope.formValidation();
         $scope.generateTag();
 
         // dates are currently in UTC format.. reset them to local timezone format for saving.. 
@@ -817,6 +817,27 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         }
     };
 
+    $scope.formValidation = function () {
+        $scope.submitted = true;
+        $scope.productsRequired = false;
+        if ($scope.incident.description === null ||
+            $scope.incident.description === undefined ||
+            $scope.incident.description.trim() === "") {
+            $scope.technicalDescriptionRequired = true;
+            $scope.incidentForm.technicalDescription.$invalid = true;
+        }
+        if ($scope.incident.startTime === null ||
+            $scope.incident.startTime === undefined) {
+            $scope.startTimeRequired = true;
+            $scope.incidentForm.startTime.$invalid = true;
+        }
+        if ($scope.products === null ||
+            $scope.products === undefined ||
+            $scope.products.length === 0) {
+            $scope.productsRequired = true;
+        }
+    }
+
     $scope.checkFilters = function (search) {
         if (search.tag.trim() === "")
             search.tag = '*';
@@ -826,24 +847,4 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
 
 });
 
-function formValidation($scope) {
-    $scope.submitted = true;
-    $scope.productsRequired = false;
-    if ($scope.incident.description === null ||
-        $scope.incident.description === undefined ||
-        $scope.incident.description.trim() === "") {
-        $scope.technicalDescriptionRequired = true;
-        $scope.incidentForm.technicalDescription.$invalid = true;
-    }
-    if ($scope.incident.startTime === null ||
-        $scope.incident.startTime === undefined) {
-        $scope.startTimeRequired = true;
-        $scope.incidentForm.startTime.$invalid = true;
-    }
-    if ($scope.products === null ||
-        $scope.products === undefined ||
-        $scope.products.length === 0) {
-        $scope.productsRequired = true;
-    }
-}
 
