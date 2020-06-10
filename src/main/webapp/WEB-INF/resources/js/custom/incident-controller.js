@@ -801,7 +801,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     };
 
     $scope.new = function () {
-        $location.path('/incident/create' + '/' + $scope.pageno + '/' + $scope.search);
+        $location.path('/incident/create' + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc);
     };
 
     // to keep track where we left off so when we click on back/cancel button return to same search results
