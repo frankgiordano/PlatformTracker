@@ -1,6 +1,7 @@
 package us.com.plattrk.repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import us.com.plattrk.api.model.Incident;
@@ -15,7 +16,7 @@ public interface IncidentGroupRepository {
 
     public IncidentGroup getGroup(Long id);
 
-    public PageWrapper<IncidentGroup> getIncidentGroupsByCriteria(String searchTerm, Long pageIndex);
+    public PageWrapper<IncidentGroup> getIncidentGroupsByCriteria(Map<String, String> filtersMap);
 
     public IncidentGroup deleteGroup(Long id);
 

@@ -1,9 +1,6 @@
 package us.com.plattrk.repository;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -57,21 +54,47 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
     }
 
     @Override
-    public PageWrapper<IncidentGroup> getIncidentGroupsByCriteria(String searchTerm, Long pageIndex) {
-        Long total;
-        List<IncidentGroup> result;
-        Query query;
+    public PageWrapper<IncidentGroup> getIncidentGroupsByCriteria(Map<String, String> filtersMap) {
+        String name = filtersMap.get("name");
+        String desc = filtersMap.get("desc");
+        Long pageIndex = Long.parseLong(filtersMap.get("pageIndex"));
 
-        if (!searchTerm.equals("*")) {
-            query = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            Query queryTotal = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS_COUNT_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
-            total = (long) queryTotal.getSingleResult();
-        } else {
+        boolean isGrpNameEmpty = "*".equals(name);
+        boolean isDescEmpty = "*".equals(desc);
+        name = repositoryUtil.appendWildCard(name);
+        desc = repositoryUtil.appendWildCard(desc);
+
+        Query query;
+        List<IncidentGroup> result;
+        Long total;
+        if (isGrpNameEmpty && isDescEmpty) {
             query = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS);
             result = repositoryUtil.criteriaResults(pageIndex, query);
-            Query queryTotal = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS_COUNT);
-            total = (long) queryTotal.getSingleResult();
+            query = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS_COUNT);
+            total = (long) query.getSingleResult();
+        } else if (!isGrpNameEmpty && isDescEmpty) {
+            query = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS_BY_NAME_CRITERIA)
+                      .setParameter("name", name);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            query = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS_COUNT_BY_NAME_CRITERIA)
+                      .setParameter("name", name);
+            total = (long) query.getSingleResult();
+        } else if (isGrpNameEmpty) {
+            query = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS_BY_DESC_CRITERIA)
+                      .setParameter("desc", desc);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            query = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS_COUNT_BY_DESC_CRITERIA)
+                      .setParameter("desc", desc);
+            total = (long) query.getSingleResult();
+        } else {
+            query = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS_BY_BOTH_CRITERIA)
+                      .setParameter("name", name)
+                      .setParameter("desc", desc);
+            result = repositoryUtil.criteriaResults(pageIndex, query);
+            query = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS_COUNT_BY_BOTH_CRITERIA)
+                      .setParameter("name", name)
+                      .setParameter("desc", desc);
+            total = (long) query.getSingleResult();
         }
 
         return new PageWrapper<IncidentGroup>(result, total);

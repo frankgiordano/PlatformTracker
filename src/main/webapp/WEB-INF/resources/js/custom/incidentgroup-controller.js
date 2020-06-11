@@ -12,13 +12,19 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
     $scope.data = [];
 
     $scope.init = function () {
-        $scope.search = '*';
+        $scope.searchName = "";
+        $scope.searchDesc = "";
     };
 
     $scope.getData = function (pageno) {
         $scope.pageno = pageno;
-
-        IncidentGroupService.search($scope.search, pageno).then(
+        var search = {
+            pageno: $scope.pageno,
+            name: $scope.searchName,
+            desc: $scope.searchDesc
+        };
+        $scope.checkFilters(search);
+        IncidentGroupService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
             },
@@ -32,14 +38,12 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     };
 
-    $scope.$watch("search", function (val) {
-        if ($scope.search) {  // this needs to be a truthy test 	
-            $scope.getData($scope.pageno);
-        }
-        else {
-            $scope.search = '*';
-            $scope.getData($scope.pageno);
-        }
+    $scope.$watch("searchName", function (val) {
+        $scope.getData($scope.pageno);
+    }, true);
+
+    $scope.$watch("searchDesc", function (val) {
+        $scope.getData($scope.pageno);
     }, true);
 
     $scope.refreshData = function () {
@@ -202,6 +206,13 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
         $scope.messages = null;
         $scope.errorMessages = null;
     };
+
+    $scope.checkFilters = function (search) {
+        if (search.name.trim() === "")
+            search.name = '*';
+        if (search.desc.trim() === "")
+            search.desc = '*';
+    }
 
 });
 

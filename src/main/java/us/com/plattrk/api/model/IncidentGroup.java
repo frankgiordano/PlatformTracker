@@ -28,10 +28,22 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
         @NamedQuery(name = IncidentGroup.FIND_ALL_INCIDENT_GROUPS,
                 query = "Select new us.com.plattrk.api.model.IncidentGroup(g.id, g.name, g.description, g.status) from IncidentGroup as g order by g.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
-        @NamedQuery(name = IncidentGroup.FIND_ALL_INCIDENT_GROUPS_BY_CRITERIA,
+        @NamedQuery(name = IncidentGroup.FIND_ALL_INCIDENT_GROUPS_BY_NAME_CRITERIA,
                 query = "Select new us.com.plattrk.api.model.IncidentGroup(g.id, g.name, g.description, g.status) from IncidentGroup as g where lower(g.name) LIKE (:name) order by g.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
-        @NamedQuery(name = IncidentGroup.FIND_ALL_INCIDENT_GROUPS_COUNT_BY_CRITERIA,
+        @NamedQuery(name = IncidentGroup.FIND_ALL_INCIDENT_GROUPS_BY_DESC_CRITERIA,
+                query = "Select new us.com.plattrk.api.model.IncidentGroup(g.id, g.name, g.description, g.status) from IncidentGroup as g where lower(g.name) LIKE (:name) order by g.name",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = IncidentGroup.FIND_ALL_INCIDENT_GROUPS_BY_BOTH_CRITERIA,
+                query = "Select new us.com.plattrk.api.model.IncidentGroup(g.id, g.name, g.description, g.status) from IncidentGroup as g where lower(g.name) LIKE (:name) order by g.name",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = IncidentGroup.FIND_ALL_INCIDENT_GROUPS_COUNT_BY_NAME_CRITERIA,
+                query = "Select count(g.id) from IncidentGroup as g where lower(g.name) LIKE (:name)",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = IncidentGroup.FIND_ALL_INCIDENT_GROUPS_COUNT_BY_DESC_CRITERIA,
+                query = "Select count(g.id) from IncidentGroup as g where lower(g.name) LIKE (:name)",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
+        @NamedQuery(name = IncidentGroup.FIND_ALL_INCIDENT_GROUPS_COUNT_BY_BOTH_CRITERIA,
                 query = "Select count(g.id) from IncidentGroup as g where lower(g.name) LIKE (:name)",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = IncidentGroup.FIND_ALL_INCIDENT_GROUPS_COUNT,
@@ -42,8 +54,12 @@ public class IncidentGroup {
 
     public static final String FIND_ALL_INCIDENT_GROUPS_RELATIONS = "findAllIncidentGroupsRelations";
     public static final String FIND_ALL_INCIDENT_GROUPS = "findAllIncidentGroups";
-    public static final String FIND_ALL_INCIDENT_GROUPS_BY_CRITERIA = "findAllIncidentGroupsByCriteria";
-    public static final String FIND_ALL_INCIDENT_GROUPS_COUNT_BY_CRITERIA = "findAllIncidentGroupsCountByCriteria";
+    public static final String FIND_ALL_INCIDENT_GROUPS_BY_NAME_CRITERIA = "findAllIncidentGroupsByNameCriteria";
+    public static final String FIND_ALL_INCIDENT_GROUPS_BY_DESC_CRITERIA = "findAllIncidentGroupsByDescCriteria";
+    public static final String FIND_ALL_INCIDENT_GROUPS_BY_BOTH_CRITERIA = "findAllIncidentGroupsByBothCriteria";
+    public static final String FIND_ALL_INCIDENT_GROUPS_COUNT_BY_NAME_CRITERIA = "findAllIncidentGroupsCountByNameCriteria";
+    public static final String FIND_ALL_INCIDENT_GROUPS_COUNT_BY_DESC_CRITERIA = "findAllIncidentGroupsCountByDescCriteria";
+    public static final String FIND_ALL_INCIDENT_GROUPS_COUNT_BY_BOTH_CRITERIA = "findAllIncidentGroupsCountByBothCriteria";
     public static final String FIND_ALL_INCIDENT_GROUPS_COUNT = "findAllIncidentGroupsCount";
 
     private Long id;

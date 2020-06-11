@@ -27,9 +27,9 @@ app.service('IncidentGroupService', function ($http, $q) {
         return d.promise;
     };
 
-    this.search = function (searchTerm, pageno) {
+    this.search = function (search, pageno) {
         var d = $q.defer();
-        $http.get('group/groups/retrieve/' + encodeURI(searchTerm) + '/' + pageno)
+        $http.get('group/groups/retrieve/' + encodeURI(search.name) + '/' + encodeURI(search.desc) + '/' + pageno)
         .success(function (response) {
             d.resolve(response);
         })

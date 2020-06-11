@@ -1,6 +1,7 @@
 package us.com.plattrk.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import us.com.plattrk.api.model.Incident;
@@ -15,7 +16,7 @@ public interface IncidentGroupService {
 
     public Set<Incident> getGroupIncidents(Long id);
 
-    public PageWrapper<IncidentGroup> search(String searchTerm, Long pageIndex);
+    public PageWrapper<IncidentGroup> search(Map<String, String> filtersMap);
 
     public IncidentGroup deleteGroup(Long id);
 

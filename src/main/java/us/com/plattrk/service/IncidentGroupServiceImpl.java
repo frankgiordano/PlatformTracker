@@ -1,6 +1,7 @@
 package us.com.plattrk.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,8 @@ public class IncidentGroupServiceImpl implements IncidentGroupService {
 
     @Override
     @Transactional
-    public PageWrapper<IncidentGroup> search(String searchTerm, Long pageIndex) {
-        return incidentGroupRepository.getIncidentGroupsByCriteria(searchTerm, pageIndex);
+    public PageWrapper<IncidentGroup> search(Map<String, String> filtersMap) {
+        return incidentGroupRepository.getIncidentGroupsByCriteria(filtersMap);
     }
 
     @Override

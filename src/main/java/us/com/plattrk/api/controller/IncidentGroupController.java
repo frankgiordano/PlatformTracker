@@ -1,6 +1,7 @@
 package us.com.plattrk.api.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,9 @@ public class IncidentGroupController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/groups/retrieve/{searchTerm}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
-    PageWrapper<IncidentGroup> search(@PathVariable String searchTerm, @PathVariable Long pageIndex) {
-        return incidentGroupService.search(searchTerm, pageIndex);
+    @RequestMapping(value = "/groups/retrieve/{name}/{desc}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
+    PageWrapper<IncidentGroup> search(@PathVariable Map<String, String> filtersMap) {
+        return incidentGroupService.search(filtersMap);
     }
     
     @PreAuthorize("isAuthenticated()")
