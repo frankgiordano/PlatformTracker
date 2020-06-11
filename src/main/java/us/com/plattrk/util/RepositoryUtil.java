@@ -2,8 +2,8 @@ package us.com.plattrk.util;
 
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
 import java.util.List;
 
 @Component(value = "RepositoryUtil")
@@ -26,8 +26,7 @@ public class RepositoryUtil<T> {
         return "%" + value + "%";
     }
 
-    public String getSqlStr(String name, EntityManager em) {
-        Query query = em.createNamedQuery(name);
+    public String getSqlStr(Query query) {
         return query.unwrap(org.hibernate.Query.class).getQueryString();
     }
 

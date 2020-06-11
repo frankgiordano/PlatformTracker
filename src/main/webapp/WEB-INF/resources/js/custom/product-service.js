@@ -15,7 +15,7 @@ app.service('ProductService', function ($http, $q) {
 
     this.search = function (searchTerm, pageno) {
         var d = $q.defer();
-        $http.get('product/products/retrieve/' + searchTerm + '/' + pageno)
+        $http.get('product/products/retrieve/' + encodeURI(searchTerm) + '/' + pageno)
         .success(function (response) {
             d.resolve(response);
         })

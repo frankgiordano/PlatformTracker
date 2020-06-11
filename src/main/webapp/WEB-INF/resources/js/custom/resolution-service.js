@@ -15,7 +15,7 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
 
     this.search = function (search, pageno) {
         var d = $q.defer();
-        $http.get('incidentResolution/retrieve/' + search.grpName + '/' + search.desc + '/' + pageno)
+        $http.get('incidentResolution/retrieve/' + encodeURI(search.grpName) + '/' + encodeURI(search.desc) + '/' + pageno)
         .success(function (response) {
             d.resolve(response);
         })

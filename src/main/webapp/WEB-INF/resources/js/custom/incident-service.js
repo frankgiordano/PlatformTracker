@@ -15,7 +15,7 @@ app.service('IncidentService', function ($http, $q, ReferenceDataService, Incide
 
     this.search = function (search, pageno) {
         var d = $q.defer();
-        $http.get('incident/retrieve/' + search.tag + '/' + search.desc + '/' + pageno)
+        $http.get('incident/retrieve/' + encodeURI(search.tag) + '/' + encodeURI(search.desc) + '/' + pageno)
         .success(function (response) {
             d.resolve(response);
         })

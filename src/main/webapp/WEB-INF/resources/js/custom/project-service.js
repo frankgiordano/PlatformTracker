@@ -15,7 +15,7 @@ app.service('ProjectService', function ($http, $q, ReferenceDataService) {
 
     this.search = function (searchTerm, pageno) {
         var d = $q.defer();
-        $http.get('project/retrieve/' + searchTerm + '/' + pageno)
+        $http.get('project/retrieve/' + encodeURI(searchTerm) + '/' + pageno)
         .success(function (response) {
             d.resolve(response);
         })

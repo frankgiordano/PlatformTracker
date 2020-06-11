@@ -15,7 +15,7 @@ app.service('RcaService', function ($http, $q, ReferenceDataService, IncidentGro
 
     this.search = function (search, pageno) {
         var d = $q.defer();
-        $http.get('rootcause/retrieve/' + search.grpName + '/' + search.desc + '/' + pageno)
+        $http.get('rootcause/retrieve/' + encodeURI(search.grpName) + '/' + encodeURI(search.desc) + '/' + pageno)
             .success(function (response) {
                 d.resolve(response);
             })

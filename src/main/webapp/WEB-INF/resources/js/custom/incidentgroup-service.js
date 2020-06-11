@@ -29,7 +29,7 @@ app.service('IncidentGroupService', function ($http, $q) {
 
     this.search = function (searchTerm, pageno) {
         var d = $q.defer();
-        $http.get('group/groups/retrieve/' + searchTerm + '/' + pageno)
+        $http.get('group/groups/retrieve/' + encodeURI(searchTerm) + '/' + pageno)
         .success(function (response) {
             d.resolve(response);
         })
