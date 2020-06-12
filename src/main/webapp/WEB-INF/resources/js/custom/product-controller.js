@@ -5,7 +5,7 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
     $scope.platforms = platforms;
     $scope.selectedPlatform = $scope.platforms[5];
     $scope.pageno = 1; // initialize page num to 1
-    $scope.search = '*';
+    $scope.search = "";
     $scope.totalCount = 0;
     $scope.itemsPerPage = 10;
     $scope.data = [];
@@ -17,8 +17,8 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
     $scope.getData = function (pageno) {
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
-
-        ProductService.search($scope.search, pageno).then(
+        var search = $scope.checkFilters($scope.search);
+        ProductService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
             },
@@ -36,13 +36,7 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
     };
 
     $scope.$watch("search", function (val) {
-        if ($scope.search) {  // this needs to be a truthy test 	
-            $scope.getData($scope.pageno);
-        }
-        else {
-            $scope.search = '*';
-            $scope.getData($scope.pageno);
-        }
+        $scope.getData($scope.pageno);
     }, true);
 
     $scope.waiting = function (value) {
@@ -339,5 +333,11 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
             $scope.pageno = $routeParams.pageno;
         }
     };
+
+    $scope.checkFilters = function (search) {
+        if (search.trim() === "")
+            search = '*';
+        return search;
+    }
 
 });

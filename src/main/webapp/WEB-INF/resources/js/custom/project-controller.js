@@ -3,7 +3,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     $scope.project = {};
     $scope.hideDuringLoading = false;
     $scope.pageno = 1; // initialize page num to 1
-    $scope.search = '*';
+    $scope.search = "";
     $scope.totalCount = 0;
     $scope.itemsPerPage = 10;
     $scope.data = [];
@@ -28,7 +28,8 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     $scope.getData = function (pageno) {
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
-        ProjectService.search($scope.search, pageno).then(
+        var search = $scope.checkFilters($scope.search);
+        ProjectService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
             },
@@ -42,14 +43,8 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     };
 
-    $scope.$watch("search", function (val) {
-        if ($scope.search) {  // this needs to be a truthy test 	
-            $scope.getData($scope.pageno);
-        }
-        else {
-            $scope.search = '*';
-            $scope.getData($scope.pageno);
-        }
+    $scope.$watch("search", function (val) {	
+        $scope.getData($scope.pageno);
     }, true);
 
     $scope.select = function (id) {
@@ -382,6 +377,12 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             $scope.pageno = $routeParams.pageno;
         }
     };
+
+    $scope.checkFilters = function (search) {
+        if (search.trim() === "")
+            search = '*';
+        return search;
+    }
 
 });
 

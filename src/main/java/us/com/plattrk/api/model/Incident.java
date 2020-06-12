@@ -52,13 +52,13 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
                 query = "Select new us.com.plattrk.api.model.Incident(i.id, i.version, i.tag, i.name, i.owner, i.summary, i.customerImpact, i.severity, " +
                         "i.description, e.name, a.displayName, i.locus, i.startTime, i.endTime, i.usersImpacted, i.transactionIdsImpacted, i.callsReceived, " +
                         "i.alertedBy, i.reviewedBy, i.status, i.correctiveAction, i.relatedActions, i.emailRecipents, i.recordedBy, i.issue) from Incident as i " +
-                        "inner join i.error e inner join i.applicationStatus a where lower(i.description) LIKE (:desc) order by i.startTime DESC",
+                        "inner join i.error e inner join i.applicationStatus a where lower(concat(i.description,' ',i.summary)) LIKE (:desc) order by i.startTime DESC",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = Incident.FIND_ALL_INCIDENTS_BY_BOTH_CRITERIA,
                 query = "Select new us.com.plattrk.api.model.Incident(i.id, i.version, i.tag, i.name, i.owner, i.summary, i.customerImpact, i.severity, " +
                         "i.description, e.name, a.displayName, i.locus, i.startTime, i.endTime, i.usersImpacted, i.transactionIdsImpacted, i.callsReceived, " +
                         "i.alertedBy, i.reviewedBy, i.status, i.correctiveAction, i.relatedActions, i.emailRecipents, i.recordedBy, i.issue) from Incident as i " +
-                        "inner join i.error e inner join i.applicationStatus a where lower(i.tag) LIKE (:tag) and lower(i.description) LIKE (:desc) order by i.startTime DESC",
+                        "inner join i.error e inner join i.applicationStatus a where lower(i.tag) LIKE (:tag) and lower(concat(i.description,' ',i.summary)) LIKE (:desc) order by i.startTime DESC",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = Incident.FIND_ALL_INCIDENTS_COUNT_BY_TAG_CRITERIA,
                 query = "Select count(i.id) from Incident as i inner join i.error e inner join i.applicationStatus a where lower(i.tag) LIKE (:tag)",
