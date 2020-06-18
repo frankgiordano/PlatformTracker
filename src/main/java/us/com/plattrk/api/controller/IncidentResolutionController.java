@@ -30,7 +30,7 @@ public class IncidentResolutionController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/retrieve/{grpName}/{desc}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/retrieve/{grpName}/{desc}/{assignee}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
     PageWrapper<IncidentResolution> search(@PathVariable Map<String, String> filtersMap) {
         return incidentResolutionService.search(filtersMap);
     }

@@ -15,7 +15,8 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
 
     this.search = function (search, pageno) {
         var d = $q.defer();
-        $http.get('incidentResolution/retrieve/' + encodeURI(search.grpName) + '/' + encodeURI(search.desc) + '/' + pageno)
+
+        $http.get('incidentResolution/retrieve/' + encodeURI(search.grpName) + '/' + encodeURI(search.desc) + '/' + encodeURI(search.assignee) + '/' + pageno)
         .success(function (response) {
             d.resolve(response);
         })
@@ -42,6 +43,7 @@ app.service('ResolutionService', function ($http, $q, ReferenceDataService, Inci
 
     this.saveLinkedResolutions = function (resolutions) {
         var d = $q.defer();
+        
         $http.post('incidentResolution/resolutions/linkProjects', resolutions)
             .success(function (response) {
                 d.resolve(response);

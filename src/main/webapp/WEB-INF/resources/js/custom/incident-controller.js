@@ -5,6 +5,8 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     $scope.pageno = 1; // initialize page num to 1
     $scope.searchTag = "";
     $scope.searchDesc = "";
+    $scope.assignee = "";
+    $scope.searchAssignee = "";
     $scope.totalCount = 0;
     $scope.itemsPerPage = 10;
     $scope.data = [];
@@ -19,7 +21,8 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         var search = {
             pageno: $scope.pageno,
             tag: $scope.searchTag,
-            desc: $scope.searchDesc
+            desc: $scope.searchDesc,
+            assignee: $scope.searchAssignee
         };
         $scope.checkFilters(search);
         IncidentService.search(search, pageno).then(
@@ -31,6 +34,15 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             });
     };
 
+    $scope.checkFilters = function (search) {
+        if (search.tag.trim() === "")
+            search.tag = '*';
+        if (search.desc.trim() === "")
+            search.desc = '*';
+        if (search.assignee === "")
+            search.assignee = '*';
+    }
+
     $scope.sort = function (keyName) {
         $scope.sortKey = keyName;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
@@ -39,14 +51,54 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     $scope.$watch("searchTag", function (val) {
         if ($routeParams.sourceLocation === "fromsearchbygroup")
             return;
+        $scope.checkForAssignees();
         $scope.getData($scope.pageno);
     }, true);
 
     $scope.$watch("searchDesc", function (val) {
         if ($routeParams.sourceLocation === "fromsearchbygroup")
             return;
+        $scope.checkForAssignees();
         $scope.getData($scope.pageno);
     }, true);
+
+    $scope.$watch("assigneeList", function (val) {
+        $scope.checkForAssignees();
+        $scope.getData($scope.pageno);
+    }, true);
+
+    $scope.checkForAssignees = function () {
+        if ($scope.assigneeList != null && $scope.assigneeList.length > 0) {
+            var assignees = "";
+            for (i = 0; i < $scope.assigneeList.length; i++) {
+                assignees = assignees + "|" + $scope.assigneeList[i].userName;
+            }
+            if (assignees.length > 1)
+                $scope.searchAssignee = assignees.substring(1, assignees.length);
+        } 
+    };
+
+    $scope.clearFilters = function () {
+        $scope.searchTag = "";
+        $scope.searchDesc = "";
+        $scope.searchAssignee = "";
+        for (var i in $scope.assigneeList) {
+            for (var j in $scope.assignees) {
+                if ($scope.assigneeList[i].userName === $scope.assignees[j].userName) {
+                    $scope.assignees[j].ticked = false;
+                }
+            }
+        }
+        $location.path('/incident/search');
+    };
+
+    $scope.setSearchOwner = function () {
+        for (var i in $scope.assignees) {
+            if ($scope.assignees[i].userName === $scope.searchAssignee) {
+                $scope.assignees[i].ticked = true;
+            }
+        }
+    };
 
     $scope.waiting = function (value) {
         if (value === true) {
@@ -84,6 +136,8 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         OwnersService.getOwners().then(
             function success(response) {
                 $scope.owners = response;
+                $scope.assignees = response;
+                $scope.setRouteSearchParms();
             },
             function error() {
                 $rootScope.errors.push({
@@ -189,7 +243,6 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                             if (ownersList[i] === $scope.owners[j].userName) {
                                 $scope.owners[j].ticked = true;
                             }
-
                         }
                     }
 
@@ -754,7 +807,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                     $location.path('/incident/fromgroupsearch/' + $routeParams.gid);
                 }
                 if ($routeParams.sourceLocation === "fromsearch") {
-                    $location.path('/incident/search' + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc);
+                    $location.path('/incident/search' + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
                 }
                 break;
             case "createChronology":
@@ -768,7 +821,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     };
 
     $scope.cancelCreate = function () {
-        $location.path('/incident/search' + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc);
+        $location.path('/incident/search' + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
     };
 
     $scope.select = function (option, object) {
@@ -776,7 +829,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             case "incident":
                 var sourceLocation = "fromsearch";
                 var incident = object;
-                $location.path('/incident/edit/' + sourceLocation + '/' + incident.id + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc);
+                $location.path('/incident/edit/' + sourceLocation + '/' + incident.id + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
                 break;
             case "chronology":
                 $scope.createChronology = new Object();
@@ -801,7 +854,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     };
 
     $scope.new = function () {
-        $location.path('/incident/create' + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc);
+        $location.path('/incident/create' + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
     };
 
     // to keep track where we left off so when we click on back/cancel button return to same search results
@@ -811,6 +864,10 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         }
         if ($routeParams.searchDesc !== undefined) {
             $scope.searchDesc = $routeParams.searchDesc;
+        }
+        if ($routeParams.searchAssignee !== undefined) {
+            $scope.searchAssignee = $routeParams.searchAssignee;
+            $scope.setSearchOwner();
         }
         if ($routeParams.pageno !== undefined) {
             $scope.pageno = $routeParams.pageno;
@@ -836,13 +893,6 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             $scope.products.length === 0) {
             $scope.productsRequired = true;
         }
-    }
-
-    $scope.checkFilters = function (search) {
-        if (search.tag.trim() === "")
-            search.tag = '*';
-        if (search.desc.trim() === "")
-            search.desc = '*';
     }
 
 });

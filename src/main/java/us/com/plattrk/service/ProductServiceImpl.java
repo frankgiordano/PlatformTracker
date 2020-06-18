@@ -1,6 +1,7 @@
 package us.com.plattrk.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public PageWrapper<Product> search(String searchTerm, Long pageIndex) {
-        return productRepository.getProductsByCriteria(searchTerm, pageIndex);
+    public PageWrapper<Product> search(Map<String, String> filtersMap) {
+        return productRepository.getProductsByCriteria(filtersMap);
     }
 
     @Override

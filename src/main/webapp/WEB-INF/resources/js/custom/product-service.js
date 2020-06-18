@@ -13,9 +13,10 @@ app.service('ProductService', function ($http, $q) {
         return d.promise;
     };
 
-    this.search = function (searchTerm, pageno) {
+    this.search = function (search, pageno) {
         var d = $q.defer();
-        $http.get('product/products/retrieve/' + encodeURI(searchTerm) + '/' + pageno)
+        
+        $http.get('product/products/retrieve/' + encodeURI(search.name) + '/' + encodeURI(search.assignee) + '/' + pageno)
         .success(function (response) {
             d.resolve(response);
         })

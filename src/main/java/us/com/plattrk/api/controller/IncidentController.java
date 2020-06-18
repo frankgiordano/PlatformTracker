@@ -27,7 +27,7 @@ public class IncidentController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/retrieve/{tag}/{desc}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/retrieve/{tag}/{desc}/{assignee}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
     PageWrapper<Incident> search(@PathVariable Map<String, String> filtersMap) {
         return incidentService.search(filtersMap);
     }

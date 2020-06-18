@@ -1,6 +1,7 @@
 package us.com.plattrk.api.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,9 +29,9 @@ public class ProductController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/products/retrieve/{searchTerm}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
-    PageWrapper<Product> search(@PathVariable String searchTerm, @PathVariable Long pageIndex) {
-        return productService.search(searchTerm, pageIndex);
+    @RequestMapping(value = "/products/retrieve/{name}/{assignee}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
+    PageWrapper<Product> search(@PathVariable Map<String, String> filtersMap) {
+        return productService.search(filtersMap);
     }
 
     @PreAuthorize("isAuthenticated()")

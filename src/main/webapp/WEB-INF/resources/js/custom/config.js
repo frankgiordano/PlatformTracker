@@ -49,7 +49,7 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/incident/search.html'
                 })
                 .when(
-                    '/incident/search/:pageno/:searchTag/:searchDesc', {
+                    '/incident/search/:pageno/:searchTag/:searchDesc/:searchAssignee', {
                     controller: 'IncidentController',
                     templateUrl: 'resources/html/partials/view/incident/search.html'
                 })
@@ -59,12 +59,12 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/incident/create.html'
                 })
                 .when(
-                    '/incident/create/:pageno/:searchTag/:searchDesc', {
+                    '/incident/create/:pageno/:searchTag/:searchDesc/:searchAssignee', {
                     controller: 'IncidentController',
                     templateUrl: 'resources/html/partials/view/incident/create.html'
                 })
                 .when(
-                    '/incident/edit/:sourceLocation/:id/:pageno/:searchTag/:searchDesc', {
+                    '/incident/edit/:sourceLocation/:id/:pageno/:searchTag/:searchDesc/:searchAssignee', {
                     controller: 'IncidentController',
                     templateUrl: 'resources/html/partials/view/incident/edit.html'
                 })
@@ -94,7 +94,7 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/resolution/search.html',
                 })
                 .when(
-                    '/resolution/search/:pageno/:searchGrpName/:searchDesc', {
+                    '/resolution/search/:pageno/:searchGrpName/:searchDesc/:searchAssignee', {
                     controller: 'ResolutionController',
                     templateUrl: 'resources/html/partials/view/resolution/search.html',
                 })
@@ -109,12 +109,12 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/resolution/create.html'
                 })
                 .when(
-                    '/resolution/create/:pageno/:searchGrpName/:searchDesc', {
+                    '/resolution/create/:pageno/:searchGrpName/:searchDesc/:searchAssignee', {
                     controller: 'ResolutionController',
                     templateUrl: 'resources/html/partials/view/resolution/create.html'
                 })
                 .when(
-                    '/resolution/edit/:id/:pageno/:searchGrpName/:searchDesc', {
+                    '/resolution/edit/:id/:pageno/:searchGrpName/:searchDesc/:searchAssignee', {
                     controller: 'ResolutionController',
                     templateUrl: 'resources/html/partials/view/resolution/edit.html'
                 })
@@ -134,7 +134,7 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/rootcause/search.html'
                 })
                 .when(
-                    '/rootcause/search/:pageno/:searchGrpName/:searchDesc', {
+                    '/rootcause/search/:pageno/:searchGrpName/:searchDesc/:searchAssignee', {
                     controller: 'RootCauseController',
                     templateUrl: 'resources/html/partials/view/rootcause/search.html'
                 })
@@ -144,12 +144,12 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/rootcause/create.html'
                 })
                 .when(
-                    '/rootcause/create/:pageno/:searchGrpName/:searchDesc', {
+                    '/rootcause/create/:pageno/:searchGrpName/:searchDesc/:searchAssignee', {
                     controller: 'RootCauseController',
                     templateUrl: 'resources/html/partials/view/rootcause/create.html'
                 })
                 .when(
-                    '/rootcause/edit/:id/:pageno/:searchGrpName/:searchDesc', {
+                    '/rootcause/edit/:id/:pageno/:searchGrpName/:searchDesc/:searchAssignee', {
                     controller: 'RootCauseController',
                     templateUrl: 'resources/html/partials/view/rootcause/edit.html'
                 })
@@ -169,7 +169,7 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/project/search.html'
                 })
                 .when(
-                    '/project/search/:pageno/:search', {
+                    '/project/search/:pageno/:searchName/:searchAssignee', {
                     controller: 'ProjectController',
                     templateUrl: 'resources/html/partials/view/project/search.html'
                 })
@@ -179,12 +179,12 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/project/create.html'
                 })
                 .when(
-                    '/project/create/:pageno/:search', {
+                    '/project/create/:pageno/:searchName/:searchAssignee', {
                     controller: 'ProjectController',
                     templateUrl: 'resources/html/partials/view/project/create.html'
                 })
                 .when(
-                    '/project/edit/:id/:pageno/:search', {
+                    '/project/edit/:id/:pageno/:searchName/:searchAssignee', {
                     controller: 'ProjectController',
                     templateUrl: 'resources/html/partials/view/project/edit.html'
                 })
@@ -199,7 +199,7 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/product/search.html'
                 })
                 .when(
-                    '/product/search/:pageno/:search', {
+                    '/product/search/:pageno/:searchName/:searchAssignee', {
                     controller: 'ProductController',
                     templateUrl: 'resources/html/partials/view/product/search.html'
                 })
@@ -209,7 +209,7 @@ app.config(function ($httpProvider) {
                     templateUrl: 'resources/html/partials/view/product/create.html'
                 })
                 .when(
-                    '/product/create/:pageno/:search', {
+                    '/product/create/:pageno/:searchName/:searchAssignee', {
                     controller: 'ProductController',
                     templateUrl: 'resources/html/partials/view/product/create.html'
                 })

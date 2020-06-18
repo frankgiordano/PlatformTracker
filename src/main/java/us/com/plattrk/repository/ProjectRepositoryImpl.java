@@ -1,14 +1,11 @@
 package us.com.plattrk.repository;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +15,14 @@ import org.springframework.stereotype.Repository;
 import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.api.model.Project;
 import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.util.QueryResult;
 import us.com.plattrk.util.RepositoryUtil;
 
 @Repository
 public class ProjectRepositoryImpl implements ProjectRepository {
 
     private static final Logger log = LoggerFactory.getLogger(ProjectRepositoryImpl.class);
+    private static final String TYPE = "Project";
 
     @Autowired
     private RepositoryUtil<Project> repositoryUtil;
@@ -39,24 +38,30 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public PageWrapper<Project> getProjectsByCriteria(String searchTerm, Long pageIndex) {
-        Long total;
-        List<Project> result;
-        Query query;
+    public PageWrapper<Project> getProjectsByCriteria(Map<String, String> filtersMap) {
+        String name = filtersMap.get("name");
+        String owner = filtersMap.get("assignee");
+        Long pageIndex = Long.parseLong(filtersMap.get("pageIndex"));
 
-        if (!searchTerm.equals("*")) {
-            query = em.createNamedQuery(Project.FIND_ALL_PROJECTS_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            Query queryTotal = em.createNamedQuery(Project.FIND_ALL_PROJECTS_COUNT_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
-            total = (long) queryTotal.getSingleResult();
+        boolean isNameEmpty = "*".equals(name);
+        boolean isOwnerEmpty = "*".equals(owner) || "undefined".equals(owner);
+        name = repositoryUtil.appendWildCard(name);
+
+        QueryResult<Project> queryResult;
+        Map<String, String> columnInfo = new HashMap<String, String>();
+
+        if (isNameEmpty) {
+            String queryName = Project.FIND_ALL_PROJECTS;
+            String queryCountName = Project.FIND_ALL_PROJECTS_COUNT;
+            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         } else {
-            query = em.createNamedQuery(Project.FIND_ALL_PROJECTS);
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            Query queryTotal = em.createNamedQuery(Project.FIND_ALL_PROJECTS_COUNT);
-            total = (long) queryTotal.getSingleResult();
+            String queryName = Project.FIND_ALL_PROJECTS_BY_CRITERIA;
+            String queryCountName = Project.FIND_ALL_PROJECTS_COUNT_BY_CRITERIA;
+            columnInfo.put("name", name);
+            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         }
 
-        return new PageWrapper<Project>(result, total);
+        return new PageWrapper<Project>(queryResult.result, queryResult.total);
     }
 
     @Override

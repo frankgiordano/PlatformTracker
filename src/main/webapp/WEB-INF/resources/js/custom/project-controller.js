@@ -3,23 +3,12 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     $scope.project = {};
     $scope.hideDuringLoading = false;
     $scope.pageno = 1; // initialize page num to 1
-    $scope.search = "";
+    $scope.searchName = "";
+    $scope.assignee = "";
+    $scope.searchAssignee = "";
     $scope.totalCount = 0;
     $scope.itemsPerPage = 10;
     $scope.data = [];
-
-    (function () {
-        OwnersService.getOwners().then(
-            function success(response) {
-                $scope.owners = response;
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "OWNERS_GET_FAILURE",
-                    message: "Error retrieving owners."
-                });
-            });
-    })();
 
     $scope.init = function () {
         $scope.setRouteSearchParms();
@@ -28,7 +17,12 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     $scope.getData = function (pageno) {
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
-        var search = $scope.checkFilters($scope.search);
+        var search = {
+            pageno: $scope.pageno,
+            name: $scope.searchName,
+            assignee: $scope.searchAssignee
+        };
+        $scope.checkFilters(search);
         ProjectService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
@@ -38,17 +32,62 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             });
     };
 
+    $scope.checkFilters = function (search) {
+        if (search.name.trim() === "")
+            search.name = '*';
+        if (search.assignee === "")
+            search.assignee = '*';
+    }
+
     $scope.sort = function (keyName) {
         $scope.sortKey = keyName;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     };
 
-    $scope.$watch("search", function (val) {	
+    $scope.$watch("searchName", function (val) {
+        $scope.checkForAssignees();
         $scope.getData($scope.pageno);
     }, true);
 
+    $scope.$watch("assigneeList", function (val) {
+        $scope.checkForAssignees();
+        $scope.getData($scope.pageno);
+    }, true);
+
+    $scope.checkForAssignees = function () {
+        if ($scope.assigneeList != null && $scope.assigneeList.length > 0) {
+            var assignees = "";
+            for (i = 0; i < $scope.assigneeList.length; i++) {
+                assignees = assignees + "|" + $scope.assigneeList[i].userName;
+            }
+            if (assignees.length > 1)
+                $scope.searchAssignee = assignees.substring(1, assignees.length);
+        } 
+    };
+
+    $scope.clearFilters = function () {
+        $scope.searchName = "";
+        $scope.searchAssignee = "";
+        for (var i in $scope.assigneeList) {
+            for (var j in $scope.assignees) {
+                if ($scope.assigneeList[i].userName === $scope.assignees[j].userName) {
+                    $scope.assignees[j].ticked = false;
+                }
+            }
+        }
+        $location.path('/project/search');
+    };
+
+    $scope.setSearchOwner = function () {
+        for (var i in $scope.assignees) {
+            if ($scope.assignees[i].userName === $scope.searchAssignee) {
+                $scope.assignees[i].ticked = true;
+            }
+        }
+    };
+
     $scope.select = function (id) {
-        $location.path('/project/edit/' + id + '/' + $scope.pageno + '/' + $scope.search);
+        $location.path('/project/edit/' + id + '/' + $scope.pageno + '/' + $scope.searchName + '/' + $scope.searchAssignee);
     };
 
     $scope.waiting = function (value) {
@@ -68,6 +107,21 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         $scope.messages = null;
         $scope.errorMessages = null;
     };
+
+    (function () {
+        OwnersService.getOwners().then(
+            function success(response) {
+                $scope.owners = response;
+                $scope.assignees = response;
+                $scope.setRouteSearchParms();
+            },
+            function error() {
+                $rootScope.errors.push({
+                    code: "OWNERS_GET_FAILURE",
+                    message: "Error retrieving owners."
+                });
+            });
+    })();
 
     $scope.createSetup = function () {
         $scope.setRouteSearchParms();
@@ -361,28 +415,26 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     };
 
     $scope.new = function () {
-        $location.path('/project/create' + '/' + $scope.pageno + '/' + $scope.search);
+        $location.path('/project/create' + '/' + $scope.pageno + '/' + $scope.searchName + '/' + $scope.searchAssignee);
     };
 
     $scope.cancel = function () {
-        $location.path('/project/search' + '/' + $scope.pageno + '/' + $scope.search);
+        $location.path('/project/search' + '/' + $scope.pageno + '/' + $scope.searchName + '/' + $scope.searchAssignee);
     };
 
     // to keep track where we left off so when we click on back/cancel button return to same search results
     $scope.setRouteSearchParms = function () {
-        if ($routeParams.search !== undefined) {
-            $scope.search = $routeParams.search;
+        if ($routeParams.searchName !== undefined) {
+            $scope.searchName = $routeParams.searchName;
+        }
+        if ($routeParams.searchAssignee !== undefined) {
+            $scope.searchAssignee = $routeParams.searchAssignee;
+            $scope.setSearchOwner();
         }
         if ($routeParams.pageno !== undefined) {
             $scope.pageno = $routeParams.pageno;
         }
     };
-
-    $scope.checkFilters = function (search) {
-        if (search.trim() === "")
-            search = '*';
-        return search;
-    }
 
 });
 

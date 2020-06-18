@@ -1,6 +1,8 @@
 package us.com.plattrk.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -13,12 +15,14 @@ import org.springframework.stereotype.Repository;
 
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.util.QueryResult;
 import us.com.plattrk.util.RepositoryUtil;
 
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
     private static final Logger log = LoggerFactory.getLogger(ProductRepositoryImpl.class);
+    private static final String TYPE = "Product";
 
     @Autowired
     private RepositoryUtil<Product> repositoryUtil;
@@ -34,24 +38,30 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public PageWrapper<Product> getProductsByCriteria(String searchTerm, Long pageIndex) {
-        Long total;
-        List<Product> result;
-        Query query;
+    public PageWrapper<Product> getProductsByCriteria(Map<String, String> filtersMap) {
+        String name = filtersMap.get("name");
+        String owner = filtersMap.get("assignee");
+        Long pageIndex = Long.parseLong(filtersMap.get("pageIndex"));
 
-        if (!searchTerm.equals("*")) {
-            query = em.createNamedQuery(Product.FIND_ALL_PRODUCTS_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            Query queryTotal = em.createNamedQuery(Product.FIND_ALL_PRODUCTS_COUNT_BY_CRITERIA).setParameter("name", "%" + searchTerm.toLowerCase() + "%");
-            total = (long) queryTotal.getSingleResult();
+        boolean isNameEmpty = "*".equals(name);
+        boolean isOwnerEmpty = "*".equals(owner) || "undefined".equals(owner);
+        name = repositoryUtil.appendWildCard(name);
+
+        QueryResult<Product> queryResult;
+        Map<String, String> columnInfo = new HashMap<String, String>();
+
+        if (isNameEmpty) {
+            String queryName = Product.FIND_ALL_PRODUCTS;
+            String queryCountName = Product.FIND_ALL_PRODUCTS_COUNT;
+            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         } else {
-            query = em.createNamedQuery(Product.FIND_ALL_PRODUCTS);
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            Query queryTotal = em.createNamedQuery(Product.FIND_ALL_PRODUCTS_COUNT);
-            total = (long) queryTotal.getSingleResult();
+            String queryName = Product.FIND_ALL_PRODUCTS_BY_CRITERIA;
+            String queryCountName = Product.FIND_ALL_PRODUCTS_COUNT_BY_CRITERIA;
+            columnInfo.put("name", name);
+            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         }
 
-        return new PageWrapper<Product>(result, total);
+        return new PageWrapper<Product>(queryResult.result, queryResult.total);
     }
 
     @Override

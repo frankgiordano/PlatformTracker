@@ -5,6 +5,8 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     $scope.pageno = 1; // initialize page num to 1
     $scope.searchGrpName = "";
     $scope.searchDesc = "";
+    $scope.assignees = "";
+    $scope.searchAssignee = "";
     $scope.totalCount = 0;
     $scope.itemsPerPage = 10;
     $scope.data = [];
@@ -19,7 +21,8 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
         var search = {
             pageno: $scope.pageno,
             grpName: $scope.searchGrpName,
-            desc: $scope.searchDesc
+            desc: $scope.searchDesc,
+            assignee: $scope.searchAssignee
         };
         $scope.checkFilters(search);
         ResolutionService.search(search, pageno).then(
@@ -31,21 +34,70 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
             });
     };
 
+    $scope.checkFilters = function (search) {
+        if (search.grpName.trim() === "")
+            search.grpName = '*';
+        if (search.desc.trim() === "")
+            search.desc = '*';
+        if (search.assignee === "")
+            search.assignee = '*';
+    }
+
     $scope.sort = function (keyName) {
         $scope.sortKey = keyName;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     };
 
     $scope.$watch("searchGrpName", function (val) {
+        $scope.checkForAssignees();
         $scope.getData($scope.pageno);
     }, true);
 
     $scope.$watch("searchDesc", function (val) {
+        $scope.checkForAssignees();
         $scope.getData($scope.pageno);
     }, true);
 
+    $scope.$watch("assigneeList", function (val) {
+        $scope.checkForAssignees();
+        $scope.getData($scope.pageno);
+    }, true);
+
+    $scope.checkForAssignees = function () {
+        if ($scope.assigneeList != null && $scope.assigneeList.length > 0) {
+            var assignees = "";
+            for (i = 0; i < $scope.assigneeList.length; i++) {
+                assignees = assignees + "|" + $scope.assigneeList[i].userName;
+            }
+            if (assignees.length > 1)
+                $scope.searchAssignee = assignees.substring(1, assignees.length);
+        }
+    };
+
+    $scope.clearFilters = function () {
+        $scope.searchGrpName = "";
+        $scope.searchDesc = "";
+        $scope.searchAssignee = "";
+        for (var i in $scope.assigneeList) {
+            for (var j in $scope.assignees) {
+                if ($scope.assigneeList[i].userName === $scope.assignees[j].userName) {
+                    $scope.assignees[j].ticked = false;
+                }
+            }
+        }
+        $location.path('/resolution/search');
+    };
+
+    $scope.setSearchOwner = function () {
+        for (var i in $scope.assignees) {
+            if ($scope.assignees[i].userName === $scope.searchAssignee) {
+                $scope.assignees[i].ticked = true;
+            }
+        }
+    };
+
     $scope.select = function (id) {
-        $location.path('/resolution/edit/' + id + '/' + $scope.pageno + '/' + $scope.searchGrpName + '/' + $scope.searchDesc);
+        $location.path('/resolution/edit/' + id + '/' + $scope.pageno + '/' + $scope.searchGrpName + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
     };
 
     $scope.waiting = function (value) {
@@ -65,6 +117,8 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
         OwnersService.getOwners().then(
             function success(response) {
                 $scope.owners = response;
+                $scope.assignees = response;
+                $scope.setRouteSearchParms();
             },
             function error() {
                 $rootScope.errors.push({
@@ -355,11 +409,11 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     };
 
     $scope.new = function () {
-        $location.path('/resolution/create' + '/' + $scope.pageno + '/' + $scope.searchGrpName + '/' + $scope.searchDesc);
+        $location.path('/resolution/create' + '/' + $scope.pageno + '/' + $scope.searchGrpName + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
     };
 
     $scope.cancel = function () {
-        $location.path('/resolution/search' + '/' + $scope.pageno + '/'  + $scope.searchGrpName + '/' + $scope.searchDesc);
+        $location.path('/resolution/search' + '/' + $scope.pageno + '/' + $scope.searchGrpName + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
     };
 
     // to keep track where we left off so when we click on back/cancel button return to same search results
@@ -370,16 +424,13 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
         if ($routeParams.searchDesc !== undefined) {
             $scope.searchDesc = $routeParams.searchDesc;
         }
+        if ($routeParams.searchAssignee !== undefined) {
+            $scope.searchAssignee = $routeParams.searchAssignee;
+            $scope.setSearchOwner();
+        }
         if ($routeParams.pageno !== undefined) {
             $scope.pageno = $routeParams.pageno;
         }
     };
-
-    $scope.checkFilters = function (search) {
-        if (search.grpName.trim() === "")
-            search.grpName = '*';
-        if (search.desc.trim() === "")
-            search.desc = '*';
-    }
 
 });

@@ -459,7 +459,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 // refresh button label...
                 if ( $scope.selectedItems.length === 0 ) {
                     // https://github.com/isteven/angular-multi-select/pull/19                    
-                    $scope.varButtonLabel = ( typeof $scope.defaultLabel !== 'undefined' ) ? $scope.defaultLabel : 'None selected';
+                    $scope.varButtonLabel = ( typeof $scope.defaultLabel !== 'undefined' ) ? $scope.defaultLabel : 'Select owner';
                 }
                 else {                
                     var tempMaxLabels = $scope.selectedItems.length;

@@ -1,6 +1,7 @@
 package us.com.plattrk.service;
 
 import java.util.List;
+import java.util.Map;
 
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.util.PageWrapper;
@@ -9,7 +10,7 @@ public interface ProductService {
 
     public List<Product> getProducts();
 
-    public PageWrapper<Product> search(String searchTerm, Long pageIndex);
+    public PageWrapper<Product> search(Map<String, String> filtersMap);
 
     public List<Product> getActiveProducts();
 

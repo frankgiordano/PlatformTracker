@@ -1,5 +1,6 @@
 package us.com.plattrk.repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -8,7 +9,6 @@ import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +17,14 @@ import org.springframework.stereotype.Repository;
 
 import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.util.QueryResult;
 import us.com.plattrk.util.RepositoryUtil;
 
 @Repository
 public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepository {
 
     private static final Logger log = LoggerFactory.getLogger(IncidentResolutionRepositoryImpl.class);
+    private static final String TYPE = "IncidentResolution";
 
     @Autowired
     private RepositoryUtil<IncidentResolution> repositoryUtil;
@@ -41,47 +43,41 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
     public PageWrapper<IncidentResolution> getResolutionsByCriteria(Map<String, String> filtersMap) {
         String grpName = filtersMap.get("grpName");
         String desc = filtersMap.get("desc");
+        String owner = filtersMap.get("assignee");
         Long pageIndex = Long.parseLong(filtersMap.get("pageIndex"));
 
         boolean isGrpNameEmpty = "*".equals(grpName);
         boolean isDescEmpty = "*".equals(desc);
+        boolean isOwnerEmpty = "*".equals(owner) || "undefined".equals(owner);
         grpName = repositoryUtil.appendWildCard(grpName);
         desc = repositoryUtil.appendWildCard(desc);
 
-        Query query;
-        List<IncidentResolution> result;
-        Long total;
+        QueryResult<IncidentResolution> queryResult;
+        Map<String, String> columnInfo = new HashMap<String, String>();
+
         if (isGrpNameEmpty && isDescEmpty) {
-            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS);
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT);
-            total = (long) query.getSingleResult();
+            String queryName = IncidentResolution.FIND_ALL_RESOLUTIONS;
+            String queryCountName = IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT;
+            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         } else if (!isGrpNameEmpty && isDescEmpty) {
-            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_BY_GRPNAME_CRITERIA)
-                      .setParameter("grpName", grpName);
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_GRPNAME_CRITERIA)
-                      .setParameter("grpName", grpName);
-            total = (long) query.getSingleResult();
+            String queryName = IncidentResolution.FIND_ALL_RESOLUTIONS_BY_GRPNAME_CRITERIA;
+            String queryCountName = IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_GRPNAME_CRITERIA;
+            columnInfo.put("grpName", grpName);
+            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         } else if (isGrpNameEmpty) {
-            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_BY_DESC_CRITERIA)
-                      .setParameter("desc", desc);
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_DESC_CRITERIA)
-                      .setParameter("desc", desc);
-            total = (long) query.getSingleResult();
+            String queryName = IncidentResolution.FIND_ALL_RESOLUTIONS_BY_DESC_CRITERIA;
+            String queryCountName = IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_DESC_CRITERIA;
+            columnInfo.put("desc", desc);
+            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         } else {
-            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_BY_BOTH_CRITERIA)
-                      .setParameter("grpName", grpName)
-                      .setParameter("desc", desc);
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            query = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_BOTH_CRITERIA)
-                      .setParameter("grpName", grpName)
-                      .setParameter("desc", desc);
-            total = (long) query.getSingleResult();
+            String queryName = IncidentResolution.FIND_ALL_RESOLUTIONS_BY_BOTH_CRITERIA;
+            String queryCountName = IncidentResolution.FIND_ALL_RESOLUTIONS_COUNT_BY_BOTH_CRITERIA;
+            columnInfo.put("grpName", grpName);
+            columnInfo.put("desc", desc);
+            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         }
 
-        return new PageWrapper<IncidentResolution>(result, total);
+        return new PageWrapper<IncidentResolution>(queryResult.result, queryResult.total);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package us.com.plattrk.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import us.com.plattrk.api.model.Project;
 import us.com.plattrk.util.PageWrapper;
@@ -9,7 +10,7 @@ public interface ProjectRepository {
     
     public List<Project> getProjects();
 
-    public PageWrapper<Project> getProjectsByCriteria(String searchTerm, Long pageIndex);
+    public PageWrapper<Project> getProjectsByCriteria(Map<String, String> filtersMap);
 
     public Project deleteProject(Long id);
 

@@ -1,6 +1,7 @@
 package us.com.plattrk.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
-    public PageWrapper<Project> search(String searchTerm, Long pageIndex) {
-        return projectRepository.getProjectsByCriteria(searchTerm, pageIndex);
+    public PageWrapper<Project> search(Map<String, String> filtersMap) {
+        return projectRepository.getProjectsByCriteria(filtersMap);
     }
 
     @Override

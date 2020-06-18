@@ -30,7 +30,7 @@ public class RCAController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/retrieve/{grpName}/{desc}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/retrieve/{grpName}/{desc}/{assignee}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
     PageWrapper<RCA> search(@PathVariable Map<String, String> filtersMap) {
         return rcaService.search(filtersMap);
     }

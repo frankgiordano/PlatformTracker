@@ -12,12 +12,14 @@ import org.springframework.stereotype.Repository;
 
 import us.com.plattrk.api.model.*;
 import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.util.QueryResult;
 import us.com.plattrk.util.RepositoryUtil;
 
 @Repository
 public class IncidentRepositoryImpl implements IncidentRepository {
 
     private static final Logger log = LoggerFactory.getLogger(IncidentRepositoryImpl.class);
+    private static final String TYPE = "Incident";
 
     @Autowired
     private RepositoryUtil<Incident> repositoryUtil;
@@ -37,48 +39,41 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     public PageWrapper<Incident> getIncidentsByCriteria(Map<String, String> filtersMap) {
         String tag = filtersMap.get("tag");
         String desc = filtersMap.get("desc");
+        String owner = filtersMap.get("assignee");
         Long pageIndex = Long.parseLong(filtersMap.get("pageIndex"));
 
         boolean isTagEmpty = "*".equals(tag);
         boolean isDescEmpty = "*".equals(desc);
+        boolean isOwnerEmpty = "*".equals(owner) || "undefined".equals(owner);
         tag = repositoryUtil.appendWildCard(tag);
         desc = repositoryUtil.appendWildCard(desc);
 
-        Query query;
-        List<Incident> result;
-        Long total;
-        if (isTagEmpty && isDescEmpty) {
-            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS);
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_COUNT);
-            total = (long) query.getSingleResult();
-        } else if (!isTagEmpty && isDescEmpty) {
+        QueryResult<Incident> queryResult;
+        Map<String, String> columnInfo = new HashMap<String, String>();
 
-            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_BY_TAG_CRITERIA)
-                      .setParameter("tag", tag);
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_COUNT_BY_TAG_CRITERIA)
-                      .setParameter("tag", tag);
-            total = (long) query.getSingleResult();
+        if (isTagEmpty && isDescEmpty) {
+            String queryName = Incident.FIND_ALL_INCIDENTS;
+            String queryCountName = Incident.FIND_ALL_INCIDENTS_COUNT;
+            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
+        } else if (!isTagEmpty && isDescEmpty) {
+            String queryName = Incident.FIND_ALL_INCIDENTS_BY_TAG_CRITERIA;
+            String queryCountName = Incident.FIND_ALL_INCIDENTS_COUNT_BY_TAG_CRITERIA;
+            columnInfo.put("tag", tag);
+            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         } else if (isTagEmpty) {
-            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_BY_DESC_CRITERIA)
-                      .setParameter("desc", desc);
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_COUNT_BY_DESC_CRITERIA)
-                      .setParameter("desc", desc);
-            total = (long) query.getSingleResult();
+            String queryName = Incident.FIND_ALL_INCIDENTS_BY_DESC_CRITERIA;
+            String queryCountName = Incident.FIND_ALL_INCIDENTS_COUNT_BY_DESC_CRITERIA;
+            columnInfo.put("desc", desc);
+            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         } else {
-            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_BY_BOTH_CRITERIA)
-                      .setParameter("tag", tag)
-                      .setParameter("desc", desc);
-            result = repositoryUtil.criteriaResults(pageIndex, query);
-            query = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS_COUNT_BY_BOTH_CRITERIA)
-                      .setParameter("tag", tag)
-                      .setParameter("desc", desc);
-            total = (long) query.getSingleResult();
+            String queryName = Incident.FIND_ALL_INCIDENTS_BY_BOTH_CRITERIA;
+            String queryCountName = Incident.FIND_ALL_INCIDENTS_COUNT_BY_BOTH_CRITERIA;
+            columnInfo.put("tag", tag);
+            columnInfo.put("desc", desc);
+            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         }
 
-        return new PageWrapper<Incident>(result, total);
+        return new PageWrapper<Incident>(queryResult.result, queryResult.total);
     }
 
     @Override
@@ -94,9 +89,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
 
     @Override
     public Incident saveIncident(Incident incident) throws OptimisticLockException {
-
         Incident incomingIncident = incident;
-
         Set<Product> products = new HashSet<Product>();
         ErrorCondition errorCode = new ErrorCondition();
         ReferenceData applicationStatus = new ReferenceData();

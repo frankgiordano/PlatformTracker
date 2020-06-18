@@ -13,9 +13,10 @@ app.service('ProjectService', function ($http, $q, ReferenceDataService) {
         return d.promise;
     };
 
-    this.search = function (searchTerm, pageno) {
+    this.search = function (search, pageno) {
         var d = $q.defer();
-        $http.get('project/retrieve/' + encodeURI(searchTerm) + '/' + pageno)
+
+        $http.get('project/retrieve/' + encodeURI(search.name) + '/' + encodeURI(search.assignee) + '/' + pageno)
         .success(function (response) {
             d.resolve(response);
         })

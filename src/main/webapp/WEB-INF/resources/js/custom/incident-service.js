@@ -15,7 +15,8 @@ app.service('IncidentService', function ($http, $q, ReferenceDataService, Incide
 
     this.search = function (search, pageno) {
         var d = $q.defer();
-        $http.get('incident/retrieve/' + encodeURI(search.tag) + '/' + encodeURI(search.desc) + '/' + pageno)
+
+        $http.get('incident/retrieve/' + encodeURI(search.tag) + '/' + encodeURI(search.desc) + '/' + encodeURI(search.assignee) + '/' + pageno)
         .success(function (response) {
             d.resolve(response);
         })
@@ -42,6 +43,7 @@ app.service('IncidentService', function ($http, $q, ReferenceDataService, Incide
 
     this.getGroup = function (id) {
         var d = $q.defer();
+        
         $http.get('incident/retrieve/group/' + id)
             .success(function (response) {
                 d.resolve(response);
