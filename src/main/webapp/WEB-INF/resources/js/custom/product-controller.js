@@ -119,6 +119,20 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
             });
     })();
 
+    (function () {
+        OwnersService.getOwners().then(
+            function success(response) {
+                $scope.assignees = response;
+                $scope.setRouteSearchParms();
+            },
+            function error() {
+                $rootScope.errors.push({
+                    code: "OWNERS_GET_FAILURE",
+                    message: "Error retrieving owners."
+                });
+            });
+    })();
+
     $scope.select = function (product) {
         $scope.selectedProduct = product;
 
