@@ -82,6 +82,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         for (var i in $scope.assignees) {
             if ($scope.assignees[i].userName === $scope.searchAssignee) {
                 $scope.assignees[i].ticked = true;
+                break;
             }
         }
     };

@@ -87,6 +87,7 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
         for (var i in $scope.assignees) {
             if ($scope.assignees[i].userName === $scope.searchAssignee) {
                 $scope.assignees[i].ticked = true;
+                break;  // remove when we need to handle multiple owners one day..
             }
         }
     };
@@ -108,7 +109,6 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
         OwnersService.getOwners().then(
             function success(response) {
                 $scope.owners = response;
-                $scope.assignees = response;
                 $scope.setRouteSearchParms();
             },
             function error() {
@@ -152,7 +152,6 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
                 if (ownersList[i] === $scope.owners[j].userName) {
                     $scope.owners[j].ticked = true;
                 }
-
             }
         }
     };

@@ -93,6 +93,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
         for (var i in $scope.assignees) {
             if ($scope.assignees[i].userName === $scope.searchAssignee) {
                 $scope.assignees[i].ticked = true;
+                break;
             }
         }
     };
@@ -253,7 +254,6 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                             if (ownersList[i] === $scope.owners[j].userName) {
                                 $scope.owners[j].ticked = true;
                             }
-
                         }
                     }
 

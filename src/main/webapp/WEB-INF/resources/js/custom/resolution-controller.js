@@ -92,6 +92,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
         for (var i in $scope.assignees) {
             if ($scope.assignees[i].userName === $scope.searchAssignee) {
                 $scope.assignees[i].ticked = true;
+                break;
             }
         }
     };
