@@ -1,4 +1,4 @@
-app.controller('ProductController', function ($rootScope, $scope, ProductService, $location, $routeParams, platforms, ModalService, OwnersService) {
+app.controller('ProductController', function ($rootScope, $scope, localStorageService, ProductService, $location, $routeParams, platforms, ModalService, OwnersService) {
 
     $scope.hideDuringLoading = false;
     $scope.disableButton = false;
@@ -393,6 +393,8 @@ app.controller('ProductController', function ($rootScope, $scope, ProductService
 
     // to keep track where we left off so when we click on back/cancel button return to same search results
     $scope.setRouteSearchParms = function () {
+        localStorageService.remove("incidentCreateButtonClicked");
+        localStorageService.remove("incidentEditMode");
         if ($routeParams.searchName !== undefined) {
             $scope.searchName = $routeParams.searchName;
         }

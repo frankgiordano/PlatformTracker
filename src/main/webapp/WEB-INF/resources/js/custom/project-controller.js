@@ -1,4 +1,4 @@
-app.controller('ProjectController', function ($rootScope, $scope, ProjectService, $location, $routeParams, OwnersService, ReferenceDataService, ModalService) {
+app.controller('ProjectController', function ($rootScope, $scope, ProjectService, localStorageService, $location, $routeParams, OwnersService, ReferenceDataService, ModalService) {
 
     $scope.project = {};
     $scope.hideDuringLoading = false;
@@ -425,6 +425,8 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
 
     // to keep track where we left off so when we click on back/cancel button return to same search results
     $scope.setRouteSearchParms = function () {
+        localStorageService.remove("incidentCreateButtonClicked");
+        localStorageService.remove("incidentEditMode");
         if ($routeParams.searchName !== undefined) {
             $scope.searchName = $routeParams.searchName;
         }

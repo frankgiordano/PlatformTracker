@@ -1,4 +1,4 @@
-app.controller('IncidentGroupController', function ($routeParams, $location, $rootScope, $scope, IncidentGroupService, groupStatuses, ModalService) {
+app.controller('IncidentGroupController', function ($routeParams, $location, $rootScope, $scope, localStorageService, IncidentGroupService, groupStatuses, ModalService) {
     // set the defaults
     $scope.groupStatuses = groupStatuses;
     $scope.selectedGroup = null;
@@ -12,6 +12,8 @@ app.controller('IncidentGroupController', function ($routeParams, $location, $ro
     $scope.data = [];
 
     $scope.init = function () {
+        localStorageService.remove("incidentCreateButtonClicked");
+        localStorageService.remove("incidentEditMode");
         $scope.searchName = "";
         $scope.searchDesc = "";
     };

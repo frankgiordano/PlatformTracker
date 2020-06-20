@@ -1,5 +1,7 @@
-app.controller('IncidentFromGroupController', function ($routeParams, $location, $rootScope, $filter, $scope, IncidentGroupService, ngTableParams, groupStatuses, ModalService) {
+app.controller('IncidentFromGroupController', function ($routeParams, $location, $rootScope, localStorageService, $filter, $scope, IncidentGroupService, ngTableParams, groupStatuses, ModalService) {
     $scope.init = function () {
+        localStorageService.remove("incidentCreateButtonClicked");
+        localStorageService.remove("incidentEditMode");
         IncidentGroupService.getGroups().then(
             function success(response) {
                 $scope.groups = response;

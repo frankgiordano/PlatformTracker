@@ -1,4 +1,4 @@
-app.controller('IncidentController', function ($rootScope, $scope, IncidentGroupService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService, OwnersService) {
+app.controller('IncidentController', function ($rootScope, $scope, IncidentGroupService, localStorageService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService, OwnersService) {
 
     $scope.incident = {};
     $scope.hideDuringLoading = false;
@@ -10,6 +10,8 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     $scope.totalCount = 0;
     $scope.itemsPerPage = 10;
     $scope.data = [];
+    $scope.clearButtonClicked = false;
+    $scope.userFirstChanged = false;
 
     $scope.init = function () {
         $scope.setRouteSearchParms();
@@ -73,12 +75,15 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             for (i = 0; i < $scope.assigneeList.length; i++) {
                 assignees = assignees + "|" + $scope.assigneeList[i].userName;
             }
-            if (assignees.length > 1)
+            if (assignees.length > 1) {
                 $scope.searchAssignee = assignees.substring(1, assignees.length);
+                $scope.userFirstChanged = true;
+            }
         } 
     };
 
     $scope.clearFilters = function () {
+        $scope.clearButtonClicked = true;
         $scope.searchTag = "";
         $scope.searchDesc = "";
         $scope.searchAssignee = "";
@@ -92,9 +97,9 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         $location.path('/incident/search');
     };
 
-    $scope.setSearchOwner = function () {
+    $scope.setSearchOwner = function (userName) {
         for (var i in $scope.assignees) {
-            if ($scope.assignees[i].userName === $scope.searchAssignee) {
+            if ($scope.assignees[i].userName === userName) {
                 $scope.assignees[i].ticked = true;
                 break;
             }
@@ -139,6 +144,11 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                 $scope.owners = response;
                 $scope.assignees = response;
                 $scope.setRouteSearchParms();
+                var createButtonClicked = localStorageService.get("incidentCreateButtonClicked");
+                var incidentEditMode = localStorageService.get("incidentEditMode");
+                if (incidentEditMode === null && $scope.clearButtonClicked === false && $scope.userFirstChanged === false && createButtonClicked === null) {
+                    $scope.setSearchOwner($rootScope.user.username);
+                }            
             },
             function error() {
                 $rootScope.errors.push({
@@ -189,6 +199,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     };
 
     $scope.editIncidentSetup = function () {
+        localStorageService.set("incidentEditMode", true);  // set to any value we only check if is exist
         $scope.setRouteSearchParms();
         IncidentService.getIncidentPlus($routeParams.id).then(
             function success(response) {
@@ -855,6 +866,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     };
 
     $scope.new = function () {
+        localStorageService.set("incidentCreateButtonClicked", true);  // set to any value we only check to see if it exist
         $location.path('/incident/create' + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
     };
 
@@ -868,7 +880,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         }
         if ($routeParams.searchAssignee !== undefined) {
             $scope.searchAssignee = $routeParams.searchAssignee;
-            $scope.setSearchOwner();
+            $scope.setSearchOwner($scope.searchAssignee);
         }
         if ($routeParams.pageno !== undefined) {
             $scope.pageno = $routeParams.pageno;

@@ -1,6 +1,8 @@
-app.controller('IncidentReportSettingsController', function ($scope, IncidentService) {
+app.controller('IncidentReportSettingsController', function ($scope, localStorageService, IncidentService) {
 
     $scope.init = function () {
+        localStorageService.remove("incidentCreateButtonClicked");
+        localStorageService.remove("incidentEditMode");
         IncidentService.isToggleAutoWeeklyReport().then(
             function success(response) {
                 if (response === "true") {

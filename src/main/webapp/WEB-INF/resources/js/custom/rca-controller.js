@@ -1,4 +1,4 @@
-app.controller('RootCauseController', function ($rootScope, $scope, RcaService, $location, $routeParams, IncidentGroupService, ReferenceDataService, $filter, ModalService, OwnersService) {
+app.controller('RootCauseController', function ($rootScope, $scope, RcaService, $location, localStorageService, $routeParams, IncidentGroupService, ReferenceDataService, $filter, ModalService, OwnersService) {
 
     $scope.rca = {};
     $scope.whys = [];
@@ -441,6 +441,8 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
 
     // to keep track where we left off so when we click on back/cancel button return to same search results
     $scope.setRouteSearchParms = function () {
+        localStorageService.remove("incidentCreateButtonClicked");
+        localStorageService.remove("incidentEditMode");
         if ($routeParams.searchGrpName !== undefined) {
             $scope.searchGrpName = $routeParams.searchGrpName;
         }

@@ -1,7 +1,9 @@
-app.controller('IncidentReportController', function ($rootScope, $filter, $scope, IncidentService, IncidentGroupService, ResolutionService, ngTableParams, helperService) {
+app.controller('IncidentReportController', function ($rootScope, $filter, $scope, localStorageService, IncidentService, IncidentGroupService, ResolutionService, ngTableParams, helperService) {
     var data = [];
 
     $scope.init = function () {
+        localStorageService.remove("incidentCreateButtonClicked");
+        localStorageService.remove("incidentEditMode");
         IncidentService.getIncidents().then(
             function success(response) {
                 data = response;

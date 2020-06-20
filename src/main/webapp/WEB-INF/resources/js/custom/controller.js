@@ -113,9 +113,16 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
         $location.path("/main");
     };
 
+    // sleep time expects milliseconds
+    function sleep(time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+
     $scope.login = function (credentials) {
         $scope.$emit('event:loginRequest', credentials.email, credentials.password);
-        $location.path($rootScope.navigateTo);
+        sleep(20).then(() => {
+            $location.path($rootScope.navigateTo);
+        });
     };
 
     $scope.$on('event:auth-login-failed', function (e, status) {

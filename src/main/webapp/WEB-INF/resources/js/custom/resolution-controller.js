@@ -1,4 +1,4 @@
-app.controller('ResolutionController', function ($rootScope, $scope, OwnersService, ResolutionService, $location, $routeParams, IncidentGroupService, ReferenceDataService, ModalService) {
+app.controller('ResolutionController', function ($rootScope, $scope, OwnersService, localStorageService, ResolutionService, $location, $routeParams, IncidentGroupService, ReferenceDataService, ModalService) {
 
     $scope.resolution = {};
     $scope.hideDuringLoading = false;
@@ -419,6 +419,8 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
 
     // to keep track where we left off so when we click on back/cancel button return to same search results
     $scope.setRouteSearchParms = function () {
+        localStorageService.remove("incidentCreateButtonClicked");
+        localStorageService.remove("incidentEditMode");
         if ($routeParams.searchGrpName !== undefined) {
             $scope.searchGrpName = $routeParams.searchGrpName;
         }
