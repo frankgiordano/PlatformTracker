@@ -24,7 +24,7 @@ import us.com.plattrk.util.RepositoryUtil;
 public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepository {
 
     private static final Logger log = LoggerFactory.getLogger(IncidentResolutionRepositoryImpl.class);
-    private static final String TYPE = "IncidentResolution";
+    private static final String TYPE = "Resolution";
 
     @Autowired
     private RepositoryUtil<IncidentResolution> repositoryUtil;

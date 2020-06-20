@@ -93,7 +93,7 @@ public class RepositoryUtil<T> {
                     newQueryStr.append(" and " + clause);
                 }
                 break;
-            case "incidentresolution":
+            case "resolution":
                 clause = "lower(res.owner) = (:owner) ";
                 if (!foundWhere) {
                     newQueryStr.append(" where " + clause);
