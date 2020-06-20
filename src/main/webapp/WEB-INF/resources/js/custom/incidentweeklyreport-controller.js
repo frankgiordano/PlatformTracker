@@ -1,4 +1,4 @@
-app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, localStorageService, IncidentService, IncidentGroupService, helperService, ProductService) {
+app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, localStorageService, IncidentService, helperService, ProductService) {
     
     localStorageService.remove("incidentCreateButtonClicked");
     localStorageService.remove("incidentEditMode");

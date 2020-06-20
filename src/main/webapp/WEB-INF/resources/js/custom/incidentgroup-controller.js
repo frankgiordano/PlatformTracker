@@ -1,4 +1,4 @@
-app.controller('IncidentGroupController', function ($routeParams, $location, $rootScope, $scope, localStorageService, IncidentGroupService, groupStatuses, ModalService) {
+app.controller('IncidentGroupController', function ($rootScope, $scope, localStorageService, IncidentGroupService, groupStatuses, ModalService) {
     // set the defaults
     $scope.groupStatuses = groupStatuses;
     $scope.selectedGroup = null;
