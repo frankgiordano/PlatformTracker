@@ -98,12 +98,14 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     };
 
     $scope.setSearchOwner = function (userName) {
+        $scope.searchAssignee = userName;
         for (var i in $scope.assignees) {
             if ($scope.assignees[i].userName === userName) {
                 $scope.assignees[i].ticked = true;
                 break;
             }
         }
+        $scope.getData($scope.pageno);
     };
 
     $scope.waiting = function (value) {
@@ -879,8 +881,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             $scope.searchDesc = $routeParams.searchDesc;
         }
         if ($routeParams.searchAssignee !== undefined) {
-            $scope.searchAssignee = $routeParams.searchAssignee;
-            $scope.setSearchOwner($scope.searchAssignee);
+            $scope.setSearchOwner($routeParams.searchAssignee);
         }
         if ($routeParams.pageno !== undefined) {
             $scope.pageno = $routeParams.pageno;

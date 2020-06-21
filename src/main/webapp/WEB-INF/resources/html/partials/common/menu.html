@@ -26,7 +26,7 @@ body {
 						<ul>
 							<li class="dropdown-header">Incident</li>
                             <li><a href='#/incident/create'>Create</a></li>
-							<li><a ng-href="{{link}}" ng-click="$event.preventDefault(); linkClicked('/incident/search')">Search</a></li>
+							<li><a ng-href="{{link}}" ng-click="$event.preventDefault(); clearLocalStorage(); linkClicked('/incident/search');">Search</a></li>
                             <li><a ng-href="{{link}}" ng-click="$event.preventDefault(); linkClicked('/incident/fromgroupsearch')">Search By Group</a></li>         				
 						</ul>
 					</li>

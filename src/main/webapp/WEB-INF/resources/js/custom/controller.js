@@ -84,7 +84,7 @@ app.value('alerted_bys', [{
     value: 'Unknown'
 }]);
 
-app.controller('MainController', function ($route, $rootScope, $scope, $location) {
+app.controller('MainController', function ($route, $rootScope, $scope, $location, localStorageService) {
 
     var SAVE_ERROR_MSG = "_SAVE_FAILURE - ";
     var CHECK_REQUIRED_FIELDS_MSG = "Check required fields: ";
@@ -107,6 +107,11 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
         $route.reload();
         $location.path(link);
     };
+
+    $scope.clearLocalStorage = function () {
+        localStorageService.remove('incidentCreateButtonClicked'); 
+        localStorageService.remove('incidentEditMode');
+    }
 
     $scope.logout = function () {
         $scope.$emit('event:logoutRequest');
