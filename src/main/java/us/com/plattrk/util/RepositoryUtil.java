@@ -85,6 +85,7 @@ public class RepositoryUtil<T> {
         boolean foundWhere = newQueryStr.toString().toLowerCase().contains("where");
         String clause;
         String tablePrefix = "";
+
         switch (type.toLowerCase()) {
             case "incident":
                 tablePrefix = "i";
@@ -102,11 +103,11 @@ public class RepositoryUtil<T> {
                 tablePrefix = "pd";
                 break;
         }
+
         if (!tablePrefix.isEmpty()) {
             clause = "lower(" + tablePrefix + ".owner) = (:owner) ";
             appendWhereClause(newQueryStr, foundWhere, clause);
         }
-
     }
 
     private void appendWhereClause(StringBuilder newQueryStr, boolean foundWhere, String clause) {
