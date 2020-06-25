@@ -82,49 +82,38 @@ public class RepositoryUtil<T> {
     }
 
     private void setAdditionalQueryClause(StringBuilder newQueryStr, String type) {
-        boolean foundWhere = newQueryStr.toString().contains("where");
+        boolean foundWhere = newQueryStr.toString().toLowerCase().contains("where");
         String clause;
+        String tablePrefix = "";
         switch (type.toLowerCase()) {
             case "incident":
-                clause = "lower(i.owner) = (:owner) ";
-                if (!foundWhere) {
-                    newQueryStr.append(" where " + clause);
-                } else {
-                    newQueryStr.append(" and " + clause);
-                }
+                tablePrefix = "i";
                 break;
             case "resolution":
-                clause = "lower(res.owner) = (:owner) ";
-                if (!foundWhere) {
-                    newQueryStr.append(" where " + clause);
-                } else {
-                    newQueryStr.append(" and " + clause);
-                }
+                tablePrefix = "res";
                 break;
             case "rca":
-                clause = "lower(rc.owner) = (:owner) ";
-                if (!foundWhere) {
-                    newQueryStr.append(" where " + clause);
-                } else {
-                    newQueryStr.append(" and " + clause);
-                }
+                tablePrefix = "rc";
                 break;
             case "project":
-                clause = "lower(pr.owner) = (:owner) ";
-                if (!foundWhere) {
-                    newQueryStr.append(" where " + clause);
-                } else {
-                    newQueryStr.append(" and " + clause);
-                }
+                tablePrefix = "pr";
                 break;
             case "product":
-                clause = "lower(pd.owner) = (:owner) ";
-                if (!foundWhere) {
-                    newQueryStr.append(" where " + clause);
-                } else {
-                    newQueryStr.append(" and " + clause);
-                }
+                tablePrefix = "pd";
                 break;
+        }
+        if (!tablePrefix.isEmpty()) {
+            clause = "lower(" + tablePrefix + ".owner) = (:owner) ";
+            appendWhereClause(newQueryStr, foundWhere, clause);
+        }
+
+    }
+
+    private void appendWhereClause(StringBuilder newQueryStr, boolean foundWhere, String clause) {
+        if (!foundWhere) {
+            newQueryStr.append(" where " + clause);
+        } else {
+            newQueryStr.append(" and " + clause);
         }
     }
 
