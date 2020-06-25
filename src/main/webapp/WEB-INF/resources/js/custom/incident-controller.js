@@ -149,7 +149,8 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                 var createButtonClicked = localStorageService.get("incidentCreateButtonClicked");
                 var incidentEditMode = localStorageService.get("incidentEditMode");
                 if (incidentEditMode === null && $scope.clearButtonClicked === false && $scope.userFirstChanged === false && createButtonClicked === null) {
-                    $scope.setSearchOwner($rootScope.user.username);
+                    if ($rootScope.user)
+                        $scope.setSearchOwner($rootScope.user.username);
                 }            
             },
             function error() {
@@ -161,6 +162,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     })();
 
     $scope.createSetup = function () {
+        $scope.checkLoginUser();
         $scope.setRouteSearchParms();
         // make sure it is the create screen no id in url
         if ($routeParams.id === null || $routeParams.id === undefined) {
@@ -201,6 +203,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     };
 
     $scope.editIncidentSetup = function () {
+        $scope.checkLoginUser();
         localStorageService.set("incidentEditMode", true);  // set to any value we only check if is exist
         $scope.setRouteSearchParms();
         IncidentService.getIncidentPlus($routeParams.id).then(

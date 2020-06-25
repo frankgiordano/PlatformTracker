@@ -130,6 +130,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     })();
 
     $scope.createSetup = function () {
+        $scope.checkLoginUser();
         $scope.setRouteSearchParms();
         // make sure it is the create screen no id in url
         if ($routeParams.id === null || $routeParams.id === undefined) {
@@ -187,6 +188,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     };
 
     $scope.getIncidentResolution = function () {
+        $scope.checkLoginUser();
         $scope.setRouteSearchParms();
         ResolutionService.getIncidentResolution($routeParams.id).then(
             function success(response) {

@@ -19,7 +19,7 @@
         <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
         <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
         <form class="form-horizontal" name="productForm" novalidate role="form">
-            <div data-ng-init="init()">
+            <div data-ng-init="createSetup()">
                 <div class="form-group" ng-class="{ 'has-error' : productForm.platform.$invalid && submitted }">
                     <label class="col-sm-2 control-label">Platform</label>
                     <div class="col-sm-6">

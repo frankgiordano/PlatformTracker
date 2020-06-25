@@ -16,6 +16,11 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
         $scope.setRouteSearchParms();
     };
 
+    $scope.createSetup = function () {
+        $scope.checkLoginUser();
+        $scope.setRouteSearchParms();
+    }
+
     $scope.getData = function (pageno) {
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
@@ -134,8 +139,8 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
     })();
 
     $scope.select = function (product) {
+        $scope.checkLoginUserFromLocalStorage();
         $scope.selectedProduct = product;
-
         $scope.selectedProduct.startDate = moment($scope.selectedProduct.startDate).format('YYYY-MM-DD');
         if ($scope.selectedProduct.endDate)
             $scope.selectedProduct.endDate = moment($scope.selectedProduct.endDate).format('YYYY-MM-DD');

@@ -160,6 +160,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     })();
 
     $scope.createSetup = function () {
+        $scope.checkLoginUser();
         $scope.setRouteSearchParms();
         // make sure it is the create screen no id in url
         if ($routeParams.id === null || $routeParams.id === undefined) {
@@ -217,6 +218,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     };
 
     $scope.getRca = function () {
+        $scope.checkLoginUser();
         $scope.setRouteSearchParms();
         RcaService.getRca($routeParams.id).then(
             function success(response) {
@@ -414,6 +416,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     };
 
     $scope.createResolution = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $scope.resolution = {};
         popitup('/plattrk/#/resolution/create/fromRootCause/' + $scope.rca.incidentGroup.id);
     };

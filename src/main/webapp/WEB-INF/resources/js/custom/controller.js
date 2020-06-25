@@ -113,6 +113,23 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
         localStorageService.remove('incidentEditMode');
     }
 
+    $scope.checkLoginUser = function () {
+        if ($rootScope.user === null) {
+            $scope.$emit('event:logoutRequest');
+        }
+    }
+
+    // this is a workaround method in place of $scope.checkLoginUser 
+    // use for those screens where ng-hide is used or child popup screen
+    // to handle the parent screen.. 
+    $scope.checkLoginUserFromLocalStorage = function () {
+        $rootScope.user = localStorageService.get('localStorageUser');
+        if ($rootScope.user === null) {
+            $scope.$emit('event:logoutRequest');
+            $location.path("/main");
+        }
+    }
+
     $scope.logout = function () {
         $scope.$emit('event:logoutRequest');
         $location.path("/main");

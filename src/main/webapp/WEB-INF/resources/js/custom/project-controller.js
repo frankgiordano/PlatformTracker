@@ -125,6 +125,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     })();
 
     $scope.createSetup = function () {
+        $scope.checkLoginUser();
         $scope.setRouteSearchParms();
         // make sure it is the create screen no id in url
         if ($routeParams.id === null || $routeParams.id === undefined) {
@@ -169,6 +170,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     };
 
     $scope.getProject = function () {
+        $scope.checkLoginUser();
         $scope.setRouteSearchParms();
         ProjectService.getProject($routeParams.id).then(
             function success(response) {
@@ -398,6 +400,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     };
 
     $scope.linkResolutions = function (project) {
+        $scope.checkLoginUserFromLocalStorage();
         $scope.resolution = {};
         popitup('/plattrk/#/resolution/linkProject/' + project.id);
     };

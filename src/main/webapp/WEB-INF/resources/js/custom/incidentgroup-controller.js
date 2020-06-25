@@ -189,11 +189,13 @@ app.controller('IncidentGroupController', function ($rootScope, $scope, localSto
     };
 
     $scope.createRes = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $scope.clearDisplayMessages();
         $scope.createResolution = true;
     };
 
     $scope.createRCA = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $scope.clearDisplayMessages();
         $scope.createRootCA = true;
     };
