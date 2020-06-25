@@ -125,7 +125,7 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
 
     $scope.login = function (credentials) {
         $scope.$emit('event:loginRequest', credentials.email, credentials.password);
-        sleep(20).then(() => {
+        sleep(2).then(() => {
             $location.path($rootScope.navigateTo);
         });
     };
