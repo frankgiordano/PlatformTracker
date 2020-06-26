@@ -149,8 +149,10 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                 var createButtonClicked = localStorageService.get("incidentCreateButtonClicked");
                 var incidentEditMode = localStorageService.get("incidentEditMode");
                 if (incidentEditMode === null && $scope.clearButtonClicked === false && $scope.userFirstChanged === false && createButtonClicked === null) {
-                    if ($rootScope.user)
+                    if ($rootScope.user) {
                         $scope.setSearchOwner($rootScope.user.username);
+                        $scope.getData($scope.pageno);  // workaround to handle timing issue when loading page first time after app deployment
+                    }
                 }            
             },
             function error() {

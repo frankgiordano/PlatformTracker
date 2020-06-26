@@ -46,8 +46,7 @@ app.config(function ($httpProvider) {
                 .when(
                     '/incident/search', {
                     controller: 'IncidentController',
-                    templateUrl: 'resources/html/partials/view/incident/search.html',
-                    reloadOnSearch: false
+                    templateUrl: 'resources/html/partials/view/incident/search.html'
                 })
                 .when(
                     '/incident/search/:pageno/:searchTag/:searchDesc/:searchAssignee', {
