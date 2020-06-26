@@ -17,7 +17,7 @@
             <h2>Create Product</h2>
         </div>
         <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-        <div id="messages" class="alert alert-danger" data-ng-show="errormessages" data-ng-bind="errormessages"></div>
+        <div id="messages" class="alert alert-danger" data-ng-show="errorMessages" data-ng-bind="errorMessages"></div>
         <form class="form-horizontal" name="productForm" novalidate role="form">
             <div data-ng-init="createSetup()">
                 <div class="form-group" ng-class="{ 'has-error' : productForm.platform.$invalid && submitted }">
