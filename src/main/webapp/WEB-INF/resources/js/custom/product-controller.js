@@ -72,7 +72,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
             }
             if (assignees.length > 1)
                 $scope.searchAssignee = assignees.substring(1, assignees.length);
-        } 
+        }
     };
 
     $scope.clearFilters = function () {
@@ -146,6 +146,11 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
             $scope.selectedProduct.endDate = moment($scope.selectedProduct.endDate).format('YYYY-MM-DD');
 
         $scope.disableButton = false;
+
+        // clear out previous owner, make click false
+        for (var j in $scope.owners) {
+            $scope.owners[j].ticked = false;
+        }
 
         var owners = $scope.selectedProduct.owner;
         var ownersList = [];
