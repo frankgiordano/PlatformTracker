@@ -1,23 +1,105 @@
-app.controller('IncidentReportController', function ($rootScope, $filter, $scope, localStorageService, IncidentService, IncidentGroupService, ResolutionService, ngTableParams, helperService) {
-    var data = [];
+app.controller('IncidentReportController', function ($rootScope, $scope, localStorageService, OwnersService, IncidentService, ResolutionService, helperService) {
+
+    $scope.pageno = 1; // initialize page num to 1
+    $scope.searchTag = "";
+    $scope.searchDesc = "";
+    $scope.assignee = "";
+    $scope.searchAssignee = "";
+    $scope.totalCount = 0;
+    $scope.itemsPerPage = 10;
 
     $scope.init = function () {
         localStorageService.remove("incidentCreateButtonClicked");
         localStorageService.remove("incidentEditMode");
-        IncidentService.getIncidents().then(
+    };
+
+    $scope.getData = function (pageno) {
+        $scope.pageno = pageno;
+        $scope.currentPage = pageno;
+        var search = {
+            pageno: $scope.pageno,
+            tag: $scope.searchTag,
+            desc: $scope.searchDesc,
+            assignee: $scope.searchAssignee
+        };
+        $scope.checkFilters(search);
+        IncidentService.search(search, pageno).then(
             function success(response) {
-                data = response;
-                $scope.tableParams.total(data.length);
-                $scope.tableParams.reload();
-                $scope.tableParams.sorting({ startTime: 'desc' });
+                $scope.data = response;
+            },
+            function error() {
+                $scope.errorMessages = "INCIDENTS_GET_FAILURE - Retrieving incidents failed, check logs or try again.";
+            });
+    };
+
+    $scope.checkFilters = function (search) {
+        if (search.tag.trim() === "")
+            search.tag = '*';
+        if (search.desc.trim() === "")
+            search.desc = '*';
+        if (search.assignee === "")
+            search.assignee = '*';
+    }
+
+    $scope.sort = function (keyName) {
+        $scope.sortKey = keyName;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    };
+
+    $scope.$watch("searchTag", function (val) {
+        $scope.checkForAssignees();
+        $scope.getData($scope.pageno);
+    }, true);
+
+    $scope.$watch("searchDesc", function (val) {
+        $scope.checkForAssignees();
+        $scope.getData($scope.pageno);
+    }, true);
+
+    $scope.$watch("assigneeList", function (val) {
+        $scope.checkForAssignees();
+        $scope.getData($scope.pageno);
+    }, true);
+
+    $scope.checkForAssignees = function () {
+        if ($scope.assigneeList != null && $scope.assigneeList.length > 0) {
+            var assignees = "";
+            for (i = 0; i < $scope.assigneeList.length; i++) {
+                assignees = assignees + "|" + $scope.assigneeList[i].userName;
+            }
+            if (assignees.length > 1) {
+                $scope.searchAssignee = assignees.substring(1, assignees.length);
+                $scope.userFirstChanged = true;
+            }
+        }
+    };
+
+    $scope.clearFilters = function () {
+        $scope.clearButtonClicked = true;
+        $scope.searchTag = "";
+        $scope.searchDesc = "";
+        $scope.searchAssignee = "";
+        for (var i in $scope.assigneeList) {
+            for (var j in $scope.assignees) {
+                if ($scope.assigneeList[i].userName === $scope.assignees[j].userName) {
+                    $scope.assignees[j].ticked = false;
+                }
+            }
+        }
+    };
+
+    (function () {
+        OwnersService.getOwners().then(
+            function success(response) {
+                $scope.assignees = response;
             },
             function error() {
                 $rootScope.errors.push({
-                    code: "INCIDENTS_GET_FAILURE",
-                    message: "Error retrieving incidents."
+                    code: "OWNERS_GET_FAILURE",
+                    message: "Error retrieving owners."
                 });
             });
-    };
+    })();
 
     $scope.getGroup = function (id) {
         $scope.clearMsg();
@@ -166,45 +248,5 @@ app.controller('IncidentReportController', function ($rootScope, $filter, $scope
                 });
             });
     };
-
-    // this method is not currently being used
-    $scope.incidentSearch = function () {
-        IncidentGroupService.getGroupIncidents($scope.selectedGroup.id).then(
-            function success(response) {
-                data = response;
-                $scope.tableParams.total(data.length);
-                $scope.tableParams.reload();
-                $scope.tableParams.sorting({ startTime: 'desc' });
-            },
-            function error() {
-                $rootScope.errors.push({
-                    code: "GROUPS_GET_FAILURE",
-                    message: "Error retrieving groups."
-                });
-            });
-    };
-
-    $scope.tableParams = new ngTableParams({
-        page: 1, // show first page
-        count: 10, // count per page
-        sorting: {
-            startTime: 'desc' // initial sorting
-        }
-    }, {
-        total: data.length, // length of data
-        getData: function ($defer, params) {
-            // use build-in angular filter
-            var filteredData = params.filter() ?
-                $filter('filter')(data, params.filter()) :
-                data;
-
-            var orderedData = params.sorting() ?
-                $filter('orderBy')(filteredData, params.orderBy()) :
-                data;
-
-            params.total(orderedData.length); // set total for recalc pagination
-            $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-        }
-    });
 
 });
