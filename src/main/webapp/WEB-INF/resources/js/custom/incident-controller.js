@@ -94,7 +94,6 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                 }
             }
         }
-        $location.path('/incident/search');
     };
 
     $scope.setSearchOwner = function (userName) {

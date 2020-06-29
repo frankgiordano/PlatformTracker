@@ -85,7 +85,6 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
                 }
             }
         }
-        $location.path('/resolution/search');
     };
 
     $scope.setSearchOwner = function () {

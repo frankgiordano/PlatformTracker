@@ -86,7 +86,6 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                 }
             }
         }
-        $location.path('/rootcause/search');
     };
 
     $scope.setSearchOwner = function () {

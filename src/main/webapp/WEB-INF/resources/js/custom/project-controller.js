@@ -75,7 +75,6 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                 }
             }
         }
-        $location.path('/project/search');
     };
 
     $scope.setSearchOwner = function () {

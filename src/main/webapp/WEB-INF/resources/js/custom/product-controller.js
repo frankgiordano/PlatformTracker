@@ -85,7 +85,6 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
                 }
             }
         }
-        $location.path('/product/search');
     };
 
     $scope.setSearchOwner = function () {
