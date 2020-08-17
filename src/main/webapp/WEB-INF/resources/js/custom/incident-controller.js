@@ -29,7 +29,9 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         $scope.checkFilters(search);
         IncidentService.search(search, pageno).then(
             function success(response) {
-                $scope.data = response;
+                $scope.$apply(function() {
+                    $scope.data = response;
+                }
             },
             function error() {
                 $scope.errorMessages = "INCIDENTS_GET_FAILURE - Retrieving incidents failed, check logs or try again.";
