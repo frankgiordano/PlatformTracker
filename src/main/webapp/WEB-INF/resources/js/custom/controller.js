@@ -29,20 +29,20 @@ app.value('recipents', [{
 }]);
 
 app.value('platforms', [{
-    name: 'GEN0',
-    value: 'GEN0'
+    name: 'Code',
+    value: 'Code'
 }, {
-    name: 'GEN1',
-    value: 'GEN1'
+    name: 'Linux',
+    value: 'Linux'
 }, {
-    name: 'GEN2',
-    value: 'GEN2'
+    name: 'Windows',
+    value: 'Windows'
 }, {
-    name: 'GEN3',
-    value: 'GEN3'
+    name: 'z//OS',
+    value: 'z//OS'
 }, {
-    name: 'n\\a',
-    value: 'n\\a'
+    name: 'other',
+    value: 'other'
 }]);
 
 app.value('severities', [{

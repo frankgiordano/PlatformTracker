@@ -81,8 +81,6 @@ Insert into Reference_Data (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (200, "
 Insert into Reference_Data (ID,DESCRIPTION,DISPLAY_NAME,GROUP_ID) values (201, "DOWN", "DOWN", 10);
 
 --Error Condition
-delete from Error_Condition
-commit;
 INSERT INTO Error_Condition(error_id,name) VALUES (1,'Application process not running');
 INSERT INTO Error_Condition(error_id,name) VALUES (2,'Database errors in Logs');
 INSERT INTO Error_Condition(error_id,name) VALUES (3,'Database Integrity Errors');
@@ -92,6 +90,5 @@ INSERT INTO Error_Condition(error_id,name) VALUES (6,'None Detected');
 INSERT INTO Error_Condition(error_id,name) VALUES (7,'Service not responding');
 INSERT INTO Error_Condition(error_id,name) VALUES (8,'Software error-failure');
 INSERT INTO Error_Condition(error_id,name) VALUES (9,'System failure notification');
-INSERT INTO Error_Condition(error_id,name) VALUES (9,'');
 
 commit;
