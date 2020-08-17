@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "reference_data")
+@Table(name = "Reference_Data")
 @Cacheable(true)
 @NamedQueries({
         @NamedQuery(name = ReferenceData.FIND_REFERENCES_BY_GROUP_ID,
