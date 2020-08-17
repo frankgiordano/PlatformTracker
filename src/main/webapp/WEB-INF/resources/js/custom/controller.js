@@ -38,10 +38,10 @@ app.value('platforms', [{
     name: 'Windows',
     value: 'Windows'
 }, {
-    name: 'z//OS',
-    value: 'z//OS'
+    name: 'z/OS',
+    value: 'z/OS'
 }, {
-    name: 'other',
+    name: 'Other',
     value: 'other'
 }]);
 
