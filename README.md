@@ -93,7 +93,7 @@ NOTE: You might run into the following issue https://stackoverflow.com/questions
   		<user username="admin" password="admin" roles="manager-gui,manager-script"/>
 	</tomcat-users>
 
-2 - Add the following to maven's settings.xml file located in maven's conf directory:
+2 - Add the following to maven's settings.xml file located in maven's conf directory or on Linux under its root directory:
 
 	<server>
 		<id>TomcatServer</id>
@@ -101,7 +101,7 @@ NOTE: You might run into the following issue https://stackoverflow.com/questions
 		<password>admin</password>
 	</server>
 
-3 - Check the project's pom.xml and make sure the following are set in org.apache.tomcat.maven plugin under <configuration> tag:
+3 - Check the project's pom.xml and make sure the following are set in org.apache.tomcat.maven plugin under configuration xml tag:
 
 	<username>admin</username>
 	<password>admin</password>
@@ -111,8 +111,10 @@ NOTE: You might run into the following issue https://stackoverflow.com/questions
 4 - From tomcat's bin directory, execute the following command to deploy the war deliverable within the tomcat server
 
 	startup
+	
+5 - Revert step 9 in above section. 
 
-5 - Now you can automatcially deploy to tomcat without the need to delete the project directory in tomcat, see step 11
+6 - Now you can automatcially deploy to tomcat without the need to delete the project war file in tomcat's webapps directory, see step 12 in above section.
 
 	mvn clean install (optional - if you need this check your IDE's .settings and .classpath settings are Java 1.8 specified)
 	mvn tomcat7:deploy
