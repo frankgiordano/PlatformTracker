@@ -90,5 +90,6 @@ INSERT INTO Error_Condition(error_id,name) VALUES (6,'None Detected');
 INSERT INTO Error_Condition(error_id,name) VALUES (7,'Service not responding');
 INSERT INTO Error_Condition(error_id,name) VALUES (8,'Software error-failure');
 INSERT INTO Error_Condition(error_id,name) VALUES (9,'System failure notification');
+INSERT INTO Error_Condition(error_id,name) VALUES (10,'');
 
 commit;
