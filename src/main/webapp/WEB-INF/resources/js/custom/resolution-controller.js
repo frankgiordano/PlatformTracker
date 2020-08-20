@@ -16,6 +16,8 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     };
 
     $scope.getData = function (pageno) {
+        if ($location.absUrl().indexOf('create') !== -1)
+            return;
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
         var search = {
