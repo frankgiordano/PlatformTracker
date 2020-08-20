@@ -229,7 +229,7 @@ app.controller('IncidentReportController', function ($rootScope, $scope, localSt
                         "Incident.Name": selectedIncident.name,
                         "Incident.Summary": selectedIncident.summary,
                         "Incident.Description": selectedIncident.description,
-                        "Incident.Report Owner": selectedIncident.reportOwner,
+                        "Incident.Report Owner": selectedIncident.owner,
                         "Incident.Start Date": startDate,
                         "Incident.Customer Impact": selectedIncident.customerImpact,
                         "products": $scope.selectedProducts,
