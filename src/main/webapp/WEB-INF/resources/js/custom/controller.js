@@ -51,6 +51,12 @@ app.value('severities', [{
 }, {
     name: 'P2',
     value: 'P2'
+}, {
+    name: 'P3',
+    value: 'P3'
+}, {
+    name: 'P4',
+    value: 'P4'
 }]);
 
 app.value('locuss', [{
