@@ -193,7 +193,7 @@
                                             <tr ng-repeat="item in chronologies | orderBy: 'dateTime'">
                                                 <td>{{item.id}}</td>
                                                 <td>{{item.dateTime | dateFormat}}</td>
-                                                <td>{{item.description}}</td>
+                                                <td style="white-space:pre-wrap; word-wrap:break-word">{{item.description}}</td>
                                                 <td>{{item.recordedBy}}</td>
                                                 <td>
                                                     <a href="#" class="" onclick="event.preventDefault()"
