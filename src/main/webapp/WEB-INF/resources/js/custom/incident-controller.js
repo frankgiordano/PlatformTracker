@@ -12,7 +12,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     $scope.data = [];
     $scope.clearButtonClicked = false;
     $scope.userFirstChanged = false;
-    $scope.previousSearch = "";
+    $scope.previousSearch = {};
 
     $scope.init = function () {
         $scope.setRouteSearchParms();
@@ -23,7 +23,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         if (url.indexOf('create') !== -1 || url.indexOf('edit') !== -1) 
          return true;
 
-        if ($scope.previousSearch !== "") {
+        if ($scope.previousSearch.pageno !== undefined) {
             if ($scope.previousSearch.pageno === search.pageno &&
                 $scope.previousSearch.tag === search.tag &&
                 $scope.previousSearch.desc === search.desc &&
@@ -31,10 +31,17 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
                 return true;
         }
 
-        $scope.previousSearch.pageno = search.pageno; 
-        $scope.previousSearch.tag = search.tag;
-        $scope.previousSearch.desc = search.desc; 
-        $scope.previousSearch.assignee = search.assignee;
+        $scope.previousSearch = {
+            pageno: search.pageno+"",
+            tag: search.tag,
+            desc: search.desc,
+            assignee: search.assignee
+        }
+
+        // $scope.previousSearch.pageno = search.pageno; 
+        // $scope.previousSearch.tag = search.tag;
+        // $scope.previousSearch.desc = search.desc; 
+        // $scope.previousSearch.assignee = search.assignee;
 
         return false;
     }
