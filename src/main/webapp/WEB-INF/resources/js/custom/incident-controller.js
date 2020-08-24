@@ -12,14 +12,35 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
     $scope.data = [];
     $scope.clearButtonClicked = false;
     $scope.userFirstChanged = false;
+    $scope.previousSearch = "";
 
     $scope.init = function () {
         $scope.setRouteSearchParms();
     };
 
+    $scope.avoidRefresh = function (search) {
+        var url = $location.absUrl();
+        if (url.indexOf('create') !== -1 || url.indexOf('edit') !== -1) 
+         return true;
+
+        if ($scope.previousSearch !== "") {
+            if ($scope.previousSearch.pageno === search.pageon &&
+                $scope.previousSearch.tag === search.tag &&
+                $scope.previousSearch.desc === search.desc &&
+                $scope.previousSearch.assignee === search.assignee)
+                return true;
+        }
+
+        $scope.previousSearch.pageno = search.pageon; 
+        $scope.previousSearch.tag = search.tag;
+        $scope.previousSearch.desc = search.desc; 
+        $scope.previousSearch.assignee = search.assignee;
+
+        return false;
+    }
+
+    // this method is all used to refresh screen screen. 
     $scope.getData = function (pageno) {
-        if ($location.absUrl().indexOf('create') !== -1)
-            return;
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
         var search = {
@@ -28,6 +49,8 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
             desc: $scope.searchDesc,
             assignee: $scope.searchAssignee
         };
+        if ($scope.avoidRefresh(search) === true)
+            return;
         $scope.checkFilters(search);
         IncidentService.search(search, pageno).then(
             function success(response) {
