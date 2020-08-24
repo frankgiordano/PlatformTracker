@@ -24,14 +24,14 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
          return true;
 
         if ($scope.previousSearch !== "") {
-            if ($scope.previousSearch.pageno === search.pageon &&
+            if ($scope.previousSearch.pageno === search.pageno &&
                 $scope.previousSearch.tag === search.tag &&
                 $scope.previousSearch.desc === search.desc &&
                 $scope.previousSearch.assignee === search.assignee)
                 return true;
         }
 
-        $scope.previousSearch.pageno = search.pageon; 
+        $scope.previousSearch.pageno = search.pageno; 
         $scope.previousSearch.tag = search.tag;
         $scope.previousSearch.desc = search.desc; 
         $scope.previousSearch.assignee = search.assignee;
