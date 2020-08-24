@@ -39,7 +39,7 @@ I posted this project for educational proposes, and I intend to continue to poli
 	factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
 	username="xxxxxx"
 	password="xxxxxx"
-	driverClassName="com.mysql.jdbc.Driver"
+	driverClassName="com.mysql.cj.jdbc.Driver"
 	url="jdbc:mysql://localhost:3306/plattrk"
 	maxActive="15"
 	maxIdle="3"/>
