@@ -24,7 +24,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
          return true;
 
         if ($scope.previousSearch.pageno !== undefined) {
-            if ($scope.previousSearch.pageno === search.pageno &&
+            if ($scope.previousSearch.pageno === search.pageno+"" &&
                 $scope.previousSearch.tag === search.tag &&
                 $scope.previousSearch.desc === search.desc &&
                 $scope.previousSearch.assignee === search.assignee)
