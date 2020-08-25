@@ -43,6 +43,7 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
 
     // this method is all used to refresh screen screen. 
     $scope.getData = function (pageno) {
+        $scope.errorMessages = null;
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
         var search = {

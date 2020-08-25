@@ -17,6 +17,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     };
 
     $scope.getData = function (pageno) {
+        $scope.errorMessages = null;
         if ($location.absUrl().indexOf('create') !== -1)
             return;
         $scope.pageno = pageno;
@@ -33,7 +34,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                 $scope.data = response;
             },
             function error() {
-                $scope.errorMessages = "RCA_GET_FAILURE - Retrieving root causes failed, check logs or try again.";
+                $scope.errorMessages = "ROOTCAUSES_GET_FAILURE - Retrieving root causes failed, check logs or try again.";
             });
     };
 

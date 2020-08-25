@@ -15,6 +15,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     };
 
     $scope.getData = function (pageno) {
+        $scope.errorMessages = null;
         if ($location.absUrl().indexOf('create') !== -1)
            return;
         $scope.pageno = pageno;
@@ -30,7 +31,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                 $scope.data = response;
             },
             function error() {
-                $scope.errorMessages = "PROJECT_GET_FAILURE - Retrieving projects failed, check logs or try again.";
+                $scope.errorMessages = "PROJECTS_GET_FAILURE - Retrieving projects failed, check logs or try again.";
             });
     };
 

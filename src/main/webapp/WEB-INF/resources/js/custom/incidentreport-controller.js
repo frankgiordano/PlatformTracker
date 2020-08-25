@@ -14,6 +14,7 @@ app.controller('IncidentReportController', function ($rootScope, $scope, localSt
     };
 
     $scope.getData = function (pageno) {
+        $scope.errorMessages = null;
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
         var search = {

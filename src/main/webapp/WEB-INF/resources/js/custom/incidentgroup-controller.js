@@ -19,6 +19,7 @@ app.controller('IncidentGroupController', function ($rootScope, $scope, localSto
     };
 
     $scope.getData = function (pageno) {
+        $scope.errorMessages = null;        
         $scope.pageno = pageno;
         var search = {
             pageno: $scope.pageno,
@@ -31,7 +32,7 @@ app.controller('IncidentGroupController', function ($rootScope, $scope, localSto
                 $scope.data = response;
             },
             function error() {
-                $scope.errorMessages = "RESOLUTIONS_GET_FAILURE - Retrieving resolutions failed, check logs or try again.";
+                $scope.errorMessages = "GROUPS_GET_FAILURE - Retrieving groups failed, check logs or try again.";
             });
     };
 

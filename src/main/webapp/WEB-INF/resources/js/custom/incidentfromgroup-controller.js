@@ -1,5 +1,6 @@
 app.controller('IncidentFromGroupController', function ($routeParams, $location, $rootScope, localStorageService, $filter, $scope, IncidentGroupService, ngTableParams, groupStatuses) {
     $scope.init = function () {
+        $scope.errorMessages = null;
         localStorageService.remove("incidentCreateButtonClicked");
         localStorageService.remove("incidentEditMode");
         IncidentGroupService.getGroups().then(
@@ -10,10 +11,7 @@ app.controller('IncidentFromGroupController', function ($routeParams, $location,
                 }
             },
             function error() {
-                $rootScope.errors.push({
-                    code: "GROUPS_GET_FAILURE",
-                    message: "Error retrieving groups."
-                });
+                $scope.errorMessages = "GROUPS_GET_FAILURE - Retrieving groups for dropdown failed, check logs or try again.";
             });
     };
 

@@ -22,6 +22,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
     }
 
     $scope.getData = function (pageno) {
+        $scope.errorMessages = null;
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
         var search = {
@@ -35,10 +36,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
                 $scope.data = response;
             },
             function error() {
-                $rootScope.errors.push({
-                    code: "PRODUCTS_GET_FAILURE",
-                    message: "Error retrieving products."
-                });
+                $scope.errorMessages = "PRODUCTS_GET_FAILURE - Retrieving products failed, check logs or try again.";
             });
     };
 
