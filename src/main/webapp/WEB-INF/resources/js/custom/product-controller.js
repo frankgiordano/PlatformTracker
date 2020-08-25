@@ -23,6 +23,8 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
 
     $scope.getData = function (pageno) {
         $scope.errorMessages = null;
+        if ($location.absUrl().indexOf('create') !== -1)
+            return;
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
         var search = {
