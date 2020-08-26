@@ -19,11 +19,18 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
     $scope.createSetup = function () {
         $scope.checkLoginUser();
         $scope.setRouteSearchParms();
-    }
+    };
+
+    $scope.avoidRefresh = function () {
+        var url = $location.absUrl();
+        if (url.indexOf("search") === -1)
+           return true;
+        return false;
+    };
 
     $scope.getData = function (pageno) {
         $scope.errorMessages = null;
-        if ($location.absUrl().indexOf('create') !== -1)
+        if ($scope.avoidRefresh() === true)
             return;
         $scope.pageno = pageno;
         $scope.currentPage = pageno;

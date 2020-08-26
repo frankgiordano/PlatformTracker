@@ -16,9 +16,16 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
         $scope.setRouteSearchParms();
     };
 
+    $scope.avoidRefresh = function () {
+        var url = $location.absUrl();
+        if (url.indexOf("search") === -1)
+            return true;
+        return false;
+    };
+
     $scope.getData = function (pageno) {
         $scope.errorMessages = null;
-        if ($location.absUrl().indexOf('create') !== -1)
+        if ($scope.avoidRefresh() === true)
             return;
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
@@ -359,6 +366,12 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
             return x.name
         }).join('|');
 
+        // handle lost DB connect.. if end user refreshes page fields will be empty
+        if ($scope.status === undefined) {
+            $scope.errorMessages = $rootScope.RC_SAVE_ERROR_MSG;
+            $scope.waiting(false);
+            return;
+        }
         var statusId = $scope.status.filter(function (item) {
             return item.id === $scope.rca.status.id;
         });

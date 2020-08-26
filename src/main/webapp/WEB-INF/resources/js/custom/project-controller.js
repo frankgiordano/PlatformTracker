@@ -14,10 +14,17 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         $scope.setRouteSearchParms();
     };
 
+    $scope.avoidRefresh = function () {
+        var url = $location.absUrl();
+        if (url.indexOf("search") === -1)
+            return true;
+        return false;
+    };
+
     $scope.getData = function (pageno) {
         $scope.errorMessages = null;
-        if ($location.absUrl().indexOf('create') !== -1)
-           return;
+        if ($scope.avoidRefresh() === true)
+            return;
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
         var search = {
@@ -65,7 +72,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             }
             if (assignees.length > 1)
                 $scope.searchAssignee = assignees.substring(1, assignees.length);
-        } 
+        }
     };
 
     $scope.clearFilters = function () {

@@ -548,6 +548,12 @@ app.controller('IncidentController', function ($rootScope, $scope, IncidentGroup
         });
 
         var applicationStatus;
+        // handle lost DB connect.. if end user refreshes page fields will be empty
+        if ($scope.applicationStatuses === undefined) {
+            $scope.errorMessages = $rootScope.INCIDENT_SAVE_ERROR_MSG;
+            $scope.waiting(false);
+            return
+        }
         Object.keys($scope.applicationStatuses).forEach(function (key) {
             if ($scope.applicationStatuses[key].displayName === $scope.incident.applicationStatus) {
                 applicationStatus = {
