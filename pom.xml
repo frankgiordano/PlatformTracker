@@ -330,7 +330,7 @@
                 <version>2.3</version>
                 <configuration>
                     <warName>plattrk</warName>
-                    <!-- <outputDirectory>C:\Users\giofr\Downloads\tools\apache-tomcat-7.0.99\webapps</outputDirectory> -->
+                     <!-- <outputDirectory>C:\Users\giofr\Downloads\tools\apache-tomcat-8.5.57\webapps</outputDirectory> -->
                 </configuration>
             </plugin>
 
