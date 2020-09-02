@@ -49,6 +49,8 @@ I posted this project for educational proposes, and I intend to continue to poli
                 idleConnectionTestPeriod="3000"
                 loginTimeout="300"
                 preferredTestQuery="SELECT 1"
+                privilegeSpawnedThreads="true"
+                contextClassLoaderSource="library"	
                 />
     
 5 - Install MySql server 8
