@@ -93,38 +93,44 @@ NOTE: You might run into the following issue https://stackoverflow.com/questions
 
 ## Alernate build and deploy method:
 
-1 - Add the following to tomcat's tomcat-users.txt file located in tomcat's conf directory:
+1 - Add the following to tomcat's tomcat-users.txt file located in tomcat's conf directory between tomcat-users tag:
 
-	<?xml version='1.0' encoding='utf-8'?>
-	<tomcat-users>
   		<role rolename="manager-script"/>
   		<role rolename="manager-gui"/>
   		<user username="admin" password="admin" roles="manager-gui,manager-script"/>
-	</tomcat-users>
+  		
+  	    or replace entire file with this content:
+  	    
+  	    <?xml version='1.0' encoding='utf-8'?>
+        <tomcat-users>
+          	<role rolename="manager-script"/>
+          	<role rolename="manager-gui"/>
+          	<user username="admin" password="admin" roles="manager-gui,manager-script"/>
+        </tomcat-users>
 
-2 - Add the following to maven's settings.xml file located in maven's conf directory or on Linux under its root directory:
+2 - Add the following to maven's settings.xml file located in maven's conf directory or on Linux under its root directory between servers tag:
 
-	<server>
-		<id>TomcatServer</id>
-		<username>admin</username>
-		<password>admin</password>
-	</server>
+	    <server>
+		    <id>TomcatServer</id>
+		    <username>admin</username>
+		    <password>admin</password>
+	    </server>
 
 3 - Check the project's pom.xml and make sure the following are set in org.apache.tomcat.maven plugin under configuration xml tag:
 
-	<username>admin</username>
-	<password>admin</password>
+	    <username>admin</username>
+	    <password>admin</password>
 
-    If not there please add.
+        If not there please add.
 
 4 - From tomcat's bin directory, execute the following command to deploy the war deliverable within the tomcat server
 
-	startup
+	    startup
 	
 5 - Revert step 9 in above section. 
 
 6 - Now you can automatically deploy to tomcat without the need to delete the project war file in tomcat's webapps directory, see step 12 in above section.
 
-	mvn clean install (optional - if you need this check your IDE's .settings and .classpath settings are Java 1.8 specified)
-	mvn tomcat7:deploy
-	mvn tomcat7:undeploy
+	    mvn clean install (optional - if you need this check your IDE's .settings and .classpath settings are Java 1.8 specified)
+	    mvn tomcat7:deploy
+	    mvn tomcat7:undeploy
