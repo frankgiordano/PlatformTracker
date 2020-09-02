@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>us.com.plattrk</groupId>
     <artifactId>plattrk</artifactId>
     <packaging>war</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>Platform Tracker</name>
-    <url>https://www.plattrk.com</url>
+    <url>https://www.platformtracker.com</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,7 +18,6 @@
         <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
         <hibernate.ehcache.version>5.3.6.Final</hibernate.ehcache.version>
         <jta.version>1.1</jta.version>
-        <c3p0.version>0.9.1.2</c3p0.version>
         <slf4j.version>1.6.6</slf4j.version>
         <cglib.version>2.2.2</cglib.version>
         <commons.collections.version>3.2.2</commons.collections.version>
@@ -43,7 +42,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -55,13 +53,11 @@
             <artifactId>jtds</artifactId>
             <version>${jtds.version}</version>
         </dependency>
-
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
             <version>1.2</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
@@ -127,13 +123,11 @@
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.ehcache.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.ehcache.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-osgi</artifactId>
@@ -169,34 +163,21 @@
             <artifactId>jackson-datatype-hibernate4</artifactId>
             <version>${jackson.datatype.hibernate4.version}</version>
         </dependency>
-	<!--	<dependency>
-            <groupId>c3p0</groupId>
+        <dependency>
+            <groupId>com.google.code.maven-play-plugin.com.mchange</groupId>
+            <artifactId>c3p0-oracle-thin-extras</artifactId>
+            <version>0.9.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>mchange-commons-java</artifactId>
+            <version>0.2.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
-            <version>${c3p0.version}</version>
-	</dependency>-->
-
-
-	    <dependency>
-        <groupId>com.google.code.maven-play-plugin.com.mchange</groupId>
-        <artifactId>c3p0-oracle-thin-extras</artifactId>
-        <version>0.9.5</version>
-    </dependency>
-
-    <dependency>
-        <groupId>com.mchange</groupId>
-        <artifactId>mchange-commons-java</artifactId>
-        <version>0.2.11</version>
-    </dependency>
-
-    <dependency>
-        <groupId>com.mchange</groupId>
-        <artifactId>c3p0</artifactId>
-        <version>0.9.5.2</version>
-    </dependency>
-
-
-
-
+            <version>0.9.5.2</version>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -288,7 +269,6 @@
             <artifactId>jaxb-impl</artifactId>
             <version>2.3.0</version>
         </dependency>
-
         <!-- Test Resources -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -336,7 +316,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <url>http://140.82.7.63:8080/manager/text</url>
+                    <url>http://localhost:8080/manager/text</url>
                     <server>TomcatServer</server>
                     <path>/plattrk</path>
                     <username>admin</username>
@@ -350,7 +330,7 @@
                 <version>2.3</version>
                 <configuration>
                     <warName>plattrk</warName>
-		    <outputDirectory>/opt/tomcat/webapps</outputDirectory>
+                    <!-- <outputDirectory>C:\Users\giofr\Downloads\tools\apache-tomcat-7.0.99\webapps</outputDirectory> -->
                 </configuration>
             </plugin>
 
