@@ -132,5 +132,5 @@ NOTE: You might run into the following issue https://stackoverflow.com/questions
 6 - Now you can automatically deploy to tomcat without the need to delete the project war file in tomcat's webapps directory, see step 12 in above section.
 
 	    mvn clean install (optional - if you need this check your IDE's .settings and .classpath settings are Java 1.8 specified)
-	    mvn tomcat7:deploy
-	    mvn tomcat7:undeploy
+	    mvn tomcat8:deploy
+	    mvn tomcat8:undeploy
