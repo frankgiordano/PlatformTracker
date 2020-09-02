@@ -169,11 +169,34 @@
             <artifactId>jackson-datatype-hibernate4</artifactId>
             <version>${jackson.datatype.hibernate4.version}</version>
         </dependency>
-        <dependency>
+	<!--	<dependency>
             <groupId>c3p0</groupId>
             <artifactId>c3p0</artifactId>
             <version>${c3p0.version}</version>
-        </dependency>
+	</dependency>-->
+
+
+	    <dependency>
+        <groupId>com.google.code.maven-play-plugin.com.mchange</groupId>
+        <artifactId>c3p0-oracle-thin-extras</artifactId>
+        <version>0.9.5</version>
+    </dependency>
+
+    <dependency>
+        <groupId>com.mchange</groupId>
+        <artifactId>mchange-commons-java</artifactId>
+        <version>0.2.11</version>
+    </dependency>
+
+    <dependency>
+        <groupId>com.mchange</groupId>
+        <artifactId>c3p0</artifactId>
+        <version>0.9.5.2</version>
+    </dependency>
+
+
+
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -313,7 +336,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <url>http://localhost:8080/manager/text</url>
+                    <url>http://140.82.7.63:8080/manager/text</url>
                     <server>TomcatServer</server>
                     <path>/plattrk</path>
                     <username>admin</username>
@@ -327,7 +350,7 @@
                 <version>2.3</version>
                 <configuration>
                     <warName>plattrk</warName>
-                    <!-- <outputDirectory>C:\Users\giofr\Downloads\tools\apache-tomcat-7.0.99\webapps</outputDirectory> -->
+		    <outputDirectory>/opt/tomcat/webapps</outputDirectory>
                 </configuration>
             </plugin>
 
