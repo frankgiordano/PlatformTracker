@@ -95,11 +95,11 @@ NOTE: You might run into the following issue https://stackoverflow.com/questions
 
 ## Alernate build and deploy method:
 
-1 - Add the following to tomcat's tomcat-users.txt file located in tomcat's conf directory between tomcat-users tag:
+1 - Add the following to tomcat's tomcat-users.txt file located in tomcat's conf directory between tomcat-users xml tag:
 
-  		<role rolename="manager-script"/>
-  		<role rolename="manager-gui"/>
-  		<user username="admin" password="admin" roles="manager-gui,manager-script"/>
+        <role rolename="manager-script"/>
+        <role rolename="manager-gui"/>
+        <user username="admin" password="admin" roles="manager-gui,manager-script"/>
   		
   	    or replace entire file with this content:
   	    
@@ -110,7 +110,7 @@ NOTE: You might run into the following issue https://stackoverflow.com/questions
           	<user username="admin" password="admin" roles="manager-gui,manager-script"/>
         </tomcat-users>
 
-2 - Add the following to maven's settings.xml file located in maven's conf directory or on Linux under its root directory between servers tag:
+2 - Add the following to maven's settings.xml file located in maven's conf directory or on Linux under its root directory between servers xml tag:
 
 	    <server>
 		    <id>TomcatServer</id>
