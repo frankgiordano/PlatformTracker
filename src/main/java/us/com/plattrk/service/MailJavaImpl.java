@@ -78,7 +78,7 @@ public class MailJavaImpl implements Mail {
                 body = mailFormat.generateBodyFormat(false);
                 break;
             case INCIDENT55NOUPDATE:
-                allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty("RTS Desktop Operations Only").split(",")));
+                allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty("Desktop Operations Only").split(",")));
                 subject = mailFormat.generateSubjectFormat(Type.INCIDENT55NOUPDATE);
                 body = mailFormat.generateBodyFormat(false);
                 break;
