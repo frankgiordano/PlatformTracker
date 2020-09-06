@@ -60,6 +60,16 @@
         <property name="cacheSeconds" value="0" />
     </bean>
 
+
+    <bean id="propertyConfigurer"   
+       class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+         <property name="locations"> 
+            <list>
+		<value>classpath:plattrk.properties</value>
+            </list>
+	</property>
+    </bean> 
+
     <bean id="appProperties" 
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="singleton" value="true"/>
