@@ -140,6 +140,9 @@ public class MailJavaFormatImpl implements MailFormat {
     }
 
     private String normalizeNameString(String recordedBy) {
+        if (recordedBy.indexOf('.') < 1)
+            return recordedBy;
+
         int positionOfPeriod = recordedBy.indexOf('.');
         String firstName = recordedBy.substring(0, positionOfPeriod);
         firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
