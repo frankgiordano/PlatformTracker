@@ -40,7 +40,7 @@ public class MailServiceImpl implements MailService {
     public void sendDailyReport(Properties appProperties, String body, String subject) {
         try {
             List<String> allEmailAddresses = new ArrayList<String>();
-            allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty("RTS Outages").split(",")));
+            allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty("Outages").split(",")));
             mail.setAllEmailAddresses(allEmailAddresses);
             mail.setSubject(subject);
             mail.setBody(body);
