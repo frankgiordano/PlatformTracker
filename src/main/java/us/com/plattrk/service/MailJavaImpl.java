@@ -152,13 +152,13 @@ public class MailJavaImpl implements Mail {
     public void send() throws SendFailedException {
 
         Properties properties = System.getProperties();
-        properties.setProperty("mail.smtp.host", appProperties.getProperty("Host", "nhp-outlook.plattrk.inc"));
+        properties.setProperty("mail.smtp.host", appProperties.getProperty("Host", "platformtracker"));
         Session session = Session.getDefaultInstance(properties);
 
         try {
             MimeMessage message = new MimeMessage(session);
 
-            message.setFrom(new InternetAddress(appProperties.getProperty("From", "plattrk-support@plattrk.com")));
+            message.setFrom(new InternetAddress(appProperties.getProperty("From", "platrformtracker-support@platformtracker.com")));
 
             InternetAddress[] address = new InternetAddress[allEmailAddresses.size()];
             for (int i = 0; i < allEmailAddresses.size(); i++) {
