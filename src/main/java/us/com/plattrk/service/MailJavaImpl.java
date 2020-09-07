@@ -2,7 +2,6 @@ package us.com.plattrk.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -24,12 +23,17 @@ import javax.mail.internet.MimeMultipart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.Product;
+import us.com.plattrk.util.MailUtil;
 
 public class MailJavaImpl implements Mail {
 
     private static final Logger log = LoggerFactory.getLogger(MailJavaImpl.class);
+
+    @Autowired
+    private MailUtil mailUtil;
 
     private Type type;
     private Incident incident;
@@ -43,13 +47,64 @@ public class MailJavaImpl implements Mail {
 
     // this is wired via xml configuration to allow us to easily switch between
     // socket and java mail implementations.
-    MailFormat mailFormat;
+    private MailFormat mailFormat;
 
     public MailJavaImpl() {
     }
 
     public MailJavaImpl(MailFormat mailFormat) {
-        this.mailFormat = mailFormat;
+        setMailFormat(mailFormat);
+    }
+
+    @Override
+    public void send() throws SendFailedException {
+
+        Properties properties = System.getProperties();
+        properties.setProperty("mail.smtp.host", appProperties.getProperty("Host", "platformtracker"));
+        Session session = Session.getDefaultInstance(properties);
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+
+            message.setFrom(new InternetAddress(appProperties.getProperty("From", "platrformtracker-support@platformtracker.com")));
+
+            InternetAddress[] address = new InternetAddress[allEmailAddresses.size()];
+            for (int i = 0; i < allEmailAddresses.size(); i++) {
+                address[i] = new InternetAddress(((String) allEmailAddresses.get(i)));
+            }
+
+            message.addRecipients(Message.RecipientType.TO, address);
+            message.setSubject(subject);
+
+            if (!fileName.isEmpty()) {
+                // if fileName is not empty then attach file to the email
+                MimeBodyPart messageBodyPart = new MimeBodyPart();
+                messageBodyPart.setText(body);
+                Multipart multiPart = new MimeMultipart();
+                multiPart.addBodyPart(messageBodyPart);
+
+                messageBodyPart = new MimeBodyPart();
+                source = new FileDataSource(file);
+                messageBodyPart.setDataHandler(new DataHandler(source));
+                messageBodyPart.setFileName(fileName);
+                multiPart.addBodyPart(messageBodyPart);
+                message.setContent(multiPart);
+            } else {
+                message.setContent(body, "text/html");
+            }
+
+            Transport.send(message);
+            log.info("email sent = " + message.toString());
+
+        } catch (MessagingException mex) {
+            log.error("Sending email failure.", mex);
+            throw new SendFailedException();
+        }
+    }
+
+    @Override
+    public String getAllEmailAddresses(List<String> allEmailAddresses) {
+        return mailUtil.getAllEmailAddresses(allEmailAddresses);
     }
 
     @Override
@@ -61,10 +116,8 @@ public class MailJavaImpl implements Mail {
         allEmailAddresses = generateEmailProductDistroList(products);
         mailFormat.initialize(incident);
 
-        // log.info("in generateEmailString, incoming incident.Receipents = " +
-        // incident.getEmailRecipents());
-        // log.info("in generateEmailString, incoming appProperties.Receipents = " +
-        // appProperties.getProperty(incident.getEmailRecipents()));
+        log.debug("in generateEmailString, incoming incident Recipients = " + incident.getEmailRecipents());
+        log.debug("in generateEmailString, incoming appProperties. Recipients = " + appProperties.getProperty(incident.getEmailRecipents()));
 
         switch (type) {
             case INCIDENTSTART:
@@ -113,10 +166,9 @@ public class MailJavaImpl implements Mail {
                 return;
         }
 
-        // guard against a problem when null are inserted in allEmailAddresses, problem
-        // with Arrays.asList() I believe
+        // guard against a problem when null are inserted in allEmailAddresses, problem with Arrays.asList() I believe
         for (int i = 0; i < allEmailAddresses.size(); i++) {
-            // log.info("inspect email array " + i + " " + allEmailAddresses.get(i));
+            log.debug("inspect email array " + i + " " + allEmailAddresses.get(i));
             if (allEmailAddresses.get(i) == null) {
                 allEmailAddresses.remove(i);
             }
@@ -131,68 +183,6 @@ public class MailJavaImpl implements Mail {
             productEmailDistroArray.add(appProperties.getProperty(product.getShortName()));
         }
         return productEmailDistroArray;
-    }
-
-    @Override
-    public String getAllEmailAddresses(List<String> allEmailAddresses) {
-        StringBuilder buffer = null;
-        Iterator<String> iterator = allEmailAddresses.iterator();
-        if (allEmailAddresses.size() > 1) {
-            buffer = new StringBuilder(iterator.next());
-            while (iterator.hasNext()) {
-                buffer.append(",").append(iterator.next());
-            }
-            return buffer.toString();
-        } else {
-            return allEmailAddresses.get(0);
-        }
-    }
-
-    @Override
-    public void send() throws SendFailedException {
-
-        Properties properties = System.getProperties();
-        properties.setProperty("mail.smtp.host", appProperties.getProperty("Host", "platformtracker"));
-        Session session = Session.getDefaultInstance(properties);
-
-        try {
-            MimeMessage message = new MimeMessage(session);
-
-            message.setFrom(new InternetAddress(appProperties.getProperty("From", "platrformtracker-support@platformtracker.com")));
-
-            InternetAddress[] address = new InternetAddress[allEmailAddresses.size()];
-            for (int i = 0; i < allEmailAddresses.size(); i++) {
-                address[i] = new InternetAddress(((String) allEmailAddresses.get(i)));
-            }
-
-            message.addRecipients(Message.RecipientType.TO, address);
-
-            message.setSubject(subject);
-
-            if (!fileName.isEmpty()) {
-                // if fileName is not empty then attach file to the email
-                MimeBodyPart messageBodyPart = new MimeBodyPart();
-                messageBodyPart.setText(body);
-                Multipart multiPart = new MimeMultipart();
-                multiPart.addBodyPart(messageBodyPart);
-
-                messageBodyPart = new MimeBodyPart();
-                source = new FileDataSource(file);
-                messageBodyPart.setDataHandler(new DataHandler(source));
-                messageBodyPart.setFileName(fileName);
-                multiPart.addBodyPart(messageBodyPart);
-                message.setContent(multiPart);
-            } else {
-                message.setContent(body, "text/html");
-            }
-
-            Transport.send(message);
-            log.info("email sent = " + message.toString());
-
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
-            throw new SendFailedException();
-        }
     }
 
     @Override
@@ -225,10 +215,7 @@ public class MailJavaImpl implements Mail {
         this.allEmailAddresses = allEmailAddresses;
     }
 
-    public void setMailFormat(MailFormat mailFormat) {
-        this.mailFormat = mailFormat;
-    }
-
+    @Override
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
@@ -236,6 +223,10 @@ public class MailJavaImpl implements Mail {
     @Override
     public void setFile(String file) {
         this.file = file;
+    }
+
+    public void setMailFormat(MailFormat mailFormat) {
+        this.mailFormat = mailFormat;
     }
 
 }

@@ -5,10 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import us.com.plattrk.api.model.EmailAddress;
 import us.com.plattrk.api.model.Incident;
 
 public class MailServiceImpl implements MailService {
+
+    private static final Logger log = LoggerFactory.getLogger(MailServiceImpl.class);
 
     // this is wired via xml configuration to allow us to easily switch between
     // socket and java mail implementations.
@@ -18,7 +22,7 @@ public class MailServiceImpl implements MailService {
     }
 
     public MailServiceImpl(Mail mail) {
-        this.mail = mail;
+        setMail(mail);
     }
 
     @Override
@@ -31,8 +35,7 @@ public class MailServiceImpl implements MailService {
             mail.generateEmailString();
             mail.send();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("Error sending email service layer.", e);
         }
     }
 
@@ -48,13 +51,8 @@ public class MailServiceImpl implements MailService {
             mail.setProperties(appProperties);
             mail.send();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("Error sending sendDailyReport email service layer.", e);
         }
-    }
-
-    public void setMail(Mail mail) {
-        this.mail = mail;
     }
 
     @Override
@@ -75,10 +73,13 @@ public class MailServiceImpl implements MailService {
             mail.setFile(file);
             mail.send();
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            log.error("Error sending sendWeeklyReport email service layer.", e);
         }
         return true;
+    }
+
+    public void setMail(Mail mail) {
+        this.mail = mail;
     }
 
 }
