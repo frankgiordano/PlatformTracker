@@ -30,6 +30,7 @@ public class MailJavaFormatImpl implements MailFormat {
     public MailJavaFormatImpl() {
     }
 
+    @Override
     public void initialize(Incident incident) {
 
         StringBuilder productsStringTemp = new StringBuilder();
@@ -132,25 +133,6 @@ public class MailJavaFormatImpl implements MailFormat {
         return body;
     }
 
-    private Date clearSecondsFromDate(Date date) {
-        Calendar instance = Calendar.getInstance();
-        instance.setTime(date);
-        instance.clear(Calendar.SECOND);
-        return instance.getTime();
-    }
-
-    private String normalizeNameString(String recordedBy) {
-        if (recordedBy.indexOf('.') < 1)
-            return recordedBy;
-
-        int positionOfPeriod = recordedBy.indexOf('.');
-        String firstName = recordedBy.substring(0, positionOfPeriod);
-        firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
-        String lastName = recordedBy.substring(positionOfPeriod + 1);
-        lastName = Character.toUpperCase(lastName.charAt(0)) + lastName.substring(1);
-        return firstName + " " + lastName;
-    }
-
     @Override
     public String generateSubjectFormat(Type type) {
         String subject = testmsg;
@@ -181,6 +163,25 @@ public class MailJavaFormatImpl implements MailFormat {
         }
 
         return subject + " ";
+    }
+
+    private Date clearSecondsFromDate(Date date) {
+        Calendar instance = Calendar.getInstance();
+        instance.setTime(date);
+        instance.clear(Calendar.SECOND);
+        return instance.getTime();
+    }
+
+    private String normalizeNameString(String recordedBy) {
+        if (recordedBy.indexOf('.') < 1)
+            return recordedBy;
+
+        int positionOfPeriod = recordedBy.indexOf('.');
+        String firstName = recordedBy.substring(0, positionOfPeriod);
+        firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
+        String lastName = recordedBy.substring(positionOfPeriod + 1);
+        lastName = Character.toUpperCase(lastName.charAt(0)) + lastName.substring(1);
+        return firstName + " " + lastName;
     }
 
     public void setIncident(Incident incident) {

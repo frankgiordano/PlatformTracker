@@ -3,10 +3,8 @@ package us.com.plattrk.service;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -14,18 +12,49 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.Product;
+import us.com.plattrk.util.MailUtil;
 
 public class MailSocketImpl implements Mail {
 
     private static final Logger log = LoggerFactory.getLogger(MailSocketImpl.class);
+
+    @Autowired
+    private MailUtil mailUtil;
 
     private Type type;
     private Incident incident;
     private Properties appProperties;
     private String output;
     private List<String> allEmailAddresses = new ArrayList<String>();
+
+    @Override
+    public void send() {
+        try {
+            Socket socket = new Socket("ebola.gssolrs.net", 8404);
+            PrintStream out = new PrintStream(socket.getOutputStream());
+
+            // Send an email notification. Use the python socket listener setup by Steve Eaton. Drop a ^
+            // separated string on port 8404 on ebola.gssolrs.net in this format Email@emailaddress.com^subject^body
+
+            out.print(output);
+            out.flush();
+            log.info("email sent = " + output);
+
+            socket.close();
+        } catch (IOException e) {
+            log.error("Email during incident create failed to send.", e);
+        }
+
+        return;
+    }
+
+    @Override
+    public String getAllEmailAddresses(List<String> allEmailAddresses) {
+        return mailUtil.getAllEmailAddresses(allEmailAddresses);
+    }
 
     @Override
     public void generateEmailString() {
@@ -45,7 +74,7 @@ public class MailSocketImpl implements Mail {
                 output = getAllEmailAddresses(allEmailAddresses) + "^" + incident.getTag() + " Platform Tracker Incident updated. " + appProperties.getProperty("Site") + "^" + incident.getDescription();
                 break;
             case INCIDENT55NOUPDATE:
-                allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty("RTS Desktop Operations Only").split(",")));
+                allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty("Desktop Operations Only").split(",")));
                 output = getAllEmailAddresses(allEmailAddresses) + "^" + incident.getTag() + " Platform Tracker Incident no status change please update. " + appProperties.getProperty("Site") + "^" + incident.getDescription();
                 break;
             case INCIDENT1HNOUPDATE:
@@ -68,7 +97,6 @@ public class MailSocketImpl implements Mail {
                 output = null;
                 return;
         }
-
     }
 
     @Override
@@ -78,46 +106,6 @@ public class MailSocketImpl implements Mail {
             productEmailDistroArray.add(appProperties.getProperty(product.getShortName()));
         }
         return productEmailDistroArray;
-    }
-
-    @Override
-    public String getAllEmailAddresses(List<String> allEmailAddresses) {
-        StringBuilder buffer = null;
-        Iterator<String> iterator = allEmailAddresses.iterator();
-        if (allEmailAddresses.size() > 1) {
-            buffer = new StringBuilder(iterator.next());
-            while (iterator.hasNext()) {
-                buffer.append(",").append(iterator.next());
-            }
-            return buffer.toString();
-        } else {
-            return allEmailAddresses.get(0);
-        }
-    }
-
-    @Override
-    public void send() {
-        try {
-            Socket socket = new Socket("ebola.gssolrs.net", 8404);
-            PrintStream out = new PrintStream(socket.getOutputStream());
-
-            // Send an email notification. Use the python socket listener setup by Steve Eaton. Drop a ^ 
-            // separated string on port 8404 on ebola.gssolrs.net in this format Email@emailaddress.com^subject^body
-
-            out.print(output);
-            out.flush();
-            log.info("email sent = " + output);
-
-            socket.close();
-        } catch (UnknownHostException e) {
-            log.error("Email during incident create failed to send.");
-            e.printStackTrace();
-        } catch (IOException e) {
-            log.error("Email during incident create failed to send.");
-            e.printStackTrace();
-        }
-
-        return;
     }
 
     @Override
