@@ -3,7 +3,6 @@ package us.com.plattrk.service;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

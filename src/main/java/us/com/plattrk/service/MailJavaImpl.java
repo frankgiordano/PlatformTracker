@@ -66,7 +66,7 @@ public class MailJavaImpl implements Mail {
         try {
             MimeMessage message = new MimeMessage(session);
 
-            message.setFrom(new InternetAddress(appProperties.getProperty("From", "platrformtracker-support@platformtracker.com")));
+            message.setFrom(new InternetAddress(appProperties.getProperty("From", "platformtracker-support@platformtracker.com")));
 
             InternetAddress[] address = new InternetAddress[allEmailAddresses.size()];
             for (int i = 0; i < allEmailAddresses.size(); i++) {
