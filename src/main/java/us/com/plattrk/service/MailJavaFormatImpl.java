@@ -82,7 +82,7 @@ public class MailJavaFormatImpl implements MailFormat {
                     + "<div><span style=\"background-color: #FFFF00\">" + productsString.toString() + "</span></div><br>"
                     + "<div>Date / Time: " + dateFormat.format(new Date()) + "</div><br>"
                     + "<div>Reported By: " + normalizeNameString(incident.getRecordedBy()) + "</div><br>"
-                    + "<div>For any questions please call 860-271-7640.</div><br>"
+                    + ("".equals(appProperties.getProperty("Phone")) ? "<div></div>" : "<div>For any questions please call " + appProperties.getProperty("Phone") + ".</div><br>")                     
                     + "<div>Start Time: " + dateFormat.format(incident.getStartTime()) + "</div><br>"
                     + "<div>End Time: " + (incident.getEndTime() != null ? dateFormat.format(incident.getEndTime()) : "") + "</div><br>";
         }

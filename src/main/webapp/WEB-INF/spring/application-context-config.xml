@@ -88,7 +88,8 @@
                         <prop key="From">${From}</prop>
                         <prop key="Host">${Host}</prop>
                         <prop key="ReportLocation">${ReportLocation}</prop>   
-                        <prop key="SUBJECTMSG">${SUBJECTMSG}</prop>                               
+                        <prop key="SUBJECTMSG">${SUBJECTMSG}</prop>    
+                        <prop key="Phone">${Phone}</prop>                           
                 </props>
         </property>
     </bean>
