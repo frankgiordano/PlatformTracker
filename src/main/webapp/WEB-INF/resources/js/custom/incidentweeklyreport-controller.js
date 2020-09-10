@@ -110,10 +110,9 @@ app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, l
             "endDate": $scope.endDate
         }
 
-        document.body.style.cursor = "wait";
+        $scope.waiting(true);
         IncidentService.generateIncidentReportByProduct(incidentReport).then(
             function success(response) {
-                document.body.style.cursor = "default";
                 if (response === "true") {
                     $scope.messages = "Request processed successfully.";
                     $scope.errorMessages = null;
@@ -121,9 +120,10 @@ app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, l
                     $scope.errorMessages = "Failure - Request unsuccessful.";
                     $scope.messages = null;
                 }
+                $scope.waiting(false);
             },
             function error() {
-                document.body.style.cursor = "default";
+                $scope.waiting(false);
                 $scope.errorMessages = "Failure - Request unsuccessful.";
                 $scope.messages = null;
             });

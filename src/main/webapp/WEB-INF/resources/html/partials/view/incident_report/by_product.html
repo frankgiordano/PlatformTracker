@@ -1,46 +1,61 @@
 <div data-ng-controller="IncidentWeeklyReportController">
-    <div style="padding-bottom: 1%; padding-top: 2%">
-        <h2>Incident Report Generation By Product</h2>
+    <div ng-hide="loading">
+        <div class="row">
+            <div style="clear:both;">&nbsp;</div>
+            <div class="col-sm-12">
+                <progressbar class="progress-striped active" max="200" value="200" type="info"><i>Generating Product(s)
+                        Report....</i>
+                </progressbar>
+                <div style="clear:both;">&nbsp;</div>
+            </div>
+        </div>
     </div>
-    <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-    <div id="messages" class="alert alert-danger" data-ng-show="errorMessages" data-ng-bind="errorMessages"></div>
-    <div style="padding-bottom: 1%">
-        <p>Click on the button to generate an incident report excel document by product selection and range dates..</p>
-        <p>Specify an email address to send the generated report.</p>
+    <div ng-hide="hideDuringLoading">
+        <div style="padding-bottom: 1%; padding-top: 2%">
+            <h2>Incident Report Generation By Product</h2>
+        </div>
+        <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+        <div id="messages" class="alert alert-danger" data-ng-show="errorMessages" data-ng-bind="errorMessages"></div>
+        <div style="padding-bottom: 1%">
+            <p>Click on the button to generate an incident report excel document by product selection and range dates..
+            </p>
+            <p>Specify an email address to send the generated report.</p>
+        </div>
+        <form class="form-horizontal" name="helpForm" novalidate role="form">
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-7">
+                    <bs-select required ng-model="selectedProducts" default-text="Select Associated Product(s).."
+                        text-field="shortName" value-field="id" items="myProducts">
+                    </bs-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Start Date</label>
+                <div class="col-sm-6">
+                    <input type="date" ng-model="startDate" class="form-control" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">End Date</label>
+                <div class="col-sm-6">
+                    <input type="date" ng-model="endDate" class="form-control" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Email Address</label>
+                <div class="col-sm-6">
+                    <input type="text" ng-model="recipent" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-primary" data-ng-disabled="progress.active()"
+                        data-ng-click="submitByProduct()">
+                        Generate
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
-    <form class="form-horizontal" name="helpForm" novalidate role="form">
-        <div class="form-group">
-            <label class="col-sm-2 control-label"></label>
-            <div class="col-sm-7">
-                <bs-select required ng-model="selectedProducts" default-text="Select Associated Product(s).."
-                    text-field="shortName" value-field="id" items="myProducts">
-                </bs-select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Start Date</label>
-            <div class="col-sm-6">
-                <input type="date" ng-model="startDate" class="form-control" required />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">End Date</label>
-            <div class="col-sm-6">
-                <input type="date" ng-model="endDate" class="form-control" required />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Email Address</label>
-            <div class="col-sm-6">
-                <input type="text" ng-model="recipent" class="form-control">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button class="btn btn-primary" data-ng-disabled="progress.active()" data-ng-click="submitByProduct()">
-                    Generate
-                </button>
-            </div>
-        </div>
-    </form>
 </div>
