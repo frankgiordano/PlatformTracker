@@ -226,7 +226,7 @@ public class ReportImpl implements Report {
 
             for (Product product : products) {
 
-                if (product.getRevenue() == 0) { // skip
+                if (product.getRevenue() == null || product.getRevenue() == 0) { // skip
                     continue;
                 }
 
