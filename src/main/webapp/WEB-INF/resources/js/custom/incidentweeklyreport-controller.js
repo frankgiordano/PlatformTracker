@@ -2,6 +2,7 @@ app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, l
     
     localStorageService.remove("incidentCreateButtonClicked");
     localStorageService.remove("incidentEditMode");
+    $scope.hideDuringLoading = false;
 
     // getProducts() gets all the products even those that are not active.. this returns data back unsorted and
     // we use helperService function to sort.
@@ -19,6 +20,19 @@ app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, l
             });
     }());
 
+    $scope.waiting = function (value) {
+        if (value === true) {
+            $scope.hideDuringLoading = true;
+            $scope.loading = false;
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideDuringLoading = false;
+            $scope.loading = true;
+            document.body.style.cursor = "default";
+        }
+    };
+    $scope.waiting();
+
     $scope.submit = function () {
 
         var emailAddress;
@@ -33,10 +47,9 @@ app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, l
             return;
         }
 
-        document.body.style.cursor = "wait";
+        $scope.waiting(true);
         IncidentService.generateWeeklyIncidentReport(emailAddress).then(
             function success(response) {
-                document.body.style.cursor = "default";
                 if (response === "true") {
                     $scope.messages = "Request processed successfully.";
                     $scope.errorMessages = null;
@@ -44,9 +57,10 @@ app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, l
                     $scope.errorMessages = "Failure - Request unsuccessful.";
                     $scope.messages = null;
                 }
+                $scope.waiting(false);
             },
             function error() {
-                document.body.style.cursor = "default";
+                $scope.waiting(false);
                 $scope.errorMessages = "Failure - Request unsuccessful.";
                 $scope.messages = null;
             });
