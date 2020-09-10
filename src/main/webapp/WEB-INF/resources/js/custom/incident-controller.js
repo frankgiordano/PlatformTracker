@@ -1,4 +1,4 @@
-app.controller('IncidentController', function ($rootScope, $scope, IncidentGroupService, localStorageService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService, OwnersService) {
+app.controller('IncidentController', function ($rootScope, $scope, $filter, IncidentGroupService, localStorageService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService, OwnersService) {
 
     $scope.incident = {};
     $scope.hideDuringLoading = false;
