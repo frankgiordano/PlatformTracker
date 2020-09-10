@@ -176,7 +176,7 @@ public class ReportImpl implements Report {
             titleRow.createCell(1).setCellStyle(styles.get("title_mid"));
 
             titleCell = titleRow.getCell(0);
-            titleCell.setCellValue("PLATFORM TRK");
+            titleCell.setCellValue("PLATFORMTRK");
             titleCell = titleRow.getCell(1);
             titleCell.setCellValue("ORG");
 
@@ -481,7 +481,7 @@ public class ReportImpl implements Report {
             titleRow.createCell(1).setCellStyle(styles.get("title_mid"));
 
             titleCell = titleRow.getCell(0);
-            titleCell.setCellValue("PLATFORM TRK");
+            titleCell.setCellValue("PLATFORMTRK");
             titleCell = titleRow.getCell(1);
             titleCell.setCellValue("ORG");
 
