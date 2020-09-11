@@ -93,6 +93,7 @@ app.value('alerted_bys', [{
 app.controller('MainController', function ($route, $rootScope, $scope, $location, localStorageService) {
 
     var SAVE_ERROR_MSG = "_SAVE_FAILURE - ";
+    var GENERATE_ERROR_MSG = "_GENERATE_FAILURE - ";
     var CHECK_REQUIRED_FIELDS_MSG = "Check required fields: ";
     var GENERIC_ERROR_MSG = "Check for required fields or check console for error messages.";
     $rootScope.REQUIRED_FIELDS_CHRONOLOGY_MSG = CHECK_REQUIRED_FIELDS_MSG + "Date Time and Description.";
@@ -108,6 +109,7 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
     $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG = "GROUP" + SAVE_ERROR_MSG + GENERIC_ERROR_MSG;
     $rootScope.PROJECT_LINK_RESOLUTON_ERROR_MSG = "PROJECT_LINK_RESOLUTON" + SAVE_ERROR_MSG + $rootScope.PROJECT_LINK_RESOLUTON_MSG;
     $rootScope.INCIDENT_VERSION_ERROR_MSG = "INCIDENT_VERSION" + SAVE_ERROR_MSG + $rootScope.INCIDENT_VERSION_MSG;
+    $rootScope.REPORT_SAVE_ERROR_MSG = "REPORT" + GENERATE_ERROR_MSG + GENERIC_ERROR_MSG;
 
     $scope.linkClicked = function (link) {
         $route.reload();

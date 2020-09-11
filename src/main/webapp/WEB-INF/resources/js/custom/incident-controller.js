@@ -947,7 +947,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
             $scope.products.length === 0) {
             $scope.productsRequired = true;
         }
-    }
+    };
 
 });
 

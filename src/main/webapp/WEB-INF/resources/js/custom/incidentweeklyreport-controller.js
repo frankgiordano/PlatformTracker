@@ -1,5 +1,5 @@
 app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, localStorageService, IncidentService, helperService, ProductService) {
-    
+
     localStorageService.remove("incidentCreateButtonClicked");
     localStorageService.remove("incidentEditMode");
     $scope.hideDuringLoading = false;
@@ -43,6 +43,7 @@ app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, l
             };
             $scope.errorMessages = null;
         } else {
+            $scope.formValidationForWeeklyReport();
             $scope.errorMessages = "Specify an email recipent.";
             return;
         }
@@ -71,33 +72,8 @@ app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, l
         var incidentReport;
         var products = "";
 
-        if ($scope.recipent) {
-            $scope.errorMessages = null;
-        } else {
-            $scope.errorMessages = "Specify an email recipent.";
+        if ($scope.formValidationForProductReport() === true)
             return;
-        }
-
-        if ($scope.selectedProducts) {
-            $scope.errorMessages = null;
-        } else {
-            $scope.errorMessages = "Specify a Product.";
-            return;
-        }
-
-        if ($scope.startDate) {
-            $scope.errorMessages = null;
-        } else {
-            $scope.errorMessages = "Specify a Start Date.";
-            return;
-        }
-
-        if ($scope.endDate) {
-            $scope.errorMessages = null;
-        } else {
-            $scope.errorMessages = "Specify a End Date.";
-            return;
-        }
 
         for (var i = 0; i < $scope.selectedProducts.length; i++) {
             products += $scope.selectedProducts[i].incidentName + ",";
@@ -127,6 +103,53 @@ app.controller('IncidentWeeklyReportController', function ($rootScope, $scope, l
                 $scope.errorMessages = "Failure - Request unsuccessful.";
                 $scope.messages = null;
             });
+    };
+
+    $scope.formValidationForWeeklyReport = function () {
+        $scope.submitted = true;
+        if ($scope.recipent === null ||
+            $scope.recipent === undefined ||
+            $scope.recipent.trim() === "") {
+            $scope.recipentRequired = true;
+            $scope.weeklyReportForm.recipent.$invalid = true;
+        }
+    };
+
+    $scope.formValidationForProductReport = function () {
+        $scope.submitted = true;
+        $scope.productsRequired = false;
+        $scope.errorMessages = null;
+        var foundValidationError = false;
+        if ($scope.recipent === null ||
+            $scope.recipent === undefined ||
+            $scope.recipent.trim() === "") {
+            $scope.recipentRequired = true;
+            $scope.productReportForm.recipent.$invalid = true;
+            $scope.errorMessages = $rootScope.REPORT_SAVE_ERROR_MSG;
+            foundValidationError = true;
+        }
+        if ($scope.startDate === null ||
+            $scope.startDate === undefined) {
+            $scope.startDateRequired = true;
+            $scope.productReportForm.startDate.$invalid = true;
+            $scope.errorMessages = $rootScope.REPORT_SAVE_ERROR_MSG;
+            foundValidationError = true;
+        }
+        if ($scope.endDate === null ||
+            $scope.endDate === undefined) {
+            $scope.endDateRequired = true;
+            $scope.productReportForm.endDate.$invalid = true;
+            $scope.errorMessages = $rootScope.REPORT_SAVE_ERROR_MSG;
+            foundValidationError = true;
+        }
+        if ($scope.selectedProducts === null ||
+            $scope.selectedProducts === undefined ||
+            $scope.selectedProducts.length === 0) {
+            $scope.productsRequired = true;
+            $scope.errorMessages = $rootScope.REPORT_SAVE_ERROR_MSG;
+            foundValidationError = true;
+        }
+        return foundValidationError;
     };
 
 });

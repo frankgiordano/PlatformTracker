@@ -21,31 +21,36 @@
             </p>
             <p>Specify an email address to send the generated report.</p>
         </div>
-        <form class="form-horizontal" name="helpForm" novalidate role="form">
-            <div class="form-group">
+        <form class="form-horizontal" name="productReportForm" novalidate role="form">
+            <div class="form-group" ng-class="{ 'has-error' : productsRequired && submitted }">
                 <label class="col-sm-2 control-label"></label>
                 <div class="col-sm-7">
                     <bs-select required ng-model="selectedProducts" default-text="Select Associated Product(s).."
                         text-field="shortName" value-field="id" items="myProducts">
                     </bs-select>
+                    <p ng-show="productsRequired" class="help-block">Required.</p>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : productReportForm.startDate.$invalid && submitted }">
                 <label class="col-sm-2 control-label">Start Date</label>
                 <div class="col-sm-6">
-                    <input type="date" ng-model="startDate" class="form-control" required />
+                    <input type="date" name="startDate" ng-model="startDate" class="form-control" required ng-required="startDateRequired">
+                    <p ng-show="productReportForm.startDate.$error.required" class="help-block">Required.</p>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group"ng-class="{ 'has-error' : productReportForm.endDate.$invalid && submitted }">
                 <label class="col-sm-2 control-label">End Date</label>
                 <div class="col-sm-6">
-                    <input type="date" ng-model="endDate" class="form-control" required />
+                    <input type="date" name="endDate" ng-model="endDate" class="form-control" required ng-required="endDateRequired">
+                    <p ng-show="productReportForm.endDate.$error.required" class="help-block">Required.</p>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : productReportForm.recipent.$invalid && submitted }">
                 <label class="col-sm-2 control-label">Email Address</label>
                 <div class="col-sm-6">
-                    <input type="text" ng-model="recipent" class="form-control">
+                    <input type="email" name="recipent" ng-model="recipent" class="form-control" required ng-required="recipentRequired">
+                    <p ng-show="productReportForm.recipent.$error.required" class="help-block">Required.</p>
+                    <p ng-show="productReportForm.recipent.$error.email" class="help-block">Enter a valid formatted email address.</p>
                 </div>
             </div>
             <div class="form-group">
