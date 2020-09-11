@@ -841,6 +841,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
     };
 
     $scope.deleteChronology = function (id) {
+        document.body.style.cursor = "wait";
         ChronologyService.deleteChronology(id).then(function success(response) {
             if (response) {
                 $scope.chronMessages = "Chronology timeline for Incident tag " + $scope.incident.tag + " with id " + id + " deleted.";
@@ -848,9 +849,11 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
                 $scope.chronErrorMessages = null;
                 $scope.getRelatedChronologies($scope.incident.id);
             }
+            document.body.style.cursor = "default";
         }, function error() {
             $scope.chronErrorMessages = "CHRONOLOGY_DELETE_FAILURE - Check logs or try again.";
             $scope.chronMessages = null;
+            document.body.style.cursor = "default";
         });
     }
 
