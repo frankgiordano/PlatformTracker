@@ -90,7 +90,7 @@ app.value('alerted_bys', [{
     value: 'Unknown'
 }]);
 
-app.controller('MainController', function ($route, $rootScope, $scope, $location, localStorageService) {
+app.controller('MainController', function ($route, $rootScope, $scope, $location, $window, localStorageService) {
 
     var SAVE_ERROR_MSG = "_SAVE_FAILURE - ";
     var GENERATE_ERROR_MSG = "_GENERATE_FAILURE - ";
@@ -169,6 +169,10 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
         $scope.messages = null;
         $scope.errorMessages = null;
     };
+
+    $scope.help = function () {
+        $window.open('resources/html/partials/common/UsersGuide.pdf', '_blank');
+    }
 
 });
 
