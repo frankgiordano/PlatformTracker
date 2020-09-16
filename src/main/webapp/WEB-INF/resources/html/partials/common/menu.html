@@ -1,6 +1,6 @@
 <style>
 body {
-	margin-top:80px;
+    margin-top:80px;
 }
 
 </style>
@@ -20,68 +20,68 @@ body {
     <div class="collapse navbar-collapse js-navbar-collapse">
         <ul class="nav navbar-nav">
             <li class="dropdown dropdown-large">
-			    <a class="dropdown-toggle" data-toggle="dropdown"><b>Incident </b> <span class="caret"></span></a>
-				<ul class="dropdown-menu dropdown-menu-large row">
-					<li class="col-sm-3">
-						<ul>
-							<li class="dropdown-header">Incident</li>
+                <a class="dropdown-toggle" data-toggle="dropdown"><b>Incident </b> <span class="caret"></span></a>
+                <ul class="dropdown-menu dropdown-menu-large row">
+                    <li class="col-sm-3">
+                        <ul>
+                            <li class="dropdown-header">Incident</li>
                             <li><a href='#/incident/create'>Create</a></li>
-							<li><a ng-href="{{link}}" ng-click="$event.preventDefault(); clearLocalStorage(); linkClicked('/incident/search');">Search</a></li>
+                            <li><a ng-href="{{link}}" ng-click="$event.preventDefault(); clearLocalStorage(); linkClicked('/incident/search');">Search</a></li>
                             <li><a ng-href="{{link}}" ng-click="$event.preventDefault(); linkClicked('/incident/fromgroupsearch')">Search By Group</a></li>         				
-						</ul>
-					</li>
-					<li class="col-sm-3">
-						<ul>
+                        </ul>
+                    </li>
+                    <li class="col-sm-3">
+                        <ul>
                             <li class="dropdown-header">Group</li>
                             <li><a ng-href="{{link}}" ng-click="$event.preventDefault(); linkClicked('/incident/incidentgroupsearch')">Search</a>
-              				<li><img class"img-responsive" src="/plattrk/resources/images/white.png"/></li>	
-						</ul>
-					</li>
-					<li class="col-sm-3">
-						<ul>
-              				<li><img class"img-responsive" src="/plattrk/resources/images/white.png"/></li>	
-						</ul>
-					</li>
-					<li class="col-sm-3">
-						<ul>
-							<li class="dropdown-header"></li>
-							<li><img class"img-responsive" src="/plattrk/resources/images/white.png"/></li>
-						</ul>
-					</li>
-				</ul>
-			</li>
+                              <li><img class"img-responsive" src="/plattrk/resources/images/white.png"/></li>	
+                        </ul>
+                    </li>
+                    <li class="col-sm-3">
+                        <ul>
+                              <li><img class"img-responsive" src="/plattrk/resources/images/white.png"/></li>	
+                        </ul>
+                    </li>
+                    <li class="col-sm-3">
+                        <ul>
+                            <li class="dropdown-header"></li>
+                            <li><img class"img-responsive" src="/plattrk/resources/images/white.png"/></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
             <li class="dropdown dropdown-large">
-            	<a class="dropdown-toggle" data-toggle="dropdown"><b>Resolution </b> <span class="caret"></span></a>
-            	<ul class="dropdown-menu dropdown-menu-large row">
+                <a class="dropdown-toggle" data-toggle="dropdown"><b>Resolution </b> <span class="caret"></span></a>
+                <ul class="dropdown-menu dropdown-menu-large row">
                    <li class="col-sm-3"> 
                        <ul>
                             <li class="dropdown-header">Resolution</li>
-            	            <li><a href='#/resolution/create'>Create</a></li>
+                            <li><a href='#/resolution/create'>Create</a></li>
                             <li><a href='#/resolution/search'>Search</a></li>
                             <li><img class"img-responsive" src="/plattrk/resources/images/white.png"/></li>	
                         </ul>
                     </li>
-					<li class="col-sm-3">
-						<ul>
-              				<li><img class"img-responsive" src="/plattrk/resources/images/white.png"/></li>	
-						</ul>
-					</li>
-					<li class="col-sm-3">
-						<ul>
-              				<li><img class"img-responsive" src="/plattrk/resources/images/white.png"/></li>	
-						</ul>
-					</li>
-					<li class="col-sm-3">
-						<ul>
-							<li class="dropdown-header"></li>
-							<li><img class"img-responsive" src="/plattrk/resources/images/white.png"/></li>
-						</ul>
-					</li>
+                    <li class="col-sm-3">
+                        <ul>
+                              <li><img class"img-responsive" src="/plattrk/resources/images/white.png"/></li>	
+                        </ul>
+                    </li>
+                    <li class="col-sm-3">
+                        <ul>
+                              <li><img class"img-responsive" src="/plattrk/resources/images/white.png"/></li>	
+                        </ul>
+                    </li>
+                    <li class="col-sm-3">
+                        <ul>
+                            <li class="dropdown-header"></li>
+                            <li><img class"img-responsive" src="/plattrk/resources/images/white.png"/></li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
             <li class="dropdown dropdown-large">
-            	<a class="dropdown-toggle" data-toggle="dropdown"><b>Root Cause </b> <span class="caret"></span></a>
-            	<ul class="dropdown-menu dropdown-menu-large row">
+                <a class="dropdown-toggle" data-toggle="dropdown"><b>Root Cause </b> <span class="caret"></span></a>
+                <ul class="dropdown-menu dropdown-menu-large row">
                     <li class="col-sm-3"> 
                         <ul>
                              <li class="dropdown-header">Root Cause</li>
@@ -109,8 +109,8 @@ body {
                 </ul>
             </li>
             <li class="dropdown dropdown-large">
-            	<a class="dropdown-toggle" data-toggle="dropdown"><b>Project </b> <span class="caret"></span></a>
-            	<ul class="dropdown-menu dropdown-menu-large row">
+                <a class="dropdown-toggle" data-toggle="dropdown"><b>Project </b> <span class="caret"></span></a>
+                <ul class="dropdown-menu dropdown-menu-large row">
                     <li class="col-sm-3"> 
                         <ul>
                              <li class="dropdown-header">Project</li>
@@ -138,8 +138,8 @@ body {
                 </ul>
             </li>
             <li class="dropdown dropdown-large">
-            	<a class="dropdown-toggle" data-toggle="dropdown"><b>Product </b> <span class="caret"></span></a>
-            	<ul class="dropdown-menu dropdown-menu-large row">
+                <a class="dropdown-toggle" data-toggle="dropdown"><b>Product </b> <span class="caret"></span></a>
+                <ul class="dropdown-menu dropdown-menu-large row">
                     <li class="col-sm-3"> 
                         <ul>
                              <li class="dropdown-header">Product</li>
@@ -167,8 +167,8 @@ body {
                 </ul>
             </li>
             <li class="dropdown dropdown-large">
-            	<a class="dropdown-toggle" data-toggle="dropdown"><b>Report </b> <span class="caret"></span></a>
-            	<ul class="dropdown-menu dropdown-menu-large row">
+                <a class="dropdown-toggle" data-toggle="dropdown"><b>Report </b> <span class="caret"></span></a>
+                <ul class="dropdown-menu dropdown-menu-large row">
                     <li class="col-sm-3"> 
                         <ul>
                              <li class="dropdown-header">Incident Reports By</li>
