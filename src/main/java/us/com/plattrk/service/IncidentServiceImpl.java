@@ -1,5 +1,6 @@
 package us.com.plattrk.service;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import us.com.plattrk.api.model.*;
 import us.com.plattrk.repository.IncidentRepository;
 
@@ -29,9 +30,6 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
     @Autowired
     private Properties appProperties;
-
-    @Autowired
-    private MailService mailService;
 
     @Autowired
     private Report report;
@@ -72,7 +70,9 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         return incident;
     }
 
-    //	@Scheduled(cron="*/10 * * * * ?")
+
+    @Override
+//    @Scheduled(cron="*/10 * * * * ?")
     public void notificationCheck() {
         List<Incident> openIncidents = incidentRepository.getOpenIncidents();
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
@@ -94,7 +94,8 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         }
     }
 
-    //	@Scheduled(cron="0 0 7 * * TUE-FRI")
+    @Override
+    @Scheduled(cron="0 0 7 * * TUE-FRI")
     public void dailyReport() {
         Calendar calPrevious = Calendar.getInstance();
         calPrevious.add(Calendar.DAY_OF_YEAR, -1);
@@ -104,7 +105,8 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         report.generateDailyReport(incidents, previousDayDate);
     }
 
-    //	@Scheduled(cron="0 0 7 * * MON")
+    @Override
+    @Scheduled(cron="0 0 7 * * MON")
     public void weekEndReport() {
         SetWeekPrevCalendars calendars = new SetWeekPrevCalendars(-3, -1).invoke();
 
@@ -112,16 +114,15 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         report.generateWeekEndReport(incidents, calendars.getPreviousWeekDate(), calendars.getPreviousDayDate());
     }
 
-    //	@Scheduled(cron="0 0 10 * * MON")
+    @Override
+    @Scheduled(cron="0 0 10 * * MON")
     public void weeklyReport() {
         if (isToggleAutoWeeklyReport()) {
             return;
         }
 
         SetWeekPrevCalendars calendars = new SetWeekPrevCalendars(-7, -1).invoke();
-
         List<Incident> incidents = incidentRepository.getDateRangeIncidentsByApplicationStatus(calendars.getPreviousWeekDate(), new Date(), "Down");
-
         report.generateWeeklyReport(incidents, calendars.getPreviousWeekDate(), calendars.getPreviousDayDate(), null);
     }
 
@@ -185,11 +186,6 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     }
 
     @Override
-    public void setServletContext(ServletContext servletContext) {
-        this.servletContext = servletContext;
-    }
-
-    @Override
     public IncidentGroup getGroup(Long id) {
         return incidentRepository.getGroup(id);
     }
@@ -229,12 +225,16 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         return incidentRepository.getIncident(id);
     }
 
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
+
     private String fileName() {
         String file;
         if (System.getProperty("os.name").startsWith("Windows")) {
-            file = "c:\\toggle";
+            file = "c:\\plat_trk_rpt_on";
         } else {
-            file = appProperties.getProperty("ReportLocation") + "//toggle";
+            file = appProperties.getProperty("ReportLocation") + "//plat_trk_rpt_on";
         }
         return file;
     }

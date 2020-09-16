@@ -31,7 +31,7 @@ public class NotificationThread implements Runnable {
     private Properties appProperties;
 
     private long earlyAlert;        // specified in seconds
-    private long alert;            // specified in seconds
+    private long alert;             // specified in seconds
     private long escalatedAlert;    // specified in seconds
 
     private long durationTotal;
@@ -100,7 +100,7 @@ public class NotificationThread implements Runnable {
                         // if the current startTime when this notification thread was started is 
                         // greater than the latest chronology date\time, then the application was 
                         // somehow restarted due to a problem or normally for maintenance while an
-                        // incident is still open; as such multiple update notifications in quite
+                        // incident is still open; as such multiple update notifications in quick
                         // succession can be spawned and cause a major spam issue. 
                         // As a result, check that the startTime is greater then the latest
                         // chronology date, if so handle this situation differently 
