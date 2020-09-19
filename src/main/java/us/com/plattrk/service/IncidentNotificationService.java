@@ -1,4 +1,4 @@
-package us.com.plattrk.api.model;
+package us.com.plattrk.service;
 
 import java.util.*;
 
@@ -6,17 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import us.com.plattrk.api.model.Incident;
+import us.com.plattrk.api.model.IncidentChronology;
 import us.com.plattrk.repository.IncidentChronologyRepository;
 import us.com.plattrk.repository.IncidentRepository;
-import us.com.plattrk.service.MailJavaFormatImpl;
-import us.com.plattrk.service.MailJavaImpl;
-import us.com.plattrk.service.MailService;
 import us.com.plattrk.service.Mail.Type;
-import us.com.plattrk.service.MailServiceImpl;
 
-public class NotificationThread implements Runnable {
+public class IncidentNotificationService implements Runnable {
 
-    private static final Logger log = LoggerFactory.getLogger(NotificationThread.class);
+    private static final Logger log = LoggerFactory.getLogger(IncidentNotificationService.class);
 
     // this is wired via xml configuration to allow us to easily switch between socket and java mail implementations.
     private MailService mailService;
@@ -44,11 +42,11 @@ public class NotificationThread implements Runnable {
     private boolean onHours = true;
 
     // needed for spring container 
-    public NotificationThread() {
+    public IncidentNotificationService() {
     }
 
     // this is for creation of thread without spring being involved. 
-    public NotificationThread(Incident incident, Properties appProperties) {
+    public IncidentNotificationService(Incident incident, Properties appProperties) {
         this.incident = incident;
         this.appProperties = appProperties;
         this.earlyAlert = Long.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
