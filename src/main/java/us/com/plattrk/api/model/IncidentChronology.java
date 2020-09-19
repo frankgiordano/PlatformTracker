@@ -21,6 +21,8 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import us.com.plattrk.util.JsonDateTimeDeserializer;
+import us.com.plattrk.util.JsonDateTimeSerializer;
 
 @Entity
 @Table(name = "Incident_Chronology")
@@ -70,12 +72,12 @@ public class IncidentChronology {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_time",  nullable = false)
-    @JsonDeserialize(using=JsonDateTimeDeserializer.class)	
+    @JsonDeserialize(using= JsonDateTimeDeserializer.class)
     public Date getDateTime() {
         return dateTime;
     }
 
-    @JsonSerialize(using=JsonDateTimeSerializer.class)
+    @JsonSerialize(using= JsonDateTimeSerializer.class)
     public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
