@@ -88,7 +88,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 em.merge(project);
             }
         } catch (PersistenceException e) {
-            log.error("ProductRepositoryImpl::saveProject - failure saving product = " + project.toString() + ", msg = " + e.getMessage());
+            log.error("ProjectRepositoryImpl::saveProject - failure saving product = " + project.toString() + ", msg = " + e.getMessage());
             throw (e);
         }
 

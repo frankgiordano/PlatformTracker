@@ -20,7 +20,7 @@ public class CopyUtil {
             try {
                 obj = (T) orig.getClass().getMethod(METHOD_CLONE).invoke(orig);
             } catch (Exception e) {
-                log.error("The clone failed: {}: {}", e.getClass().getName(), e.getMessage());
+                log.error("CopyUtil::clone - The clone failed: {}: {}", e.getClass().getName(), e.getMessage());
             }
         }
 
@@ -42,7 +42,7 @@ public class CopyUtil {
                     obj.add(clone(element));
                 }
             } catch (Exception e) {
-                log.error("The cloneCollection failed: {}: {}", e.getClass().getName(), e.getMessage());
+                log.error("CopyUtil::cloneCollection - The cloneCollection failed: {}: {}", e.getClass().getName(), e.getMessage());
             }
         }
 

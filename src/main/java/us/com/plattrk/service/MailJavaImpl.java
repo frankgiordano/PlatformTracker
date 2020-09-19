@@ -94,10 +94,10 @@ public class MailJavaImpl implements Mail {
             }
 
             Transport.send(message);
-            log.info("email sent = " + message.toString());
+            log.info("MailJavaImpl::send - email sent = " + message.toString());
 
         } catch (MessagingException mex) {
-            log.error("Sending email failure.", mex);
+            log.error("MailJavaImpl::send - Sending email failure.", mex);
             throw new SendFailedException();
         }
     }
@@ -116,8 +116,8 @@ public class MailJavaImpl implements Mail {
         allEmailAddresses = generateEmailProductDistroList(products);
         mailFormat.initialize(incident);
 
-        log.debug("in generateEmailString, incoming incident Recipients = " + incident.getEmailRecipents());
-        log.debug("in generateEmailString, incoming appProperties. Recipients = " + appProperties.getProperty(incident.getEmailRecipents()));
+        log.debug("MailJavaImpl::generateEmailString - incoming incident Recipients = " + incident.getEmailRecipents());
+        log.debug("MailJavaImpl::generateEmailString - incoming appProperties. Recipients = " + appProperties.getProperty(incident.getEmailRecipents()));
 
         switch (type) {
             case INCIDENTSTART:
@@ -168,7 +168,7 @@ public class MailJavaImpl implements Mail {
 
         // guard against a problem when null are inserted in allEmailAddresses, problem with Arrays.asList() I believe
         for (int i = 0; i < allEmailAddresses.size(); i++) {
-            log.debug("inspect email array " + i + " " + allEmailAddresses.get(i));
+            log.debug("MailJavaImpl::generateEmailString - inspect email array " + i + " " + allEmailAddresses.get(i));
             if (allEmailAddresses.get(i) == null) {
                 allEmailAddresses.remove(i);
             }

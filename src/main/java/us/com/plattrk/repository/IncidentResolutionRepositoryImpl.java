@@ -96,7 +96,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
         try {
             em.merge(resolution);
         } catch (PersistenceException e) {
-            log.error("IncidentResolution::saveResolution - failure saving resolution = " + resolution.toString() + ", msg = " + e.getMessage());
+            log.error("IncidentResolutionRepositoryImpl::saveResolution - failure saving resolution = " + resolution.toString() + ", msg = " + e.getMessage());
             throw (e);
         }
 
@@ -130,7 +130,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                log.error("IncidentResolution::saveResolutions - failure saving resolution = " + i.toString() + ", msg = " + e.getMessage());
+                log.error("IncidentResolutionRepositoryImpl::saveResolutions - failure saving resolution = " + i.toString() + ", msg = " + e.getMessage());
                 resolutions.remove(i);
             }
         };
@@ -141,7 +141,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                log.error("IncidentResolution::deleteResolution - failure deleting resolution id " + i.getId() + ", msg = " + e.getMessage());
+                log.error("IncidentResolutionRepositoryImpl::deleteResolution - failure deleting resolution id " + i.getId() + ", msg = " + e.getMessage());
                 throw (e);
             }
         };

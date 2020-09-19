@@ -30,7 +30,7 @@ public class ActiveDirectory {
         try {
             dirContext = new InitialDirContext(properties);
         } catch (NamingException e) {
-            LOG.severe(e.getMessage());
+            LOG.severe("ActiveDirectory::ActiveDirectory " + e.getMessage());
         }
         searchCtls = new SearchControls();
         searchCtls.setSearchScope(SearchControls.SUBTREE_SCOPE);
@@ -46,7 +46,7 @@ public class ActiveDirectory {
             if (dirContext != null)
                 dirContext.close();
         } catch (NamingException e) {
-            LOG.severe(e.getMessage());
+            LOG.severe("ActiveDirectory::closeLdapConnection " + e.getMessage());
         }
     }
 }
