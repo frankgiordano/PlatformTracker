@@ -72,7 +72,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
 
     @Override
-//    @Scheduled(cron="*/10 * * * * ?")
+    @Scheduled(cron="*/10 * * * * ?")
     public void notificationCheck() {
         List<Incident> openIncidents = incidentRepository.getOpenIncidents();
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
@@ -84,10 +84,10 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
             if (!getThreadByName(incident.getTag())) {
                 // Thread thread = new Thread(new NotificationThread (i, appProperties)); // do this if you do not want to use spring container
-                NotificationThread notificationThread = (NotificationThread) wac.getBean("notificationThread");
-                notificationThread.setIncident(incident);
-                notificationThread.setAppProperties(appProperties);
-                Thread thread = new Thread(notificationThread);
+                IncidentNotificationService incidentNotificationService = (IncidentNotificationService) wac.getBean("notificationThread");
+                incidentNotificationService.setIncident(incident);
+                incidentNotificationService.setAppProperties(appProperties);
+                Thread thread = new Thread(incidentNotificationService);
                 thread.setName(incident.getTag());
                 thread.start();
             }
@@ -241,7 +241,8 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
     private boolean getThreadByName(String threadName) {
         for (Thread t : Thread.getAllStackTraces().keySet()) {
-            if (t.getName().equals(threadName)) return true;
+            if (t.getName().equals(threadName))
+                return true;
         }
         return false;
     }
