@@ -23,6 +23,7 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import us.com.plattrk.util.JsonDateMinusTimeDeserializer;
 
 @Entity
 @Table(name = "Resolution_Project")

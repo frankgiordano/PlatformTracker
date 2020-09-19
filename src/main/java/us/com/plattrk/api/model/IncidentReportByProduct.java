@@ -3,6 +3,7 @@ package us.com.plattrk.api.model;
 import java.util.Date;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import us.com.plattrk.util.JsonDateMinusTimeDeserializer;
 
 public class IncidentReportByProduct {
 
