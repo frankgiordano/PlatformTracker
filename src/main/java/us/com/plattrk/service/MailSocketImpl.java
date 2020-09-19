@@ -41,11 +41,11 @@ public class MailSocketImpl implements Mail {
 
             out.print(output);
             out.flush();
-            log.info("email sent = " + output);
+            log.info("MailSocketImpl::send - email sent = " + output);
 
             socket.close();
         } catch (IOException e) {
-            log.error("Email during incident create failed to send.", e);
+            log.error("MailSocketImpl::send - Email during incident create failed to send.", e);
         }
 
         return;

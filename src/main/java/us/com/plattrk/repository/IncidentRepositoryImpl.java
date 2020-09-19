@@ -123,7 +123,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
                     }
                 }
                 em.persist(incident);
-                log.info("incident id = " + incident.getId() + " created");
+                log.info("IncidentRepositoryImpl::saveIncident - incident id = " + incident.getId() + " created");
                 em.flush();
             } else {
                 // Due to the problem with bidirectional mapping between two tables, i.e.:incident and incident_group,
