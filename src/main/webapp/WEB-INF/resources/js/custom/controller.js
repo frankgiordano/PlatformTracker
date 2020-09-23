@@ -163,7 +163,7 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
         } else if (status == 403) {
             errorMsg = "You don't have permission to access.";
         }
-        if ($rootScope.loginButton === true) {
+        if ($rootScope.loginButton === true && errorMsg.length !== 0) {
             $rootScope.errorLoginMsg = "LOGIN_FAILURE - " + errorMsg; 
             $rootScope.loginButton = false;
         }
