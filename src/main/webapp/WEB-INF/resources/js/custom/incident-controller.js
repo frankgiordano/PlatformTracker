@@ -20,11 +20,11 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
 
     $scope.avoidRefresh = function (search) {
         var url = $location.absUrl();
-        if (url.indexOf('create') !== -1 || url.indexOf('edit') !== -1) 
-         return true;
+        if (url.indexOf('create') !== -1 || url.indexOf('edit') !== -1)
+            return true;
 
         if ($scope.previousSearch.pageno !== undefined) {
-            if ($scope.previousSearch.pageno === search.pageno+"" &&
+            if ($scope.previousSearch.pageno === search.pageno + "" &&
                 $scope.previousSearch.tag === search.tag &&
                 $scope.previousSearch.desc === search.desc &&
                 $scope.previousSearch.assignee === search.assignee)
@@ -32,7 +32,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
         }
 
         $scope.previousSearch = {
-            pageno: search.pageno+"",
+            pageno: search.pageno + "",
             tag: search.tag,
             desc: search.desc,
             assignee: search.assignee
@@ -57,7 +57,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
         $scope.checkFilters(search);
         IncidentService.search(search, pageno).then(
             function success(response) {
-                $scope.$evalAsync(function() {
+                $scope.$evalAsync(function () {
                     $scope.data = response;
                 });
             },
@@ -109,7 +109,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
                 $scope.searchAssignee = assignees.substring(1, assignees.length);
                 $scope.userFirstChanged = true;
             }
-        } 
+        }
     };
 
     $scope.clearFilters = function () {
@@ -155,7 +155,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
         $scope.rowCollection = newData;
     };
 
-    // no matter where this controller is being loaded from execute the following call 
+    // no matter where this controller is being loaded from execute the following function 
     (function () {
         ProductService.getActiveProducts().then(
             function success(response) {
@@ -182,7 +182,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
                         $scope.setSearchOwner($rootScope.user.username);
                         $scope.getData($scope.pageno);  // workaround to handle timing issue when loading page first time after app deployment
                     }
-                }            
+                }
             },
             function error() {
                 $rootScope.errors.push({
