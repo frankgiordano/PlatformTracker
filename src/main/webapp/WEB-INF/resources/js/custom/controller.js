@@ -117,7 +117,7 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
     };
 
     $scope.clearLocalStorage = function () {
-        localStorageService.remove('incidentCreateButtonClicked'); 
+        localStorageService.remove('incidentCreateButtonClicked');
         localStorageService.remove('incidentEditMode');
     }
 
@@ -149,6 +149,7 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
     }
 
     $scope.login = function (credentials) {
+        $rootScope.loginButton = true;
         $scope.$emit('event:loginRequest', credentials.email, credentials.password);
         sleep(2).then(() => {
             $location.path($rootScope.navigateTo);
@@ -156,13 +157,21 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
     };
 
     $scope.$on('event:auth-login-failed', function (e, status) {
-        // var error = "Login failed.";
+        var errorMsg = "";
         if (status == 401) {
-            // error = "Invalid Username or Password.";
+            errorMsg = "Invalid Username or Password.";
         } else if (status == 403) {
-            error = "You don't have permission to access.";
+            errorMsg = "You don't have permission to access.";
         }
-        // $scope.errorMessages = error;
+        if ($rootScope.loginButton === true) {
+            $rootScope.errorLoginMsg = "LOGIN_FAILURE - " + errorMsg; 
+            $rootScope.loginButton = false;
+        }
+    });
+
+    $scope.$on('event:auth-login-confirmed', function (e, status) {
+        $rootScope.loginButton = false;
+        $rootScope.errorLoginMsg = null;
     });
 
     $scope.clearMsg = function () {
