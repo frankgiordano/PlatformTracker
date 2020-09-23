@@ -1,6 +1,7 @@
 app.factory('responseObserver', function responseObserver($q, $window, $rootScope) {
     return function (promise) {
         return promise.then(function (successResponse) {
+            $rootScope.$broadcast('event:auth-login-confirmed', successResponse);
             return successResponse;
         }, function (errorResponse) {
             switch (errorResponse.status) {
