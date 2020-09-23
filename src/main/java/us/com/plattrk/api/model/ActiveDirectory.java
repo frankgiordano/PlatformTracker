@@ -49,4 +49,5 @@ public class ActiveDirectory {
             LOG.severe("ActiveDirectory::closeLdapConnection " + e.getMessage());
         }
     }
+
 }
