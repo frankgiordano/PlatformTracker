@@ -119,13 +119,13 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
     $scope.clearLocalStorage = function () {
         localStorageService.remove('incidentCreateButtonClicked');
         localStorageService.remove('incidentEditMode');
-    }
+    };
 
     $scope.checkLoginUser = function () {
         if ($rootScope.user === null) {
             $scope.$emit('event:logoutRequest');
         }
-    }
+    };
 
     // this is a workaround method in place of $scope.checkLoginUser 
     // use for those screens where ng-hide is used or child popup screen
@@ -136,7 +136,7 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
             $scope.$emit('event:logoutRequest');
             $location.path("/main");
         }
-    }
+    };
 
     $scope.logout = function () {
         $scope.$emit('event:logoutRequest');
@@ -146,10 +146,11 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
     // sleep time expects milliseconds
     function sleep(time) {
         return new Promise((resolve) => setTimeout(resolve, time));
-    }
+    };
 
     $scope.login = function (credentials) {
         $rootScope.loginButton = true;
+        document.body.style.cursor = "wait";
         $scope.$emit('event:loginRequest', credentials.email, credentials.password);
         sleep(2).then(() => {
             $location.path($rootScope.navigateTo);
@@ -167,11 +168,13 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
             $rootScope.errorLoginMsg = "LOGIN_FAILURE - " + errorMsg; 
             $rootScope.loginButton = false;
         }
+        document.body.style.cursor = "default";
     });
 
     $scope.$on('event:auth-login-confirmed', function (e, status) {
         $rootScope.loginButton = false;
         $rootScope.errorLoginMsg = null;
+        document.body.style.cursor = "default";
     });
 
     $scope.clearMsg = function () {
@@ -181,7 +184,7 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
 
     $scope.help = function () {
         $window.open('resources/html/partials/common/UsersGuide.pdf', '_blank');
-    }
+    };
 
 });
 
