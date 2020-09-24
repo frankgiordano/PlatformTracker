@@ -39,9 +39,9 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
         }
 
         return false;
-    }
+    };
 
-    // this method is all used to refresh screen screen. 
+    // this method is used to refresh search screen. 
     $scope.getData = function (pageno) {
         $scope.errorMessages = null;
         $scope.pageno = pageno;
@@ -73,30 +73,33 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
             search.desc = '*';
         if (search.assignee === "")
             search.assignee = '*';
-    }
+    };
 
     $scope.sort = function (keyName) {
-        $scope.sortKey = keyName;   //set the sortKey to the param passed
-        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+        $scope.sortKey = keyName;  // set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse;  // if true make it false and vice versa
     };
 
     $scope.$watch("searchTag", function (val) {
         if ($routeParams.sourceLocation === "fromsearchbygroup")
             return;
-        $scope.checkForAssignees();
-        $scope.getData($scope.pageno);
+        var result = $scope.checkForAssignees();
+        if (result === true)
+            $scope.getData($scope.pageno);
     }, true);
 
     $scope.$watch("searchDesc", function (val) {
         if ($routeParams.sourceLocation === "fromsearchbygroup")
             return;
-        $scope.checkForAssignees();
-        $scope.getData($scope.pageno);
+        var result = $scope.checkForAssignees();
+        if (result === true)
+            $scope.getData($scope.pageno);
     }, true);
 
     $scope.$watch("assigneeList", function (val) {
-        $scope.checkForAssignees();
-        $scope.getData($scope.pageno);
+        var result = $scope.checkForAssignees();
+        if (result === true)
+            $scope.getData($scope.pageno);
     }, true);
 
     $scope.checkForAssignees = function () {
@@ -109,7 +112,9 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
                 $scope.searchAssignee = assignees.substring(1, assignees.length);
                 $scope.userFirstChanged = true;
             }
+            return true;
         }
+        return false;
     };
 
     $scope.clearFilters = function () {
@@ -180,7 +185,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
                 if (incidentEditMode === null && $scope.clearButtonClicked === false && $scope.userFirstChanged === false && createButtonClicked === null) {
                     if ($rootScope.user) {
                         $scope.setSearchOwner($rootScope.user.username);
-                        $scope.getData($scope.pageno);  // workaround to handle timing issue when loading page first time after app deployment
+                        $scope.getData($scope.pageno);
                     }
                 }
             },
