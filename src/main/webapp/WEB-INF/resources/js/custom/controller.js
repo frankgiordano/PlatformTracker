@@ -139,6 +139,7 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
     };
 
     $scope.logout = function () {
+        localStorageService.set("enableSearch", false);
         $scope.$emit('event:logoutRequest');
         $location.path("/main");
     };
