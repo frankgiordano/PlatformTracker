@@ -1,4 +1,4 @@
-app.controller('RootCauseController', function ($rootScope, $scope, RcaService, $location, localStorageService, $routeParams, IncidentGroupService, ReferenceDataService, $filter, ModalService, OwnersService) {
+app.controller('RootCauseController', function ($rootScope, $scope, RcaService, $location, localStorageService, $routeParams, IncidentGroupService, ReferenceDataService, $filter, ModalService, OwnersService, HelperService) {
 
     $scope.rca = {};
     $scope.whys = [];
@@ -157,7 +157,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
         OwnersService.getOwners().then(
             function success(response) {
                 $scope.owners = response;
-                $scope.assignees = response;
+                $scope.assignees = HelperService.deepCopyJSONArray(response);
                 $scope.setRouteSearchParms();
             },
             function error() {

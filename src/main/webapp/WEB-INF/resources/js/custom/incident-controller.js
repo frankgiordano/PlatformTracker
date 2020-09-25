@@ -1,4 +1,4 @@
-app.controller('IncidentController', function ($rootScope, $scope, $filter, IncidentGroupService, localStorageService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService, OwnersService) {
+app.controller('IncidentController', function ($rootScope, $scope, $filter, IncidentGroupService, localStorageService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService, OwnersService, HelperService) {
 
     $scope.incident = {};
     $scope.hideDuringLoading = false;
@@ -178,7 +178,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
         OwnersService.getOwners().then(
             function success(response) {
                 $scope.owners = response;
-                $scope.assignees = response;
+                $scope.assignees = HelperService.deepCopyJSONArray(response);
                 $scope.setRouteSearchParms();
                 var createButtonClicked = localStorageService.get("incidentCreateButtonClicked");
                 var incidentEditMode = localStorageService.get("incidentEditMode");

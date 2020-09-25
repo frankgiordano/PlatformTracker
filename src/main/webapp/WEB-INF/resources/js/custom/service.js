@@ -161,6 +161,16 @@ app.service('Base64Service', function () {
     };
 });
 
+app.service('HelperService', function () {
+
+    this.deepCopyJSONArray = function (value) {
+        var newValue = JSON.stringify(value);  // deep copy
+        newValue = JSON.parse(newValue);
+        return newValue;
+    }
+
+});
+
 app.service('ReferenceDataService', function ($http, $q) {
 
     this.getStatus = function (id) {

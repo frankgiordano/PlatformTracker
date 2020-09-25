@@ -1,4 +1,4 @@
-app.controller('ProjectController', function ($rootScope, $scope, ProjectService, localStorageService, $location, $routeParams, OwnersService, ReferenceDataService, ModalService) {
+app.controller('ProjectController', function ($rootScope, $scope, ProjectService, localStorageService, $location, $routeParams, OwnersService, ReferenceDataService, ModalService, HelperService) {
 
     $scope.project = {};
     $scope.hideDuringLoading = false;
@@ -122,7 +122,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         OwnersService.getOwners().then(
             function success(response) {
                 $scope.owners = response;
-                $scope.assignees = response;
+                $scope.assignees = HelperService.deepCopyJSONArray(response);
                 $scope.setRouteSearchParms();
             },
             function error() {

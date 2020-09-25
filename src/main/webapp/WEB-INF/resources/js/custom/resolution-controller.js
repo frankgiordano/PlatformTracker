@@ -1,4 +1,4 @@
-app.controller('ResolutionController', function ($rootScope, $scope, OwnersService, localStorageService, ResolutionService, $location, $routeParams, IncidentGroupService, ReferenceDataService, ModalService) {
+app.controller('ResolutionController', function ($rootScope, $scope, OwnersService, localStorageService, ResolutionService, $location, $routeParams, IncidentGroupService, ReferenceDataService, ModalService, HelperService) {
 
     $scope.resolution = {};
     $scope.hideDuringLoading = false;
@@ -127,7 +127,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
         OwnersService.getOwners().then(
             function success(response) {
                 $scope.owners = response;
-                $scope.assignees = response;
+                $scope.assignees = HelperService.deepCopyJSONArray(response);
                 $scope.setRouteSearchParms();
             },
             function error() {
