@@ -13,6 +13,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
     $scope.clearButtonClicked = false;
     $scope.userFirstChanged = false;
     $scope.previousSearch = {};
+    $scope.enableSearch = false;
 
     $scope.init = function () {
         $scope.setRouteSearchParms();
@@ -103,7 +104,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
     }, true);
 
     $scope.checkForAssignees = function () {
-        if ($scope.assigneeList != null && $scope.assigneeList.length > 0) {
+        if ($scope.assigneeList !== undefined && $scope.assigneeList.length > 0) {
             var assignees = "";
             for (i = 0; i < $scope.assigneeList.length; i++) {
                 assignees = assignees + "|" + $scope.assigneeList[i].userName;
@@ -114,10 +115,15 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
             }
             return true;
         }
+        var isCreateClearClicked = localStorageService.get("enableSearch"); 
+        if (isCreateClearClicked === "true") {  
+            return true;
+        } 
         return false;
     };
 
     $scope.clearFilters = function () {
+        localStorageService.set("enableSearch", true); 
         $scope.clearButtonClicked = true;
         $scope.searchTag = "";
         $scope.searchDesc = "";
@@ -916,6 +922,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
     };
 
     $scope.new = function () {
+        localStorageService.set("enableSearch", true); 
         localStorageService.set("incidentCreateButtonClicked", true);  // set to any value we only check to see if it exist
         $location.path('/incident/create' + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
     };
