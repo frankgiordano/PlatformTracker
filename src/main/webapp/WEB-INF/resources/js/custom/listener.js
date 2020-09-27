@@ -43,6 +43,12 @@ app.run(function ($rootScope, $http, $location, Base64Service, AuthenticationSer
         $rootScope.errors = [];
     });
 
+    $rootScope.$on('event:auth-login-confirmed', function (e, status) {
+        $rootScope.loginButton = false;
+        $rootScope.errorLoginMsg = null;
+        document.body.style.cursor = "default";
+    });
+
     /**
      * On 'event:loginRequest' send credentials to the server.
      */

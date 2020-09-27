@@ -158,12 +158,6 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
         });
     };
 
-    $scope.$on('event:auth-login-confirmed', function (e, status) {
-        $rootScope.loginButton = false;
-        $rootScope.errorLoginMsg = null;
-        document.body.style.cursor = "default";
-    });
-
     $scope.clearMsg = function () {
         $scope.messages = null;
         $scope.errorMessages = null;
