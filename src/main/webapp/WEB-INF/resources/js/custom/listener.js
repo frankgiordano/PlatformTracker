@@ -88,7 +88,8 @@ app.run(function ($rootScope, $http, $location, Base64Service, AuthenticationSer
     });
 
     $rootScope.$on('$routeChangeSuccess', function(event, toState, toParams) { 
-        localStorageService.set("previousUrl", toParams.$$route.originalPath); 
+        if (toParams !== undefined)
+            localStorageService.set("previousUrl", toParams.$$route.originalPath); 
     }); 
     
 });
