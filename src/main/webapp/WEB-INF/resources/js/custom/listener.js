@@ -62,13 +62,17 @@ app.run(function ($rootScope, $http, $location, Base64Service, AuthenticationSer
     });
 
     $rootScope.$on('event:auth-login-failed', function (e, status) {
-        //      var error = "Login failed.";
+        var errorMsg = "";
         if (status == 401) {
-            //          error = "Invalid Username or Password.";
+            errorMsg = "Invalid Username or Password.";
         } else if (status == 403) {
-            error = "You don't have permission to access.";
+            errorMsg = "You don't have permission to access.";
         }
-        //        $rootScope.errorMessages = error;
+        if ($rootScope.loginButton === true && errorMsg.length !== 0) {
+            $rootScope.errorLoginMsg = "LOGIN_FAILURE - " + errorMsg; 
+            $rootScope.loginButton = false;
+        }
+        document.body.style.cursor = "default";
     });
 
     /**

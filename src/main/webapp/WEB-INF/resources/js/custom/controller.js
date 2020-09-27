@@ -158,20 +158,6 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
         });
     };
 
-    $scope.$on('event:auth-login-failed', function (e, status) {
-        var errorMsg = "";
-        if (status == 401) {
-            errorMsg = "Invalid Username or Password.";
-        } else if (status == 403) {
-            errorMsg = "You don't have permission to access.";
-        }
-        if ($rootScope.loginButton === true && errorMsg.length !== 0) {
-            $rootScope.errorLoginMsg = "LOGIN_FAILURE - " + errorMsg; 
-            $rootScope.loginButton = false;
-        }
-        document.body.style.cursor = "default";
-    });
-
     $scope.$on('event:auth-login-confirmed', function (e, status) {
         $rootScope.loginButton = false;
         $rootScope.errorLoginMsg = null;
