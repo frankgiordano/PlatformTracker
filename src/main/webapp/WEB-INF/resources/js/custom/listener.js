@@ -86,5 +86,9 @@ app.run(function ($rootScope, $http, $location, Base64Service, AuthenticationSer
                 $rootScope.errors.push({ code: "LOGOUT_FAILED", message: "Please try again." });
             })
     });
+
+    $rootScope.$on('$routeChangeSuccess', function(event, toState, toParams) { 
+        localStorageService.set("previousUrl", toParams.$$route.originalPath); 
+    }); 
     
 });
