@@ -941,6 +941,10 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
         if ($routeParams.pageno !== undefined) {
             $scope.pageno = $routeParams.pageno;
         }
+        var url = localStorageService.get("previousUrl"); 
+        if (url === '/incident/create') {
+            $scope.setSearchOwner($rootScope.user.username);
+        }
     };
 
     $scope.formValidation = function () {
