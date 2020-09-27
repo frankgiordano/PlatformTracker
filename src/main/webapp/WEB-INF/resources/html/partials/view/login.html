@@ -8,37 +8,33 @@
     }
 </style>
 
-<form name="loginForm" class="form-horizontal" novalidate>
-    <div style="clear:both;">&nbsp;</div>
-    <div id="messages" class="alert alert-danger" data-ng-show="errorLoginMsg" data-ng-bind="errorLoginMsg"></div>
+<div style="padding-bottom: 2%; padding-top: 2%">
+    <form name="loginForm" class="form-horizontal" novalidate>
+        <div id="messages" class="alert alert-danger" data-ng-show="errorLoginMsg" data-ng-bind="errorLoginMsg"></div>
+        <div class="container-fluid" style="padding-bottom: 2%; padding-top: 4%">
+            <div class="form-group" example-has-error>
+                <label for="email" class="col-sm-3 control-label">User Name:</label>
+                <div class="col-sm-4">
+                    <input id="email" data-ng-model="credentials.email" type="text" class="form-control" example-focus
+                        required />
+                </div>
+            </div>
 
-    <div class="container-fluid">
-        <div style="clear:both;">&nbsp;</div>
-        <div style="clear:both;">&nbsp;</div>
-        <div class="form-group" example-has-error>
-            <label for="email" class="col-sm-3 control-label">User Name:</label>
-            <div class="col-sm-4">
-                <input id="email" data-ng-model="credentials.email" type="text" class="form-control" example-focus
-                    required />
+            <div class="form-group" example-has-error>
+                <label for="password" class="col-sm-3 control-label">Password:</label>
+
+                <div class="col-sm-4">
+                    <input id="password" data-ng-model="credentials.password" type="password" class="form-control"
+                        required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-9 col-sm-offset-3">
+                    <input type="submit" value="Log In" class="btn btn-primary" data-ng-disabled="loginForm.$invalid"
+                        data-ng-click="login(credentials)" />
+                </div>
             </div>
         </div>
-
-        <div class="form-group" example-has-error>
-            <label for="password" class="col-sm-3 control-label">Password:</label>
-
-            <div class="col-sm-4">
-                <input id="password" data-ng-model="credentials.password" type="password" class="form-control"
-                    required />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-9 col-sm-offset-3">
-                <input type="submit" value="Log In" class="btn btn-primary" data-ng-disabled="loginForm.$invalid"
-                    data-ng-click="login(credentials)" />
-            </div>
-        </div>
-        
-        <div style="clear:both;">&nbsp;</div>
-    </div>
+</div>
 </form>
