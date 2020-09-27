@@ -236,6 +236,7 @@ app.config(function ($httpProvider) {
                 })
                 .when(
                     '/login', {
+                    controller: 'MainController',
                     templateUrl: 'resources/html/partials/view/login.html'
                 }).otherwise({
                     redirectTo: "/main"
