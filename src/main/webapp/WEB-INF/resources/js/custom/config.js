@@ -266,10 +266,8 @@ app.config(function ($httpProvider) {
 
                                         $httpProvider.defaults.headers.common.Authorization = null;
 
-                                        $rootScope.requests401
-                                            .push(req);
-                                        $rootScope
-                                            .$broadcast('event:loginRequired');
+                                        $rootScope.requests401.push(req);
+                                        $rootScope.$broadcast('event:loginRequired');
 
                                         return deferred.promise;
                                     }
