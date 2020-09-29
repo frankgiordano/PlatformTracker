@@ -1,9 +1,6 @@
 package us.com.plattrk.repository;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import us.com.plattrk.api.model.*;
 import us.com.plattrk.util.PageWrapper;
@@ -40,6 +37,6 @@ public interface IncidentRepository {
 
     public ReferenceData getApplicationStatus(Long id);
 
-    public Incident getIncident(Long id);
+    public Optional<Incident> getIncident(Long id);
 
 }

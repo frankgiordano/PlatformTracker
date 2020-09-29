@@ -248,7 +248,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
         $scope.checkLoginUser();
         localStorageService.set("incidentEditMode", true);  // set to any value we only check if is exist
         $scope.setRouteSearchParms();
-        IncidentService.getIncidentPlus($routeParams.id).then(
+        IncidentService.getIncidentPlus(1000).then(
             function success(response) {
                 if (response) {
                     $scope.groups = response[0];

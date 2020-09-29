@@ -259,8 +259,12 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     }
 
     @Override
-    public Incident getIncident(Long id) {
-        return em.find(Incident.class, id);
+    public Optional<Incident> getIncident(Long id) {
+        try {
+            return Optional.of(em.find(Incident.class, id));
+        } catch (NullPointerException  e) {
+            return Optional.empty();
+        }
     }
 
     private static Consumer<Incident> lambdaWrapper(Consumer<Incident> consumer) {

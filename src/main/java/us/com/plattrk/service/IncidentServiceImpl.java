@@ -84,7 +84,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
             if (!getThreadByName(incident.getTag())) {
                 // Thread thread = new Thread(new NotificationThread (i, appProperties)); // do this if you do not want to use spring container
-                IncidentNotificationService incidentNotificationService = (IncidentNotificationService) wac.getBean("notificationThread");
+                IncidentNotificationService incidentNotificationService = (IncidentNotificationService) wac.getBean("incidentNotificationService");
                 incidentNotificationService.setIncident(incident);
                 incidentNotificationService.setAppProperties(appProperties);
                 Thread thread = new Thread(incidentNotificationService);
@@ -221,7 +221,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     }
 
     @Override
-    public Incident getIncident(Long id) {
+    public Optional<Incident> getIncident(Long id) {
         return incidentRepository.getIncident(id);
     }
 

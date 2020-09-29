@@ -5,6 +5,7 @@ import us.com.plattrk.util.PageWrapper;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public interface IncidentService {
@@ -47,6 +48,6 @@ public interface IncidentService {
 
     public ReferenceData getApplicationStatus(Long id);
 
-    public Incident getIncident(Long id);
+    public Optional<Incident> getIncident(Long id);
 
 }

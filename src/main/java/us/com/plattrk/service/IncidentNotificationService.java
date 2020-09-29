@@ -185,7 +185,7 @@ public class IncidentNotificationService implements Runnable {
 
     public void sendEmail(Type type) {
         // send email notification for new chronology and retrieve latest incident to see if any updates have occurred.
-        incident = incidentRepository.getIncident(incident.getId());
+        incident = incidentRepository.getIncident(incident.getId()).get();
         mailService.send(incident, appProperties, type);
     }
 

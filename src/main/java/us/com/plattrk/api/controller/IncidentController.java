@@ -1,5 +1,7 @@
 package us.com.plattrk.api.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import us.com.plattrk.api.model.*;
 import us.com.plattrk.service.IncidentService;
 
@@ -88,7 +90,9 @@ public class IncidentController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
     public Incident getIncident(@PathVariable Long id) {
-        return incidentService.getIncident(id);
+        String errorMsg = "Incident id '" + id + "' does not exist";
+        return incidentService.getIncident(id)
+                              .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, errorMsg));
     }
 
 }
