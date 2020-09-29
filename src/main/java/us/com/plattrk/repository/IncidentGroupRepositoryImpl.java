@@ -23,7 +23,7 @@ import us.com.plattrk.util.RepositoryUtil;
 @Repository
 public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(IncidentGroupRepositoryImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IncidentGroupRepositoryImpl.class);
 
     @Autowired
     private RepositoryUtil<IncidentGroup> repositoryUtil;
@@ -126,7 +126,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
                 em.merge(group);
             }
         } catch (PersistenceException e) {
-            log.error("IncidentGroupRepositoryImpl::saveGroup - failure saving group = " + group.toString() + ", msg = " + e.getMessage());
+            LOG.error("IncidentGroupRepositoryImpl::saveGroup - failure saving group = " + group.toString() + ", msg = " + e.getMessage());
             throw (e);
         }
 
@@ -169,7 +169,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                log.error("IncidentGroupRepositoryImpl::deleteAllOrphanGroups - failure deleting orphan group = " + i.toString() + ", msg = " + e.getMessage());
+                LOG.error("IncidentGroupRepositoryImpl::deleteAllOrphanGroups - failure deleting orphan group = " + i.toString() + ", msg = " + e.getMessage());
                 groups.remove(i);
             }
         };
@@ -180,7 +180,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                log.error("IncidentGroupRepositoryImpl::deleteGroup - failure deleting group id " + i.getId() + ", msg = " + e.getMessage());
+                LOG.error("IncidentGroupRepositoryImpl::deleteGroup - failure deleting group id " + i.getId() + ", msg = " + e.getMessage());
                 throw (e);
             }
         };

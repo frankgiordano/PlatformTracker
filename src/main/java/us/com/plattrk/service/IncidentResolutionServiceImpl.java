@@ -22,7 +22,7 @@ import us.com.plattrk.util.PageWrapper;
 @Service(value = "IncidentResolutionService")
 public class IncidentResolutionServiceImpl implements IncidentResolutionService {
 
-    private static final Logger log = LoggerFactory.getLogger(IncidentResolutionServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IncidentResolutionServiceImpl.class);
 
     @Autowired
     private IncidentResolutionRepository resolutionRepository;
@@ -108,7 +108,7 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
                 updates.add(resolution);
                 break;
             default:
-                log.error("IncidentResolutionServiceImpl::determineUpdate - ignoring no operation value given.");
+                LOG.error("IncidentResolutionServiceImpl::determineUpdate - ignoring no operation value given.");
         }
     }
 

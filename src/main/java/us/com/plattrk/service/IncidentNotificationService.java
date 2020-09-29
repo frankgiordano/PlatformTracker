@@ -14,7 +14,7 @@ import us.com.plattrk.service.Mail.Type;
 
 public class IncidentNotificationService implements Runnable {
 
-    private static final Logger log = LoggerFactory.getLogger(IncidentNotificationService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IncidentNotificationService.class);
 
     // this is wired via xml configuration to allow us to easily switch between socket and java mail implementations.
     private MailService mailService;
@@ -57,7 +57,7 @@ public class IncidentNotificationService implements Runnable {
 
     @Override
     public void run() {
-        log.info("Started NotificationThread name = " + Thread.currentThread().getName());
+        LOG.info("Started NotificationThread name = " + Thread.currentThread().getName());
 
         boolean doOnceAfterRestart = false;
 
@@ -87,7 +87,7 @@ public class IncidentNotificationService implements Runnable {
                 incident.setChronologies(incidentChronologyRepository.getChronologiesPerIncident(incident.getId()));
                 if (!incident.getChronologies().isEmpty()) {
 
-                    log.info("found chronologies, in NotificationThread " + Thread.currentThread().getName());
+                    LOG.info("found chronologies, in NotificationThread " + Thread.currentThread().getName());
                     List<IncidentChronology> mySortedChrons = new ArrayList<IncidentChronology>(incident.getChronologies());
                     // find the last existing chronology by order to use its dateTime for calculation
                     mySortedChrons.sort(Comparator.comparing(IncidentChronology::getDateTime));
@@ -105,7 +105,7 @@ public class IncidentNotificationService implements Runnable {
 
                         if (!doOnceAfterRestart && startTime.getTime() >= mySortedChrons.get(mySortedChrons.size() - 1).getDateTime().getTime()) {
                             // reset the startTime to now
-                            log.info("startTime = " + startTime.getTime() + " chron date time = " + mySortedChrons.get(mySortedChrons.size() - 1).getDateTime().getTime());
+                            LOG.info("startTime = " + startTime.getTime() + " chron date time = " + mySortedChrons.get(mySortedChrons.size() - 1).getDateTime().getTime());
                             startTime = new Date();
                             numOfChronologies = mySortedChrons.size();
                             doOnceAfterRestart = true; // done once, don't come back into this code block until 
@@ -121,7 +121,7 @@ public class IncidentNotificationService implements Runnable {
                         }
                     }
                 } else {
-                    log.info("no chronologies found, in NotificationThread " + Thread.currentThread().getName());
+                    LOG.info("no chronologies found, in NotificationThread " + Thread.currentThread().getName());
                 }
 
                 tEnd = System.currentTimeMillis();
@@ -134,8 +134,8 @@ public class IncidentNotificationService implements Runnable {
                     durationTotal += i;
                 }
 
-                log.info("elapsedSeconds " + elapsedSeconds + ", in NotificationThread " + Thread.currentThread().getName());
-                log.info("early alert time = " + durationTotal + ", in NotificationThread " + Thread.currentThread().getName());
+                LOG.info("elapsedSeconds " + elapsedSeconds + ", in NotificationThread " + Thread.currentThread().getName());
+                LOG.info("early alert time = " + durationTotal + ", in NotificationThread " + Thread.currentThread().getName());
 
                 // trigger early alert email
                 if (elapsedSeconds > durationTotal) {
@@ -153,8 +153,8 @@ public class IncidentNotificationService implements Runnable {
                     }
                 }
 
-                log.info("alert time = " + (alertDuration) + ", in NotificationThread " + Thread.currentThread().getName());
-                log.info("escalated alert time = " + elapsedSeconds + " > " + escalatedAlert + ", in NotificationThread " + Thread.currentThread().getName());
+                LOG.info("alert time = " + (alertDuration) + ", in NotificationThread " + Thread.currentThread().getName());
+                LOG.info("escalated alert time = " + elapsedSeconds + " > " + escalatedAlert + ", in NotificationThread " + Thread.currentThread().getName());
 
                 // normal alert - send escalated email if escalated alert time has passed.
                 if (elapsedSeconds >= (alertDuration)) {
@@ -171,7 +171,7 @@ public class IncidentNotificationService implements Runnable {
 
                 }
             } catch (InterruptedException e) {
-                log.error("NotificationThread interrupted.");
+                LOG.error("NotificationThread interrupted.");
                 e.printStackTrace();
             }
         }
@@ -180,7 +180,7 @@ public class IncidentNotificationService implements Runnable {
             sendEmail(Type.INCIDENTEND);
         }
 
-        log.info("Ended NotificationThread name = " + Thread.currentThread().getName());
+        LOG.info("Ended NotificationThread name = " + Thread.currentThread().getName());
     }
 
     public void sendEmail(Type type) {

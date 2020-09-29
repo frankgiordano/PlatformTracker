@@ -19,7 +19,7 @@ import us.com.plattrk.util.MailUtil;
 
 public class MailSocketImpl implements Mail {
 
-    private static final Logger log = LoggerFactory.getLogger(MailSocketImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MailSocketImpl.class);
 
     @Autowired
     private MailUtil mailUtil;
@@ -41,11 +41,11 @@ public class MailSocketImpl implements Mail {
 
             out.print(output);
             out.flush();
-            log.info("MailSocketImpl::send - email sent = " + output);
+            LOG.info("MailSocketImpl::send - email sent = " + output);
 
             socket.close();
         } catch (IOException e) {
-            log.error("MailSocketImpl::send - Email during incident create failed to send.", e);
+            LOG.error("MailSocketImpl::send - Email during incident create failed to send.", e);
         }
 
         return;

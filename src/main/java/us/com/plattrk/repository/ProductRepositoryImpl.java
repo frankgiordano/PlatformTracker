@@ -21,7 +21,7 @@ import us.com.plattrk.util.RepositoryUtil;
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(ProductRepositoryImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProductRepositoryImpl.class);
     private static final String TYPE = "Product";
 
     @Autowired
@@ -85,7 +85,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 em.merge(product);
             }
         } catch (PersistenceException e) {
-            log.error("ProductRepositoryImpl::saveProduct - failure saving product = " + product.toString() + ", msg = " + e.getMessage());
+            LOG.error("ProductRepositoryImpl::saveProduct - failure saving product = " + product.toString() + ", msg = " + e.getMessage());
             throw (e);
         }
 
@@ -109,7 +109,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                log.error("ProductRepositoryImpl::deleteProduct - failure deleting product id " + i.getId() + ", msg = " + e.getMessage());
+                LOG.error("ProductRepositoryImpl::deleteProduct - failure deleting product id " + i.getId() + ", msg = " + e.getMessage());
                 throw (e);
             }
         };

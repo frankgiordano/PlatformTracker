@@ -23,7 +23,7 @@ import us.com.plattrk.util.RepositoryUtil;
 @Repository
 public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(IncidentResolutionRepositoryImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IncidentResolutionRepositoryImpl.class);
     private static final String TYPE = "Resolution";
 
     @Autowired
@@ -96,7 +96,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
         try {
             em.merge(resolution);
         } catch (PersistenceException e) {
-            log.error("IncidentResolutionRepositoryImpl::saveResolution - failure saving resolution = " + resolution.toString() + ", msg = " + e.getMessage());
+            LOG.error("IncidentResolutionRepositoryImpl::saveResolution - failure saving resolution = " + resolution.toString() + ", msg = " + e.getMessage());
             throw (e);
         }
 
@@ -130,7 +130,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                log.error("IncidentResolutionRepositoryImpl::saveResolutions - failure saving resolution = " + i.toString() + ", msg = " + e.getMessage());
+                LOG.error("IncidentResolutionRepositoryImpl::saveResolutions - failure saving resolution = " + i.toString() + ", msg = " + e.getMessage());
                 resolutions.remove(i);
             }
         };
@@ -141,7 +141,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                log.error("IncidentResolutionRepositoryImpl::deleteResolution - failure deleting resolution id " + i.getId() + ", msg = " + e.getMessage());
+                LOG.error("IncidentResolutionRepositoryImpl::deleteResolution - failure deleting resolution id " + i.getId() + ", msg = " + e.getMessage());
                 throw (e);
             }
         };

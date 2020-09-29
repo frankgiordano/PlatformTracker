@@ -20,7 +20,7 @@ import us.com.plattrk.api.model.IncidentChronology;
 @Repository
 public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(IncidentChronologyRepositoryImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IncidentChronologyRepositoryImpl.class);
 
     @PersistenceContext
     private EntityManager em;
@@ -34,7 +34,7 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
             // because the associated incident exist when persist is done.. needs to be a merge instead..
             em.merge(chronology);
         } catch (PersistenceException e) {
-            log.error("IncidentChronologyRepositoryImpl::saveIncidentChronology - failure saving chronology " + chronology.toString() + ", msg = " + e.getMessage());
+            LOG.error("IncidentChronologyRepositoryImpl::saveIncidentChronology - failure saving chronology " + chronology.toString() + ", msg = " + e.getMessage());
             throw (e);
         }
 
@@ -85,7 +85,7 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                log.error("IncidentChronologyRepositoryImpl::deleteIncidentChronology - failure deleting chronology id " + i.getId() + ", msg = " + e.getMessage());
+                LOG.error("IncidentChronologyRepositoryImpl::deleteIncidentChronology - failure deleting chronology id " + i.getId() + ", msg = " + e.getMessage());
                 throw (e);
             }
         };

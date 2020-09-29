@@ -12,7 +12,7 @@ import us.com.plattrk.api.model.Incident;
 
 public class MailServiceImpl implements MailService {
 
-    private static final Logger log = LoggerFactory.getLogger(MailServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MailServiceImpl.class);
 
     // this is wired via xml configuration to allow us to easily switch between
     // socket and java mail implementations.
@@ -35,7 +35,7 @@ public class MailServiceImpl implements MailService {
             mail.generateEmailString();
             mail.send();
         } catch (Exception e) {
-            log.error("MailServiceImpl::send - Error sending email service layer.", e);
+            LOG.error("MailServiceImpl::send - Error sending email service layer.", e);
         }
     }
 
@@ -51,7 +51,7 @@ public class MailServiceImpl implements MailService {
             mail.setProperties(appProperties);
             mail.send();
         } catch (Exception e) {
-            log.error("MailServiceImpl::sendDailyReport - Error sending sendDailyReport email service layer.", e);
+            LOG.error("MailServiceImpl::sendDailyReport - Error sending sendDailyReport email service layer.", e);
         }
     }
 
@@ -73,7 +73,7 @@ public class MailServiceImpl implements MailService {
             mail.setFile(file);
             mail.send();
         } catch (Exception e) {
-            log.error("MailServiceImpl::sendWeeklyReport - Error sending sendWeeklyReport email service layer.", e);
+            LOG.error("MailServiceImpl::sendWeeklyReport - Error sending sendWeeklyReport email service layer.", e);
         }
         return true;
     }

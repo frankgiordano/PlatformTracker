@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public class CopyUtil {
 
-    private static final Logger log = LoggerFactory.getLogger(CopyUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CopyUtil.class);
 
     private static final String METHOD_CLONE = "clone";
 
@@ -20,7 +20,7 @@ public class CopyUtil {
             try {
                 obj = (T) orig.getClass().getMethod(METHOD_CLONE).invoke(orig);
             } catch (Exception e) {
-                log.error("CopyUtil::clone - The clone failed: {}: {}", e.getClass().getName(), e.getMessage());
+                LOG.error("CopyUtil::clone - The clone failed: {}: {}", e.getClass().getName(), e.getMessage());
             }
         }
 
@@ -42,7 +42,7 @@ public class CopyUtil {
                     obj.add(clone(element));
                 }
             } catch (Exception e) {
-                log.error("CopyUtil::cloneCollection - The cloneCollection failed: {}: {}", e.getClass().getName(), e.getMessage());
+                LOG.error("CopyUtil::cloneCollection - The cloneCollection failed: {}: {}", e.getClass().getName(), e.getMessage());
             }
         }
 

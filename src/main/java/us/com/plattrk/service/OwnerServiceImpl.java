@@ -32,4 +32,5 @@ public class OwnerServiceImpl implements OwnerService {
         owners.sort(Comparator.comparing(OwnerInfo::getDisplayName, String::compareToIgnoreCase));
         return owners;
     }
+
 }

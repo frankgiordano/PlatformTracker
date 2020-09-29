@@ -24,7 +24,7 @@ import us.com.plattrk.util.RepositoryUtil;
 @Repository
 public class RCARepositoryImpl implements RCARepository {
 
-    private static final Logger log = LoggerFactory.getLogger(RCARepositoryImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RCARepositoryImpl.class);
 
     @Autowired
     private RepositoryUtil<RCA> repositoryUtil;
@@ -102,7 +102,7 @@ public class RCARepositoryImpl implements RCARepository {
                 em.merge(rca);
             }
         } catch (PersistenceException e) {
-            log.error("RCARepositoryImpl::saveRCA - failure saving root cause = " + rca.toString() + ", msg = " + e.getMessage());
+            LOG.error("RCARepositoryImpl::saveRCA - failure saving root cause = " + rca.toString() + ", msg = " + e.getMessage());
             throw (e);
         }
 
@@ -120,7 +120,7 @@ public class RCARepositoryImpl implements RCARepository {
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                log.error("RCARepositoryImpl::deleteRCA - failure deleting root cause id " + i.getId() + ", msg = " + e.getMessage());
+                LOG.error("RCARepositoryImpl::deleteRCA - failure deleting root cause id " + i.getId() + ", msg = " + e.getMessage());
                 throw (e);
             }
         };

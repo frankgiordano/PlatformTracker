@@ -21,7 +21,7 @@ import us.com.plattrk.util.RepositoryUtil;
 @Repository
 public class ProjectRepositoryImpl implements ProjectRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(ProjectRepositoryImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProjectRepositoryImpl.class);
     private static final String TYPE = "Project";
 
     @Autowired
@@ -88,7 +88,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 em.merge(project);
             }
         } catch (PersistenceException e) {
-            log.error("ProjectRepositoryImpl::saveProject - failure saving product = " + project.toString() + ", msg = " + e.getMessage());
+            LOG.error("ProjectRepositoryImpl::saveProject - failure saving product = " + project.toString() + ", msg = " + e.getMessage());
             throw (e);
         }
 
@@ -106,7 +106,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                log.error("ProjectRepositoryImpl::deleteProject - failure deleting project id " + i.getId() + ", msg = " + e.getMessage());
+                LOG.error("ProjectRepositoryImpl::deleteProject - failure deleting project id " + i.getId() + ", msg = " + e.getMessage());
                 throw (e);
             }
         };
