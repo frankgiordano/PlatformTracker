@@ -120,9 +120,12 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
     }
 
     @Override
-    public IncidentResolution getResolution(Long id) {
-        IncidentResolution incidentResolution = em.find(IncidentResolution.class, id);
-        return incidentResolution;
+    public Optional<IncidentResolution> getResolution(Long id) {
+        try {
+            return Optional.of(em.find(IncidentResolution.class, id));
+        } catch (NullPointerException  e) {
+            return Optional.empty();
+        }
     }
 
     private static Consumer<IncidentResolution> lambdaWrapper(Consumer<IncidentResolution> consumer, List<IncidentResolution> resolutions) {

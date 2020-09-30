@@ -2,6 +2,7 @@ package us.com.plattrk.repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.util.PageWrapper;
@@ -16,7 +17,7 @@ public interface ProductRepository {
 
     public Product saveProduct(Product product);
 
-    public Product getProduct(Long id);
+    public Optional<Product> getProduct(Long id);
 
     public List<Product> getActiveProducts();
 

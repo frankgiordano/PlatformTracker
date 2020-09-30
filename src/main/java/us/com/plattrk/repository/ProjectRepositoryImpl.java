@@ -96,9 +96,12 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public Project getProject(Long id) {
-        Project incidentProject = em.find(Project.class, id);
-        return incidentProject;
+    public Optional<Project> getProject(Long id) {
+        try {
+            return Optional.of(em.find(Project.class, id));
+        } catch (NullPointerException  e) {
+            return Optional.empty();
+        }
     }
 
     private static Consumer<Project> lambdaWrapper(Consumer<Project> consumer) {

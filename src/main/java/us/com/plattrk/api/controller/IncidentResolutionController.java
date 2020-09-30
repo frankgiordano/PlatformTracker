@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.web.server.ResponseStatusException;
 import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.api.model.IncidentResolutionVO;
 import us.com.plattrk.service.IncidentResolutionService;
@@ -61,7 +63,9 @@ public class IncidentResolutionController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/resolutions/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
     public IncidentResolution getResolution(@PathVariable Long id) {
-        return incidentResolutionService.getIncidentResolution(id);
+        String errorMsg = "Incident Resolution id '" + id + "' does not exist";
+        return incidentResolutionService.getIncidentResolution(id)
+                                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, errorMsg));
     }
 
 }

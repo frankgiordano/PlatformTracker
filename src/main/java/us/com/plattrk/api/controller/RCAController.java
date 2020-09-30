@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.web.server.ResponseStatusException;
 import us.com.plattrk.api.model.RCA;
 import us.com.plattrk.api.model.RCAVO;
 import us.com.plattrk.service.RCAService;
@@ -50,7 +52,9 @@ public class RCAController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = "application/json")
     public RCA getRootCause(@PathVariable Long id) {
-        return rcaService.getRCA(id);
+        String errorMsg = "Root Cause id '" + id + "' does not exist";
+        return rcaService.getRCA(id)
+                         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, errorMsg));
     }
 
 }
