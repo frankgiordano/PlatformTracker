@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentGroup;
 import us.com.plattrk.service.IncidentGroupService;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 @RestController
 @RequestMapping(value = "/group")

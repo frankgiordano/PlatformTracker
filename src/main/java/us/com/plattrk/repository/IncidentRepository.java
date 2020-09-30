@@ -3,7 +3,7 @@ package us.com.plattrk.repository;
 import java.util.*;
 
 import us.com.plattrk.api.model.*;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 public interface IncidentRepository {
 

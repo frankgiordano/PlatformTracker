@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import us.com.plattrk.api.model.Project;
 import us.com.plattrk.service.ProjectService;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 @RestController
 @RequestMapping(value = "/project")

@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import us.com.plattrk.api.model.RCA;
 import us.com.plattrk.api.model.RCAVO;
 import us.com.plattrk.repository.RCARepository;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 @Service(value = "RCAService")
 public class RCAServiceImpl implements RCAService {

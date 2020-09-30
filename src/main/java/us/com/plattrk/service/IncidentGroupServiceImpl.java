@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentGroup;
 import us.com.plattrk.repository.IncidentGroupRepository;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 @Service(value = "IncidentGroupService")
 public class IncidentGroupServiceImpl implements IncidentGroupService {

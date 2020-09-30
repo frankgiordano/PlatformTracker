@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.api.model.IncidentResolutionVO;
 import us.com.plattrk.service.IncidentResolutionService;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 @RestController
 @RequestMapping(value = "/incidentResolution")

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.repository.ProductRepository;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 @Service(value = "ProductService")
 public class ProductServiceImpl implements ProductService {

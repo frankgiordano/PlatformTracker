@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import us.com.plattrk.api.model.Project;
 import us.com.plattrk.repository.ProjectRepository;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 @Service(value = "ProjectService")
 public class ProjectServiceImpl implements ProjectService {

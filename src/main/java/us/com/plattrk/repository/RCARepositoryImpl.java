@@ -17,8 +17,8 @@ import org.springframework.stereotype.Repository;
 
 import us.com.plattrk.api.model.RCA;
 import us.com.plattrk.api.model.RCAVO;
-import us.com.plattrk.util.PageWrapper;
-import us.com.plattrk.util.QueryResult;
+import us.com.plattrk.api.model.PageWrapper;
+import us.com.plattrk.api.model.QueryResult;
 import us.com.plattrk.util.RepositoryUtil;
 
 @Repository

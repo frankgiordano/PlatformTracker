@@ -8,7 +8,7 @@ import us.com.plattrk.service.IncidentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 import javax.persistence.OptimisticLockException;
 import java.util.List;
