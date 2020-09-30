@@ -2,6 +2,7 @@ package us.com.plattrk.repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import us.com.plattrk.api.model.RCA;
 import us.com.plattrk.api.model.RCAVO;
@@ -17,6 +18,6 @@ public interface RCARepository {
 
     public RCA saveRCA(RCA rca);
 
-    public RCA getRCA(Long id);
+    public Optional<RCA> getRCA(Long id);
 
 }

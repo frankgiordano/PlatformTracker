@@ -2,6 +2,7 @@ package us.com.plattrk.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.api.model.IncidentResolutionVO;
@@ -21,6 +22,6 @@ public interface IncidentResolutionService {
 
     public List<IncidentResolution> getGroupResolutions(Long id);
 
-    public IncidentResolution getIncidentResolution(Long id);
+    public Optional<IncidentResolution> getIncidentResolution(Long id);
 
 }

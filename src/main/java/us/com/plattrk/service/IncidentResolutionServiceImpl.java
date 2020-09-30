@@ -3,6 +3,7 @@ package us.com.plattrk.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -63,8 +64,8 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
                                                             .filter(isProjectId.and(isProjectIdPositive))
                                                             .collect(Collectors.toList());
         saveResList.forEach(resVO -> {
-            IncidentResolution resolution = resolutionRepository.getResolution(resVO.getId());
-            Project project = projectRepository.getProject(resVO.getProjectId());
+            IncidentResolution resolution = resolutionRepository.getResolution(resVO.getId()).get();
+            Project project = projectRepository.getProject(resVO.getProjectId()).get();
             determineUpdate(updates, resVO, resolution, project);
         });
 
@@ -81,7 +82,7 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
     }
 
     @Override
-    public IncidentResolution getIncidentResolution(Long id) {
+    public Optional<IncidentResolution> getIncidentResolution(Long id) {
         return resolutionRepository.getResolution(id);
     }
 

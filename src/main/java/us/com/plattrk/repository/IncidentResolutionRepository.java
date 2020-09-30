@@ -2,6 +2,7 @@ package us.com.plattrk.repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.util.PageWrapper;
@@ -20,6 +21,6 @@ public interface IncidentResolutionRepository {
 
     public List<IncidentResolution> getGroupResolutions(Long id);
 
-    public IncidentResolution getResolution(Long id);
+    public Optional<IncidentResolution> getResolution(Long id);
 
 }

@@ -110,9 +110,12 @@ public class RCARepositoryImpl implements RCARepository {
     }
 
     @Override
-    public RCA getRCA(Long id) {
-        RCA incidentRCA = em.find(RCA.class, id);
-        return incidentRCA;
+    public Optional<RCA> getRCA(Long id) {
+        try {
+            return Optional.of(em.find(RCA.class, id));
+        } catch (NullPointerException  e) {
+            return Optional.empty();
+        }
     }
 
     private static Consumer<RCA> lambdaWrapper(Consumer<RCA> consumer) {

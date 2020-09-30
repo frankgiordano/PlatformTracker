@@ -2,6 +2,7 @@ package us.com.plattrk.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project getProject(Long id) {
+    public Optional<Project> getProject(Long id) {
         return projectRepository.getProject(id);
     }
 

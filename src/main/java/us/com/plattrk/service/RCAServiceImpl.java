@@ -2,6 +2,7 @@ package us.com.plattrk.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class RCAServiceImpl implements RCAService {
     }
 
     @Override
-    public RCA getRCA(Long id) {
+    public Optional<RCA> getRCA(Long id) {
         return rcaRepository.getRCA(id);
     }
 

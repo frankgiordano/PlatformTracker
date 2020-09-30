@@ -93,8 +93,12 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Product getProduct(Long id) {
-        return em.find(Product.class, id);
+    public Optional<Product> getProduct(Long id) {
+        try {
+            return Optional.of(em.find(Product.class, id));
+        } catch (NullPointerException  e) {
+            return Optional.empty();
+        }
     }
 
     @Override
