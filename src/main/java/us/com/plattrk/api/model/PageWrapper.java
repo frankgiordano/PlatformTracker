@@ -1,4 +1,4 @@
-package us.com.plattrk.util;
+package us.com.plattrk.api.model;
 
 import java.util.List;
 

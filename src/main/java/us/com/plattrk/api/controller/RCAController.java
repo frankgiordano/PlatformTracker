@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import us.com.plattrk.api.model.RCA;
 import us.com.plattrk.api.model.RCAVO;
 import us.com.plattrk.service.RCAService;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 @RestController
 @RequestMapping(value = "/rootcause")

@@ -1,6 +1,7 @@
 package us.com.plattrk.util;
 
 import org.springframework.stereotype.Component;
+import us.com.plattrk.api.model.QueryResult;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

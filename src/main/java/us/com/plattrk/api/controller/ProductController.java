@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.service.ProductService;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 @RestController
 @RequestMapping(value = "/product")

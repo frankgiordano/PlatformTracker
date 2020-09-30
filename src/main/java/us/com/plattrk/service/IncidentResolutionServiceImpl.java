@@ -18,7 +18,7 @@ import us.com.plattrk.api.model.IncidentResolutionVO;
 import us.com.plattrk.api.model.Project;
 import us.com.plattrk.repository.IncidentResolutionRepository;
 import us.com.plattrk.repository.ProjectRepository;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 @Service(value = "IncidentResolutionService")
 public class IncidentResolutionServiceImpl implements IncidentResolutionService {

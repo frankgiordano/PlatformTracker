@@ -1,7 +1,7 @@
 package us.com.plattrk.service;
 
 import us.com.plattrk.api.model.*;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 import java.util.List;
 import java.util.Map;

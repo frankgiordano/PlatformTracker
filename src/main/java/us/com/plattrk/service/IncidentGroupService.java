@@ -6,7 +6,7 @@ import java.util.Set;
 
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentGroup;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 public interface IncidentGroupService {
 

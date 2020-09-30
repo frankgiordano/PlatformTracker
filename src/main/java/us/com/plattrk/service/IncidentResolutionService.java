@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.api.model.IncidentResolutionVO;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 
 public interface IncidentResolutionService {
     

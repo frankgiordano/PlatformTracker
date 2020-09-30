@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentGroup;
-import us.com.plattrk.util.PageWrapper;
+import us.com.plattrk.api.model.PageWrapper;
 import us.com.plattrk.util.RepositoryUtil;
 
 @Repository
