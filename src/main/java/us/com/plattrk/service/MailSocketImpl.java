@@ -33,12 +33,11 @@ public class MailSocketImpl implements Mail {
     @Override
     public void send() {
         try {
-            Socket socket = new Socket("ebola.gssolrs.net", 8404);
+            Socket socket = new Socket("hostname", 9999);
             PrintStream out = new PrintStream(socket.getOutputStream());
 
-            // Send an email notification. Use the python socket listener setup by Steve Eaton. Drop a ^
-            // separated string on port 8404 on ebola.gssolrs.net in this format Email@emailaddress.com^subject^body
-
+            // Send an email notification. A python socket listener setup on server. Drop a ^
+            // separated string on port xxxx on hostname in this format Email@emailaddress.com^subject^body
             out.print(output);
             out.flush();
             LOG.info("MailSocketImpl::send - email sent = " + output);
@@ -58,7 +57,6 @@ public class MailSocketImpl implements Mail {
 
     @Override
     public void generateEmailString() {
-
         // get the product state(s) associated with the incident
         Set<Product> products = incident.getProducts();
         // append all product email distribution addresses together
@@ -125,27 +123,22 @@ public class MailSocketImpl implements Mail {
 
     @Override
     public void setBody(String body) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void setSubject(String subject) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void setAllEmailAddresses(List<String> allEmailAddresses) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void setFileName(String fileName) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void setFile(String file) {
-        // TODO Auto-generated method stub
     }
 
 }
