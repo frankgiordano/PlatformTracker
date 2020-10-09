@@ -935,11 +935,11 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
         if ($routeParams.searchDesc !== undefined) {
             $scope.searchDesc = $routeParams.searchDesc;
         }
-        if ($routeParams.searchAssignee !== undefined) {
-            $scope.setSearchOwner($routeParams.searchAssignee);
-        }
         if ($routeParams.pageno !== undefined) {
             $scope.pageno = $routeParams.pageno;
+        }
+        if ($routeParams.searchAssignee !== undefined) {
+            $scope.setSearchOwner($routeParams.searchAssignee);
         }
         var url = localStorageService.get("previousUrl"); 
         if (url === '/incident/create') {
