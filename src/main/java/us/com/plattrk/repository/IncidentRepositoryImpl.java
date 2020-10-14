@@ -123,7 +123,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
                     }
                 }
                 em.persist(incident);
-                LOG.info("IncidentRepositoryImpl::saveIncident - incident id = " + incident.getId() + " created");
+                LOG.info("IncidentRepositoryImpl::saveIncident - incident id {} created",  incident.getId());
                 em.flush();
             } else {
                 // Due to the problem with bidirectional mapping between two tables, i.e.:incident and incident_group,
@@ -166,7 +166,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
                 }
             }
         } catch (PersistenceException e) {
-            LOG.error("IncidentRepositoryImpl::saveIncident - failure saving product = " + incomingIncident.toString() + ", msg = " + e.getMessage());
+            LOG.error("IncidentRepositoryImpl::saveIncident - failure saving product {}, msg {}", incomingIncident.toString(), e.getMessage());
             throw (e);
         }
 
@@ -272,7 +272,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                LOG.error("IncidentRepositoryImpl::deleteIncident - failure deleting incident id " + i.getId() + ", msg = " + e.getMessage());
+                LOG.error("IncidentRepositoryImpl::deleteIncident - failure deleting incident id {}, msg {}", i.getId(), e.getMessage());
                 throw (e);
             }
         };

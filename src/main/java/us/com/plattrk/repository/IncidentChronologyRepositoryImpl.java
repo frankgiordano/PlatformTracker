@@ -34,7 +34,7 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
             // because the associated incident exist when persist is done.. needs to be a merge instead..
             em.merge(chronology);
         } catch (PersistenceException e) {
-            LOG.error("IncidentChronologyRepositoryImpl::saveIncidentChronology - failure saving chronology " + chronology.toString() + ", msg = " + e.getMessage());
+            LOG.error("IncidentChronologyRepositoryImpl::saveIncidentChronology - failure saving chronology {}, msg {}", chronology.toString(), e.getMessage());
             throw (e);
         }
 
@@ -85,7 +85,7 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                LOG.error("IncidentChronologyRepositoryImpl::deleteIncidentChronology - failure deleting chronology id " + i.getId() + ", msg = " + e.getMessage());
+                LOG.error("IncidentChronologyRepositoryImpl::deleteIncidentChronology - failure deleting chronology id {}, msg {}", i.getId(), e.getMessage());
                 throw (e);
             }
         };

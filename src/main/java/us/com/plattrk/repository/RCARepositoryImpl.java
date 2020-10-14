@@ -102,7 +102,7 @@ public class RCARepositoryImpl implements RCARepository {
                 em.merge(rca);
             }
         } catch (PersistenceException e) {
-            LOG.error("RCARepositoryImpl::saveRCA - failure saving root cause = " + rca.toString() + ", msg = " + e.getMessage());
+            LOG.error("RCARepositoryImpl::saveRCA - failure saving root cause {}, msg {}", rca.toString(), e.getMessage());
             throw (e);
         }
 
@@ -123,7 +123,7 @@ public class RCARepositoryImpl implements RCARepository {
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                LOG.error("RCARepositoryImpl::deleteRCA - failure deleting root cause id " + i.getId() + ", msg = " + e.getMessage());
+                LOG.error("RCARepositoryImpl::deleteRCA - failure deleting root cause id {}, msg {}", i.getId(), e.getMessage());
                 throw (e);
             }
         };

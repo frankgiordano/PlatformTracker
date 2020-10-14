@@ -85,7 +85,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 em.merge(product);
             }
         } catch (PersistenceException e) {
-            LOG.error("ProductRepositoryImpl::saveProduct - failure saving product = " + product.toString() + ", msg = " + e.getMessage());
+            LOG.error("ProductRepositoryImpl::saveProduct - failure saving product {}, msg {}", product.toString(), e.getMessage());
             throw (e);
         }
 
@@ -113,7 +113,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                LOG.error("ProductRepositoryImpl::deleteProduct - failure deleting product id " + i.getId() + ", msg = " + e.getMessage());
+                LOG.error("ProductRepositoryImpl::deleteProduct - failure deleting product id {}, msg {}", i.getId(), e.getMessage());
                 throw (e);
             }
         };

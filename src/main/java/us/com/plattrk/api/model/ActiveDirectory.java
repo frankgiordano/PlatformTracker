@@ -1,7 +1,8 @@
 package us.com.plattrk.api.model;
 
 import java.util.Properties;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
@@ -13,7 +14,7 @@ import javax.naming.directory.SearchResult;
 
 public class ActiveDirectory {
 
-    private static final Logger LOG = Logger.getLogger(ActiveDirectory.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(ActiveDirectory.class);
 
     private Properties properties;
     private DirContext dirContext;
@@ -30,7 +31,7 @@ public class ActiveDirectory {
         try {
             dirContext = new InitialDirContext(properties);
         } catch (NamingException e) {
-            LOG.severe("ActiveDirectory::ActiveDirectory " + e.getMessage());
+            LOG.error("ActiveDirectory::ActiveDirectory {}", e.getMessage());
         }
         searchCtls = new SearchControls();
         searchCtls.setSearchScope(SearchControls.SUBTREE_SCOPE);
@@ -46,7 +47,7 @@ public class ActiveDirectory {
             if (dirContext != null)
                 dirContext.close();
         } catch (NamingException e) {
-            LOG.severe("ActiveDirectory::closeLdapConnection " + e.getMessage());
+            LOG.error("ActiveDirectory::closeLdapConnection {}", e.getMessage());
         }
     }
 

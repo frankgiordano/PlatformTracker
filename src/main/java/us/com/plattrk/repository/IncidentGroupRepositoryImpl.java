@@ -126,7 +126,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
                 em.merge(group);
             }
         } catch (PersistenceException e) {
-            LOG.error("IncidentGroupRepositoryImpl::saveGroup - failure saving group = " + group.toString() + ", msg = " + e.getMessage());
+            LOG.error("IncidentGroupRepositoryImpl::saveGroup - failure saving group {}, msg {}", group.toString(), e.getMessage());
             throw (e);
         }
 
@@ -169,7 +169,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                LOG.error("IncidentGroupRepositoryImpl::deleteAllOrphanGroups - failure deleting orphan group = " + i.toString() + ", msg = " + e.getMessage());
+                LOG.error("IncidentGroupRepositoryImpl::deleteAllOrphanGroups - failure deleting orphan group {}, msg {}", i.toString(), e.getMessage());
                 groups.remove(i);
             }
         };
@@ -180,7 +180,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                LOG.error("IncidentGroupRepositoryImpl::deleteGroup - failure deleting group id " + i.getId() + ", msg = " + e.getMessage());
+                LOG.error("IncidentGroupRepositoryImpl::deleteGroup - failure deleting group id {}, msg {}", i.getId(), e.getMessage());
                 throw (e);
             }
         };

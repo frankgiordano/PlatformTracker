@@ -88,7 +88,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 em.merge(project);
             }
         } catch (PersistenceException e) {
-            LOG.error("ProjectRepositoryImpl::saveProject - failure saving product = " + project.toString() + ", msg = " + e.getMessage());
+            LOG.error("ProjectRepositoryImpl::saveProject - failure saving product {}, msg {}", project.toString(), e.getMessage());
             throw (e);
         }
 
@@ -109,7 +109,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             try {
                 consumer.accept(i);
             } catch (PersistenceException e) {
-                LOG.error("ProjectRepositoryImpl::deleteProject - failure deleting project id " + i.getId() + ", msg = " + e.getMessage());
+                LOG.error("ProjectRepositoryImpl::deleteProject - failure deleting project id {}, msg {}", i.getId(), e.getMessage());
                 throw (e);
             }
         };

@@ -80,7 +80,14 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         // find if there are any open incidents, if so loop through them and perform email notification if applicable. 
         // spawn a thread for each open incident and the thread performs the notification.
         for (Incident incident : openIncidents) {
-            LOG.info("IncidentServiceImpl::notificationCheck - Open Incident found, in NotificationCheck processing " + incident.getStatus() + " " + incident.getTag() + " " + incident.getStartTime());
+            StringBuilder notificationCheckInfo = new StringBuilder();
+            notificationCheckInfo.append("IncidentServiceImpl::notificationCheck - open Incident found in NotificationCheck, processing incident status ");
+            notificationCheckInfo.append(incident.getStatus());
+            notificationCheckInfo.append(", tag ");
+            notificationCheckInfo.append(incident.getTag());
+            notificationCheckInfo.append(", startTime ");
+            notificationCheckInfo.append(incident.getStartTime());
+            LOG.info(notificationCheckInfo.toString());
 
             if (!getThreadByName(incident.getTag())) {
                 // Thread thread = new Thread(new NotificationThread (i, appProperties)); // do this if you do not want to use spring container

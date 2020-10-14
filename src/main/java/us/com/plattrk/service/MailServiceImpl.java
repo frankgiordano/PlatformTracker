@@ -35,7 +35,7 @@ public class MailServiceImpl implements MailService {
             mail.generateEmailString();
             mail.send();
         } catch (Exception e) {
-            LOG.error("MailServiceImpl::send - Error sending email service layer.", e);
+            LOG.error("MailServiceImpl::send - error sending email service layer {}", e.getMessage());
         }
     }
 
@@ -51,7 +51,7 @@ public class MailServiceImpl implements MailService {
             mail.setProperties(appProperties);
             mail.send();
         } catch (Exception e) {
-            LOG.error("MailServiceImpl::sendDailyReport - Error sending sendDailyReport email service layer.", e);
+            LOG.error("MailServiceImpl::sendDailyReport - error sending sendDailyReport email service layer {}", e.getMessage());
         }
     }
 
@@ -73,7 +73,7 @@ public class MailServiceImpl implements MailService {
             mail.setFile(file);
             mail.send();
         } catch (Exception e) {
-            LOG.error("MailServiceImpl::sendWeeklyReport - Error sending sendWeeklyReport email service layer.", e);
+            LOG.error("MailServiceImpl::sendWeeklyReport - error sending sendWeeklyReport email service layer {}", e.getMessage());
         }
         return true;
     }

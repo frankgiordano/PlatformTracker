@@ -40,11 +40,11 @@ public class MailSocketImpl implements Mail {
             // separated string on port xxxx on hostname in this format Email@emailaddress.com^subject^body
             out.print(output);
             out.flush();
-            LOG.info("MailSocketImpl::send - email sent = " + output);
+            LOG.info("MailSocketImpl::send - email sent {}" + output);
 
             socket.close();
         } catch (IOException e) {
-            LOG.error("MailSocketImpl::send - Email during incident create failed to send.", e);
+            LOG.error("MailSocketImpl::send - email during incident create failed to send {}", e.getMessage());
         }
 
         return;
