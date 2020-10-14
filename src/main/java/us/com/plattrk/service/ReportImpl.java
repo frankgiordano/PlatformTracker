@@ -38,10 +38,10 @@ public class ReportImpl implements Report {
 
     private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
     private DecimalFormat decimalFormatPercent = new DecimalFormat("#0.0000");
-    private List<Double> totalDowntimeALL = new ArrayList<Double>();
-    private List<Long> totalDowntimeCLOUDALL = new ArrayList<Long>();
-    private List<Long> totalDowntimeTRIVINALL = new ArrayList<Long>();
-    private List<Long> totalDowntimeEXTALL = new ArrayList<Long>();
+    private List<Double> totalDowntimeALL = new ArrayList<>();
+    private List<Long> totalDowntimeCLOUDALL = new ArrayList<>();
+    private List<Long> totalDowntimeTRIVINALL = new ArrayList<>();
+    private List<Long> totalDowntimeEXTALL = new ArrayList<>();
 
     public ReportImpl() {
     }
@@ -135,9 +135,9 @@ public class ReportImpl implements Report {
             file = appProperties.getProperty("ReportLocation") + "//WeeklyReport.xlsx";
         }
 
-        List<Long> totalDowntimeInternal = new ArrayList<Long>();
-        List<Long> totalDowntimeExternal = new ArrayList<Long>();
-        List<Long> totalDowntimeCLOUD = new ArrayList<Long>();
+        List<Long> totalDowntimeInternal = new ArrayList<>();
+        List<Long> totalDowntimeExternal = new ArrayList<>();
+        List<Long> totalDowntimeCLOUD = new ArrayList<>();
         Long currentIncidentDownTime = 0L;
 
         try {
@@ -440,9 +440,9 @@ public class ReportImpl implements Report {
             file = appProperties.getProperty("ReportLocation") + "//IncidentReportByProducts.xlsx";
         }
 
-        List<Long> totalDowntimeInternal = new ArrayList<Long>();
-        List<Long> totalDowntimeExternal = new ArrayList<Long>();
-        List<Long> totalDowntimeCLOUD = new ArrayList<Long>();
+        List<Long> totalDowntimeInternal = new ArrayList<>();
+        List<Long> totalDowntimeExternal = new ArrayList<>();
+        List<Long> totalDowntimeCLOUD = new ArrayList<>();
         Long currentIncidentDownTime = 0L;
 
         try {
@@ -529,7 +529,7 @@ public class ReportImpl implements Report {
             String compareCurrent = null;
             String compareIncoming = null;
             HashMap<String, Boolean> cacheIncomingProducts = new HashMap<String, Boolean>();
-            List<Product> summaryProducts = new ArrayList<Product>();
+            List<Product> summaryProducts = new ArrayList<>();
 
             String[] incomingProducts = incidentReport.getProducts().split(",");
             for (String product : incomingProducts) {

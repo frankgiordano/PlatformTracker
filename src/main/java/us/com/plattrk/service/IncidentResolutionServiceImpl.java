@@ -56,7 +56,7 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
 
     @Transactional
     public List<IncidentResolutionVO> saveLinkedResolutions(List<IncidentResolutionVO> resolutions) {
-        List<IncidentResolution> updates = new ArrayList<IncidentResolution>();
+        List<IncidentResolution> updates = new ArrayList<>();
         Predicate<IncidentResolutionVO> isProjectId = resolution -> resolution.getProjectId() != null;
         Predicate<IncidentResolutionVO> isProjectIdPositive = resolution -> resolution.getProjectId() >= 0;
 
@@ -87,7 +87,7 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
     }
 
     private void updateIncomingResolutions(List<IncidentResolutionVO> resolutions, List<IncidentResolution> result) {
-        List<Long> ids = new ArrayList<Long>();
+        List<Long> ids = new ArrayList<>();
         result.forEach(item -> {
             ids.add(item.getId());
         });

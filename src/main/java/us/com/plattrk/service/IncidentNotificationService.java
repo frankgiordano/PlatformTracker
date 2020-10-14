@@ -63,7 +63,7 @@ public class IncidentNotificationService implements Runnable {
 
         // initialize Long Array list that grows due to meeting every x defined minutes
         // without an incident update
-        List<Long> durations = new ArrayList<Long>();
+        List<Long> durations = new ArrayList<>();
         durations.add(earlyAlert);
         alertDuration = earlyAlert + alert;
         startTime = new Date();
@@ -88,7 +88,7 @@ public class IncidentNotificationService implements Runnable {
                 if (!incident.getChronologies().isEmpty()) {
 
                     LOG.info("found chronologies, in NotificationThread " + Thread.currentThread().getName());
-                    List<IncidentChronology> mySortedChrons = new ArrayList<IncidentChronology>(incident.getChronologies());
+                    List<IncidentChronology> mySortedChrons = new ArrayList<>(incident.getChronologies());
                     // find the last existing chronology by order to use its dateTime for calculation
                     mySortedChrons.sort(Comparator.comparing(IncidentChronology::getDateTime));
 

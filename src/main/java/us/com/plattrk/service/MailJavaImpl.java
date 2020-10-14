@@ -38,7 +38,7 @@ public class MailJavaImpl implements Mail {
     private Type type;
     private Incident incident;
     private Properties appProperties;
-    private List<String> allEmailAddresses = new ArrayList<String>();
+    private List<String> allEmailAddresses = new ArrayList<>();
     private String subject;
     private String body;
     private DataSource source;
@@ -178,7 +178,7 @@ public class MailJavaImpl implements Mail {
 
     @Override
     public List<String> generateEmailProductDistroList(Set<Product> products) {
-        List<String> productEmailDistroArray = new ArrayList<String>();
+        List<String> productEmailDistroArray = new ArrayList<>();
         for (Product product : products) {
             productEmailDistroArray.add(appProperties.getProperty(product.getShortName()));
         }

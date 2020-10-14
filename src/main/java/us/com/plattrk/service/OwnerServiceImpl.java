@@ -23,7 +23,7 @@ public class OwnerServiceImpl implements OwnerService {
     @Autowired
     private Environment env;
     
-    private List<OwnerInfo> owners = new ArrayList<OwnerInfo>();
+    private List<OwnerInfo> owners = new ArrayList<>();
 
     public List<OwnerInfo> getOwnerList() {
         owners.clear();

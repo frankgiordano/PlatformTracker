@@ -28,7 +28,7 @@ public class MailSocketImpl implements Mail {
     private Incident incident;
     private Properties appProperties;
     private String output;
-    private List<String> allEmailAddresses = new ArrayList<String>();
+    private List<String> allEmailAddresses = new ArrayList<>();
 
     @Override
     public void send() {
@@ -99,7 +99,7 @@ public class MailSocketImpl implements Mail {
 
     @Override
     public List<String> generateEmailProductDistroList(Set<Product> products) {
-        List<String> productEmailDistroArray = new ArrayList<String>();
+        List<String> productEmailDistroArray = new ArrayList<>();
         for (Product product : products) {
             productEmailDistroArray.add(appProperties.getProperty(product.getShortName()));
         }

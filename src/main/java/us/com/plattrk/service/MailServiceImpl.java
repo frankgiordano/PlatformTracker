@@ -42,7 +42,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public void sendDailyReport(Properties appProperties, String body, String subject) {
         try {
-            List<String> allEmailAddresses = new ArrayList<String>();
+            List<String> allEmailAddresses = new ArrayList<>();
             allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty("Outages").split(",")));
             mail.setAllEmailAddresses(allEmailAddresses);
             mail.setSubject(subject);
@@ -59,7 +59,7 @@ public class MailServiceImpl implements MailService {
     public boolean sendWeeklyReport(Properties appProperties, String body, String file, String fileName, String subject,
             EmailAddress address) {
         try {
-            List<String> allEmailAddresses = new ArrayList<String>();
+            List<String> allEmailAddresses = new ArrayList<>();
             if (address != null) {
                 allEmailAddresses.addAll(Arrays.asList(address.getAddress()));
             } else {
