@@ -186,7 +186,7 @@
                                                 <td>Date Time</td>
                                                 <td>Description</td>
                                                 <td>Recorded By</td>
-                                                <td>Delete</td>
+                                                <td ng-show="!disableButton">Delete</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -195,8 +195,8 @@
                                                 <td>{{item.dateTime | dateFormat}}</td>
                                                 <td style="white-space:pre-wrap; word-wrap:break-word">{{item.description}}</td>
                                                 <td>{{item.recordedBy}}</td>
-                                                <td>
-                                                    <a href="#" class="" onclick="event.preventDefault()" ng-show="!disableButton"
+                                                <td ng-show="!disableButton">
+                                                    <a href="#" class="" onclick="event.preventDefault()"
                                                         ng-click="removeChronology(item)">
                                                         <span class="glyphicon glyphicon-trash"></span>
                                                     </a>
