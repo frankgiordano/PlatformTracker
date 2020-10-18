@@ -201,8 +201,9 @@ public class IncidentNotificationService implements Runnable {
         this.incident = incident;
     }
 
-    // this is called when we are starting the thread via spring container, the default constructor is used and we need to set the properties here
-    // or we could have set the properties in application context xml bean definition for NotificationThread.
+    // this is called when we are starting the thread via spring container, the default constructor is used
+    // and we need to set the properties here or we could have set the properties in application context xml
+    // bean definition for NotificationThread.
     public void setAppProperties(Properties appProperties) {
         this.appProperties = appProperties;
         this.earlyAlert = Long.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
