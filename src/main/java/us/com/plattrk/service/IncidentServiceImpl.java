@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
+import javax.mail.SendFailedException;
 import javax.servlet.ServletContext;
 
 @Service(value = "IncidentService")
@@ -33,9 +34,6 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
     @Autowired
     private NotificationRepository notificationRepository;
-
-    @Autowired
-    private IncidentNotificationService incidentNotificationService;
 
     @Autowired
     private Properties appProperties;
@@ -69,10 +67,14 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         if ((incident.getId() == null) && (incidentRepository.saveIncident(incident) != null)) {
             WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
             MailService mailService = (MailService) wac.getBean("mailService");
-            if (incident.getStatus().equals("Open")) {
-                mailService.send(incident, appProperties, Mail.Type.INCIDENTSTART);
-            } else {
-                mailService.send(incident, appProperties, Mail.Type.INCIDENTCREATEEND);
+            try {
+                if (incident.getStatus().equals("Open")) {
+                    mailService.send(incident, appProperties, Mail.Type.INCIDENTSTART);
+                } else {
+                    mailService.send(incident, appProperties, Mail.Type.INCIDENTCREATEEND);
+                }
+            } catch (SendFailedException e) {
+                LOG.error("IncidentServiceImpl::saveIncident - error sending email notification ", e);
             }
         } else incidentRepository.saveIncident(incident);
 
@@ -110,20 +112,29 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     @Transactional
     public void notificationCheck() {
         List<Incident> openIncidents = incidentRepository.getOpenIncidents();
+        WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 
         // find if there are any open incidents, if so loop through them and perform email notification if applicable.
         openIncidents.forEach((i -> {
             notificationCheckInfo(i);
+
+            IncidentNotificationService incidentNotificationService =
+                    (IncidentNotificationServiceImpl) wac.getBean("incidentNotificationServiceImpl");
+            incidentNotificationService.setIncident(i);
+
             try {
-                if (!incidentNotificationService.earlyAlert(i)) {
+                Notification notification = notificationRepository.getNotification(Type.INCIDENT.name(), i.getId());
+                if (notification == null) {
                     LocalDateTime startDateTime = i.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
                     Notification entry = new Notification(i.getId(), startDateTime, Type.INCIDENT.name(), "active");
                     notificationRepository.save(entry);
+                } else {
+                    incidentNotificationService.earlyAlert();
+                    incidentNotificationService.alertOffSet();
+                    incidentNotificationService.escalatedAlert();
                 }
-                incidentNotificationService.alertOffSet(i);
-                incidentNotificationService.escalatedAlert(i);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (IllegalStateException e) {
+                LOG.error("IncidentServiceImpl::notificationCheck - IllegalStateException error - {} ", e.getMessage());
             }
         }));
     }

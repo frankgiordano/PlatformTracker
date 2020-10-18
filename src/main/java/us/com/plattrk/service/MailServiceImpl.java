@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import us.com.plattrk.api.model.EmailAddress;
 import us.com.plattrk.api.model.Incident;
 
+import javax.mail.SendFailedException;
+
 public class MailServiceImpl implements MailService {
 
     private static final Logger LOG = LoggerFactory.getLogger(MailServiceImpl.class);
@@ -26,7 +28,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void send(Incident incident, Properties appProperties, Mail.Type type) {
+    public void send(Incident incident, Properties appProperties, Mail.Type type) throws SendFailedException {
         try {
             mail.setIncident(incident);
             mail.setProperties(appProperties);
@@ -34,8 +36,9 @@ public class MailServiceImpl implements MailService {
             mail.setFileName(""); // don't send any attachment
             mail.generateEmailString();
             mail.send();
-        } catch (Exception e) {
-            LOG.error("MailServiceImpl::send - error sending email service layer {}", e.getMessage());
+        } catch (SendFailedException e) {
+            LOG.error("MailServiceImpl::send - error sending email service layer - {}", e.getMessage());
+            throw e;
         }
     }
 

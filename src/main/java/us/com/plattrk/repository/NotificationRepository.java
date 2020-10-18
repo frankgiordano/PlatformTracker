@@ -9,7 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class NotificationRepository {
@@ -20,17 +21,20 @@ public class NotificationRepository {
     private EntityManager em;
 
     public Notification getNotification(String type, Long id) {
-        Optional<Notification> result = Optional.empty();
+        List<Notification> result = new ArrayList<>();
         try {
             TypedQuery<Notification> query = em.createNamedQuery(Notification.FIND_NOTIFICATION_BY_TYPE_AND_TYPE_ID, Notification.class)
                                                .setParameter("type", type)
                                                .setParameter("typeId", id);
-            result = Optional.of(query.getSingleResult());
+            result = query.getResultList();
         } catch (PersistenceException e) {
             LOG.error("NotificationRepository::getNotification - error retrieving notification for type {} and id {}", type, id);
         }
 
-        return result.orElse(null);
+        if (!result.isEmpty())
+            return result.get(0);
+        else
+            return null;
     }
 
     public Notification save(Notification n) {

@@ -51,7 +51,7 @@ public class Notification {
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
     @Column(name = "type", nullable = false)
     public String getType() {
         return type;

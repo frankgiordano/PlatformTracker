@@ -2,16 +2,20 @@ package us.com.plattrk.service;
 
 import us.com.plattrk.api.model.Incident;
 
+import javax.mail.SendFailedException;
+
 public interface IncidentNotificationService {
 
-    public boolean earlyAlert(Incident incident);
+    public boolean earlyAlert();
 
-    public boolean alertOffSet(Incident incident);
+    public boolean alertOffSet();
 
-    public boolean escalatedAlert(Incident incident);
+    public boolean escalatedAlert();
 
-    public void sendEmail(Mail.Type type, Incident incident);
+    public void sendEmail(Mail.Type type) throws SendFailedException;
 
     public void setMailService(MailService mailService);
+
+    public void setIncident(Incident incident);
 
 }
