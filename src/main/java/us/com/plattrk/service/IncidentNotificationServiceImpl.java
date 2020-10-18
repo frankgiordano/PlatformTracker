@@ -42,6 +42,10 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
 
         List<IncidentChronology> ic = new ArrayList<>(incident.getChronologies());
         ic.sort(Comparator.comparing(IncidentChronology::getDateTime));
+
+        if (ic.isEmpty())
+            return false;
+        
         Date dateToConvert = ic.get(0).getDateTime();
         LocalDateTime icDate = Instant.ofEpochMilli(dateToConvert.getTime())
                                       .atZone(ZoneId.systemDefault()).toLocalDateTime();
