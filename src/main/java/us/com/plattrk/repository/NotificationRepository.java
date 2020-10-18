@@ -28,7 +28,7 @@ public class NotificationRepository {
                                                .setParameter("typeId", id);
             result = Optional.of(query.getSingleResult());
         } catch (PersistenceException e) {
-            LOG.error("NotificationRepository::getNotification - error retrieving notification for type {} and id {}", type.name(), id);
+            LOG.error("NotificationRepository::getNotification - error retrieving notification for type {} and id {}", type, id);
         }
 
         return result.orElse(null);
