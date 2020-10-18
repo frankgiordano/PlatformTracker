@@ -75,7 +75,7 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
 
         boolean sentAlert = false;
 //        int alertInSecondsOffset = Integer.valueOf(appProperties.getProperty("AlertInSecondsOffset", "300"));
-        int alertInSecondsOffset = 600;
+        int alertInSecondsOffset = 100;
 
         Notification notification = getNotification();
         if (notification != null) {
@@ -109,7 +109,7 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
 
         boolean sentAlert = false;
 //        int escalatedAlertInSeconds = Integer.valueOf(appProperties.getProperty("EscalatedAlertInSeconds", "300"));
-        int escalatedAlertInSeconds = 900;
+        int escalatedAlertInSeconds = 800;
 
         Notification notification = getNotification();
         if (notification != null) {
