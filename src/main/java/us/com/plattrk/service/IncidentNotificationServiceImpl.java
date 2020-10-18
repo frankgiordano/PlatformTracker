@@ -45,7 +45,7 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
 
         if (ic.isEmpty())
             return false;
-        
+
         Date dateToConvert = ic.get(0).getDateTime();
         LocalDateTime icDate = Instant.ofEpochMilli(dateToConvert.getTime())
                                       .atZone(ZoneId.systemDefault()).toLocalDateTime();
@@ -53,7 +53,9 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
         Notification notification = getNotification();
         LocalDateTime lastEarlyAlertDateTime = notification.getLastEarlyAlertDateTime();
         if (icDate.isAfter(lastEarlyAlertDateTime)) {
+            notification.setLastAlertOffSetDateTime(icDate);
             notification.setLastEarlyAlertDateTime(icDate);
+            notification.setLastEscalatedAlertDateTime(icDate);
             notificationRepository.save(notification);
         }
 
