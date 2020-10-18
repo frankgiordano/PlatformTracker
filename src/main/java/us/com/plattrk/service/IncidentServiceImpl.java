@@ -35,7 +35,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     private NotificationRepository notificationRepository;
 
     @Autowired
-    private IncidentNotificationServiceImpl incidentNotificationService;
+    private IncidentNotificationService incidentNotificationService;
 
     @Autowired
     private Properties appProperties;

@@ -11,8 +11,8 @@ import us.com.plattrk.repository.NotificationRepository;
 import java.time.LocalDateTime;
 import java.util.Properties;
 
-@Service(value = "IncidentNotificationService")
-public class IncidentNotificationServiceImpl {
+@Service(value = "incidentNotificationService")
+public class IncidentNotificationServiceImpl implements IncidentNotificationService {
 
     // this is wired via xml configuration to allow us to easily switch between socket and java mail implementations.
     private MailService mailService;
@@ -26,6 +26,7 @@ public class IncidentNotificationServiceImpl {
     @Autowired
     private IncidentRepository incidentRepository;
 
+    @Override
     public boolean earlyAlert(Incident incident) {
         boolean sentAlert = false;
 //        int earlyAlertInSeconds = Integer.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
@@ -55,6 +56,7 @@ public class IncidentNotificationServiceImpl {
         return sentAlert;
     }
 
+    @Override
     public boolean alertOffSet(Incident incident) {
         boolean sentAlert = false;
 //        int alertInSecondsOffset = Integer.valueOf(appProperties.getProperty("AlertInSecondsOffset", "300"));
@@ -80,6 +82,7 @@ public class IncidentNotificationServiceImpl {
         return sentAlert;
     }
 
+    @Override
     public boolean escalatedAlert(Incident incident) {
         boolean sentAlert = false;
 //        int escalatedAlertInSeconds = Integer.valueOf(appProperties.getProperty("EscalatedAlertInSeconds", "300"));
@@ -109,18 +112,20 @@ public class IncidentNotificationServiceImpl {
         return sentAlert;
     }
 
+    @Override
+    public void sendEmail(Mail.Type type, Incident incident) {
+        // send email notification for new chronology and retrieve latest incident to see if any updates have occurred.
+        incident = incidentRepository.getIncident(incident.getId()).get();
+        mailService.send(incident, appProperties, type);
+    }
+
+    @Override
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
     }
 
     private Notification getNotification(Incident incident) {
         return notificationRepository.getNotification(Type.INCIDENT, incident.getId());
-    }
-
-    private void sendEmail(Mail.Type type, Incident incident) {
-        // send email notification for new chronology and retrieve latest incident to see if any updates have occurred.
-        incident = incidentRepository.getIncident(incident.getId()).get();
-        mailService.send(incident, appProperties, type);
     }
 
 }
