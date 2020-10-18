@@ -62,7 +62,7 @@ public class IncidentNotificationThreadServiceImpl implements Runnable {
         boolean doOnceAfterRestart = false;
         final String threadName = Thread.currentThread().getName();
 
-        LOG.info("IncidentNotificationService::run - started notification thread name {}", threadName);
+        LOG.info("IncidentNotificationThreadServiceImpl::run - started notification thread name {}", threadName);
 
         // initialize Long Array list that grows due to meeting every x defined minutes
         // without an incident update
@@ -124,7 +124,7 @@ public class IncidentNotificationThreadServiceImpl implements Runnable {
                         }
                     }
                 } else {
-                    LOG.info("IncidentNotificationService::run - no chronologies found in notification thread name {}", threadName);
+                    LOG.info("IncidentNotificationThreadServiceImpl::run - no chronologies found in notification thread name {}", threadName);
                 }
 
                 tEnd = System.currentTimeMillis();
@@ -137,8 +137,8 @@ public class IncidentNotificationThreadServiceImpl implements Runnable {
                     durationTotal += i;
                 }
 
-                LOG.info("IncidentNotificationService::run - elapsedSeconds {} in notification thread name {}", elapsedSeconds, threadName);
-                LOG.info("IncidentNotificationService::run - early alert time {} in notification thread name {}", durationTotal, threadName);
+                LOG.info("IncidentNotificationThreadServiceImpl::run - elapsedSeconds {} in notification thread name {}", elapsedSeconds, threadName);
+                LOG.info("IncidentNotificationThreadServiceImpl::run - early alert time {} in notification thread name {}", durationTotal, threadName);
 
                 // trigger early alert email
                 if (elapsedSeconds > durationTotal) {
@@ -156,9 +156,9 @@ public class IncidentNotificationThreadServiceImpl implements Runnable {
                     }
                 }
 
-                LOG.info("IncidentNotificationService::run - alert time {} in notification thread name {}", alertDuration, threadName);
+                LOG.info("IncidentNotificationThreadServiceImpl::run - alert time {} in notification thread name {}", alertDuration, threadName);
                 StringBuilder escalatedAlertTimeInfo = new StringBuilder();
-                escalatedAlertTimeInfo.append("IncidentNotificationService::run - escalated alert time ");
+                escalatedAlertTimeInfo.append("IncidentNotificationThreadServiceImpl::run - escalated alert time ");
                 escalatedAlertTimeInfo.append(elapsedSeconds);
                 escalatedAlertTimeInfo.append(" > ");
                 escalatedAlertTimeInfo.append(escalatedAlert);
@@ -181,7 +181,7 @@ public class IncidentNotificationThreadServiceImpl implements Runnable {
 
                 }
             } catch (InterruptedException e) {
-                LOG.error("IncidentNotificationService::run - notification thread name {} interrupted", threadName);
+                LOG.error("IncidentNotificationThreadServiceImpl::run - notification thread name {} interrupted", threadName);
                 e.printStackTrace();
             }
         }
@@ -190,7 +190,7 @@ public class IncidentNotificationThreadServiceImpl implements Runnable {
             sendEmail(Type.INCIDENTEND);
         }
 
-        LOG.info("IncidentNotificationService::run - ended notification thread name {}", threadName);
+        LOG.info("IncidentNotificationThreadServiceImpl::run - ended notification thread name {}", threadName);
     }
 
     public void sendEmail(Type type) {

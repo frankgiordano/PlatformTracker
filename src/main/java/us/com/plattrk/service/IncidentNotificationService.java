@@ -6,6 +6,8 @@ import javax.mail.SendFailedException;
 
 public interface IncidentNotificationService {
 
+    public boolean resetAlert();
+
     public boolean earlyAlert();
 
     public boolean alertOffSet();

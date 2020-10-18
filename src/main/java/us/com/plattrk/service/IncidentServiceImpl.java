@@ -129,6 +129,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
                     Notification entry = new Notification(i.getId(), startDateTime, Type.INCIDENT.name(), "active");
                     notificationRepository.save(entry);
                 } else {
+                    incidentNotificationService.resetAlert();
                     incidentNotificationService.earlyAlert();
                     incidentNotificationService.alertOffSet();
                     incidentNotificationService.escalatedAlert();
