@@ -12,6 +12,8 @@ import us.com.plattrk.repository.IncidentChronologyRepository;
 import us.com.plattrk.repository.IncidentRepository;
 import us.com.plattrk.service.Mail.Type;
 
+import javax.mail.SendFailedException;
+
 public class IncidentNotificationThreadServiceImpl implements Runnable {
 
     private static final Logger LOG = LoggerFactory.getLogger(IncidentNotificationThreadServiceImpl.class);
@@ -194,7 +196,11 @@ public class IncidentNotificationThreadServiceImpl implements Runnable {
     public void sendEmail(Type type) {
         // send email notification for new chronology and retrieve latest incident to see if any updates have occurred.
         incident = incidentRepository.getIncident(incident.getId()).get();
-        mailService.send(incident, appProperties, type);
+        try {
+            mailService.send(incident, appProperties, type);
+        } catch (SendFailedException e) {
+            LOG.error("IncidentNotificationThreadServiceImpl::sendEmail - error sending email notification ", e);
+        }
     }
 
     public void setIncident(Incident incident) {
