@@ -85,7 +85,16 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
                 throw new IllegalStateException("Incident notification last early alert date time not set");
 
             LocalDateTime now = LocalDateTime.now();
-            LocalDateTime plusSecs = notification.getLastEarlyAlertDateTime().plusSeconds(alertInSecondsOffset);
+            LocalDateTime plusSecs;
+            LocalDateTime lastAlertOffSetDateTime = notification.getLastAlertOffSetDateTime();
+            if (lastAlertOffSetDateTime == null) {
+                plusSecs = notification.getLastEarlyAlertDateTime().plusSeconds(alertInSecondsOffset);
+            } else {
+                LocalDateTime lastEarlyAlertDateTime = notification.getLastEarlyAlertDateTime();
+                if (lastAlertOffSetDateTime.isBefore(lastEarlyAlertDateTime))
+                    return false;
+                plusSecs = lastEarlyAlertDateTime.plusSeconds(alertInSecondsOffset);
+            }
 
             if (now.isAfter(plusSecs)) {
                 try {
