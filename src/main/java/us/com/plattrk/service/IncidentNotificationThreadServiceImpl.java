@@ -12,9 +12,9 @@ import us.com.plattrk.repository.IncidentChronologyRepository;
 import us.com.plattrk.repository.IncidentRepository;
 import us.com.plattrk.service.Mail.Type;
 
-public class IncidentNotificationService implements Runnable {
+public class IncidentNotificationThreadServiceImpl implements Runnable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(IncidentNotificationService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IncidentNotificationThreadServiceImpl.class);
 
     // this is wired via xml configuration to allow us to easily switch between socket and java mail implementations.
     private MailService mailService;
@@ -42,11 +42,11 @@ public class IncidentNotificationService implements Runnable {
     private boolean onHours = true;
 
     // needed for spring container 
-    public IncidentNotificationService() {
+    public IncidentNotificationThreadServiceImpl() {
     }
 
     // this is for creation of thread without spring being involved. 
-    public IncidentNotificationService(Incident incident, Properties appProperties) {
+    public IncidentNotificationThreadServiceImpl(Incident incident, Properties appProperties) {
         this.incident = incident;
         this.appProperties = appProperties;
         this.earlyAlert = Long.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));

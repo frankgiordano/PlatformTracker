@@ -93,10 +93,16 @@
                 </props>
         </property>
     </bean>
-    
-    <bean name="incidentNotificationService"
-        scope="prototype"
-        class="us.com.plattrk.service.IncidentNotificationService">
+
+    <bean name="incidentNotificationThreadServiceImpl"
+          scope="prototype"
+          class="us.com.plattrk.service.IncidentNotificationThreadServiceImpl">
+        <property name="mailService" ref="mailService"/>
+    </bean>
+
+    <bean name="incidentNotificationServiceImpl"
+          scope="prototype"
+          class="us.com.plattrk.service.IncidentNotificationServiceImpl">
         <property name="mailService" ref="mailService"/>
     </bean>
     

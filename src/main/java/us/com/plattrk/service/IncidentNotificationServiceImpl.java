@@ -11,8 +11,8 @@ import us.com.plattrk.repository.NotificationRepository;
 import java.time.LocalDateTime;
 import java.util.Properties;
 
-@Service(value = "NotificationService")
-public class NotificationService {
+@Service(value = "IncidentNotificationService")
+public class IncidentNotificationServiceImpl {
 
     // this is wired via xml configuration to allow us to easily switch between socket and java mail implementations.
     private MailService mailService;
@@ -28,7 +28,9 @@ public class NotificationService {
 
     public boolean earlyAlert(Incident incident) {
         boolean sentAlert = false;
-        int earlyAlertInSeconds = Integer.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
+//        int earlyAlertInSeconds = Integer.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
+        int earlyAlertInSeconds = 300;
+
 
         Notification notification = getNotification(incident);
         if (notification != null) {
@@ -55,7 +57,8 @@ public class NotificationService {
 
     public boolean alertOffSet(Incident incident) {
         boolean sentAlert = false;
-        int alertInSecondsOffset = Integer.valueOf(appProperties.getProperty("AlertInSecondsOffset", "300"));
+//        int alertInSecondsOffset = Integer.valueOf(appProperties.getProperty("AlertInSecondsOffset", "300"));
+        int alertInSecondsOffset = 600;
 
         Notification notification = getNotification(incident);
         if (notification != null) {
@@ -79,7 +82,8 @@ public class NotificationService {
 
     public boolean escalatedAlert(Incident incident) {
         boolean sentAlert = false;
-        int escalatedAlertInSeconds = Integer.valueOf(appProperties.getProperty("EscalatedAlertInSeconds", "300"));
+//        int escalatedAlertInSeconds = Integer.valueOf(appProperties.getProperty("EscalatedAlertInSeconds", "300"));
+        int escalatedAlertInSeconds = 900;
 
         Notification notification = getNotification(incident);
         if (notification != null) {
@@ -103,6 +107,10 @@ public class NotificationService {
             }
         }
         return sentAlert;
+    }
+
+    public void setMailService(MailService mailService) {
+        this.mailService = mailService;
     }
 
     private Notification getNotification(Incident incident) {

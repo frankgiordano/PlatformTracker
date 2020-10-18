@@ -13,9 +13,12 @@ import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import us.com.plattrk.api.model.PageWrapper;
+import us.com.plattrk.repository.NotificationRepository;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 import javax.servlet.ServletContext;
@@ -27,6 +30,12 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
     @Autowired
     private IncidentRepository incidentRepository;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
+
+    @Autowired
+    private IncidentNotificationServiceImpl incidentNotificationService;
 
     @Autowired
     private Properties appProperties;
@@ -72,26 +81,21 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
 
     @Override
-    @Scheduled(cron="*/10 * * * * ?")
-    public void notificationCheck() {
+//    @Scheduled(cron="*/10 * * * * ?")  // this version is legacy..
+    public void notificationCheckWithSpawnThreads() {
         List<Incident> openIncidents = incidentRepository.getOpenIncidents();
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 
-        // find if there are any open incidents, if so loop through them and perform email notification if applicable. 
+        // find if there are any open incidents, if so loop through them and perform email notification if applicable.
         // spawn a thread for each open incident and the thread performs the notification.
         for (Incident incident : openIncidents) {
-            StringBuilder notificationCheckInfo = new StringBuilder();
-            notificationCheckInfo.append("IncidentServiceImpl::notificationCheck - open Incident found in NotificationCheck, processing incident status ");
-            notificationCheckInfo.append(incident.getStatus());
-            notificationCheckInfo.append(", tag ");
-            notificationCheckInfo.append(incident.getTag());
-            notificationCheckInfo.append(", startTime ");
-            notificationCheckInfo.append(incident.getStartTime());
-            LOG.info(notificationCheckInfo.toString());
+            notificationCheckInfo(incident);
 
             if (!getThreadByName(incident.getTag())) {
-                // Thread thread = new Thread(new NotificationThread (i, appProperties)); // do this if you do not want to use spring container
-                IncidentNotificationService incidentNotificationService = (IncidentNotificationService) wac.getBean("incidentNotificationService");
+                // do the following new Thread if you do not want to use spring container
+                // Thread thread = new Thread(new NotificationThread (i, appProperties));
+                IncidentNotificationThreadServiceImpl incidentNotificationService =
+                        (IncidentNotificationThreadServiceImpl) wac.getBean("incidentNotificationThreadServiceImpl");
                 incidentNotificationService.setIncident(incident);
                 incidentNotificationService.setAppProperties(appProperties);
                 Thread thread = new Thread(incidentNotificationService);
@@ -102,7 +106,30 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     }
 
     @Override
-    @Scheduled(cron="0 0 7 * * TUE-FRI")
+    @Scheduled(cron = "*/10 * * * * ?")
+    @Transactional
+    public void notificationCheck() {
+        List<Incident> openIncidents = incidentRepository.getOpenIncidents();
+
+        // find if there are any open incidents, if so loop through them and perform email notification if applicable.
+        openIncidents.forEach((i -> {
+            notificationCheckInfo(i);
+            try {
+                if (!incidentNotificationService.earlyAlert(i)) {
+                    LocalDateTime startDateTime = i.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                    Notification entry = new Notification(i.getId(), startDateTime, Type.INCIDENT, "active");
+                    notificationRepository.save(entry);
+                }
+                incidentNotificationService.alertOffSet(i);
+                incidentNotificationService.escalatedAlert(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }));
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 7 * * TUE-FRI")
     public void dailyReport() {
         Calendar calPrevious = Calendar.getInstance();
         calPrevious.add(Calendar.DAY_OF_YEAR, -1);
@@ -113,7 +140,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     }
 
     @Override
-    @Scheduled(cron="0 0 7 * * MON")
+    @Scheduled(cron = "0 0 7 * * MON")
     public void weekEndReport() {
         SetWeekPrevCalendars calendars = new SetWeekPrevCalendars(-3, -1).invoke();
 
@@ -122,14 +149,15 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     }
 
     @Override
-    @Scheduled(cron="0 0 10 * * MON")
+    @Scheduled(cron = "0 0 10 * * MON")
     public void weeklyReport() {
         if (isToggleAutoWeeklyReport()) {
             return;
         }
 
         SetWeekPrevCalendars calendars = new SetWeekPrevCalendars(-7, -1).invoke();
-        List<Incident> incidents = incidentRepository.getDateRangeIncidentsByApplicationStatus(calendars.getPreviousWeekDate(), new Date(), "Down");
+        List<Incident> incidents = incidentRepository.getDateRangeIncidentsByApplicationStatus(
+                calendars.getPreviousWeekDate(), new Date(), "Down");
         report.generateWeeklyReport(incidents, calendars.getPreviousWeekDate(), calendars.getPreviousDayDate(), null);
     }
 
@@ -137,15 +165,18 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     public boolean generateWeeklyReport(EmailAddress address) {
         SetWeekPrevCalendars calendars = new SetWeekPrevCalendars(-7, -1).invoke();
 
-        List<Incident> incidents = incidentRepository.getDateRangeIncidentsByApplicationStatus(calendars.getPreviousWeekDate(), new Date(), "Down");
+        List<Incident> incidents = incidentRepository.getDateRangeIncidentsByApplicationStatus(
+                calendars.getPreviousWeekDate(), new Date(), "Down");
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
         Report report = (Report) wac.getBean("Report");
 
         if (address.getAddress().toLowerCase().equals("auto")) {
-            return report.generateWeeklyReport(incidents, calendars.getPreviousWeekDate(), calendars.getPreviousDayDate(), null);
+            return report.generateWeeklyReport(incidents, calendars.getPreviousWeekDate(),
+                    calendars.getPreviousDayDate(), null);
         }
 
-        return report.generateWeeklyReport(incidents, calendars.getPreviousWeekDate(), calendars.getPreviousDayDate(), address);
+        return report.generateWeeklyReport(incidents, calendars.getPreviousWeekDate(),
+                calendars.getPreviousDayDate(), address);
     }
 
     @Override
@@ -234,6 +265,18 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
+    }
+
+    private void notificationCheckInfo(Incident i) {
+        StringBuilder str = new StringBuilder();
+        str.append("IncidentServiceImpl::notificationCheck - ");
+        str.append("open Incident found in NotificationCheck, processing incident status ");
+        str.append(i.getStatus());
+        str.append(", tag ");
+        str.append(i.getTag());
+        str.append(", startTime ");
+        str.append(i.getStartTime());
+        LOG.info(str.toString());
     }
 
     private String fileName() {
