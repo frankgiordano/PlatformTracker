@@ -15,14 +15,14 @@ public class Notification {
 
     private Long id;
     private String status;
-    private Type type;
+    private String type;
     private Long typeId;
     private LocalDateTime startDateTime;
     private LocalDateTime lastEarlyAlertDateTime;
     private LocalDateTime lastAlertOffSetDateTime;
     private LocalDateTime lastEscalatedAlertDateTime;
 
-    public Notification(Long typeId, LocalDateTime startDateTime, Type type, String status) {
+    public Notification(Long typeId, LocalDateTime startDateTime, String type, String status) {
         this.type = type;
         this.typeId = typeId;
         this.startDateTime = startDateTime;
@@ -54,11 +54,11 @@ public class Notification {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    public Type getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(String type) {
         this.type = type;
     }
 

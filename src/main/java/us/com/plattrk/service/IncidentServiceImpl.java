@@ -117,7 +117,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
             try {
                 if (!incidentNotificationService.earlyAlert(i)) {
                     LocalDateTime startDateTime = i.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                    Notification entry = new Notification(i.getId(), startDateTime, Type.INCIDENT, "active");
+                    Notification entry = new Notification(i.getId(), startDateTime, Type.INCIDENT.name(), "active");
                     notificationRepository.save(entry);
                 }
                 incidentNotificationService.alertOffSet(i);

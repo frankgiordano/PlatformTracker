@@ -125,7 +125,7 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
     }
 
     private Notification getNotification(Incident incident) {
-        return notificationRepository.getNotification(Type.INCIDENT, incident.getId());
+        return notificationRepository.getNotification(Type.INCIDENT.name(), incident.getId());
     }
 
 }

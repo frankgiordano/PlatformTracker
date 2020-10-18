@@ -20,7 +20,7 @@ public class NotificationRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public Notification getNotification(Type type, Long id) {
+    public Notification getNotification(String type, Long id) {
         Optional<Notification> result = Optional.empty();
         try {
             TypedQuery<Notification> query = em.createNamedQuery(Notification.FIND_NOTIFICATION_BY_TYPE_AND_TYPE_ID, Notification.class)
