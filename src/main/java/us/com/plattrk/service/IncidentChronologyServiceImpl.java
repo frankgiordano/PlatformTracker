@@ -3,8 +3,11 @@ package us.com.plattrk.service;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.mail.SendFailedException;
 import javax.servlet.ServletContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +21,8 @@ import us.com.plattrk.service.Mail.Type;
 
 @Service(value = "IncidentChronologyService")
 public class IncidentChronologyServiceImpl implements IncidentChronologyService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(IncidentChronologyServiceImpl.class);
 
     @Autowired
     private ServletContext servletContext;
@@ -48,7 +53,11 @@ public class IncidentChronologyServiceImpl implements IncidentChronologyService 
             if (incident.getStatus().equals("Closed")) {
                 WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
                 MailService mailService = (MailService) wac.getBean("mailService");
-                mailService.send(incident, appProperties, Type.INCIDENTCHRONOLOGYSTART);
+                try {
+                    mailService.send(incident, appProperties, Type.INCIDENTCHRONOLOGYSTART);
+                } catch (SendFailedException e) {
+                    LOG.error("IncidentChronologyServiceImpl::saveIncidentChronology - error sending email notification ", e);
+                }
             }
         }
 
