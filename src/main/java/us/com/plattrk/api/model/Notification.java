@@ -51,8 +51,7 @@ public class Notification {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    @Enumerated(EnumType.STRING)
+    
     @Column(name = "type", nullable = false)
     public String getType() {
         return type;
