@@ -91,7 +91,7 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
                 plusSecs = notification.getLastEarlyAlertDateTime().plusSeconds(alertInSecondsOffset);
             } else {
                 LocalDateTime lastEarlyAlertDateTime = notification.getLastEarlyAlertDateTime();
-                if (lastAlertOffSetDateTime.isBefore(lastEarlyAlertDateTime))
+                if (lastAlertOffSetDateTime.isAfter(lastEarlyAlertDateTime))
                     return false;
                 plusSecs = lastEarlyAlertDateTime.plusSeconds(alertInSecondsOffset);
             }
