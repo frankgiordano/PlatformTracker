@@ -82,7 +82,7 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
             if (notification.getStartDateTime() == null)
                 throw new IllegalStateException("Incident notification start date time not set.");
             if (notification.getLastEarlyAlertDateTime() == null)
-                throw new IllegalStateException("Incident notification last early alert date time not set");
+                throw new IllegalStateException("Incident notification last early alert date time not set.");
 
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime plusSecs;
@@ -91,8 +91,10 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
                 plusSecs = notification.getLastEarlyAlertDateTime().plusSeconds(alertInSecondsOffset);
             } else {
                 LocalDateTime lastEarlyAlertDateTime = notification.getLastEarlyAlertDateTime();
-                if (lastAlertOffSetDateTime.isAfter(lastEarlyAlertDateTime))
+                if (lastAlertOffSetDateTime.isAfter(lastEarlyAlertDateTime)) {
+                    LOG.info("ISAFTER");
                     return false;
+                }
                 plusSecs = lastEarlyAlertDateTime.plusSeconds(alertInSecondsOffset);
             }
 
