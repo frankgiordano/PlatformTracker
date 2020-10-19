@@ -14,7 +14,6 @@ public class Notification {
     public static final String FIND_NOTIFICATION_BY_TYPE_AND_TYPE_ID = "findNotificationByTypeAndTypeId";
 
     private Long id;
-    private String status;
     private String type;
     private Long typeId;
     private LocalDateTime startDateTime;
@@ -23,11 +22,10 @@ public class Notification {
     private LocalDateTime lastEscalatedAlertDateTime;
     private int numOfChronologies;
 
-    public Notification(Long typeId, LocalDateTime startDateTime, String type, int numOfChronologies, String status) {
+    public Notification(Long typeId, LocalDateTime startDateTime, String type, int numOfChronologies) {
         this.type = type;
         this.typeId = typeId;
         this.startDateTime = startDateTime;
-        this.status = status;
         this.numOfChronologies = numOfChronologies;
     }
 
@@ -43,15 +41,6 @@ public class Notification {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Column(name = "status", nullable = false)
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     @Column(name = "type", nullable = false)
