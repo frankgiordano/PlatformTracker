@@ -89,7 +89,6 @@ public class IncidentRepositoryImpl implements IncidentRepository {
 
     @Override
     public Incident saveIncident(Incident incident) throws OptimisticLockException {
-        Incident incomingIncident = incident;
         Set<Product> products = new HashSet<Product>();
         ErrorCondition errorCode = new ErrorCondition();
         ReferenceData applicationStatus = new ReferenceData();
@@ -166,11 +165,11 @@ public class IncidentRepositoryImpl implements IncidentRepository {
                 }
             }
         } catch (PersistenceException e) {
-            LOG.error("IncidentRepositoryImpl::saveIncident - failure saving product {}, msg {}", incomingIncident.toString(), e.getMessage());
+            LOG.error("IncidentRepositoryImpl::saveIncident - failure saving product {}, msg {}", incident.toString(), e.getMessage());
             throw (e);
         }
 
-        return incomingIncident;
+        return incident;
     }
 
     @Override

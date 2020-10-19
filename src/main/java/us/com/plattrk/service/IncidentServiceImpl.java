@@ -80,6 +80,12 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
                 } catch (SendFailedException e) {
                     LOG.error("IncidentServiceImpl::saveIncident - error sending email notification ", e);
                 }
+
+                LocalDateTime startDateTime = result.getStartTime().toInstant()
+                                                    .atZone(ZoneId.systemDefault()).toLocalDateTime();
+                Notification entry = new Notification(result.getId(), startDateTime, Type.INCIDENT.name(),
+                        result.getChronologies().size());
+                notificationRepository.save(entry);
             }
         } else {
             // The incoming incident for saving may be marked as closed, check if it is.
@@ -146,24 +152,20 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         openIncidents.forEach((i -> {
             notificationCheckInfo(i);
 
-            IncidentNotificationService incidentNotificationService =
-                    (IncidentNotificationServiceImpl) wac.getBean("incidentNotificationServiceImpl");
-            incidentNotificationService.setIncident(i);
+            Notification notification = notificationRepository.getNotification(Type.INCIDENT.name(), i.getId());
+            if (notification != null) {
+                IncidentNotificationService incidentNotificationService =
+                        (IncidentNotificationServiceImpl) wac.getBean("incidentNotificationServiceImpl");
+                incidentNotificationService.setIncident(i);
 
-            try {
-                Notification notification = notificationRepository.getNotification(Type.INCIDENT.name(), i.getId());
-                if (notification == null) {
-                    LocalDateTime startDateTime = i.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                    Notification entry = new Notification(i.getId(), startDateTime, Type.INCIDENT.name(), i.getChronologies().size());
-                    notificationRepository.save(entry);
-                } else {
+                try {
                     incidentNotificationService.resetAlert();
                     incidentNotificationService.earlyAlert();
                     incidentNotificationService.alertOffSet();
                     incidentNotificationService.escalatedAlert();
+                } catch (IllegalStateException e) {
+                    LOG.error("IncidentServiceImpl::notificationCheck - IllegalStateException error - {} ", e.getMessage());
                 }
-            } catch (IllegalStateException e) {
-                LOG.error("IncidentServiceImpl::notificationCheck - IllegalStateException error - {} ", e.getMessage());
             }
         }));
     }
