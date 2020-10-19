@@ -67,15 +67,19 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     public Incident saveIncident(Incident incident) {
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
         MailService mailService = (MailService) wac.getBean("mailService");
-        if ((incident.getId() == null) && (incidentRepository.saveIncident(incident) != null)) {
-            try {
-                if (incident.getStatus().equals("Open")) {
-                    mailService.send(incident, appProperties, Mail.Type.INCIDENTSTART);
-                } else {
-                    mailService.send(incident, appProperties, Mail.Type.INCIDENTCREATEEND);
+        Incident result;
+        if ((incident.getId() == null)) {
+            result = incidentRepository.saveIncident(incident);
+            if (result != null) {
+                try {
+                    if (incident.getStatus().equals("Open")) {
+                        mailService.send(incident, appProperties, Mail.Type.INCIDENTSTART);
+                    } else {
+                        mailService.send(incident, appProperties, Mail.Type.INCIDENTCREATEEND);
+                    }
+                } catch (SendFailedException e) {
+                    LOG.error("IncidentServiceImpl::saveIncident - error sending email notification ", e);
                 }
-            } catch (SendFailedException e) {
-                LOG.error("IncidentServiceImpl::saveIncident - error sending email notification ", e);
             }
         } else {
             // The incoming incident for saving may be marked as closed, check if it is.
@@ -101,10 +105,10 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
                     }
                 }));
             }
-            incidentRepository.saveIncident(incident);
+            result = incidentRepository.saveIncident(incident);
         }
 
-        return incident;
+        return result;
     }
 
     //    @Scheduled(cron="*/10 * * * * ?")  //
@@ -150,7 +154,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
                 Notification notification = notificationRepository.getNotification(Type.INCIDENT.name(), i.getId());
                 if (notification == null) {
                     LocalDateTime startDateTime = i.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                    Notification entry = new Notification(i.getId(), startDateTime, Type.INCIDENT.name(), i.getChronologies().size(), "active");
+                    Notification entry = new Notification(i.getId(), startDateTime, Type.INCIDENT.name(), i.getChronologies().size());
                     notificationRepository.save(entry);
                 } else {
                     incidentNotificationService.resetAlert();
