@@ -3,17 +3,18 @@ package us.com.plattrk.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import us.com.plattrk.api.model.EntityType;
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.Notification;
-import us.com.plattrk.api.model.Type;
 import us.com.plattrk.repository.IncidentRepository;
 import us.com.plattrk.repository.NotificationRepository;
+import us.com.plattrk.service.Mail.Type;
 
 import javax.mail.SendFailedException;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class IncidentNotificationServiceImpl implements IncidentNotificationService {
+public class IncidentNotificationServiceImpl extends NotificationTimeFrame implements IncidentNotificationService {
 
     private static final Logger LOG = LoggerFactory.getLogger(IncidentNotificationServiceImpl.class);
 
@@ -30,6 +31,16 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
     private IncidentRepository incidentRepository;
 
     private Incident incident;
+
+    public IncidentNotificationServiceImpl() {
+        super(true);
+        if (isOnHours() && isWeekDay()) {
+            checkWeekDayAfterHours();
+        }
+        if (isOnHours() && isWeekEnd()) {
+            checkWeekEndAfterHours();
+        }
+    }
 
     @Override
     public boolean resetAlert() {
@@ -79,7 +90,7 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
 
             if (now.isAfter(plusSecs)) {
                 try {
-                    sendEmail(Mail.Type.INCIDENT55NOUPDATE);
+                    sendEmail(Type.INCIDENT55NOUPDATE);
                 } catch (SendFailedException e) {
                     LOG.error("IncidentNotificationServiceImpl::earlyAlert - error sending email notification", e);
                     return false;
@@ -127,7 +138,7 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
 
             if (now.isAfter(plusSecs)) {
                 try {
-                    sendEmail(Mail.Type.INCIDENT1HNOUPDATE);
+                    sendEmail(Type.INCIDENT1HNOUPDATE);
                 } catch (SendFailedException e) {
                     LOG.error("IncidentNotificationServiceImpl::alertOffSet - error sending email notification ", e);
                     return false;
@@ -168,7 +179,7 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
 
             if (now.isAfter(plusSecs)) {
                 try {
-                    sendEmail(Mail.Type.INCIDENT2HNOUPDATE);
+                    sendEmail(Type.INCIDENT2HNOUPDATE);
                 } catch (SendFailedException e) {
                     LOG.error("IncidentNotificationServiceImpl::escalatedAlert - error sending email notification ", e);
                     return false;
@@ -182,11 +193,13 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
     }
 
     @Override
-    public void sendEmail(Mail.Type type) throws SendFailedException {
+    public void sendEmail(Type type) throws SendFailedException {
         // send email notification for new chronology and retrieve latest incident to see if any updates have occurred.
         incident = incidentRepository.getIncident(incident.getId()).get();
         try {
-            mailService.send(incident, appProperties, type);
+            if (isOnHours()) {
+                mailService.send(incident, appProperties, type);
+            }
         } catch (SendFailedException e) {
             throw e;
         }
@@ -203,7 +216,7 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
     }
 
     private Notification getNotification() {
-        return notificationRepository.getNotification(Type.INCIDENT.name(), incident.getId());
+        return notificationRepository.getNotification(EntityType.INCIDENT.name(), incident.getId());
     }
 
 }

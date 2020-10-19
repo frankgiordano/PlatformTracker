@@ -14,7 +14,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import us.com.plattrk.api.model.PageWrapper;
 import us.com.plattrk.repository.NotificationRepository;
-import us.com.plattrk.repository.NotificationRepositoryImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -83,7 +82,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
                 LocalDateTime startDateTime = result.getStartTime().toInstant()
                                                     .atZone(ZoneId.systemDefault()).toLocalDateTime();
-                Notification entry = new Notification(result.getId(), startDateTime, Type.INCIDENT.name(),
+                Notification entry = new Notification(result.getId(), startDateTime, EntityType.INCIDENT.name(),
                         result.getChronologies().size());
                 notificationRepository.save(entry);
             }
@@ -104,8 +103,9 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
                         } catch (SendFailedException e) {
                             LOG.error("IncidentServiceImpl::saveIncident - error sending email notification ", e);
                         }
+
                         Notification notification = notificationRepository.getNotification(
-                                Type.INCIDENT.name(), incident.getId());
+                                EntityType.INCIDENT.name(), incident.getId());
                         if (notification != null)
                             notificationRepository.delete(notification.getId());
                     }
@@ -130,8 +130,8 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
             if (!getThreadByName(incident.getTag())) {
                 // do the following new Thread if you do not want to use spring container
                 // Thread thread = new Thread(new NotificationThread (i, appProperties));
-                IncidentNotificationLegacyService incidentNotificationService =
-                        (IncidentNotificationLegacyService) wac.getBean("incidentNotificationThreadServiceImpl");
+                IncidentNotificationLegacyServiceImpl incidentNotificationService =
+                        (IncidentNotificationLegacyServiceImpl) wac.getBean("incidentNotificationThreadServiceImpl");
                 incidentNotificationService.setIncident(incident);
                 incidentNotificationService.setAppProperties(appProperties);
                 Thread thread = new Thread(incidentNotificationService);
@@ -152,7 +152,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         openIncidents.forEach((i -> {
             notificationCheckInfo(i);
 
-            Notification notification = notificationRepository.getNotification(Type.INCIDENT.name(), i.getId());
+            Notification notification = notificationRepository.getNotification(EntityType.INCIDENT.name(), i.getId());
             if (notification != null) {
                 IncidentNotificationService incidentNotificationService =
                         (IncidentNotificationServiceImpl) wac.getBean("incidentNotificationServiceImpl");

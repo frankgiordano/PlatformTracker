@@ -1,6 +1,6 @@
 package us.com.plattrk.api.model;
 
-public enum Type {
+public enum EntityType {
 
     INCIDENT,
     RESOLUTION,

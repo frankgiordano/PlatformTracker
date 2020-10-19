@@ -26,10 +26,10 @@ public class IncidentChronologyServiceImpl implements IncidentChronologyService 
 
     @Autowired
     private ServletContext servletContext;
-    
+
     @Autowired
     private IncidentChronologyRepository incidentChronologyRepository;
-    
+
     @Autowired
     private Properties appProperties;
 
@@ -47,17 +47,15 @@ public class IncidentChronologyServiceImpl implements IncidentChronologyService 
     @Override
     @Transactional
     public IncidentChronology saveIncidentChronology(IncidentChronology chronology) {
-        
+
         if (incidentChronologyRepository.saveIncidentChronology(chronology) != null) {
             Incident incident = incidentChronologyRepository.getIncidentOfNewChronology(chronology.getIncident().getId());
-            if (incident.getStatus().equals("Closed")) {
-                WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
-                MailService mailService = (MailService) wac.getBean("mailService");
-                try {
-                    mailService.send(incident, appProperties, Type.INCIDENTCHRONOLOGYSTART);
-                } catch (SendFailedException e) {
-                    LOG.error("IncidentChronologyServiceImpl::saveIncidentChronology - error sending email notification ", e);
-                }
+            WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
+            MailService mailService = (MailService) wac.getBean("mailService");
+            try {
+                mailService.send(incident, appProperties, Type.INCIDENTCHRONOLOGYSTART);
+            } catch (SendFailedException e) {
+                LOG.error("IncidentChronologyServiceImpl::saveIncidentChronology - error sending email notification ", e);
             }
         }
 
@@ -68,5 +66,5 @@ public class IncidentChronologyServiceImpl implements IncidentChronologyService 
     public IncidentChronology getIncidentChronology(Long id) {
         return incidentChronologyRepository.getIncidentChronology(id);
     }
-    
+
 }
