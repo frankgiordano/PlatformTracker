@@ -80,11 +80,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
                     LOG.error("IncidentServiceImpl::saveIncident - error sending email notification ", e);
                 }
 
-                LocalDateTime startDateTime = result.getStartTime().toInstant()
-                                                    .atZone(ZoneId.systemDefault()).toLocalDateTime();
-                Notification entry = new Notification(result.getId(), startDateTime, EntityType.INCIDENT.name(),
-                        result.getChronologies().size());
-                notificationRepository.save(entry);
+                addIncidentNotificationEntry(result);
             }
         } else {
             // The incoming incident for saving may be marked as closed, check if it is.
@@ -94,20 +90,18 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
             // clear up its Notification table entry and to send out Closed notification
             // from here instead of the notification service which was done with the
             // legacy notification process before..
+            Optional<Incident> currentIncidentInDB = incidentRepository.getIncident(incident.getId());
             if ("Closed".equals(incident.getStatus())) {
-                Optional<Incident> currentIncidentInDB = incidentRepository.getIncident(incident.getId());
                 currentIncidentInDB.ifPresent((i -> {
                     if ("Open".equals(i.getStatus())) {
-                        try {
-                            mailService.send(incident, appProperties, Mail.Type.INCIDENTEND);
-                        } catch (SendFailedException e) {
-                            LOG.error("IncidentServiceImpl::saveIncident - error sending email notification ", e);
-                        }
-
-                        Notification notification = notificationRepository.getNotification(
-                                EntityType.INCIDENT.name(), incident.getId());
-                        if (notification != null)
-                            notificationRepository.delete(notification.getId());
+                        sentIncidentEndNotification(incident, mailService);
+                        deleteIncidentNotificationEntry(incident);
+                    }
+                }));
+            } else {
+                currentIncidentInDB.ifPresent((i -> {
+                    if ("Closed".equals(i.getStatus())) {
+                        addIncidentNotificationEntry(incident);
                     }
                 }));
             }
@@ -307,6 +301,28 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
+    }
+
+    private void addIncidentNotificationEntry(Incident result) {
+        LocalDateTime startDateTime = result.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        Notification entry = new Notification(result.getId(), startDateTime, EntityType.INCIDENT.name(),
+                result.getChronologies().size());
+        notificationRepository.save(entry);
+    }
+
+    private void sentIncidentEndNotification(Incident incident, MailService mailService) {
+        try {
+            mailService.send(incident, appProperties, Mail.Type.INCIDENTEND);
+        } catch (SendFailedException e) {
+            LOG.error("IncidentServiceImpl::sentIncidentEndNotification - error sending email notification ", e);
+        }
+    }
+
+    private void deleteIncidentNotificationEntry(Incident incident) {
+        Notification notification = notificationRepository.getNotification(
+                EntityType.INCIDENT.name(), incident.getId());
+        if (notification != null)
+            notificationRepository.delete(notification.getId());
     }
 
     private void notificationCheckInfo(Incident i) {
