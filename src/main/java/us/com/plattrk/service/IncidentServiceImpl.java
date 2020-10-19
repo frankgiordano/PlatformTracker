@@ -89,10 +89,10 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
             // clear up its Notification table entry and to send out Closed notification
             // from here instead of the notification service which was done with the
             // legacy notification process before..
-            if (incident.getStatus() == "Closed") {
+            if ("Closed".equals(incident.getStatus())) {
                 Optional<Incident> currentIncidentInDB = incidentRepository.getIncident(incident.getId());
                 currentIncidentInDB.ifPresent((i -> {
-                    if (i.getStatus() == "Open") {
+                    if ("Open".equals(i.getStatus())) {
                         try {
                             mailService.send(incident, appProperties, Mail.Type.INCIDENTEND);
                         } catch (SendFailedException e) {
