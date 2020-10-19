@@ -23,11 +23,12 @@ public class Notification {
     private LocalDateTime lastEscalatedAlertDateTime;
     private int numOfChronologies;
 
-    public Notification(Long typeId, LocalDateTime startDateTime, String type, String status) {
+    public Notification(Long typeId, LocalDateTime startDateTime, String type, int numOfChronologies, String status) {
         this.type = type;
         this.typeId = typeId;
         this.startDateTime = startDateTime;
         this.status = status;
+        this.numOfChronologies = numOfChronologies;
     }
 
     public Notification() {

@@ -126,7 +126,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
                 Notification notification = notificationRepository.getNotification(Type.INCIDENT.name(), i.getId());
                 if (notification == null) {
                     LocalDateTime startDateTime = i.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                    Notification entry = new Notification(i.getId(), startDateTime, Type.INCIDENT.name(), "active");
+                    Notification entry = new Notification(i.getId(), startDateTime, Type.INCIDENT.name(), i.getChronologies().size(), "active");
                     notificationRepository.save(entry);
                 } else {
                     incidentNotificationService.resetAlert();
