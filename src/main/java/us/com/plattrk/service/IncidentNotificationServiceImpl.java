@@ -30,9 +30,6 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
     private IncidentRepository incidentRepository;
 
     private Incident incident;
-    private final int earlyAlertInSecs = Integer.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
-    private final int alertOffSetInSecs = Integer.valueOf(appProperties.getProperty("AlertInSecondsOffset", "300"));
-    private final int escalatedAlertInSecs = Integer.valueOf(appProperties.getProperty("EscalatedAlertInSeconds", "6600"));
 
     @Override
     public boolean resetAlert() {
@@ -65,6 +62,7 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
             throw new IllegalStateException("No Incident set.");
 
         boolean sentAlert = false;
+        int earlyAlertInSecs = Integer.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
 
         Notification notification = getNotification();
         if (notification != null) {
@@ -100,6 +98,8 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
             throw new IllegalStateException("No Incident set.");
 
         boolean sentAlert = false;
+        int earlyAlertInSecs = Integer.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
+        int alertOffSetInSecs = Integer.valueOf(appProperties.getProperty("AlertInSecondsOffset", "300"));
 
         if (alertOffSetInSecs > earlyAlertInSecs)
             throw new IllegalStateException("alertInSecondsOffset should be less than earlyAlertInSeconds");
@@ -146,6 +146,8 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
             throw new IllegalStateException("No Incident set.");
 
         boolean sentAlert = false;
+        int escalatedAlertInSecs = Integer.valueOf(appProperties.getProperty("EscalatedAlertInSeconds", "6600"));
+        int earlyAlertInSecs = Integer.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
 
         if (escalatedAlertInSecs < earlyAlertInSecs)
             throw new IllegalStateException("escalatedAlertInSeconds should be more than earlyAlertInSeconds");
