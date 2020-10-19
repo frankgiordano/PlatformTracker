@@ -14,6 +14,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import us.com.plattrk.api.model.PageWrapper;
 import us.com.plattrk.repository.NotificationRepository;
+import us.com.plattrk.repository.NotificationRepositoryImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,9 +65,9 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     @Override
     @Transactional
     public Incident saveIncident(Incident incident) {
+        WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
+        MailService mailService = (MailService) wac.getBean("mailService");
         if ((incident.getId() == null) && (incidentRepository.saveIncident(incident) != null)) {
-            WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
-            MailService mailService = (MailService) wac.getBean("mailService");
             try {
                 if (incident.getStatus().equals("Open")) {
                     mailService.send(incident, appProperties, Mail.Type.INCIDENTSTART);
@@ -76,14 +77,37 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
             } catch (SendFailedException e) {
                 LOG.error("IncidentServiceImpl::saveIncident - error sending email notification ", e);
             }
-        } else incidentRepository.saveIncident(incident);
+        } else {
+            // The incoming incident for saving may be marked as closed, check if it is.
+            // If it is marked as Closed, check the current Incident record in the DB
+            // before saving. See if it is marked as Open. If so, then the Incident is
+            // being set as Closed. In this case handle this as a special action to
+            // clear up its Notification table entry and to send out Closed notification
+            // from here instead of the notification service which was done with the
+            // legacy notification process before..
+            if (incident.getStatus() == "Closed") {
+                Optional<Incident> currentIncidentInDB = incidentRepository.getIncident(incident.getId());
+                currentIncidentInDB.ifPresent((i -> {
+                    if (i.getStatus() == "Open") {
+                        try {
+                            mailService.send(incident, appProperties, Mail.Type.INCIDENTEND);
+                        } catch (SendFailedException e) {
+                            LOG.error("IncidentServiceImpl::saveIncident - error sending email notification ", e);
+                        }
+                        Notification notification = notificationRepository.getNotification(
+                                Type.INCIDENT.name(), incident.getId());
+                        if (notification != null)
+                            notificationRepository.delete(notification.getId());
+                    }
+                }));
+            }
+            incidentRepository.saveIncident(incident);
+        }
 
         return incident;
     }
 
-
-    @Override
-//    @Scheduled(cron="*/10 * * * * ?")  //
+    //    @Scheduled(cron="*/10 * * * * ?")  //
     public void notificationCheckLegacy() {  // this was original design lets call it legacy now..
         List<Incident> openIncidents = incidentRepository.getOpenIncidents();
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
@@ -96,8 +120,8 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
             if (!getThreadByName(incident.getTag())) {
                 // do the following new Thread if you do not want to use spring container
                 // Thread thread = new Thread(new NotificationThread (i, appProperties));
-                IncidentNotificationThreadServiceImpl incidentNotificationService =
-                        (IncidentNotificationThreadServiceImpl) wac.getBean("incidentNotificationThreadServiceImpl");
+                IncidentNotificationLegacyService incidentNotificationService =
+                        (IncidentNotificationLegacyService) wac.getBean("incidentNotificationThreadServiceImpl");
                 incidentNotificationService.setIncident(incident);
                 incidentNotificationService.setAppProperties(appProperties);
                 Thread thread = new Thread(incidentNotificationService);

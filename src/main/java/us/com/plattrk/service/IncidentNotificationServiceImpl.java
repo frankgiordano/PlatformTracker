@@ -30,6 +30,9 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
     private IncidentRepository incidentRepository;
 
     private Incident incident;
+    private final int earlyAlertInSecs = Integer.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
+    private final int alertOffSetInSecs = Integer.valueOf(appProperties.getProperty("AlertInSecondsOffset", "300"));
+    private final int escalatedAlertInSecs = Integer.valueOf(appProperties.getProperty("EscalatedAlertInSeconds", "6600"));
 
     @Override
     public boolean resetAlert() {
@@ -62,8 +65,6 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
             throw new IllegalStateException("No Incident set.");
 
         boolean sentAlert = false;
-//        int earlyAlertInSeconds = Integer.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
-        int earlyAlertInSeconds = 600;
 
         Notification notification = getNotification();
         if (notification != null) {
@@ -72,10 +73,10 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
 
             if (notification.getLastEarlyAlertDateTime() != null) {
                 LocalDateTime lastEarlyAlertDateTime = notification.getLastEarlyAlertDateTime();
-                plusSecs = lastEarlyAlertDateTime.plusSeconds(earlyAlertInSeconds);
+                plusSecs = lastEarlyAlertDateTime.plusSeconds(earlyAlertInSecs);
             } else {
                 LocalDateTime startDateTime = notification.getStartDateTime();
-                plusSecs = startDateTime.plusSeconds(earlyAlertInSeconds);
+                plusSecs = startDateTime.plusSeconds(earlyAlertInSecs);
             }
 
             if (now.isAfter(plusSecs)) {
@@ -99,11 +100,9 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
             throw new IllegalStateException("No Incident set.");
 
         boolean sentAlert = false;
-//        int alertInSecondsOffset = Integer.valueOf(appProperties.getProperty("AlertInSecondsOffset", "300"));
-        int alertInSecondsOffset = 100;
 
-//        if (alertInSecondsOffset < earlyAlertInSeconds)
-//            throw new IllegalStateException("alertInSecondsOffset should be less than earlyAlertInSeconds");
+        if (alertOffSetInSecs > earlyAlertInSecs)
+            throw new IllegalStateException("alertInSecondsOffset should be less than earlyAlertInSeconds");
 
         Notification notification = getNotification();
         if (notification != null) {
@@ -116,14 +115,14 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
             LocalDateTime plusSecs;
             LocalDateTime lastAlertOffSetDateTime = notification.getLastAlertOffSetDateTime();
             if (lastAlertOffSetDateTime == null) {
-                plusSecs = notification.getLastEarlyAlertDateTime().plusSeconds(alertInSecondsOffset);
+                plusSecs = notification.getLastEarlyAlertDateTime().plusSeconds(alertOffSetInSecs);
             } else {
                 LocalDateTime lastEarlyAlertDateTime = notification.getLastEarlyAlertDateTime();
                 if (lastAlertOffSetDateTime.isAfter(lastEarlyAlertDateTime)
                         || lastAlertOffSetDateTime.isEqual(lastEarlyAlertDateTime)) {
                     return false;
                 }
-                plusSecs = lastEarlyAlertDateTime.plusSeconds(alertInSecondsOffset);
+                plusSecs = lastEarlyAlertDateTime.plusSeconds(alertOffSetInSecs);
             }
 
             if (now.isAfter(plusSecs)) {
@@ -147,12 +146,9 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
             throw new IllegalStateException("No Incident set.");
 
         boolean sentAlert = false;
-//        int escalatedAlertInSeconds = Integer.valueOf(appProperties.getProperty("EscalatedAlertInSeconds", "300"));
-        int escalatedAlertInSeconds = 900;
 
-        //        if (escalatedAlertInSeconds < earlyAlertInSeconds)
-//            throw new IllegalStateException("escalatedAlertInSeconds should be more than earlyAlertInSeconds");
-
+        if (escalatedAlertInSecs < earlyAlertInSecs)
+            throw new IllegalStateException("escalatedAlertInSeconds should be more than earlyAlertInSeconds");
 
         Notification notification = getNotification();
         if (notification != null) {
@@ -163,9 +159,9 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
             LocalDateTime plusSecs;
             LocalDateTime lastEscalatedAlertDateTime = notification.getLastEscalatedAlertDateTime();
             if (lastEscalatedAlertDateTime != null) {
-                plusSecs = lastEscalatedAlertDateTime.plusSeconds(escalatedAlertInSeconds);
+                plusSecs = lastEscalatedAlertDateTime.plusSeconds(escalatedAlertInSecs);
             } else {
-                plusSecs = notification.getStartDateTime().plusSeconds(escalatedAlertInSeconds);
+                plusSecs = notification.getStartDateTime().plusSeconds(escalatedAlertInSecs);
             }
 
             if (now.isAfter(plusSecs)) {

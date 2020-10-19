@@ -18,8 +18,6 @@ public interface IncidentService {
 
     public Incident saveIncident(Incident incident);
 
-    public void notificationCheckLegacy();
-
     public void notificationCheck();
 
     public void dailyReport();

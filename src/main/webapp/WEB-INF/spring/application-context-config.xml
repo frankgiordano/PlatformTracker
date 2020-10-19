@@ -94,9 +94,9 @@
         </property>
     </bean>
 
-    <bean name="incidentNotificationThreadServiceImpl"
+    <bean name="IncidentNotificationLegacyService"
           scope="prototype"
-          class="us.com.plattrk.service.IncidentNotificationThreadServiceImpl">
+          class="us.com.plattrk.service.IncidentNotificationLegacyService">
         <property name="mailService" ref="mailService"/>
     </bean>
 

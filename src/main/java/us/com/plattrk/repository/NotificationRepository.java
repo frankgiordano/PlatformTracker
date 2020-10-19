@@ -1,50 +1,13 @@
 package us.com.plattrk.repository;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
 import us.com.plattrk.api.model.Notification;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
-import java.util.ArrayList;
-import java.util.List;
+public interface NotificationRepository {
 
-@Repository
-public class NotificationRepository {
+    public Notification getNotification(String type, Long id);
 
-    private static final Logger LOG = LoggerFactory.getLogger(NotificationRepository.class);
+    public Notification save(Notification n);
 
-    @PersistenceContext
-    private EntityManager em;
-
-    public Notification getNotification(String type, Long id) {
-        List<Notification> result = new ArrayList<>();
-        try {
-            TypedQuery<Notification> query = em.createNamedQuery(Notification.FIND_NOTIFICATION_BY_TYPE_AND_TYPE_ID, Notification.class)
-                                               .setParameter("type", type)
-                                               .setParameter("typeId", id);
-            result = query.getResultList();
-        } catch (PersistenceException e) {
-            LOG.error("NotificationRepository::getNotification - error retrieving notification for type {} and id {}", type, id);
-        }
-
-        if (!result.isEmpty())
-            return result.get(0);
-        else
-            return null;
-    }
-
-    public Notification save(Notification n) {
-        if (n.getId() != null) {
-            em.merge(n);
-        } else {
-            em.persist(n);
-            em.flush();
-        }
-        return n;
-    }
+    public Notification delete(Long id);
 
 }
