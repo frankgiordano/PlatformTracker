@@ -40,24 +40,37 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
         if (this.incident == null)
             throw new IllegalStateException("No Incident set.");
 
-        List<IncidentChronology> ic = new ArrayList<>(incident.getChronologies());
-        ic.sort(Comparator.comparing(IncidentChronology::getDateTime));
+//        List<IncidentChronology> ic = new ArrayList<>(incident.getChronologies());
+//        ic.sort(Comparator.comparing(IncidentChronology::getDateTime).reversed());
+//
+//        if (ic.isEmpty())
+//            return false;
 
-        if (ic.isEmpty())
+        int numOfIncidentChronologies = incident.getChronologies().size();
+        if (numOfIncidentChronologies == 0)
             return false;
 
-        Date dateToConvert = ic.get(0).getDateTime();
-        LocalDateTime icDate = Instant.ofEpochMilli(dateToConvert.getTime())
-                                      .atZone(ZoneId.systemDefault()).toLocalDateTime();
-
         Notification notification = getNotification();
+        int numOfNotificationChronologies = notification.getNumOfChronologies();
+
+        if (numOfIncidentChronologies == numOfNotificationChronologies)
+            return false;
+
+        LocalDateTime now = LocalDateTime.now();
+
+//        Date dateToConvert = ic.get(0).getDateTime();
+//        LocalDateTime icDate = Instant.ofEpochMilli(dateToConvert.getTime())
+//                                      .atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+//        Notification notification = getNotification();
         LocalDateTime lastEarlyAlertDateTime = notification.getLastEarlyAlertDateTime();
-        if (icDate.isAfter(lastEarlyAlertDateTime)) {
-            notification.setLastAlertOffSetDateTime(icDate);
-            notification.setLastEarlyAlertDateTime(icDate);
-            notification.setLastEscalatedAlertDateTime(icDate);
-            notificationRepository.save(notification);
-        }
+//        if (icDate.isAfter(lastEarlyAlertDateTime)) {
+        notification.setLastAlertOffSetDateTime(now);
+        notification.setLastEarlyAlertDateTime(now);
+        notification.setLastEscalatedAlertDateTime(now);
+        notification.setNumOfChronologies(numOfIncidentChronologies);
+        notificationRepository.save(notification);
+//        }
 
         return true;
     }
@@ -154,6 +167,10 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
         boolean sentAlert = false;
 //        int escalatedAlertInSeconds = Integer.valueOf(appProperties.getProperty("EscalatedAlertInSeconds", "300"));
         int escalatedAlertInSeconds = 900;
+
+        //        if (escalatedAlertInSeconds < earlyAlertInSeconds)
+//            throw new IllegalStateException("escalatedAlertInSeconds should be more than earlyAlertInSeconds");
+
 
         Notification notification = getNotification();
         if (notification != null) {

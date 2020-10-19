@@ -21,6 +21,7 @@ public class Notification {
     private LocalDateTime lastEarlyAlertDateTime;
     private LocalDateTime lastAlertOffSetDateTime;
     private LocalDateTime lastEscalatedAlertDateTime;
+    private int numOfChronologies;
 
     public Notification(Long typeId, LocalDateTime startDateTime, String type, String status) {
         this.type = type;
@@ -104,6 +105,15 @@ public class Notification {
 
     public void setLastEscalatedAlertDateTime(LocalDateTime lastEscalatedAlertDateTime) {
         this.lastEscalatedAlertDateTime = lastEscalatedAlertDateTime;
+    }
+
+    @Column(name = "num_of_chronologies", nullable = true)
+    public int getNumOfChronologies() {
+        return numOfChronologies;
+    }
+
+    public void setNumOfChronologies(int numOfChronologies) {
+        this.numOfChronologies = numOfChronologies;
     }
 
 }
