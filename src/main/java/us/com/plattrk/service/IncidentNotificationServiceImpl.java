@@ -1,20 +1,16 @@
 package us.com.plattrk.service;
 
-import jdk.vm.ci.meta.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import us.com.plattrk.api.model.Incident;
-import us.com.plattrk.api.model.IncidentChronology;
 import us.com.plattrk.api.model.Notification;
 import us.com.plattrk.api.model.Type;
 import us.com.plattrk.repository.IncidentRepository;
 import us.com.plattrk.repository.NotificationRepository;
 
 import javax.mail.SendFailedException;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 
 public class IncidentNotificationServiceImpl implements IncidentNotificationService {
@@ -40,12 +36,6 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
         if (this.incident == null)
             throw new IllegalStateException("No Incident set.");
 
-//        List<IncidentChronology> ic = new ArrayList<>(incident.getChronologies());
-//        ic.sort(Comparator.comparing(IncidentChronology::getDateTime).reversed());
-//
-//        if (ic.isEmpty())
-//            return false;
-
         int numOfIncidentChronologies = incident.getChronologies().size();
         if (numOfIncidentChronologies == 0)
             return false;
@@ -57,20 +47,11 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
             return false;
 
         LocalDateTime now = LocalDateTime.now();
-
-//        Date dateToConvert = ic.get(0).getDateTime();
-//        LocalDateTime icDate = Instant.ofEpochMilli(dateToConvert.getTime())
-//                                      .atZone(ZoneId.systemDefault()).toLocalDateTime();
-
-//        Notification notification = getNotification();
-        LocalDateTime lastEarlyAlertDateTime = notification.getLastEarlyAlertDateTime();
-//        if (icDate.isAfter(lastEarlyAlertDateTime)) {
         notification.setLastAlertOffSetDateTime(now);
         notification.setLastEarlyAlertDateTime(now);
         notification.setLastEscalatedAlertDateTime(now);
         notification.setNumOfChronologies(numOfIncidentChronologies);
         notificationRepository.save(notification);
-//        }
 
         return true;
     }
@@ -138,7 +119,8 @@ public class IncidentNotificationServiceImpl implements IncidentNotificationServ
                 plusSecs = notification.getLastEarlyAlertDateTime().plusSeconds(alertInSecondsOffset);
             } else {
                 LocalDateTime lastEarlyAlertDateTime = notification.getLastEarlyAlertDateTime();
-                if (lastAlertOffSetDateTime.isAfter(lastEarlyAlertDateTime)) {
+                if (lastAlertOffSetDateTime.isAfter(lastEarlyAlertDateTime)
+                        || lastAlertOffSetDateTime.isEqual(lastEarlyAlertDateTime)) {
                     return false;
                 }
                 plusSecs = lastEarlyAlertDateTime.plusSeconds(alertInSecondsOffset);

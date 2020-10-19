@@ -18,7 +18,7 @@ public interface IncidentService {
 
     public Incident saveIncident(Incident incident);
 
-    public void notificationCheckWithSpawnThreads();
+    public void notificationCheckLegacy();
 
     public void notificationCheck();
 
