@@ -34,14 +34,16 @@ public class NotificationTimeFrame {
 
     public void checkWeekDayAfterHours() {
         Calendar c = Calendar.getInstance();
-        if (c.get(Calendar.HOUR_OF_DAY) >= 21) {
+        if ( (c.get(Calendar.HOUR_OF_DAY) >= 21 && c.get(Calendar.HOUR_OF_DAY) <= 24) ||
+                (c.get(Calendar.HOUR_OF_DAY) >= 0 && c.get(Calendar.HOUR_OF_DAY) <= 8) ) {
             setOnHours(false);
         }
     }
 
     public void checkWeekEndAfterHours() {
         Calendar c = Calendar.getInstance();
-        if (c.get(Calendar.HOUR_OF_DAY) >= 18) {
+        if ( (c.get(Calendar.HOUR_OF_DAY) >= 18 && c.get(Calendar.HOUR_OF_DAY) <= 24) ||
+                (c.get(Calendar.HOUR_OF_DAY) >= 0 && c.get(Calendar.HOUR_OF_DAY) <= 8) ) {
             setOnHours(false);
         }
     }
