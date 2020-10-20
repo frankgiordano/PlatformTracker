@@ -71,7 +71,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
             result = incidentRepository.saveIncident(incident);
             if (result != null) {
                 try {
-                    if (incident.getStatus().equals("Open")) {
+                    if ("Open".equals(incident.getStatus())) {
                         mailService.send(incident, appProperties, Mail.Type.INCIDENTSTART);
                     } else {
                         mailService.send(incident, appProperties, Mail.Type.INCIDENTCREATEEND);
@@ -206,7 +206,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
         Report report = (Report) wac.getBean("Report");
 
-        if (address.getAddress().toLowerCase().equals("auto")) {
+        if ("auto".equals(address.getAddress().toLowerCase())) {
             return report.generateWeeklyReport(incidents, calendars.getPreviousWeekDate(),
                     calendars.getPreviousDayDate(), null);
         }
@@ -233,11 +233,11 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         try {
             File newFile = new File(fileName());
 
-            if (value.getAction().equals("ON")) {
+            if ("ON".equals(value.getAction())) {
                 if (!newFile.exists()) {
                     newFile.createNewFile();
                 }
-            } else if (value.getAction().equals("OFF")) {
+            } else if ("OFF".equals(value.getAction())) {
                 newFile.delete();
             } else {
                 return false;
@@ -349,7 +349,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
     private boolean getThreadByName(String threadName) {
         for (Thread t : Thread.getAllStackTraces().keySet()) {
-            if (t.getName().equals(threadName))
+            if (threadName.equals(t.getName()))
                 return true;
         }
         return false;
