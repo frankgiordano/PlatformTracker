@@ -53,7 +53,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
         desc = repositoryUtil.appendWildCard(desc);
 
         QueryResult<IncidentResolution> queryResult;
-        Map<String, String> columnInfo = new HashMap<String, String>();
+        Map<String, String> columnInfo = new HashMap<>();
 
         if (isGrpNameEmpty && isDescEmpty) {
             String queryName = IncidentResolution.FIND_ALL_RESOLUTIONS;

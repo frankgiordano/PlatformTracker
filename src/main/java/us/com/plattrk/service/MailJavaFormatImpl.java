@@ -23,7 +23,7 @@ public class MailJavaFormatImpl implements MailFormat {
 
     private StringBuilder productsString = new StringBuilder();
 
-    private LinkedList<IncidentChronology> chronologiesSortedByStartTime = new LinkedList<IncidentChronology>();
+    private LinkedList<IncidentChronology> chronologiesSortedByStartTime = new LinkedList<>();
 
     private String testmsg = ""; // used to put special message indicator i.e. TEST MSG
 

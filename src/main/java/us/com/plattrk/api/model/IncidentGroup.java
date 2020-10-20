@@ -69,7 +69,7 @@ public class IncidentGroup {
     private String name;
     private String description;
     private String status;
-    private Set<Incident> incidents = new HashSet<Incident>();
+    private Set<Incident> incidents = new HashSet<>();
 
     public IncidentGroup() {
     }

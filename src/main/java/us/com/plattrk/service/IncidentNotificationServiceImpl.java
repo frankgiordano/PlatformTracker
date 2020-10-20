@@ -194,7 +194,6 @@ public class IncidentNotificationServiceImpl extends NotificationTimeFrame imple
 
     @Override
     public void sendEmail(Type type) throws SendFailedException {
-        // send email notification for new chronology and retrieve latest incident to see if any updates have occurred.
         incident = incidentRepository.getIncident(incident.getId()).get();
         try {
             if (isOnHours()) {

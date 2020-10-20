@@ -93,14 +93,14 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
             Optional<Incident> currentIncidentInDB = incidentRepository.getIncident(incident.getId());
             if ("Closed".equals(incident.getStatus())) {
                 currentIncidentInDB.ifPresent((i -> {
-                    if ("Open".equals(i.getStatus())) {
+                    if ("Open".equals(i.getStatus())) {  // currently set as Open in DB
                         sentIncidentEndNotification(incident, mailService);
                         deleteIncidentNotificationEntry(incident);
                     }
                 }));
-            } else {
+            } else {  // incoming incident is set to Open
                 currentIncidentInDB.ifPresent((i -> {
-                    if ("Closed".equals(i.getStatus())) {
+                    if ("Closed".equals(i.getStatus())) {  // current set as Closed in DB
                         addIncidentNotificationEntry(incident);
                     }
                 }));

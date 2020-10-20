@@ -49,7 +49,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
         desc = repositoryUtil.appendWildCard(desc);
 
         QueryResult<Incident> queryResult;
-        Map<String, String> columnInfo = new HashMap<String, String>();
+        Map<String, String> columnInfo = new HashMap<>();
 
         if (isTagEmpty && isDescEmpty) {
             String queryName = Incident.FIND_ALL_INCIDENTS;
@@ -89,7 +89,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
 
     @Override
     public Incident saveIncident(Incident incident) throws OptimisticLockException {
-        Set<Product> products = new HashSet<Product>();
+        Set<Product> products = new HashSet<>();
         ErrorCondition errorCode = new ErrorCondition();
         ReferenceData applicationStatus = new ReferenceData();
 
@@ -226,14 +226,14 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     public Set<IncidentChronology> getChronologies(Long id) {
         Incident incident = em.find(Incident.class, id);
         Optional<Set<IncidentChronology>> chronologies = Optional.of(incident.getChronologies());
-        return chronologies.orElse(new HashSet<IncidentChronology>());
+        return chronologies.orElse(new HashSet<>());
     }
 
     @Override
     public Set<Product> getProducts(Long id) {
         Incident incident = em.find(Incident.class, id);
         Optional<Set<Product>> products = Optional.of(incident.getProducts());
-        return products.orElse(new HashSet<Product>());
+        return products.orElse(new HashSet<>());
     }
 
     @Override

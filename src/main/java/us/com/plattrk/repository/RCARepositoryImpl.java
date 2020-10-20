@@ -54,7 +54,7 @@ public class RCARepositoryImpl implements RCARepository {
         desc = repositoryUtil.appendWildCard(desc);
 
         QueryResult<RCA> queryResult;
-        Map<String, String> columnInfo = new HashMap<String, String>();
+        Map<String, String> columnInfo = new HashMap<>();
 
         if (isGrpNameEmpty && isDescEmpty) {
             String queryName = RCA.FIND_ALL_RCAS;

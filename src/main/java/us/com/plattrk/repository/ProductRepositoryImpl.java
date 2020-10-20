@@ -48,7 +48,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         name = repositoryUtil.appendWildCard(name);
 
         QueryResult<Product> queryResult;
-        Map<String, String> columnInfo = new HashMap<String, String>();
+        Map<String, String> columnInfo = new HashMap<>();
 
         if (isNameEmpty) {
             String queryName = Product.FIND_ALL_PRODUCTS;

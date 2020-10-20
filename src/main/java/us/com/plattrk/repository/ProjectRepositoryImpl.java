@@ -48,7 +48,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         name = repositoryUtil.appendWildCard(name);
 
         QueryResult<Project> queryResult;
-        Map<String, String> columnInfo = new HashMap<String, String>();
+        Map<String, String> columnInfo = new HashMap<>();
 
         if (isNameEmpty) {
             String queryName = Project.FIND_ALL_PROJECTS;

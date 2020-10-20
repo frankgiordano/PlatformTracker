@@ -63,7 +63,7 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
         boolean doOnceAfterRestart = false;
         final String threadName = Thread.currentThread().getName();
 
-        LOG.info("IncidentNotificationLegacyService::run - started notification thread name {}", threadName);
+        LOG.info("IncidentNotificationLegacyServiceImpl::run - started notification thread name {}", threadName);
 
         // initialize Long Array list that grows due to meeting every x defined minutes
         // without an incident update
@@ -91,7 +91,7 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
                 incident.setChronologies(incidentChronologyRepository.getChronologiesPerIncident(incident.getId()));
                 if (!incident.getChronologies().isEmpty()) {
 
-                    LOG.info("IncidentNotificationLegacyService::run - found chronologies in notification thread name {}", threadName);
+                    LOG.info("IncidentNotificationLegacyServiceImpl::run - found chronologies in notification thread name {}", threadName);
                     List<IncidentChronology> mySortedChrons = new ArrayList<>(incident.getChronologies());
                     // find the last existing chronology by order to use its dateTime for calculation
                     mySortedChrons.sort(Comparator.comparing(IncidentChronology::getDateTime));
@@ -109,7 +109,8 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
 
                         if (!doOnceAfterRestart && startTime.getTime() >= mySortedChrons.get(mySortedChrons.size() - 1).getDateTime().getTime()) {
                             // reset the startTime to now
-                            LOG.info("IncidentNotificationLegacyService::run - startTime {}, chron date time {}", startTime.getTime(), mySortedChrons.get(mySortedChrons.size() - 1).getDateTime().getTime());
+                            LOG.info("IncidentNotificationLegacyServiceImpl::run - startTime {}, chron date time {}", startTime.getTime(),
+                                    mySortedChrons.get(mySortedChrons.size() - 1).getDateTime().getTime());
                             startTime = new Date();
                             numOfChronologies = mySortedChrons.size();
                             doOnceAfterRestart = true; // done once, don't come back into this code block until 
@@ -123,7 +124,7 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
                         }
                     }
                 } else {
-                    LOG.info("IncidentNotificationLegacyService::run - no chronologies found in notification thread name {}", threadName);
+                    LOG.info("IncidentNotificationLegacyServiceImpl::run - no chronologies found in notification thread name {}", threadName);
                 }
 
                 tEnd = System.currentTimeMillis();
@@ -136,8 +137,8 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
                     durationTotal += i;
                 }
 
-                LOG.info("IncidentNotificationLegacyService::run - elapsedSeconds {} in notification thread name {}", elapsedSeconds, threadName);
-                LOG.info("IncidentNotificationLegacyService::run - early alert time {} in notification thread name {}", durationTotal, threadName);
+                LOG.info("IncidentNotificationLegacyServiceImpl::run - elapsedSeconds {} in notification thread name {}", elapsedSeconds, threadName);
+                LOG.info("IncidentNotificationLegacyServiceImpl::run - early alert time {} in notification thread name {}", durationTotal, threadName);
 
                 // trigger early alert email
                 if (elapsedSeconds > durationTotal) {
@@ -153,9 +154,9 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
                     sendEmail(Type.INCIDENT55NOUPDATE);
                 }
 
-                LOG.info("IncidentNotificationLegacyService::run - alert time {} in notification thread name {}", alertDuration, threadName);
+                LOG.info("IncidentNotificationLegacyServiceImpl::run - alert time {} in notification thread name {}", alertDuration, threadName);
                 StringBuilder escalatedAlertTimeInfo = new StringBuilder();
-                escalatedAlertTimeInfo.append("IncidentNotificationLegacyService::run - escalated alert time ");
+                escalatedAlertTimeInfo.append("IncidentNotificationLegacyServiceImpl::run - escalated alert time ");
                 escalatedAlertTimeInfo.append(elapsedSeconds);
                 escalatedAlertTimeInfo.append(" > ");
                 escalatedAlertTimeInfo.append(escalatedAlert);
@@ -174,24 +175,23 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
 
                 }
             } catch (InterruptedException e) {
-                LOG.error("IncidentNotificationLegacyService::run - notification thread name {} interrupted", threadName);
+                LOG.error("IncidentNotificationLegacyServiceImpl::run - notification thread name {} interrupted", threadName);
                 e.printStackTrace();
             }
         }
 
-        LOG.info("IncidentNotificationLegacyService::run - ended notification thread name {}", threadName);
+        LOG.info("IncidentNotificationLegacyServiceImpl::run - ended notification thread name {}", threadName);
     }
 
     @Override
     public void sendEmail(Mail.Type type) {
-        // send email notification for new chronology and retrieve latest incident to see if any updates have occurred.
         incident = incidentRepository.getIncident(incident.getId()).get();
         try {
             if (isOnHours()) {
                 mailService.send(incident, appProperties, type);
             }
         } catch (SendFailedException e) {
-            LOG.error("IncidentNotificationLegacyService::sendEmail - error sending email notification ", e);
+            LOG.error("IncidentNotificationLegacyServiceImpl::sendEmail - error sending email notification ", e);
         }
     }
 

@@ -528,7 +528,7 @@ public class ReportImpl implements Report {
             boolean matchFound = false;
             String compareCurrent = null;
             String compareIncoming = null;
-            HashMap<String, Boolean> cacheIncomingProducts = new HashMap<String, Boolean>();
+            HashMap<String, Boolean> cacheIncomingProducts = new HashMap<>();
             List<Product> summaryProducts = new ArrayList<>();
 
             String[] incomingProducts = incidentReport.getProducts().split(",");
@@ -936,7 +936,7 @@ public class ReportImpl implements Report {
     }
 
     private static Map<String, CellStyle> createStyles(Workbook wb) {
-        Map<String, CellStyle> styles = new HashMap<String, CellStyle>();
+        Map<String, CellStyle> styles = new HashMap<>();
 
         CellStyle style;
         Font titleFont = wb.createFont();

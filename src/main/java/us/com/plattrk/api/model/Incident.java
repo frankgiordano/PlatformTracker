@@ -123,8 +123,8 @@ public class Incident {
     private String recordedBy;
     private String issue;
     private IncidentGroup incidentGroup;
-    private Set<IncidentChronology> chronologies = new HashSet<IncidentChronology>();
-    private Set<Product> products = new HashSet<Product>();
+    private Set<IncidentChronology> chronologies = new HashSet<>();
+    private Set<Product> products = new HashSet<>();
 
     public Incident() {
     }
