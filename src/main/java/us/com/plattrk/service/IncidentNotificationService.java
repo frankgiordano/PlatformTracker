@@ -20,4 +20,6 @@ public interface IncidentNotificationService {
 
     public void setIncident(Incident incident);
 
+    public void toggleOnHours();
+
 }

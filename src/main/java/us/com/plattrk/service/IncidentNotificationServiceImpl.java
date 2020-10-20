@@ -34,12 +34,6 @@ public class IncidentNotificationServiceImpl extends NotificationTimeFrame imple
 
     public IncidentNotificationServiceImpl() {
         super(true);
-        if (isOnHours() && isWeekDay()) {
-            checkWeekDayAfterHours();
-        }
-        if (isOnHours() && isWeekEnd()) {
-            checkWeekEndAfterHours();
-        }
     }
 
     @Override
@@ -194,6 +188,8 @@ public class IncidentNotificationServiceImpl extends NotificationTimeFrame imple
 
     @Override
     public void sendEmail(Type type) throws SendFailedException {
+        toggleOnHours();
+
         incident = incidentRepository.getIncident(incident.getId()).get();
         try {
             if (isOnHours()) {
@@ -212,6 +208,16 @@ public class IncidentNotificationServiceImpl extends NotificationTimeFrame imple
     @Override
     public void setIncident(Incident incident) {
         this.incident = incident;
+    }
+
+    @Override
+    public void toggleOnHours() {
+        if (isOnHours() && isWeekDay()) {
+            checkWeekDayAfterHours();
+        }
+        if (isOnHours() && isWeekEnd()) {
+            checkWeekEndAfterHours();
+        }
     }
 
     private Notification getNotification() {
