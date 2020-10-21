@@ -74,8 +74,8 @@ public class Product {
     private int maxWeeklyUptime;
     private Double revenue;
     private Double users;
-    private Set<ProductUsers> productUsers = new HashSet<ProductUsers>();
-    private Set<ProductComponent> productComponents = new HashSet<ProductComponent>();
+    private Set<ProductUsers> productUsers = new HashSet<>();
+    private Set<ProductComponent> productComponents = new HashSet<>();
     private String platform;
 
     public Product() {

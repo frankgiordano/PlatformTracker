@@ -43,7 +43,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
     public Set<Incident> getGroupIncidents(Long id) {
         IncidentGroup incidentGroup = em.find(IncidentGroup.class, id);
         Optional<Set<Incident>> incidents = Optional.of(incidentGroup.getIncidents());
-        return incidents.orElse(new HashSet<Incident>());
+        return incidents.orElse(new HashSet<>());
     }
 
     @Override

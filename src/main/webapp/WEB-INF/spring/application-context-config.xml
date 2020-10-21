@@ -28,7 +28,6 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
-    
 
     <!-- Configures Handler Interceptors -->
     <mvc:interceptors>
@@ -40,7 +39,6 @@
     <!-- Handles HTTP GET requests for /resources/** by efficiently serving 
         up static resources in the ${webappRoot}/WEB-INF/resources/ directory -->
     <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
-
 
     <mvc:view-controller path="/"
         view-name="/resources/html/templates/index.html" />
@@ -59,7 +57,6 @@
         </property>
         <property name="cacheSeconds" value="0" />
     </bean>
-
 
     <bean id="propertyConfigurer"   
        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -93,10 +90,16 @@
                 </props>
         </property>
     </bean>
-    
-    <bean name="incidentNotificationService"
-        scope="prototype"
-        class="us.com.plattrk.service.IncidentNotificationService">
+
+    <bean name="IncidentNotificationLegacyService"
+          scope="prototype"
+          class="us.com.plattrk.service.IncidentNotificationLegacyServiceImpl">
+        <property name="mailService" ref="mailService"/>
+    </bean>
+
+    <bean name="incidentNotificationServiceImpl"
+          scope="prototype"
+          class="us.com.plattrk.service.IncidentNotificationServiceImpl">
         <property name="mailService" ref="mailService"/>
     </bean>
     

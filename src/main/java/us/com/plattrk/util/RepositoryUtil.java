@@ -35,7 +35,7 @@ public class RepositoryUtil<T> {
 
     public QueryResult<T> getQueryResult(boolean isOwnerEmpty, String owner, Map<String, String> columnInfo,
                                          long pageIndex, String queryName, String queryCountName, String type) {
-        QueryResult<T> qr = new QueryResult<T>();
+        QueryResult<T> qr = new QueryResult<>();
         Query query;
 
         if (!isOwnerEmpty) {

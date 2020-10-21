@@ -49,7 +49,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
         desc = repositoryUtil.appendWildCard(desc);
 
         QueryResult<Incident> queryResult;
-        Map<String, String> columnInfo = new HashMap<String, String>();
+        Map<String, String> columnInfo = new HashMap<>();
 
         if (isTagEmpty && isDescEmpty) {
             String queryName = Incident.FIND_ALL_INCIDENTS;
@@ -89,8 +89,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
 
     @Override
     public Incident saveIncident(Incident incident) throws OptimisticLockException {
-        Incident incomingIncident = incident;
-        Set<Product> products = new HashSet<Product>();
+        Set<Product> products = new HashSet<>();
         ErrorCondition errorCode = new ErrorCondition();
         ReferenceData applicationStatus = new ReferenceData();
 
@@ -166,17 +165,17 @@ public class IncidentRepositoryImpl implements IncidentRepository {
                 }
             }
         } catch (PersistenceException e) {
-            LOG.error("IncidentRepositoryImpl::saveIncident - failure saving product {}, msg {}", incomingIncident.toString(), e.getMessage());
+            LOG.error("IncidentRepositoryImpl::saveIncident - failure saving product {}, msg {}", incident.toString(), e.getMessage());
             throw (e);
         }
 
-        return incomingIncident;
+        return incident;
     }
 
     @Override
     public boolean isIncidentOpen(Long id) {
         Incident incident = em.find(Incident.class, id);
-        if (incident.getStatus().equals("Open")) {
+        if ("Open".equals(incident.getStatus())) {
             return true;
         }
         return false;
@@ -227,14 +226,14 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     public Set<IncidentChronology> getChronologies(Long id) {
         Incident incident = em.find(Incident.class, id);
         Optional<Set<IncidentChronology>> chronologies = Optional.of(incident.getChronologies());
-        return chronologies.orElse(new HashSet<IncidentChronology>());
+        return chronologies.orElse(new HashSet<>());
     }
 
     @Override
     public Set<Product> getProducts(Long id) {
         Incident incident = em.find(Incident.class, id);
         Optional<Set<Product>> products = Optional.of(incident.getProducts());
-        return products.orElse(new HashSet<Product>());
+        return products.orElse(new HashSet<>());
     }
 
     @Override

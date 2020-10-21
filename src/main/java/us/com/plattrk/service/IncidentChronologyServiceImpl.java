@@ -3,8 +3,11 @@ package us.com.plattrk.service;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.mail.SendFailedException;
 import javax.servlet.ServletContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,12 +22,14 @@ import us.com.plattrk.service.Mail.Type;
 @Service(value = "IncidentChronologyService")
 public class IncidentChronologyServiceImpl implements IncidentChronologyService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(IncidentChronologyServiceImpl.class);
+
     @Autowired
     private ServletContext servletContext;
-    
+
     @Autowired
     private IncidentChronologyRepository incidentChronologyRepository;
-    
+
     @Autowired
     private Properties appProperties;
 
@@ -42,13 +47,15 @@ public class IncidentChronologyServiceImpl implements IncidentChronologyService 
     @Override
     @Transactional
     public IncidentChronology saveIncidentChronology(IncidentChronology chronology) {
-        
+
         if (incidentChronologyRepository.saveIncidentChronology(chronology) != null) {
             Incident incident = incidentChronologyRepository.getIncidentOfNewChronology(chronology.getIncident().getId());
-            if (incident.getStatus().equals("Closed")) {
-                WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
-                MailService mailService = (MailService) wac.getBean("mailService");
+            WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
+            MailService mailService = (MailService) wac.getBean("mailService");
+            try {
                 mailService.send(incident, appProperties, Type.INCIDENTCHRONOLOGYSTART);
+            } catch (SendFailedException e) {
+                LOG.error("IncidentChronologyServiceImpl::saveIncidentChronology - error sending email notification ", e);
             }
         }
 
@@ -59,5 +66,5 @@ public class IncidentChronologyServiceImpl implements IncidentChronologyService 
     public IncidentChronology getIncidentChronology(Long id) {
         return incidentChronologyRepository.getIncidentChronology(id);
     }
-    
+
 }
