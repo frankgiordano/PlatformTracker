@@ -23,6 +23,43 @@ You may find this application useful, and you are welcome to use it. The basic i
 
 I posted this project for educational proposes, and I intend to continue to polish and work out all the kinks on my spare time. I may evolve the project as a place to learn and experiment. 
 
+## Incident Email Notification System/Outline
+
+The application will trigger an email notification to be sent to the following distributions:
+
+      DeskTopOps  
+      EscalatedDist  
+      Outages  
+      WeeklyProd  
+    
+These distributions are set within the plattrk.properties file.   
+  
+An email notification is sent by the application whenever the following actions occur: 
+  
+      Opening an Incident.  
+      Closing an Incident.    
+      Adding a Chronology entry to the Incident.   
+         
+An email notification can be sent when no particular actions occur. This occurs when an Incident in Open status is left untouched within a timeframe.
+   
+For the following timeframes, an email notification will be sent on any OPEN Incident EVERY:
+  
+      55 minutes starting since start date time or until last Chronology update.  
+      1 hour starting since start date time or until last Chronology update.   
+      2 hours starting since start date time or until last Chronology update.   
+
+These notifications are not sent between 9pm - 8am, and they are meant to be warning notifications to the front line support team. 
+    
+For instance, the every 55 minute notification is an early warning notification to the front line team indicating the need for an update. If no update occurs, then additional team members will be notified at the 1 hour mark for a need of an update. At this point, at the 2 hour mark if no update has occurred an escalated team will be notified. 
+  
+These notifications are not sent between 9pm - 8am. 
+    
+Setup the distributions accordingly. 
+
+A daily email notification is sent summarizing any new Incidents created the previous day. 
+  
+A weekly email notification is sent containing a weekly report. This is controlled by a setting set within the UI Report Settings. 
+     
 ## Setup, Installation, and running the application:
 
 1 - Install Java 8 or 11
