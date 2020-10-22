@@ -9,11 +9,12 @@ Current tech stack utilized for this project:
   
 	Java   
 	Spring MVC  
-	JPA  
+	Hibernate/JPA  
 	AngularJS  
 	JavaScript  
 	HTML  
-	Bootstrap  
+	Bootstrap
+	Tomcat  
   
 This was used as a starter project to build up knowledge with the tech stack for future projects. This was a short-lived application used to mostly provide some way to track an incoming product related issues in a very custom/niche way.  
 
@@ -51,9 +52,7 @@ For the following timeframes, an email notification will be sent on any OPEN Inc
 These notifications are not sent between 9pm - 8am, and they are meant to be warning notifications to the front line support team. 
     
 For instance, the every 55 minute notification is an early warning notification to the front line team indicating the need for an update. If no update occurs, then additional team members will be notified at the 1 hour mark for a need of an update. At this point, at the 2 hour mark if no update has occurred an escalated team will be notified. 
-  
-These notifications are not sent between 9pm - 8am. 
-    
+      
 Setup the distributions accordingly. 
 
 A daily email notification is sent summarizing any new Incidents created the previous day. 
