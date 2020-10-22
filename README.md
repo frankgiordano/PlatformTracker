@@ -28,9 +28,10 @@ I posted this project for educational proposes, and I intend to continue to poli
 
 The application will trigger an email notification to be sent to the following distributions:
 
-      DeskTopOps  
+      RegularDist  
+      DeskTopOps    
       EscalatedDist  
-      Outages  
+      Outages (not currently used)
       WeeklyProd  
     
 These distributions are set within the plattrk.properties file.   
@@ -45,9 +46,9 @@ An email notification can be sent when no particular actions occur. This occurs 
    
 For the following timeframes, an email notification will be sent on any OPEN Incident EVERY:
   
-      55 minutes starting since start date time or until last Chronology update.  
-      1 hour starting since start date time or until last Chronology update.   
-      2 hours starting since start date time or until last Chronology update.   
+      55 minutes starting since start date time or until last Chronology update. (DeskTopOps)  
+      1 hour starting since start date time or until last Chronology update. (From Email RCPT dropdown in Incident Detail screen)   
+      2 hours starting since start date time or until last Chronology update. (EscalatedDist)   
 
 These notifications are not sent between 9pm - 8am, and they are meant to be warning notifications to the front line support team. 
     
@@ -57,7 +58,7 @@ Setup the distributions accordingly.
 
 A daily email notification is sent summarizing any new Incidents created the previous day. 
   
-A weekly email notification is sent containing a weekly report. This is controlled by a setting set within the UI Report Settings. 
+A weekly email notification is sent containing a weekly report. This is controlled by a setting set within the UI Report Settings. (WeeklyProd)
      
 ## Setup, Installation, and running the application:
 
