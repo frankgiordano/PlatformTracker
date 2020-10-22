@@ -24,6 +24,16 @@ You may find this application useful, and you are welcome to use it. The basic i
 
 I posted this project for educational proposes, and I intend to continue to polish and work out all the kinks on my spare time. I may evolve the project as a place to learn and experiment. 
 
+## For Developers
+
+The development code work for this project is in the following locations:
+
+    src/main/java/us/com/plattrk  
+    src/webapp/WEB-INF/resources/html  
+    src/webapp/WEB-INF/resources/js/custom  
+    src/webapp/WEB-INF/resources/css/custom  
+    src/webapp/WEB-INF/resources/doctemplates  
+
 ## Incident Email Notification System/Outline
 
 The application will trigger an email notification to be sent to the following distributions:
