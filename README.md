@@ -51,6 +51,8 @@ An email notification is sent by the application whenever the following actions 
       Opening an Incident.  
       Closing an Incident.    
       Adding a Chronology entry to the Incident.   
+      
+Each of the above notification is sent to distribution set within the Incident's Email RCPT dropdown field.
          
 An email notification can be sent when no particular actions occur. This occurs when an Incident in Open status is left untouched within a timeframe.
    
