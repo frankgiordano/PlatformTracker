@@ -118,21 +118,21 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
         // find if there are any open incidents, if so loop through them and perform email notification if applicable.
         // spawn a thread for each open incident and the thread performs the notification.
-        for (Incident incident : openIncidents) {
-            notificationCheckInfo(incident);
+        openIncidents.forEach((i -> {
+            notificationCheckInfo(i);
 
-            if (!getThreadByName(incident.getTag())) {
+            if (!getThreadByName(i.getTag())) {
                 // do the following new Thread if you do not want to use spring container
                 // Thread thread = new Thread(new NotificationThread (i, appProperties));
                 IncidentNotificationLegacyServiceImpl incidentNotificationService =
                         (IncidentNotificationLegacyServiceImpl) wac.getBean("incidentNotificationThreadServiceImpl");
-                incidentNotificationService.setIncident(incident);
+                incidentNotificationService.setIncident(i);
                 incidentNotificationService.setAppProperties(appProperties);
                 Thread thread = new Thread(incidentNotificationService);
-                thread.setName(incident.getTag());
+                thread.setName(i.getTag());
                 thread.start();
             }
-        }
+        }));
     }
 
     @Override
@@ -140,7 +140,6 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     @Transactional
     public void notificationCheck() {
         List<Incident> openIncidents = incidentRepository.getOpenIncidents();
-        WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 
         // find if there are any open incidents, if so loop through them and perform email notification if applicable.
         openIncidents.forEach((i -> {
@@ -148,18 +147,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
             Notification notification = notificationRepository.getNotification(EntityType.INCIDENT.name(), i.getId());
             if (notification != null) {
-                IncidentNotificationService incidentNotificationService =
-                        (IncidentNotificationServiceImpl) wac.getBean("incidentNotificationServiceImpl");
-                incidentNotificationService.setIncident(i);
-
-                try {
-                    incidentNotificationService.resetAlert();
-                    incidentNotificationService.earlyAlert();
-                    incidentNotificationService.alertOffSet();
-                    incidentNotificationService.escalatedAlert();
-                } catch (IllegalStateException e) {
-                    LOG.error("IncidentServiceImpl::notificationCheck - IllegalStateException error - {} ", e.getMessage());
-                }
+                alertLifeCycle(i);
             }
         }));
     }
@@ -297,6 +285,22 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     @Override
     public Optional<Incident> getIncident(Long id) {
         return incidentRepository.getIncident(id);
+    }
+
+    private void alertLifeCycle(Incident incident) {
+        WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
+        IncidentNotificationService incidentNotificationService =
+                (IncidentNotificationServiceImpl) wac.getBean("incidentNotificationServiceImpl");
+        incidentNotificationService.setIncident(incident);
+
+        try {
+            incidentNotificationService.resetAlert();
+            incidentNotificationService.earlyAlert();
+            incidentNotificationService.alertOffSet();
+            incidentNotificationService.escalatedAlert();
+        } catch (IllegalStateException e) {
+            LOG.error("IncidentServiceImpl::alertLifeCycle - IllegalStateException error - {} ", e.getMessage());
+        }
     }
 
     public void setServletContext(ServletContext servletContext) {

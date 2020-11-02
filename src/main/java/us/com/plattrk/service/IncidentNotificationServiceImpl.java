@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import us.com.plattrk.api.model.EntityType;
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.Notification;
-import us.com.plattrk.repository.IncidentRepository;
 import us.com.plattrk.repository.NotificationRepository;
 import us.com.plattrk.service.Mail.Type;
 
@@ -26,9 +25,6 @@ public class IncidentNotificationServiceImpl extends NotificationTimeFrame imple
 
     @Autowired
     private Properties appProperties;
-
-    @Autowired
-    private IncidentRepository incidentRepository;
 
     private Incident incident;
 
@@ -188,9 +184,11 @@ public class IncidentNotificationServiceImpl extends NotificationTimeFrame imple
 
     @Override
     public void sendEmail(Type type) throws SendFailedException {
+        if (this.incident == null)
+            throw new IllegalStateException("No Incident set.");
+
         toggleOnHours();
 
-        incident = incidentRepository.getIncident(incident.getId()).get();
         try {
             if (isOnHours()) {
                 mailService.send(incident, appProperties, type);
