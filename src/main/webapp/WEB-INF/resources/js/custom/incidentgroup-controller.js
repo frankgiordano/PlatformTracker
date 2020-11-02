@@ -202,6 +202,7 @@ app.controller('IncidentGroupController', function ($rootScope, $scope, localSto
     };
 
     $scope.cancel = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $scope.selectedGroup = false;
         $scope.clearDisplayMessages();
         $scope.refreshData();
@@ -313,6 +314,7 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
     };
 
     $scope.cancel = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $scope.$parent.createRootCA = false;
         $scope.disableButton = false;
         $scope.clear();
@@ -552,6 +554,7 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, $route
     };
 
     $scope.cancel = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $scope.$parent.createResolution = false;
         $scope.disableButton = false;
         $scope.clear();

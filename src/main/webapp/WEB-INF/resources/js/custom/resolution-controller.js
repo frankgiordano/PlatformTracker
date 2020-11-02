@@ -85,6 +85,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     };
 
     $scope.clearFilters = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $scope.searchGrpName = "";
         $scope.searchDesc = "";
         $scope.searchAssignee = "";
@@ -427,10 +428,12 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     };
 
     $scope.new = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $location.path('/resolution/create' + '/' + $scope.pageno + '/' + $scope.searchGrpName + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
     };
 
     $scope.cancel = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $location.path('/resolution/search' + '/' + $scope.pageno + '/' + $scope.searchGrpName + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
     };
 
