@@ -83,6 +83,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
     };
 
     $scope.clearFilters = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $scope.searchName = "";
         $scope.searchAssignee = "";
         for (var i in $scope.assigneeList) {
@@ -173,6 +174,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
     };
 
     $scope.cancel = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $scope.clearMsg();
         $scope.selectedProduct = null;
         $scope.refreshData();
@@ -400,10 +402,12 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
     };
 
     $scope.new = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $location.path('/product/create' + '/' + $scope.pageno + '/' + $scope.searchName + '/' + $scope.searchAssignee);
     };
 
     $scope.cancelCreate = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $location.path('/product/search' + '/' + $scope.pageno + '/' + $scope.searchName + '/' + $scope.searchAssignee);
     };
 

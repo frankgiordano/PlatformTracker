@@ -123,6 +123,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
     };
 
     $scope.clearFilters = function () {
+        $scope.checkLoginUserFromLocalStorage();
         localStorageService.set("enableSearch", true); 
         $scope.clearButtonClicked = true;
         $scope.searchTag = "";
@@ -869,6 +870,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
     }
 
     $scope.cancelEdit = function (option) {
+        $scope.checkLoginUserFromLocalStorage();
         switch (option) {
             case "incident":
                 if ($routeParams.sourceLocation === "fromsearchbygroup") {
@@ -889,6 +891,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
     };
 
     $scope.cancelCreate = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $location.path('/incident/search' + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
     };
 
@@ -922,6 +925,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
     };
 
     $scope.new = function () {
+        $scope.checkLoginUserFromLocalStorage();
         localStorageService.set("enableSearch", true); 
         localStorageService.set("incidentCreateButtonClicked", true);  // set to any value we only check to see if it exist
         $location.path('/incident/create' + '/' + $scope.pageno + '/' + $scope.searchTag + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);

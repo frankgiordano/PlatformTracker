@@ -86,6 +86,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     };
 
     $scope.clearFilters = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $scope.searchGrpName = "";
         $scope.searchDesc = "";
         $scope.searchAssignee = "";
@@ -450,10 +451,12 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     };
 
     $scope.new = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $location.path('/rootcause/create' + '/' + $scope.pageno + '/' + $scope.searchGrpName + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
     };
 
     $scope.cancel = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $location.path('/rootcause/search' + '/' + $scope.pageno + '/' + $scope.searchGrpName + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
     };
 

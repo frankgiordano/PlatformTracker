@@ -76,6 +76,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     };
 
     $scope.clearFilters = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $scope.searchName = "";
         $scope.searchAssignee = "";
         for (var i in $scope.assigneeList) {
@@ -428,10 +429,12 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     };
 
     $scope.new = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $location.path('/project/create' + '/' + $scope.pageno + '/' + $scope.searchName + '/' + $scope.searchAssignee);
     };
 
     $scope.cancel = function () {
+        $scope.checkLoginUserFromLocalStorage();
         $location.path('/project/search' + '/' + $scope.pageno + '/' + $scope.searchName + '/' + $scope.searchAssignee);
     };
 

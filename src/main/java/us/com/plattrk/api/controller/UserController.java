@@ -21,4 +21,5 @@ public class UserController {
         }
         return (UserDetails) authentication.getPrincipal();
     }
+    
 }
