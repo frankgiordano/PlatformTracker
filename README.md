@@ -50,11 +50,11 @@ An email notification is sent by the application whenever the following actions 
   
       Opening an Incident.  
       Closing an Incident.    
-      Adding a Chronology entry to the Incident.   
+      Adding a Chronology entry to an Incident.   
       
-Each of the above notification is sent to distribution set within the Incident's Email RCPT dropdown field.
+Each of the above notification is sent to a distribution set within the Incident's Email RCPT dropdown field.
          
-An email notification can be sent when no particular actions occur. This occurs when an Incident in Open status is left untouched within a timeframe.
+An email notification can be sent when no particular actions occur. This occurs when an Incident in OPEN status is left untouched within a timeframe.
    
 For the following timeframes, an email notification will be sent on any OPEN Incident EVERY:
   
@@ -62,8 +62,10 @@ For the following timeframes, an email notification will be sent on any OPEN Inc
       1 hour starting since start date time or until last Chronology update. (From Email RCPT dropdown in Incident Detail screen)   
       2 hours starting since start date time or until last Chronology update. (EscalatedDist)   
 
-These notifications are not sent between 9pm - 8am, and they are meant to be warning notifications to the front line support team. 
-    
+These notifications are meant to notify a front line team about OPEN incidents that have not been updated for a while.   
+  
+These notifications are not sent during off hours or the weekend.    
+        
 For instance, the every 55 minute notification is an early warning notification to the front line team indicating the need for an update. If no update occurs, then additional team members will be notified at the 1 hour mark for a need of an update. At this point, at the 2 hour mark if no update has occurred an escalated team will be notified. 
       
 Setup the distributions accordingly. 
@@ -174,7 +176,7 @@ NOTE: You might run into the following issue https://stackoverflow.com/questions
 
         If not there please add.
 
-4 - From tomcat's bin directory, execute the following command to deploy the war deliverable within the tomcat server
+4 - From tomcat's bin directory, execute the following command to deploy the war deliverable within the tomcat server:
 
 	    startup
 	
