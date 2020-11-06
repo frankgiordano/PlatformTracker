@@ -136,7 +136,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     }
 
     @Override
-    @Scheduled(cron = "*/10 * * * * ?")
+    @Scheduled(cron = "*/5 * * * * ?")
     @Transactional
     public void notificationCheck() {
         List<Incident> openIncidents = incidentRepository.getOpenIncidents();
