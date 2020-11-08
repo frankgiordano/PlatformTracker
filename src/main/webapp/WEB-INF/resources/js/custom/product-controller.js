@@ -229,7 +229,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
         }).then(function (modal) {
             modal.element.modal({ backdrop: 'static' });
             modal.close.then(function (result) {
-                if (result.answer == 'Yes') {
+                if (result.answer === 'Yes') {
                     deleteProduct($scope.selectedProduct.id);
                 }
             });
