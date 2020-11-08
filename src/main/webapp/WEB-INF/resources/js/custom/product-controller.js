@@ -24,7 +24,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
     $scope.avoidRefresh = function () {
         var url = $location.absUrl();
         if (url.indexOf("search") === -1)
-           return true;
+            return true;
         return false;
     };
 
@@ -40,12 +40,15 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
             assignee: $scope.searchAssignee
         };
         $scope.checkFilters(search);
+        $scope.waitingList(true);
         ProductService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
+                $scope.waitingList(false);
             },
             function error() {
                 $scope.errorMessages = "PRODUCTS_GET_FAILURE - Retrieving products failed, check logs or try again.";
+                $scope.waitingList(false);
             });
     };
 
@@ -104,7 +107,29 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
         }
     };
 
-    $scope.waiting = function (value) {
+    $scope.waitingList = function (value) {
+        if (value === true) {
+            $scope.hideDuringLoadingList = true;
+            $scope.loadingList = false;
+            $scope.waitMessage = "Loading...";
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideDuringLoadingList = false;
+            $scope.loadingList = true;
+            document.body.style.cursor = "default";
+        }
+    }
+
+    $scope.waiting = function (value, action) {
+        if (action === "save") {
+            $scope.waitMessage = "Saving Product...";
+        }
+        if (action === "create") {
+            $scope.waitMessage = "Creating Product...";
+        }
+        if (action === "delete") {
+            $scope.waitMessage = "Deleting Product...";
+        }
         if (value === true) {
             $scope.hideDuringLoading = true;
             $scope.loading = false;
@@ -115,7 +140,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
             document.body.style.cursor = "default";
         }
     };
-    $scope.waiting();
+    $scope.waiting(false);
 
     (function () {
         OwnersService.getOwners().then(
@@ -146,6 +171,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
     })();
 
     $scope.select = function (product) {
+        $scope.hideDuringLoading = false;
         $scope.checkLoginUserFromLocalStorage();
         $scope.selectedProduct = product;
         $scope.selectedProduct.startDate = moment($scope.selectedProduct.startDate).format('YYYY-MM-DD');
@@ -213,6 +239,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
     // only used for showOnDelete dont't expose this method in $scope for wider use
     var deleteProduct = function (id) {
         $scope.clearMsg();
+        $scope.waiting(true, "delete");
 
         ProductService.deleteProduct(id).then(
             function success(response) {
@@ -222,16 +249,18 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
                     $scope.refreshData();
                     $scope.errorMessages = null;
                     $scope.disableButton = true;
+                    $scope.waiting(false);
                 }
             },
             function error() {
                 $scope.errorMessages = "PRODUCT_DELETE_FAILURE - Check logs or invalid Product.";
+                $scope.waiting(false);
             });
     };
 
     $scope.updateInSearch = function () {
         $scope.clearMsg();
-        $scope.waiting(true);
+        $scope.waiting(true, "save");
 
         // Trigger validation flag.
         $scope.submitted = true;
@@ -324,7 +353,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
     $scope.submit = function (form) {
         var platform;
         $scope.clearMsg();
-        $scope.waiting(true);
+        $scope.waiting(true, "create");
 
         // Trigger validation flag.
         $scope.submitted = true;

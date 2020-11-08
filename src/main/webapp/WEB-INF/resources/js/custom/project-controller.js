@@ -33,12 +33,15 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             assignee: $scope.searchAssignee
         };
         $scope.checkFilters(search);
+        $scope.waiting(true, "load");
         ProjectService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
+                $scope.waiting(false);
             },
             function error() {
                 $scope.errorMessages = "PROJECTS_GET_FAILURE - Retrieving projects failed, check logs or try again.";
+                $scope.waiting(false);
             });
     };
 
@@ -101,7 +104,19 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         $location.path('/project/edit/' + id + '/' + $scope.pageno + '/' + $scope.searchName + '/' + $scope.searchAssignee);
     };
 
-    $scope.waiting = function (value) {
+    $scope.waiting = function (value, action) {
+        if (action === "save") {
+            $scope.waitMessage = "Saving Project...";
+        }
+        if (action === "create") {
+            $scope.waitMessage = "Creating Project...";
+        }
+        if (action === "delete") {
+            $scope.waitMessage = "Deleting Project...";
+        }
+        if (action === "load") {
+            $scope.waitMessage = "Loading...";
+        }
         if (value === true) {
             $scope.hideDuringLoading = true;
             $scope.loading = false;
@@ -261,6 +276,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             modal.element.modal({ backdrop: 'static' });
             modal.close.then(function (result) {
                 if (result.answer === 'Yes') {
+                    $scope.waiting(true, "delete");
                     ProjectService.deleteProject(project).then(
                         function success(response) {
                             if (response) {
@@ -271,10 +287,12 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                                 console.error("Project ID " + project.id + " was unable to be deleted.");
                             }
                             $scope.back = true;
+                            $scope.waiting(false);
                             return;
                         },
                         function error() {
                             $scope.errorMessages = "PROJECT_DELETE_FAILURE - Check logs or invalid project.";
+                            $scope.waiting(false);
                             return;
                         });
                 } else {
@@ -290,7 +308,10 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
 
     $scope.update = function () {
         $scope.clearMsg();
-        $scope.waiting(true);
+        if ($routeParams.id > 0)
+            $scope.waiting(true, "save");
+        else
+            $scope.waiting(true, "create");
 
         if ($scope.ownerList != null && $scope.ownerList.length > 0) {
             var owners = "";

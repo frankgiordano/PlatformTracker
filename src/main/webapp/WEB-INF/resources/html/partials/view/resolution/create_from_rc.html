@@ -1,14 +1,16 @@
 <div data-ng-controller="ResolutionChildController" class="table table-condensed">
-    <div ng-hide="loading" style="padding-bottom: 1%; padding-top: 4%">
+    <div style="padding-bottom: 1%; padding-top: 2%"></div>
+    <div ng-hide="loading" style="padding-top: 2%">
         <div class="row">
             <div class="col-sm-12">
-                <progressbar class="progress-striped active" max="200" value="200" type="info"><i>Creating Resolution....</i>
+                <progressbar class="progress-striped active" max="200" value="200" type="info">
+                    <i>{{waitMessage}}</i>
                 </progressbar>
             </div>
         </div>
     </div>
     <div ng-hide="hideDuringLoading">
-        <div style="padding-bottom: 1%; padding-top: 2%">
+        <div>
             <h2>Create Resolution</h2>
         </div>
         <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>

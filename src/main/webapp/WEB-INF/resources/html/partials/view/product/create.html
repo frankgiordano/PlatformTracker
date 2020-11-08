@@ -5,9 +5,10 @@
         </a>
     </div>
     <div ng-hide="loading">
-        <div class="row" style="padding-bottom: 1%; padding-top: 2%">
+        <div class="row" style="padding-top: 2%">
             <div class="col-sm-12">
-                <progressbar class="progress-striped active" max="200" value="200" type="info"><i>Creating Product....</i>
+                <progressbar class="progress-striped active" max="200" value="200" type="info">
+                    <i>{{waitMessage}}</i>
                 </progressbar>
             </div>
         </div>

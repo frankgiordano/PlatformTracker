@@ -36,12 +36,15 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
             assignee: $scope.searchAssignee
         };
         $scope.checkFilters(search);
+        $scope.waiting(true, "load");
         RcaService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
+                $scope.waiting(false);
             },
             function error() {
                 $scope.errorMessages = "ROOTCAUSES_GET_FAILURE - Retrieving root causes failed, check logs or try again.";
+                $scope.waiting(false);
             });
     };
 
@@ -112,7 +115,19 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
         $location.path('/rootcause/edit/' + id + '/' + $scope.pageno + '/' + $scope.searchGrpName + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
     };
 
-    $scope.waiting = function (value) {
+    $scope.waiting = function (value, action) {
+        if (action === "save") {
+            $scope.waitMessage = "Saving Root Cause...";
+        }
+        if (action === "create") {
+            $scope.waitMessage = "Creating Root Cause...";
+        }
+        if (action === "delete") {
+            $scope.waitMessage = "Deleting Root Cause...";
+        }
+        if (action === "load") {
+            $scope.waitMessage = "Loading...";
+        }
         if (value === true) {
             $scope.hideDuringLoading = true;
             $scope.loading = false;
@@ -123,7 +138,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
             document.body.style.cursor = "default";
         }
     };
-    $scope.waiting();
+    $scope.waiting(false);
 
     $scope.filterWhy = function (why) {
         return why.isDeleted !== true;
@@ -332,16 +347,19 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     };
 
     $scope.deleteRootCauseById = function (rca) {
+        $scope.waiting(true, "delete");
         RcaService.deleteRca(rca).then(
             function success(response) {
                 if (response) {
                     $scope.messages = "Root Cause ID " + rca.id + " has been deleted.";
                     console.log("Root Cause has been deleted = " + response);
+                    $scope.waiting(false);
                 }
                 $scope.back = true;
             },
             function error() {
                 $scope.errorMessages = "ROOT_CAUSE_DELETE_FAILURE - Check logs or invalid RCA.";
+                $scope.waiting(false);
             });
     };
 
@@ -352,7 +370,10 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
 
     $scope.update = function () {
         $scope.clearMsg();
-        $scope.waiting(true);
+        if ($routeParams.id > 0)
+            $scope.waiting(true, "save");
+        else
+            $scope.waiting(true, "create");
 
         if ($scope.ownerList != null && $scope.ownerList.length > 0) {
             var owners = "";

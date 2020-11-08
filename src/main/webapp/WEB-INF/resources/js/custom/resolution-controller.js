@@ -35,12 +35,15 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
             assignee: $scope.searchAssignee
         };
         $scope.checkFilters(search);
+        $scope.waiting(true, "load");
         ResolutionService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
+                $scope.waiting(false);
             },
             function error() {
                 $scope.errorMessages = "RESOLUTIONS_GET_FAILURE - Retrieving resolutions failed, check logs or try again.";
+                $scope.waiting(false);
             });
     };
 
@@ -111,7 +114,19 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
         $location.path('/resolution/edit/' + id + '/' + $scope.pageno + '/' + $scope.searchGrpName + '/' + $scope.searchDesc + '/' + $scope.searchAssignee);
     };
 
-    $scope.waiting = function (value) {
+    $scope.waiting = function (value, action) {
+        if (action === "save") {
+            $scope.waitMessage = "Saving Resolution...";
+        }
+        if (action === "create") {
+            $scope.waitMessage = "Creating Resolution...";
+        }
+        if (action === "delete") {
+            $scope.waitMessage = "Deleting Resolution...";
+        }
+        if (action === "load") {
+            $scope.waitMessage = "Loading...";
+        }
         if (value === true) {
             $scope.hideDuringLoading = true;
             $scope.loading = false;
@@ -122,7 +137,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
             document.body.style.cursor = "default";
         }
     };
-    $scope.waiting();
+    $scope.waiting(false);
 
     (function () {
         OwnersService.getOwners().then(
@@ -282,6 +297,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
             modal.close.then(function (result) {
                 $scope.clearMsg();
                 if (result.answer === 'Yes') {
+                    $scope.waiting(true, "delete");
                     ResolutionService.deleteResolution(resolution).then(
                         function success(response) {
                             if (response) {
@@ -289,9 +305,11 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
                                 console.log("Resolution has been deleted = " + JSON.stringify(response));
                             }
                             $scope.back = true;
+                            $scope.waiting(false);
                         },
                         function error() {
                             $scope.errorMessages = "RESOLUTION_DELETE_FAILURE - Check logs or child associated entities still exist.";
+                            $scope.waiting(false);
                         });
                 }
             });
@@ -310,7 +328,10 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     $scope.update = function () {
         $scope.back = false;
         $scope.clearMsg();
-        $scope.waiting(true);
+        if ($routeParams.id > 0)
+            $scope.waiting(true, "save");
+        else
+            $scope.waiting(true, "create");
 
         if ($scope.ownerList != null && $scope.ownerList.length > 0) {
             var owners = "";

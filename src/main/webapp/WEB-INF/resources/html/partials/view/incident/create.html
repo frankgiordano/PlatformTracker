@@ -7,7 +7,8 @@
     <div ng-hide="loading">
         <div class="row" style="padding-top: 2%">
             <div class="col-sm-12">
-                <progressbar class="progress-striped active" max="200" value="200" type="info"><i>Creating Incident....</i>
+                <progressbar class="progress-striped active" max="200" value="200" type="info">
+                    <i>{{waitMessage}}</i>
                 </progressbar>
             </div>
         </div>

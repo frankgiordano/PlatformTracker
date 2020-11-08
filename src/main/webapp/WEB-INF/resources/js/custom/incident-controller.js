@@ -56,14 +56,17 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
         if ($scope.avoidRefresh(search) === true)
             return;
         $scope.checkFilters(search);
+        $scope.waiting(true, "load");
         IncidentService.search(search, pageno).then(
             function success(response) {
                 $scope.$evalAsync(function () {
                     $scope.data = response;
                 });
+                $scope.waiting(false);
             },
             function error() {
                 $scope.errorMessages = "INCIDENTS_GET_FAILURE - Retrieving incidents failed, check logs or try again.";
+                $scope.waiting(false);
             });
     };
 
@@ -149,7 +152,19 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
         $scope.getData($scope.pageno);
     };
 
-    $scope.waiting = function (value) {
+    $scope.waiting = function (value, action) {
+        if (action === "save") {
+            $scope.waitMessage = "Saving Incident...";
+        }
+        if (action === "create") {
+            $scope.waitMessage = "Creating Incident...";
+        }
+        if (action === "delete") {
+            $scope.waitMessage = "Deleting Incident...";
+        }
+        if (action === "load") {
+            $scope.waitMessage = "Loading...";
+        }
         if (value === true) {
             $scope.hideDuringLoading = true;
             $scope.loading = false;
@@ -160,7 +175,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
             document.body.style.cursor = "default";
         }
     };
-    $scope.waiting();
+    $scope.waiting(false);
 
     $scope.refreshData = function () {
         var newData = $scope.init();
@@ -505,7 +520,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
 
     $scope.update = function () {
         $scope.clearDisplayMessages();
-        $scope.waiting(true);
+        $scope.waiting(true, "save");
 
         $scope.formValidation();
         $scope.generateTag();
@@ -680,7 +695,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
 
     $scope.submit = function () {
         $scope.clearDisplayMessages();
-        $scope.waiting(true);
+        $scope.waiting(true, "create");
 
         $scope.formValidation();
         $scope.generateTag();
@@ -838,6 +853,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
     };
 
     $scope.deleteIncident = function (id) {
+        $scope.waiting(true, "delete");
         $scope.clearDisplayMessages();
         IncidentService.deleteIncident(id).then(
             function success(response) {
@@ -845,10 +861,12 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
                     $scope.messages = "Incident ID " + id + " has been deleted.";
                     console.log("Incident has been deleted = " + JSON.stringify(response));
                 }
+                $scope.waiting(false);
                 $scope.disableButton = true;
             },
             function error() {
                 $scope.errormessages = "INCIDENT_DELETE_FAILURE - Check logs or invalid Incident.";
+                $scope.waiting(false);
             });
     };
 

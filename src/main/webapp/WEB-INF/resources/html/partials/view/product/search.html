@@ -1,105 +1,118 @@
 <div data-ng-init="init()">
     <div ng-hide="selectedProduct">
-        <div style="padding-bottom: 1%; padding-top: 2%">
+        <div style="padding-top: 2%">
             <h2>Search Products</h2>
         </div>
-        <div id="messages" class="alert alert-danger" data-ng-show="errorMessages" data-ng-bind="errorMessages"></div>
-        <form class="form-horizontal">
-            <div class="form-group">
-                <label class="control-label col-xs-2">Count Total</label>
-                <div class="col-xs-7 form-control-static">
-                    {{data.totalCount}}
-                </div>
-                <div class="col-xs-3 pull-right">
-                    <button data-ng-disabled="progress.active()" data-ng-click="new()"
-                        class="btn btn-primary pull-right">Create</button>
+        <div ng-hide="loadingList">
+            <div class="row" style="padding-top: 2%">
+                <div class="col-sm-12">
+                    <progressbar class="progress-striped active" max="200" value="200" type="info">
+                        <i>{{waitMessage}}</i>
+                    </progressbar>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="control-label col-xs-2">Search Filter</label>
-                <div class="col-xs-2">
-                    <input type="text" ng-model="searchName" class="form-control" placeholder="Search by name">
-                </div>
-                <div class="col-xs-2">
-                    <div multi-select input-model="assignees" button-label="userName" helper-elements="filter"
-                        output-model="assigneeList" item-label="userName" tick-property="ticked" selection-mode="single">
+        </div>
+        <div ng-hide="hideDuringLoadingList">
+            <div id="messages" class="alert alert-danger" data-ng-show="errorMessages" data-ng-bind="errorMessages">
+            </div>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-xs-2">Count Total</label>
+                    <div class="col-xs-7 form-control-static">
+                        {{data.totalCount}}
+                    </div>
+                    <div class="col-xs-3 pull-right">
+                        <button data-ng-disabled="progress.active()" data-ng-click="new()"
+                            class="btn btn-primary pull-right">Create</button>
                     </div>
                 </div>
-                <div class="col-xs-3 pull-right">
-                    <button data-ng-disabled="progress.active()" data-ng-click="clearFilters()"
-                        class="btn btn-primary pull-right">Clear</button>
+                <div class="form-group">
+                    <label class="control-label col-xs-2">Search Filter</label>
+                    <div class="col-xs-2">
+                        <input type="text" ng-model="searchName" class="form-control" placeholder="Search by name">
+                    </div>
+                    <div class="col-xs-2">
+                        <div multi-select input-model="assignees" button-label="userName" helper-elements="filter"
+                            output-model="assigneeList" item-label="userName" tick-property="ticked"
+                            selection-mode="single">
+                        </div>
+                    </div>
+                    <div class="col-xs-3 pull-right">
+                        <button data-ng-disabled="progress.active()" data-ng-click="clearFilters()"
+                            class="btn btn-primary pull-right">Clear</button>
+                    </div>
                 </div>
-            </div>
-        </form>
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th ng-click="sort('id')">Id
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='id'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('platform')">Platform
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='platform'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('incidentName')">Name
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='incidentName'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('clientName')">Client Name
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='clientName'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('shortName')">Short Name
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='shortName'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('owner')">Owner
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='owner'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('startDate')">Start Date
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='startDate'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('endDate')">End Date
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='endDate'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('maxWeeklyUptime')">Max Weekly Uptime
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='maxWeeklyUptime'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('revenue')">Revenue %
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='revenue'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                    <th ng-click="sort('users')">User %
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='users'"
-                            ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="btn-link" dir-paginate="product in data.results|orderBy:sortKey:reverse|itemsPerPage:10"
-                    total-items="data.totalCount" ng-click="select(product)" current-page="currentPage">
-                    <td>{{product.id}}</td>
-                    <td>{{product.platform}}</td>
-                    <td>{{product.incidentName}}</td>
-                    <td>{{product.clientName}}</td>
-                    <td>{{product.shortName}}</td>
-                    <td>{{product.owner}}</td>
-                    <td>{{product.startDate | dateFormatMinusTime}}</td>
-                    <td>{{product.endDate | dateFormatMinusTime}}</td>
-                    <td>{{product.maxWeeklyUptime}}</td>
-                    <td>{{product.revenue | percentage}}</td>
-                    <td>{{product.users | percentage}}</td>
-                </tr>
-            </tbody>
-        </table>
-        <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"
-            on-page-change="getData(newPageNumber)">
-        </dir-pagination-controls>
+            </form>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th ng-click="sort('id')">Id
+                            <span class="glyphicon sort-icon" ng-show="sortKey=='id'"
+                                ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th ng-click="sort('platform')">Platform
+                            <span class="glyphicon sort-icon" ng-show="sortKey=='platform'"
+                                ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th ng-click="sort('incidentName')">Name
+                            <span class="glyphicon sort-icon" ng-show="sortKey=='incidentName'"
+                                ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th ng-click="sort('clientName')">Client Name
+                            <span class="glyphicon sort-icon" ng-show="sortKey=='clientName'"
+                                ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th ng-click="sort('shortName')">Short Name
+                            <span class="glyphicon sort-icon" ng-show="sortKey=='shortName'"
+                                ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th ng-click="sort('owner')">Owner
+                            <span class="glyphicon sort-icon" ng-show="sortKey=='owner'"
+                                ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th ng-click="sort('startDate')">Start Date
+                            <span class="glyphicon sort-icon" ng-show="sortKey=='startDate'"
+                                ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th ng-click="sort('endDate')">End Date
+                            <span class="glyphicon sort-icon" ng-show="sortKey=='endDate'"
+                                ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th ng-click="sort('maxWeeklyUptime')">Max Weekly Uptime
+                            <span class="glyphicon sort-icon" ng-show="sortKey=='maxWeeklyUptime'"
+                                ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th ng-click="sort('revenue')">Revenue %
+                            <span class="glyphicon sort-icon" ng-show="sortKey=='revenue'"
+                                ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th ng-click="sort('users')">User %
+                            <span class="glyphicon sort-icon" ng-show="sortKey=='users'"
+                                ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="btn-link" dir-paginate="product in data.results|orderBy:sortKey:reverse|itemsPerPage:10"
+                        total-items="data.totalCount" ng-click="select(product)" current-page="currentPage">
+                        <td>{{product.id}}</td>
+                        <td>{{product.platform}}</td>
+                        <td>{{product.incidentName}}</td>
+                        <td>{{product.clientName}}</td>
+                        <td>{{product.shortName}}</td>
+                        <td>{{product.owner}}</td>
+                        <td>{{product.startDate | dateFormatMinusTime}}</td>
+                        <td>{{product.endDate | dateFormatMinusTime}}</td>
+                        <td>{{product.maxWeeklyUptime}}</td>
+                        <td>{{product.revenue | percentage}}</td>
+                        <td>{{product.users | percentage}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"
+                on-page-change="getData(newPageNumber)">
+            </dir-pagination-controls>
+        </div>
     </div>
     <form class="form-horizontal" name="productForm" ng-show="selectedProduct">
         <div>
@@ -111,7 +124,8 @@
             <div class="row" style="padding-bottom: 1%; padding-top: 2%">
                 <div class="col-sm-12">
                     <progressbar class="progress-striped active" max="200" value="200" type="info">
-                        <i>Saving Product....</i></progressbar>
+                        <i>{{waitMessage}}</i>
+                    </progressbar>
                 </div>
             </div>
         </div>

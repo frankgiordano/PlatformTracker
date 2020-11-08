@@ -227,7 +227,10 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
     $scope.rca = {};
     $scope.hideDuringLoading = false;
 
-    $scope.waiting = function (value) {
+    $scope.waiting = function (value, action) {
+        if (action === "create") {
+            $scope.waitMessage = "Creating Root Cause...";
+        }
         if (value == true) {
             $scope.hideDuringLoading = true;
             $scope.loading = false;
@@ -238,7 +241,7 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
             document.body.style.cursor = "default";
         }
     };
-    $scope.waiting();
+    $scope.waiting(false);
 
     (function () {
         OwnersService.getOwners().then(
@@ -390,7 +393,7 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
     // END OF - add related actions stuff
 
     $scope.submit = function () {
-        $scope.waiting(true);
+        $scope.waiting(true, "create");
 
         if ($scope.ownerList != null && $scope.ownerList.length > 0) {
             var owners = "";
@@ -452,7 +455,10 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, $route
     $scope.resolution = {};
     $scope.hideDuringLoading = false;
 
-    $scope.waiting = function (value) {
+    $scope.waiting = function (value, action) {
+        if (action === "create") {
+            $scope.waitMessage = "Creating Resolution...";
+        }
         if (value == true) {
             $scope.hideDuringLoading = true;
             $scope.loading = false;
@@ -463,7 +469,7 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, $route
             document.body.style.cursor = "default";
         }
     };
-    $scope.waiting();
+    $scope.waiting(false);
 
     $scope.createSetup = function () {
         if ($routeParams.incidentGroup !== "") {
@@ -561,7 +567,7 @@ app.controller('ResolutionChildController', function ($rootScope, $scope, $route
     };
 
     $scope.submit = function () {
-        $scope.waiting(true);
+        $scope.waiting(true, "create");
 
         if ($scope.ownerList != null && $scope.ownerList.length > 0) {
             var owners = "";
