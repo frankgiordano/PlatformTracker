@@ -308,7 +308,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
                             $scope.waiting(false);
                         },
                         function error() {
-                            $scope.errorMessages = "RESOLUTION_DELETE_FAILURE - Check logs or child associated entities still exist.";
+                            $scope.errorMessages = "RESOLUTION_DELETE_FAILURE - Resolution may be linked with other entities and cannot be deleted or check logs.";
                             $scope.waiting(false);
                         });
                 }

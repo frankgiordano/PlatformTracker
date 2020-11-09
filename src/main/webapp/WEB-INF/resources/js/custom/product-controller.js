@@ -253,7 +253,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
                 }
             },
             function error() {
-                $scope.errorMessages = "PRODUCT_DELETE_FAILURE - product may be linked with other entities and cannot be deleted or check logs.";
+                $scope.errorMessages = "PRODUCT_DELETE_FAILURE - Product may be linked with other entities and cannot be deleted or check logs.";
                 $scope.waiting(false);
             });
     };

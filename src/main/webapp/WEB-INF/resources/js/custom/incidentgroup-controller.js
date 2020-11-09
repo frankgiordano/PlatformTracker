@@ -141,10 +141,10 @@ app.controller('IncidentGroupController', function ($rootScope, $scope, localSto
             },
             function error(response) {
                 if (response.includes("ConstraintErrorException") || response.includes("ConstraintViolationException")) {
-                    $scope.errorMessages = "GROUP_DELETE_FAILURE - Child associated entities still exist.";
+                    $scope.errorMessages = "GROUP_DELETE_FAILURE - Group is linked with other entities and cannot be deleted.";
                     return;
                 }
-                $scope.errorMessages = "GROUP_DELETE_FAILURE - backend severe error, check logs and try again.";
+                $scope.errorMessages = "GROUP_DELETE_FAILURE - Backend severe error, check logs and try again.";
             });
     };
 
