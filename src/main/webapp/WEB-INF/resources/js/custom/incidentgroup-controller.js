@@ -27,12 +27,15 @@ app.controller('IncidentGroupController', function ($rootScope, $scope, localSto
             desc: $scope.searchDesc
         };
         $scope.checkFilters(search);
+        $scope.waiting(true, "load");
         IncidentGroupService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
+                $scope.waiting(false);
             },
             function error() {
                 $scope.errorMessages = "GROUPS_GET_FAILURE - Retrieving groups failed, check logs or try again.";
+                $scope.waiting(false);
             });
     };
 
@@ -53,7 +56,10 @@ app.controller('IncidentGroupController', function ($rootScope, $scope, localSto
         $scope.getData($scope.pageno);
     };
 
-    $scope.waiting = function (value) {
+    $scope.waiting = function (value, action) {
+        if (action === "load") {
+            $scope.waitMessage = "Loading...";
+        }
         if (value === true) {
             $scope.hideDuringLoading = true;
             $scope.loading = false;
@@ -64,7 +70,7 @@ app.controller('IncidentGroupController', function ($rootScope, $scope, localSto
             document.body.style.cursor = "default";
         }
     };
-    $scope.waiting();
+    $scope.waiting(false);
 
     $scope.select = function (group) {
         $scope.selectedGroup = group;
