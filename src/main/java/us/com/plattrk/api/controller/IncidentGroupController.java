@@ -26,15 +26,13 @@ public class IncidentGroupController {
     
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/groups/retrieve", method = RequestMethod.GET, produces = "application/json")
-    public Set<IncidentGroup> getGroups() throws InterruptedException {
-        Thread.sleep(5000);
+    public Set<IncidentGroup> getGroups() {
         return incidentGroupService.getGroups();
     }
     
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/incidents/retrieve/{id}", method = RequestMethod.GET, produces = "application/json")
-    public Set<Incident> getGroupIncidents(@PathVariable Long id) throws InterruptedException {
-        Thread.sleep(5000);
+    public Set<Incident> getGroupIncidents(@PathVariable Long id) {
         return incidentGroupService.getGroupIncidents(id);
     }
 
@@ -46,8 +44,7 @@ public class IncidentGroupController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/groups/retrieve/{name}/{desc}/{pageIndex}", method = RequestMethod.GET, produces = "application/json")
-    PageWrapper<IncidentGroup> search(@PathVariable Map<String, String> filtersMap) throws InterruptedException {
-        Thread.sleep(5000);
+    PageWrapper<IncidentGroup> search(@PathVariable Map<String, String> filtersMap) {
         return incidentGroupService.search(filtersMap);
     }
     
