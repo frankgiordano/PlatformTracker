@@ -121,6 +121,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
     }
 
     $scope.waiting = function (value, action) {
+        $scope.checkLoginUserFromLocalStorage();
         if (action === "save") {
             $scope.waitMessage = "Saving Product...";
         }

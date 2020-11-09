@@ -115,6 +115,7 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
     };
 
     $scope.waiting = function (value, action) {
+        $scope.checkLoginUserFromLocalStorage();
         if (action === "save") {
             $scope.waitMessage = "Saving Resolution...";
         }

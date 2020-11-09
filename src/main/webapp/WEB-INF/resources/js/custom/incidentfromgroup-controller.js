@@ -24,6 +24,7 @@ app.controller('IncidentFromGroupController', function ($routeParams, $location,
     $scope.hideDuringLoading = false;
 
     $scope.waiting = function (value) {
+        $scope.checkLoginUserFromLocalStorage();
         if (value === true) {
             $scope.hideDuringLoading = true;
             $scope.loading = false;

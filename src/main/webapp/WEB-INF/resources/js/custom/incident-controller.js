@@ -153,6 +153,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
     };
 
     $scope.waiting = function (value, action) {
+        $scope.checkLoginUserFromLocalStorage();
         if (action === "save") {
             $scope.waitMessage = "Saving Incident...";
         }

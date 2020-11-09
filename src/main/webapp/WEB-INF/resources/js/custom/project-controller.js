@@ -105,6 +105,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
     };
 
     $scope.waiting = function (value, action) {
+        $scope.checkLoginUserFromLocalStorage();
         if (action === "save") {
             $scope.waitMessage = "Saving Project...";
         }
