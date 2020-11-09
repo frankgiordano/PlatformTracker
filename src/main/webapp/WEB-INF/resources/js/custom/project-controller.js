@@ -275,6 +275,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         }).then(function (modal) {
             modal.element.modal({ backdrop: 'static' });
             modal.close.then(function (result) {
+                $scope.clearMsg();
                 if (result.answer === 'Yes') {
                     $scope.waiting(true, "delete");
                     ProjectService.deleteProject(project).then(

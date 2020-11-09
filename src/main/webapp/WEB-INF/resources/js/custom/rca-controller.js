@@ -347,6 +347,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     };
 
     $scope.deleteRootCauseById = function (rca) {
+        $scope.clearMsg();
         $scope.waiting(true, "delete");
         RcaService.deleteRca(rca).then(
             function success(response) {
