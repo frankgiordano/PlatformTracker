@@ -116,6 +116,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
     };
 
     $scope.waiting = function (value, action) {
+        $scope.checkLoginUserFromLocalStorage();
         if (action === "save") {
             $scope.waitMessage = "Saving Root Cause...";
         }

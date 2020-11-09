@@ -234,6 +234,7 @@ app.controller('RootCauseChildController', function ($rootScope, $scope, Referen
     $scope.hideDuringLoading = false;
 
     $scope.waiting = function (value, action) {
+        $scope.checkLoginUserFromLocalStorage();
         if (action === "create") {
             $scope.waitMessage = "Creating Root Cause...";
         }
