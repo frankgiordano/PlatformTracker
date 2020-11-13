@@ -1,6 +1,5 @@
 app.controller('IncidentReportController', function ($rootScope, $scope, localStorageService, OwnersService, IncidentService, ResolutionService, helperService) {
 
-    $scope.hideDuringLoading = false;
     $scope.pageno = 1; // initialize page num to 1
     $scope.searchTag = "";
     $scope.searchDesc = "";
@@ -92,6 +91,7 @@ app.controller('IncidentReportController', function ($rootScope, $scope, localSt
             document.body.style.cursor = "default";
         }
     }
+    $scope.waitingList(false);
 
     $scope.clearFilters = function () {
         $scope.clearButtonClicked = true;

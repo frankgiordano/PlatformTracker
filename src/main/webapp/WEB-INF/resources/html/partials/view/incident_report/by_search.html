@@ -1,5 +1,5 @@
 <div data-ng-controller="IncidentReportController" data-ng-init="init()">
-    <div style="padding-bottom: 1%; padding-top: 2%">
+    <div style="padding-top: 2%">
         <h2>Incident Report Generation</h2>
     </div>
     <div ng-hide="loadingList">
@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    <div ng-hide="hideDuringLoading">
+    <div ng-hide="hideDuringLoadingList">
         <div id="messages" class="alert alert-danger" data-ng-show="errorMessages" data-ng-bind="errorMessages"></div>
         <div style="padding-bottom: 1%">
             <p>Click on a row to generate an incident report word document.</p>
