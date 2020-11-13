@@ -13,7 +13,7 @@ app.controller('IncidentReportController', function ($rootScope, $scope, localSt
         localStorageService.remove("incidentEditMode");
     };
 
-    $scope.getData = function (pageno) {
+    $scope.getData = function (pageno, skipLoad) {
         $scope.errorMessages = null;
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
@@ -24,12 +24,16 @@ app.controller('IncidentReportController', function ($rootScope, $scope, localSt
             assignee: $scope.searchAssignee
         };
         $scope.checkFilters(search);
+        if (skipLoad === false || skipLoad === undefined)
+            $scope.waitingList(true);
         IncidentService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
+                $scope.waitingList(false);
             },
             function error() {
                 $scope.errorMessages = "INCIDENTS_GET_FAILURE - Retrieving incidents failed, check logs or try again.";
+                $scope.waitingList(false);
             });
     };
 
@@ -49,12 +53,12 @@ app.controller('IncidentReportController', function ($rootScope, $scope, localSt
 
     $scope.$watch("searchTag", function (val) {
         $scope.checkForAssignees();
-        $scope.getData($scope.pageno);
+        $scope.getData($scope.pageno, true);
     }, true);
 
     $scope.$watch("searchDesc", function (val) {
         $scope.checkForAssignees();
-        $scope.getData($scope.pageno);
+        $scope.getData($scope.pageno, true);
     }, true);
 
     $scope.$watch("assigneeList", function (val) {
@@ -75,11 +79,22 @@ app.controller('IncidentReportController', function ($rootScope, $scope, localSt
         }
     };
 
+    $scope.waitingList = function (value) {
+        if (value === true) {
+            $scope.hideDuringLoadingList = true;
+            $scope.loadingList = false;
+            $scope.waitMessage = "Loading...";
+            document.body.style.cursor = "wait";
+        } else {
+            $scope.hideDuringLoadingList = false;
+            $scope.loadingList = true;
+            document.body.style.cursor = "default";
+        }
+    }
+    $scope.waitingList(false);
+
     $scope.clearFilters = function () {
         $scope.clearButtonClicked = true;
-        $scope.searchTag = "";
-        $scope.searchDesc = "";
-        $scope.searchAssignee = "";
         for (var i in $scope.assigneeList) {
             for (var j in $scope.assignees) {
                 if ($scope.assigneeList[i].userName === $scope.assignees[j].userName) {
@@ -87,6 +102,10 @@ app.controller('IncidentReportController', function ($rootScope, $scope, localSt
                 }
             }
         }
+        $scope.assigneeList = "";
+        $scope.searchAssignee = "";
+        $scope.searchTag = "";
+        $scope.searchDesc = "";
     };
 
     (function () {
