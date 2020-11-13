@@ -18,7 +18,7 @@ app.controller('IncidentGroupController', function ($rootScope, $scope, localSto
         $scope.searchDesc = "";
     };
 
-    $scope.getData = function (pageno) {
+    $scope.getData = function (pageno, skipLoad) {
         $scope.errorMessages = null;        
         $scope.pageno = pageno;
         var search = {
@@ -27,7 +27,8 @@ app.controller('IncidentGroupController', function ($rootScope, $scope, localSto
             desc: $scope.searchDesc
         };
         $scope.checkFilters(search);
-        $scope.waiting(true, "load");
+        if (skipLoad === false || skipLoad === undefined)
+          $scope.waiting(true, "load");
         IncidentGroupService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
@@ -45,11 +46,11 @@ app.controller('IncidentGroupController', function ($rootScope, $scope, localSto
     };
 
     $scope.$watch("searchName", function (val) {
-        $scope.getData($scope.pageno);
+        $scope.getData($scope.pageno, true);;
     }, true);
 
     $scope.$watch("searchDesc", function (val) {
-        $scope.getData($scope.pageno);
+        $scope.getData($scope.pageno, true);
     }, true);
 
     $scope.refreshData = function () {

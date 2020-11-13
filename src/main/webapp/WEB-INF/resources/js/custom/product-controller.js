@@ -28,7 +28,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
         return false;
     };
 
-    $scope.getData = function (pageno) {
+    $scope.getData = function (pageno, skipLoad) {
         $scope.errorMessages = null;
         if ($scope.avoidRefresh() === true)
             return;
@@ -40,7 +40,8 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
             assignee: $scope.searchAssignee
         };
         $scope.checkFilters(search);
-        $scope.waitingList(true);
+        if (skipLoad === false || skipLoad === undefined)
+          $scope.waiting(true, "load");
         ProductService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
@@ -66,7 +67,7 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
 
     $scope.$watch("searchName", function (val) {
         $scope.checkForAssignees();
-        $scope.getData($scope.pageno);
+        $scope.getData($scope.pageno, true);
     }, true);
 
     $scope.$watch("assigneeList", function (val) {
