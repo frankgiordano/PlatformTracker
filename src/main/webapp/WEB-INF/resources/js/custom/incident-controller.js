@@ -1,4 +1,4 @@
-app.controller('IncidentController', function ($rootScope, $scope, $filter, IncidentGroupService, localStorageService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService, OwnersService, HelperService) {
+app.controller('IncidentController', function ($rootScope, $scope, $filter, $time, IncidentGroupService, localStorageService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService, OwnersService, HelperService) {
 
     $scope.incident = {};
     $scope.hideDuringLoading = false;
@@ -71,10 +71,16 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
             });
     };
 
-    $scope.getData2 = function (pageno) {
+    $scope.getDataWithoutChecks = function (pageno) {
         $scope.errorMessages = null;
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
+        var search = {
+            pageno: $scope.pageno,
+            tag: $scope.searchTag,
+            desc: $scope.searchDesc,
+            assignee: $scope.searchAssignee
+        };
         $scope.checkFilters(search);
         $scope.waiting(true, "load");
         IncidentService.search(search, pageno).then(
@@ -229,7 +235,9 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
                 if (incidentEditMode === null && $scope.clearButtonClicked === false && $scope.userFirstChanged === false && createButtonClicked === null) {
                     if ($rootScope.user) {
                         $scope.setSearchOwner($rootScope.user.username);
-                        $scope.getData2($scope.pageno);
+                        $timeout(function() {
+                            $scope.getDataWithoutChecks($scope.pageno);
+                         }, 0);
                     }
                 }
             },
