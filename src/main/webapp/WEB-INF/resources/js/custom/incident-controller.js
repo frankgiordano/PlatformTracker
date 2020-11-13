@@ -71,6 +71,31 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
             });
     };
 
+    $scope.getDataWithoutChecks = function (pageno) {
+        $scope.errorMessages = null;
+        $scope.pageno = pageno;
+        $scope.currentPage = pageno;
+        var search = {
+            pageno: $scope.pageno,
+            tag: $scope.searchTag,
+            desc: $scope.searchDesc,
+            assignee: $scope.searchAssignee
+        };
+        $scope.checkFilters(search);
+        $scope.waiting(true, "load");
+        IncidentService.search(search, pageno).then(
+            function success(response) {
+                $scope.$evalAsync(function () {
+                    $scope.data = response;
+                });
+                $scope.waiting(false);
+            },
+            function error() {
+                $scope.errorMessages = "INCIDENTS_GET_FAILURE - Retrieving incidents failed, check logs or try again.";
+                $scope.waiting(false);
+            });
+    };
+
     $scope.checkFilters = function (search) {
         if (search.tag.trim() === "")
             search.tag = '*';
@@ -210,7 +235,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
                 if (incidentEditMode === null && $scope.clearButtonClicked === false && $scope.userFirstChanged === false && createButtonClicked === null) {
                     if ($rootScope.user) {
                         $scope.setSearchOwner($rootScope.user.username);
-                        $scope.getData($scope.pageno);
+                        $scope.getDataWithoutChecks($scope.pageno);
                     }
                 }
             },
