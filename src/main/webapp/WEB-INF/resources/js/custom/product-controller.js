@@ -45,11 +45,11 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
         ProductService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
-                $scope.waitingList(false);
+                $scope.waiting(false);
             },
             function error() {
                 $scope.errorMessages = "PRODUCTS_GET_FAILURE - Retrieving products failed, check logs or try again.";
-                $scope.waitingList(false);
+                $scope.waiting(false);
             });
     };
 
@@ -109,19 +109,6 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
             }
         }
     };
-
-    $scope.waitingList = function (value) {
-        if (value === true) {
-            $scope.hideDuringLoadingList = true;
-            $scope.loadingList = false;
-            $scope.waitMessage = "Loading...";
-            document.body.style.cursor = "wait";
-        } else {
-            $scope.hideDuringLoadingList = false;
-            $scope.loadingList = true;
-            document.body.style.cursor = "default";
-        }
-    }
 
     $scope.waiting = function (value, action) {
         $scope.checkLoginUserFromLocalStorage();
