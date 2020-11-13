@@ -1,4 +1,4 @@
-app.controller('IncidentController', function ($rootScope, $scope, $filter, $time, IncidentGroupService, localStorageService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService, OwnersService, HelperService) {
+app.controller('IncidentController', function ($rootScope, $scope, $filter, IncidentGroupService, localStorageService, IncidentService, locuss, alerted_bys, severities, groupStatuses, incidentstatuss, recipents, ModalService, ChronologyService, helperService, ProductService, $routeParams, $location, ReferenceDataService, OwnersService, HelperService) {
 
     $scope.incident = {};
     $scope.hideDuringLoading = false;
@@ -235,9 +235,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, $tim
                 if (incidentEditMode === null && $scope.clearButtonClicked === false && $scope.userFirstChanged === false && createButtonClicked === null) {
                     if ($rootScope.user) {
                         $scope.setSearchOwner($rootScope.user.username);
-                        $timeout(function() {
-                            $scope.getDataWithoutChecks($scope.pageno);
-                         }, 0);
+                        $scope.getDataWithoutChecks($scope.pageno);
                     }
                 }
             },
