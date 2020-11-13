@@ -1,5 +1,6 @@
 app.controller('IncidentReportController', function ($rootScope, $scope, localStorageService, OwnersService, IncidentService, ResolutionService, helperService) {
 
+    $scope.hideDuringLoading = false;
     $scope.pageno = 1; // initialize page num to 1
     $scope.searchTag = "";
     $scope.searchDesc = "";
