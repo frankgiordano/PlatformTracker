@@ -23,7 +23,7 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
         return false;
     };
 
-    $scope.getData = function (pageno) {
+    $scope.getData = function (pageno, skipLoad) {
         $scope.errorMessages = null;
         if ($scope.avoidRefresh() === true)
             return;
@@ -36,7 +36,8 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
             assignee: $scope.searchAssignee
         };
         $scope.checkFilters(search);
-        $scope.waiting(true, "load");
+        if (skipLoad === false || skipLoad === undefined)
+          $scope.waiting(true, "load");
         RcaService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
@@ -64,12 +65,12 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
 
     $scope.$watch("searchGrpName", function (val) {
         $scope.checkForAssignees();
-        $scope.getData($scope.pageno);
+        $scope.getData($scope.pageno, true);
     }, true);
 
     $scope.$watch("searchDesc", function (val) {
         $scope.checkForAssignees();
-        $scope.getData($scope.pageno);
+        $scope.getData($scope.pageno, true);
     }, true);
 
     $scope.$watch("assigneeList", function (val) {

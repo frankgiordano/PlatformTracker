@@ -21,7 +21,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         return false;
     };
 
-    $scope.getData = function (pageno) {
+    $scope.getData = function (pageno, skipLoad) {
         $scope.errorMessages = null;
         if ($scope.avoidRefresh() === true)
             return;
@@ -33,7 +33,8 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
             assignee: $scope.searchAssignee
         };
         $scope.checkFilters(search);
-        $scope.waiting(true, "load");
+        if (skipLoad === false || skipLoad === undefined)
+          $scope.waiting(true, "load");
         ProjectService.search(search, pageno).then(
             function success(response) {
                 $scope.data = response;
@@ -59,7 +60,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
 
     $scope.$watch("searchName", function (val) {
         $scope.checkForAssignees();
-        $scope.getData($scope.pageno);
+        $scope.getData($scope.pageno, true);
     }, true);
 
     $scope.$watch("assigneeList", function (val) {
