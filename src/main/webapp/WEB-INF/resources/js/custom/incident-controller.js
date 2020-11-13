@@ -129,9 +129,6 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
         $scope.checkLoginUserFromLocalStorage();
         localStorageService.set("enableSearch", true); 
         $scope.clearButtonClicked = true;
-        $scope.searchTag = "";
-        $scope.searchDesc = "";
-        $scope.searchAssignee = "";
         for (var i in $scope.assigneeList) {
             for (var j in $scope.assignees) {
                 if ($scope.assigneeList[i].userName === $scope.assignees[j].userName) {
@@ -139,6 +136,10 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
                 }
             }
         }
+        $scope.assigneeList = "";
+        $scope.searchAssignee = "";
+        $scope.searchTag = "";
+        $scope.searchDesc = "";
     };
 
     $scope.setSearchOwner = function (userName) {

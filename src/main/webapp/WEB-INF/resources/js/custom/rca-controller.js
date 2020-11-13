@@ -100,6 +100,10 @@ app.controller('RootCauseController', function ($rootScope, $scope, RcaService, 
                 }
             }
         }
+        $scope.assigneeList = "";
+        $scope.searchAssignee = "";
+        $scope.searchGrpName = "";
+        $scope.searchDesc = "";
     };
 
     $scope.setSearchOwner = function () {

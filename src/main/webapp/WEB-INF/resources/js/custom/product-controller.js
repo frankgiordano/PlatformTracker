@@ -87,8 +87,6 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
 
     $scope.clearFilters = function () {
         $scope.checkLoginUserFromLocalStorage();
-        $scope.searchName = "";
-        $scope.searchAssignee = "";
         for (var i in $scope.assigneeList) {
             for (var j in $scope.assignees) {
                 if ($scope.assigneeList[i].userName === $scope.assignees[j].userName) {
@@ -96,6 +94,10 @@ app.controller('ProductController', function ($rootScope, $scope, localStorageSe
                 }
             }
         }
+        $scope.assigneeList = "";
+        $scope.searchAssignee = "";
+        $scope.searchName = "";
+        $scope.searchAssignee = "";
     };
 
     $scope.setSearchOwner = function () {

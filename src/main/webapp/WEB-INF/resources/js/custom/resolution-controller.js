@@ -89,9 +89,6 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
 
     $scope.clearFilters = function () {
         $scope.checkLoginUserFromLocalStorage();
-        $scope.searchGrpName = "";
-        $scope.searchDesc = "";
-        $scope.searchAssignee = "";
         for (var i in $scope.assigneeList) {
             for (var j in $scope.assignees) {
                 if ($scope.assigneeList[i].userName === $scope.assignees[j].userName) {
@@ -99,6 +96,10 @@ app.controller('ResolutionController', function ($rootScope, $scope, OwnersServi
                 }
             }
         }
+        $scope.assigneeList = "";
+        $scope.searchAssignee = "";
+        $scope.searchGrpName = "";
+        $scope.searchDesc = "";
     };
 
     $scope.setSearchOwner = function () {

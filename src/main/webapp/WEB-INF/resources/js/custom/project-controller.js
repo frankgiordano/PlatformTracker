@@ -89,6 +89,9 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                 }
             }
         }
+        $scope.assigneeList = "";
+        $scope.searchAssignee = "";
+        $scope.searchName = "";
     };
 
     $scope.setSearchOwner = function () {
