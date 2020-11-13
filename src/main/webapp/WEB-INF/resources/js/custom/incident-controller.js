@@ -43,7 +43,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
     };
 
     // this method is used to refresh search screen. 
-    $scope.getData = function (pageno) {
+    $scope.getData = function (pageno, skipLoad) {
         $scope.errorMessages = null;
         $scope.pageno = pageno;
         $scope.currentPage = pageno;
@@ -56,7 +56,8 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
         if ($scope.avoidRefresh(search) === true)
             return;
         $scope.checkFilters(search);
-        $scope.waiting(true, "load");
+        if (skipLoad === false || skipLoad === undefined)
+          $scope.waiting(true, "load");
         IncidentService.search(search, pageno).then(
             function success(response) {
                 $scope.$evalAsync(function () {
@@ -89,7 +90,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
             return;
         var result = $scope.checkForAssignees();
         if (result === true)
-            $scope.getData($scope.pageno);
+            $scope.getData($scope.pageno, true);
     }, true);
 
     $scope.$watch("searchDesc", function (val) {
@@ -97,7 +98,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
             return;
         var result = $scope.checkForAssignees();
         if (result === true)
-            $scope.getData($scope.pageno);
+            $scope.getData($scope.pageno, true);
     }, true);
 
     $scope.$watch("assigneeList", function (val) {
