@@ -10,12 +10,13 @@ app.controller('IncidentGroupController', function ($rootScope, $scope, localSto
     $scope.totalCount = 0;
     $scope.itemsPerPage = 10;
     $scope.data = [];
+    $scope.searchName = "";
+    $scope.searchDesc = "";
 
     $scope.init = function () {
         localStorageService.remove("incidentCreateButtonClicked");
         localStorageService.remove("incidentEditMode");
-        $scope.searchName = "";
-        $scope.searchDesc = "";
+        $scope.refreshData();
     };
 
     $scope.getData = function (pageno, skipLoad) {
