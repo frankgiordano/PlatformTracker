@@ -24,7 +24,7 @@ You may find this application useful, and you are welcome to use it. The basic i
 
 I posted this project for educational proposes, and I intend to continue to polish and work out all the kinks on my spare time. I may evolve the project as a place to learn and experiment. 
 
-## For Developers
+## Development Code Location
 
 The development code work for this project is in the following locations:
 
@@ -33,6 +33,8 @@ The development code work for this project is in the following locations:
     src/webapp/WEB-INF/resources/js/custom  
     src/webapp/WEB-INF/resources/css/custom  
     src/webapp/WEB-INF/resources/doctemplates  
+    
+Everything else located outside these directories are either properties, configuration, or third party libraries files.     
 
 ## Incident Email Notification System/Outline
 
@@ -53,7 +55,11 @@ An email notification is sent by the application whenever the following actions 
       Adding a Chronology entry to an Incident.   
       
 Each of the above notification is sent to a distribution set within the Incident's Email RCPT dropdown field.
-         
+
+For adding a Chronology entry, the system will also check for each of the Incident's Product distribution if set.
+  
+For instance, for an Incident it can contain one or more associated products. In the plattrk.properties file, it may contain the product's ShortName entry set to a list of one or more email addresses separated by a comma. At this time, the product entry needs to be manually added whenever a new product has been defined and requested to have a set of users associated with it for notifications.    
+           
 An email notification can be sent when no particular actions occur. This occurs when an Incident in OPEN status is left untouched within a timeframe.
    
 For the following timeframes, an email notification will be sent on any OPEN Incident EVERY:
