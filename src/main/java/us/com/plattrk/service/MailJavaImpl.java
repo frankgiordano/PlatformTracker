@@ -1,10 +1,6 @@
 package us.com.plattrk.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -179,9 +175,10 @@ public class MailJavaImpl implements Mail {
     @Override
     public List<String> generateEmailProductDistroList(Set<Product> products) {
         List<String> productEmailDistroArray = new ArrayList<>();
-        for (Product product : products) {
-            productEmailDistroArray.add(appProperties.getProperty(product.getShortName()));
-        }
+        products.forEach(i -> {
+            Optional<String> prop = Optional.ofNullable(appProperties.getProperty(i.getShortName()));
+            prop.ifPresent((item -> productEmailDistroArray.add(item)));
+        });
         return productEmailDistroArray;
     }
 

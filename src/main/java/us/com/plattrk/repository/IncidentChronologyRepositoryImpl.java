@@ -10,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -26,6 +28,7 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
     private EntityManager em;
 
     @Override
+    @Transactional
     public IncidentChronology saveIncidentChronology(IncidentChronology chronology) {
         try {
             Incident incident = em.find(Incident.class, chronology.getIncident().getId());

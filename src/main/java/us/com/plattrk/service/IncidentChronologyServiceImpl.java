@@ -45,7 +45,6 @@ public class IncidentChronologyServiceImpl implements IncidentChronologyService 
     }
 
     @Override
-    @Transactional
     public IncidentChronology saveIncidentChronology(IncidentChronology chronology) {
 
         if (incidentChronologyRepository.saveIncidentChronology(chronology) != null) {
@@ -54,7 +53,7 @@ public class IncidentChronologyServiceImpl implements IncidentChronologyService 
             MailService mailService = (MailService) wac.getBean("mailService");
             try {
                 mailService.send(incident, appProperties, Type.INCIDENTCHRONOLOGYSTART);
-            } catch (SendFailedException e) {
+            } catch (Exception e) {
                 LOG.error("IncidentChronologyServiceImpl::saveIncidentChronology - error sending email notification ", e);
             }
         }
