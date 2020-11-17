@@ -46,7 +46,7 @@ app.controller('IncidentGroupController', function ($rootScope, $scope, localSto
     };
 
     $scope.$watch("searchName", function (val) {
-        $scope.getData($scope.pageno, true);;
+        $scope.getData($scope.pageno, true);
     }, true);
 
     $scope.$watch("searchDesc", function (val) {

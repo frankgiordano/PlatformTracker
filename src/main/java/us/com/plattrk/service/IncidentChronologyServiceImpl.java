@@ -3,7 +3,6 @@ package us.com.plattrk.service;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.mail.SendFailedException;
 import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
@@ -46,7 +45,6 @@ public class IncidentChronologyServiceImpl implements IncidentChronologyService 
 
     @Override
     public IncidentChronology saveIncidentChronology(IncidentChronology chronology) {
-
         if (incidentChronologyRepository.saveIncidentChronology(chronology) != null) {
             Incident incident = incidentChronologyRepository.getIncidentOfNewChronology(chronology.getIncident().getId());
             WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
