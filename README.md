@@ -1,7 +1,7 @@
 # Platform Tracker
 A rudimentary helpdesk type application. 
 
-![Demo](https://github.com/frankgiordano/PlatformTracker/blob/master/demo/demo2.gif)
+![Demo](https://github.com/frankgiordano/PlatformTracker/blob/master/demo/demo.gif)
 
 The following project was initially developed in 2015. It was my first full stack project with AngularJS/Java.
 
