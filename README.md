@@ -3,6 +3,8 @@ A rudimentary helpdesk type application.
 
 ![Demo](https://github.com/frankgiordano/PlatformTracker/blob/master/demo/demo.gif)
 
+NOTE: It is best to use a chromium based browser with this application.  
+
 The following project was initially developed in 2015. It was my first full stack project with AngularJS/Java.
 
 Current tech stack utilized for this project:   
