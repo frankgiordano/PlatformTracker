@@ -28,8 +28,8 @@
                     <div class="col-sm-3 form-control-static">{{incident.recordedBy}}</div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2">Current Group</label>
-                    <div class="col-md-3 form-control-static">{{groupModel.currentGroupName}}</div>
+                    <label class="col-sm-2 control-label">Current Group</label>
+                    <div class="col-sm-3 form-control-static">{{groupModel.currentGroupName}}</div>
                     <label class="col-sm-1 control-label">Reassign Grp</label>
                     <div class="col-sm-3">
                         <input type="text" name="group" ng-model="groupModel.selectedNewGroup"
@@ -54,7 +54,7 @@
                 <div class="form-group">
                     <div ng-class="{ 'has-error' : incidentForm.startTime.$invalid && submitted }">
                         <label class="col-sm-2 control-label">Start Date Time</label>
-                        <div class="col-md-3">
+                        <div class="col-sm-3">
                             <p class="input-group">
                                 <input type="text" name="startTime" class="form-control"
                                     datetime-picker="MM-dd-yyyy HH:mm" ng-model="incident.startTime"
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <label class="col-sm-1 control-label">End Date Time</label>
-                    <div class="col-md-3">
+                    <div class="col-sm-3">
                         <p class="input-group">
                             <input type="text" name="emdTime" class="form-control" datetime-picker="MM-dd-yyyy HH:mm"
                                 ng-model="incident.endTime" is-open="open.endTime" />
