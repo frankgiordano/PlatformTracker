@@ -479,26 +479,44 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
     };
     // END - RELATED ACTIONS SETUP
 
-    $scope.submitChronology = function () {
+    $scope.submitChronology = function (item) {
         $scope.clearDisplayMessages();
 
-        // dates are currently in UTC format.. reset them to local timezone format for saving.. 
-        var dateTimeValue = new Date($scope.createChronology.chronologyDateTime);
+        var chronology = {};
+        var savingExistingChron = false;
 
-        var chronology = {
-            "dateTime": dateTimeValue,
-            "description": $scope.createChronology.chronDescription,
-            "recordedBy": $scope.user.username,
-            "incident": { id: $scope.incident.id }
-        };
+        if (item !== undefined && item !== null) {
+            savingExistingChron = true;
+            chronology = {
+                "id": item.id,
+                "dateTime": new Date(item.dateTime),
+                "description": item.description,
+                "recordedBy": item.recordedBy,
+                "incident": { id: $scope.incident.id }
+            };
+        } else {
+            // dates are currently in UTC format.. reset them to local timezone format for saving.. 
+            var dateTimeValue = new Date($scope.createChronology.chronologyDateTime);
+            chronology = {
+                "dateTime": dateTimeValue,
+                "description": $scope.createChronology.chronDescription,
+                "recordedBy": $scope.user.username,
+                "incident": { id: $scope.incident.id }
+            };
+        }
 
         document.body.style.cursor = "wait";
         ChronologyService.saveChronology(chronology).then(
             function success(response) {
                 document.body.style.cursor = "default";
                 if (response) {
-                    $scope.chronMessages = "Chronology timeline for Incident tag " + $scope.incident.tag + " created.";
-                    console.log("Chronology for Incident tag " + $scope.incident.tag + " created = " + JSON.stringify(response));
+                    if (savingExistingChron === false) {
+                        $scope.chronMessages = "Chronology timeline for Incident tag " + $scope.incident.tag + " created.";
+                        console.log("Chronology for Incident tag " + $scope.incident.tag + " created = " + JSON.stringify(response));
+                    } else {
+                        $scope.chronMessages = "Chronology ID " + item.id + " updated.";
+                        console.log("Chronology for Incident tag " + $scope.incident.tag + " with ID " + item.id + " updated = " + JSON.stringify(response));
+                    }
                     $scope.clear('chronology');
                     $scope.chronErrorMessages = null;
                     $scope.getRelatedChronologies($scope.incident.id);
@@ -506,7 +524,11 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
             },
             function error() {
                 document.body.style.cursor = "default";
-                $scope.chronErrorMessages = $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG;
+                if (savingExistingChron === false) {
+                    $scope.chronErrorMessages = $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG;
+                } else {
+                    $scope.chronErrorMessages = "CHRONOLOGY_UPDATE_FAILURE - Check logs or try again.";
+                }
                 $scope.chronMessages = null;
             });
     };
@@ -902,7 +924,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
         document.body.style.cursor = "wait";
         ChronologyService.deleteChronology(id).then(function success(response) {
             if (response) {
-                $scope.chronMessages = "Chronology timeline for Incident tag " + $scope.incident.tag + " with id " + id + " deleted.";
+                $scope.chronMessages = "Chronology ID " + id + " deleted.";
                 console.log("Chronology timeline for Incident tag " + $scope.incident.tag + " with Chronology timeline id " + id + " deleted.");
                 $scope.chronErrorMessages = null;
                 $scope.getRelatedChronologies($scope.incident.id);

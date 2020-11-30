@@ -184,15 +184,37 @@
                                                 <td>Date Time</td>
                                                 <td>Description</td>
                                                 <td>Recorded By</td>
-                                                <td ng-show="!disableButton">Delete</td>
+                                                <td ng-show="!disableButton">Edit/Save</td>
+                                                <td ng-show="!disableButton">Remove</td>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="item in chronologies | orderBy: 'dateTime'">
                                                 <td>{{item.id}}</td>
                                                 <td>{{item.dateTime | dateFormat}}</td>
-                                                <td style="white-space:pre-wrap; word-wrap:break-word">{{item.description}}</td>
+                                                <td ng-show="!item.editMode" style="white-space:pre-wrap; word-wrap:break-word">{{item.description}}</td>
+                                                <td ng-show="item.editMode">
+                                                    <textarea cols="50" rows="5" style="resize:vertical" type="text" class="form-control" rows="3"
+                                                        ng-model="item.description">
+                                                    </textarea>
+                                                </td>
                                                 <td>{{item.recordedBy}}</td>
+                                                <td ng-show="!disableButton && !item.editMode">
+                                                    <a href="#" class="" onclick="event.preventDefault()"
+                                                        ng-click="item.editMode=true">
+                                                        <span class="glyphicon glyphicon-edit"></span>
+                                                    </a>
+                                                </td>
+                                                <td ng-show="!disableButton && item.editMode">
+                                                    <a href="#" style="text-decoration: none;" class="" onclick="event.preventDefault()"
+                                                        ng-click="item.editMode=false; submitChronology(item)">
+                                                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    </a>
+                                                    <a href="#" class="" onclick="event.preventDefault()"
+                                                        ng-click="item.editMode=false;">
+                                                        <span class="glyphicon glyphicon-thumbs-down"></span>
+                                                    </a>
+                                                </td>
                                                 <td ng-show="!disableButton">
                                                     <a href="#" class="" onclick="event.preventDefault()"
                                                         ng-click="removeChronology(item)">
