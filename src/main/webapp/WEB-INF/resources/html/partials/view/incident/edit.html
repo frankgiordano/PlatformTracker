@@ -194,7 +194,7 @@
                                                 <td>{{item.dateTime | dateFormat}}</td>
                                                 <td ng-show="!item.editMode" style="white-space:pre-wrap; word-wrap:break-word">{{item.description}}</td>
                                                 <td ng-show="item.editMode">
-                                                    <textarea cols="50" rows="5" style="resize:vertical" type="text" class="form-control" rows="3"
+                                                    <textarea cols="50" rows="5" maxlength=2048 style="resize:vertical" type="text" class="form-control" rows="3"
                                                         ng-model="item.description">
                                                     </textarea>
                                                 </td>
@@ -260,7 +260,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Description</label>
                                     <div class="col-sm-7">
-                                        <textarea type="text" class="form-control" rows="3"
+                                        <textarea type="text" maxlength=2048 class="form-control" rows="3"
                                             ng-model="createChronology.chronDescription"></textarea>
                                     </div>
                                 </div>
