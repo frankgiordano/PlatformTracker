@@ -74,11 +74,11 @@ app.value('locuss', [{
 }]);
 
 app.value('alerted_bys', [{
-    name: 'Nagios',
-    value: 'Nagios'
-}, {
     name: 'End user',
     value: 'End user'
+}, {
+    name: 'Nagios',
+    value: 'Nagios'
 }, {
     name: 'DevOps Tools',
     value: 'DevOps Tools'
