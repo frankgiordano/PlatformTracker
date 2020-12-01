@@ -518,6 +518,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
                         console.log("Chronology for Incident tag " + $scope.incident.tag + " with ID " + item.id + " updated = " + JSON.stringify(response));
                     }
                     $scope.clear('chronology');
+                    $scope.cancelEdit('createChronology');  // close the Add timeline ui entry section.. 
                     $scope.chronErrorMessages = null;
                     $scope.getRelatedChronologies($scope.incident.id);
                 }
