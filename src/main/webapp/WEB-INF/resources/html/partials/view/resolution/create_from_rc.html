@@ -82,7 +82,7 @@
                 <div class="form-group" ng-class="{ 'has-error' : resolutionForm.description.$invalid && submitted }">
                     <label class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-6">
-                        <textarea required type="text" name="description" class="form-control" rows="5"
+                        <textarea required type="text" style="resize:vertical" name="description" class="form-control" rows="5"
                             ng-model="resolution.description" ng-required="descriptionRequired">
                         </textarea>
                         <p ng-show="resolutionForm.description.$error.required" class="help-block">Required.</p>

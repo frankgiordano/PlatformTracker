@@ -61,7 +61,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Corrective Action</label>
                         <div class="col-sm-7">
-                            <textarea type="text" name="correctiveAction" class="form-control" rows="3"
+                            <textarea type="text" style="resize:vertical" name="correctiveAction" class="form-control" rows="3"
                                 ng-model="incident.correctiveAction"></textarea>
                         </div>
                     </div>
@@ -140,14 +140,14 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Business Description</label>
                     <div class="col-sm-7">
-                        <textarea type="text" name="businessDescription" class="form-control" rows="5"
+                        <textarea type="text" style="resize:vertical" name="businessDescription" class="form-control" rows="5"
                             ng-model="incident.summary"></textarea>
                     </div>
                 </div>
                 <div class="form-group" ng-class="{ 'has-error' : incidentForm.technicalDescription.$invalid && submitted }">
                     <label class="col-sm-2 control-label">Technical Description</label>
                     <div class="col-sm-7">
-                        <textarea required type="text" name="technicalDescription" class="form-control" rows="5"
+                        <textarea required type="text" style="resize:vertical" name="technicalDescription" class="form-control" rows="5"
                             ng-model="incident.description" ng-required="technicalDescriptionRequired">
                         </textarea>
                         <p ng-show="incidentForm.technicalDescription.$error.required" class="help-block">Required.</p>
@@ -191,7 +191,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Customer Impact</label>
                     <div class="col-sm-7">
-                        <textarea type="text" name="customerImpact" class="form-control" rows="3"
+                        <textarea type="text" style="resize:vertical" name="customerImpact" class="form-control" rows="3"
                             ng-model="incident.customerImpact"></textarea>
                     </div>
                 </div>

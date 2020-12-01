@@ -114,7 +114,7 @@
                 <div class="form-group" ng-class="{ 'has-error' : groupForm.groupDescription.$invalid && submitted }">
                     <label class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-7">
-                        <textarea type="text" name="groupDescription" class="form-control" rows="5"
+                        <textarea type="text" style="resize:vertical" name="groupDescription" class="form-control" rows="5"
                             ng-model="selectedGroup.description" required ng-required="groupDescriptionRequired">
                         </textarea>
                         <p ng-show="groupForm.groupDescription.$error.required" class="help-block">Required.</p>
@@ -237,7 +237,7 @@
                 <div class="form-group" ng-class="{ 'has-error' : resolutionForm.description.$invalid && submitted }">
                     <label class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-7">
-                        <textarea type="text" name="description" class="form-control" rows="5"
+                        <textarea type="text" style="resize:vertical" name="description" class="form-control" rows="5"
                             ng-model="resolution.description" ng-required="descriptionRequired">
                     </textarea>
                         <p ng-show="resolutionForm.description.$error.required" class="help-block">Required.</p>
@@ -306,7 +306,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Problem Description</label>
                     <div name="description" class="col-sm-7">
-                        <textarea type="text" class="form-control" rows="5"
+                        <textarea type="text" style="resize:vertical" class="form-control" rows="5"
                             ng-model="rca.problemDescription"></textarea>
                     </div>
                 </div>
@@ -317,12 +317,16 @@
                             <div>
                                 <table class="table table-responsive" class="form-control">
                                     <tr ng-repeat="why in whys | filter:filterWhy">
-                                        <td class=" editable-content table-responsive"><textarea type="text"
-                                                class="form-control" rows="3" ng-model="why.name"></textarea></td>
-
+                                        <td class=" editable-content table-responsive">
+                                            <textarea type="text" style="resize:vertical"
+                                                class="form-control" rows="3" ng-model="why.name">
+                                            </textarea>
+                                        </td>
                                         <td><button type="button" ng-click="deleteWhy(why.id)"
-                                                class="btn btn-primary pull-right form-control">Delete
-                                                Why</button></td>
+                                                class="btn btn-primary pull-right form-control">Delete 
+                                                Why
+                                            </button>
+                                        </td>
                                     </tr>
                                 </table>
                                 <button type="button" ng-disabled="tableform.$waiting" ng-click="addWhy()"

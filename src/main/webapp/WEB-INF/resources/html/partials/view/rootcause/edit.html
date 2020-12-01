@@ -51,7 +51,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Problem Description</label>
                     <div class="col-sm-6">
-                        <textarea type="text" name="description" class="form-control" rows="5" ng-model="rca.problem"></textarea>
+                        <textarea type="text" style="resize:vertical" name="description" class="form-control" rows="5" ng-model="rca.problem"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -62,13 +62,15 @@
                                 <table class="table table-responsive" class="form-control">
                                     <tr ng-repeat="why in whys | filter:filterWhy">
                                     <tr ng-repeat="why in whys | filter:filterWhy">
-                                        <td class=" editable-content table-responsive"><textarea type="text"
-                                                class="form-control" rows="3" ng-model="why.name"></textarea></td>
-
+                                        <td class=" editable-content table-responsive">
+                                            <textarea type="text" style="resize:vertical" class="form-control" rows="3" ng-model="why.name"></textarea>
+                                        </td>
                                         <td><button type="button" ng-show="!tableform.$visible"
                                                 ng-click="deleteWhy(why.id)"
                                                 class="btn btn-primary pull-right form-control">Delete
-                                                Why</button></td>
+                                                Why
+                                            </button>
+                                        </td>
                                     </tr>
                                 </table>
                                 <button type="button" ng-disabled="tableform.$waiting" ng-click="addWhy()"
