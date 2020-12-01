@@ -80,6 +80,9 @@ app.value('alerted_bys', [{
     name: 'End user',
     value: 'End user'
 }, {
+    name: 'DevOps Tools',
+    value: 'DevOps Tools'
+}, {
     name: 'Operations',
     value: 'Operations'
 }, {
