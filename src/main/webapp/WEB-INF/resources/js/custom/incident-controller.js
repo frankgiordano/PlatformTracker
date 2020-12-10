@@ -521,14 +521,19 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
                     $scope.createChronology = null;  // close the Add timeline ui entry section.. 
                     $scope.chronErrorMessages = null;
                     $scope.getRelatedChronologies($scope.incident.id);
+                    item.editMode = false;
                 }
             },
-            function error() {
+            function error(response) {
                 document.body.style.cursor = "default";
                 if (savingExistingChron === false) {
                     $scope.chronErrorMessages = $rootScope.INCIDENT_CHRONOLOGY_SAVE_ERROR_MSG;
                 } else {
-                    $scope.chronErrorMessages = "CHRONOLOGY_UPDATE_FAILURE - Check logs or try again.";
+                    if (response.indexOf("Description has not changed")) {
+                        item.editMode = true;
+                    } else {
+                        $scope.chronErrorMessages = "CHRONOLOGY_UPDATE_FAILURE - Check logs or try again.";
+                    }
                 }
                 $scope.chronMessages = null;
             });

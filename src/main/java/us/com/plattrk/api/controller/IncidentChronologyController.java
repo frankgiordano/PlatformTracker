@@ -36,7 +36,7 @@ public class IncidentChronologyController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
-    public IncidentChronology saveIncidentChronology(@RequestBody IncidentChronology chronology) {
+    public IncidentChronology saveIncidentChronology(@RequestBody IncidentChronology chronology) throws Exception {
         return incidentChronologyService.saveIncidentChronology(chronology);
     }
 

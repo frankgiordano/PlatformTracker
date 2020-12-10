@@ -8,7 +8,7 @@ public interface IncidentChronologyService {
 
     public IncidentChronology deleteIncidentChronology(Long id);
 
-    public IncidentChronology saveIncidentChronology(IncidentChronology chronology);
+    public IncidentChronology saveIncidentChronology(IncidentChronology chronology) throws Exception;
 
     public Set<IncidentChronology> getChronologies();
 
