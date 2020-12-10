@@ -986,7 +986,8 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
     $scope.clear = function (option) {
         switch (option) {
             case "chronology":
-                $scope.createChronology.chronDescription = null;
+                if ($scope.createChronology !== undefined && $scope.createChronology !== null)
+                    $scope.createChronology.chronDescription = null;
                 break;
         }
     };
