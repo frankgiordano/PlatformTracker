@@ -45,12 +45,21 @@ public class IncidentChronologyServiceImpl implements IncidentChronologyService 
 
     @Override
     public IncidentChronology saveIncidentChronology(IncidentChronology chronology) {
+        boolean sendNotification = true;
+        
+        if (chronology.getId() != null) {
+            IncidentChronology item = incidentChronologyRepository.getIncidentChronology(chronology.getId());
+            if (chronology.getDescription().equals(item.getDescription()))
+                sendNotification = false;
+        }
+
         if (incidentChronologyRepository.saveIncidentChronology(chronology) != null) {
             Incident incident = incidentChronologyRepository.getIncidentOfNewChronology(chronology.getIncident().getId());
             WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
             MailService mailService = (MailService) wac.getBean("mailService");
             try {
-                mailService.send(incident, appProperties, Type.INCIDENTCHRONOLOGYSTART);
+                if (sendNotification)
+                    mailService.send(incident, appProperties, Type.INCIDENTCHRONOLOGYSTART);
             } catch (Exception e) {
                 LOG.error("IncidentChronologyServiceImpl::saveIncidentChronology - error sending email notification ", e);
             }
