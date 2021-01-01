@@ -148,9 +148,7 @@
                 <label class="col-sm-2 control-label">Name</label>
                 <div class="col-sm-6">
                     <input type="text" name="incidentName" class="form-control" ng-model="selectedProduct.incidentName"
-                        ng-maxlength="50" ng-required="incidentNameRequired" required />
-                    <p ng-show="productForm.incidentName.$error.maxlength" class="help-block">Incident
-                        Name is too long.</p>
+                        maxlength="50" ng-required="incidentNameRequired" required />
                     <p ng-show="productForm.incidentName.$error.required" class="help-block">Required.
                     </p>
                 </div>
@@ -159,7 +157,7 @@
                 <label class="col-sm-2 control-label">Client Name</label>
                 <div class="col-sm-6">
                     <input type="text" name="clientName" class="form-control" ng-model="selectedProduct.clientName"
-                        ng-required="clientNameRequired" required />
+                        maxlength="50" ng-required="clientNameRequired" required />
                     <p ng-show="productForm.clientName.$error.required" class="help-block">Required.
                     </p>
                 </div>
@@ -168,7 +166,7 @@
                 <label class="col-sm-2 control-label">Short Name</label>
                 <div class="col-sm-6">
                     <input type="text" name="shortName" class="form-control" ng-model="selectedProduct.shortName"
-                        ng-required="shortNameRequired" required />
+                        maxlength="10" ng-required="shortNameRequired" required />
                     <p ng-show="productForm.shortName.$error.required" class="help-block">Required.
                     </p>
                 </div>
