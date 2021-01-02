@@ -102,7 +102,7 @@
                 <tr class="btn-link" dir-paginate="project in data.results|orderBy:sortKey:reverse|itemsPerPage:10"
                     total-items="data.totalCount" ng-click="select(project.id)" current-page="currentPage">
                     <td>{{project.id}}</td>
-                    <td>{{project.name}}</td>
+                    <td style="word-break: break-all">{{project.name}}</td>
                     <td>{{project.status.displayName}}</td>
                     <td>{{project.owner}}</td>
                     <td>{{project.pdlcStatus.displayName}}</td>
@@ -113,7 +113,7 @@
                     <td>{{project.estEffort}}</td>
                     <td>{{project.actualEffort}}</td>
                     <td>{{project.confluenceId}}</td>
-                    <td>{{project.jiraId}}</td>
+                    <td style="word-break: break-all">{{project.jiraId}}</td>
                 </tr>
             </tbody>
         </table>

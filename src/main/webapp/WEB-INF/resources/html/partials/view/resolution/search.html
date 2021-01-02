@@ -100,9 +100,9 @@
                     <td>{{resolution.estCompletionDate | dateFormatMinusTime}}</td>
                     <td>{{resolution.actualCompletionDate | dateFormatMinusTime}}</td>
                     <td>{{resolution.typeName}}</td>
-                    <td>{{resolution.sriArtifact}}</td>
+                    <td style="word-break: break-all">{{resolution.sriArtifact}}</td>
                     <td>
-                        <div my-qtip qtip-content="{{resolution.description}}">
+                        <div style="word-break: break-all" my-qtip qtip-content="{{resolution.description}}">
                             {{resolution.description | addEllipsis}}
                         </div>
                     </td>
