@@ -239,7 +239,7 @@
                     <label class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-7">
                         <textarea type="text" style="resize:vertical" name="description" class="form-control" rows="5"
-                            ng-model="resolution.description" ng-required="descriptionRequired">
+                            ng-model="resolution.description" maxlength="4000" ng-required="descriptionRequired">
                     </textarea>
                         <p ng-show="resolutionForm.description.$error.required" class="help-block">Required.</p>
                     </div>
@@ -307,7 +307,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Problem Description</label>
                     <div name="description" class="col-sm-7">
-                        <textarea type="text" style="resize:vertical" class="form-control" rows="5"
+                        <textarea type="text" style="resize:vertical" maxlength="4000" class="form-control" rows="5"
                             ng-model="rca.problemDescription"></textarea>
                     </div>
                 </div>
@@ -319,8 +319,8 @@
                                 <table class="table table-responsive" class="form-control">
                                     <tr ng-repeat="why in whys | filter:filterWhy">
                                         <td class=" editable-content table-responsive">
-                                            <textarea type="text" style="resize:vertical" class="form-control" rows="3"
-                                                ng-model="why.name">
+                                            <textarea type="text" style="resize:vertical" maxlength="2048"
+                                                class="form-control" rows="3" ng-model="why.name">
                                             </textarea>
                                         </td>
                                         <td><button type="button" ng-click="deleteWhy(why.id)"
