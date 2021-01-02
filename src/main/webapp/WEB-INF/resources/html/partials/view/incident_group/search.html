@@ -107,15 +107,16 @@
                     <label class="col-sm-2 control-label">Name</label>
                     <div class="col-sm-7">
                         <input type="text" name="groupName" class="form-control" ng-model="selectedGroup.name" required
-                            ng-required="groupNameRequired">
+                            maxlength="120" ng-required="groupNameRequired">
                         <p ng-show="groupForm.groupName.$error.required" class="help-block">Required.</p>
                     </div>
                 </div>
                 <div class="form-group" ng-class="{ 'has-error' : groupForm.groupDescription.$invalid && submitted }">
                     <label class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-7">
-                        <textarea type="text" style="resize:vertical" name="groupDescription" class="form-control" rows="5"
-                            ng-model="selectedGroup.description" required ng-required="groupDescriptionRequired">
+                        <textarea type="text" style="resize:vertical" name="groupDescription" maxlength="4000"
+                            class="form-control" rows="5" ng-model="selectedGroup.description" required
+                            ng-required="groupDescriptionRequired">
                         </textarea>
                         <p ng-show="groupForm.groupDescription.$error.required" class="help-block">Required.</p>
                     </div>
@@ -318,12 +319,12 @@
                                 <table class="table table-responsive" class="form-control">
                                     <tr ng-repeat="why in whys | filter:filterWhy">
                                         <td class=" editable-content table-responsive">
-                                            <textarea type="text" style="resize:vertical"
-                                                class="form-control" rows="3" ng-model="why.name">
+                                            <textarea type="text" style="resize:vertical" class="form-control" rows="3"
+                                                ng-model="why.name">
                                             </textarea>
                                         </td>
                                         <td><button type="button" ng-click="deleteWhy(why.id)"
-                                                class="btn btn-primary pull-right form-control">Delete 
+                                                class="btn btn-primary pull-right form-control">Delete
                                                 Why
                                             </button>
                                         </td>
