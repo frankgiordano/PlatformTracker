@@ -263,7 +263,7 @@ public class IncidentResolution {
         this.resolutionProjectName = resolutionProjectName;
     }
 
-    @Column(name = "sri_artifact", nullable = true)
+    @Column(name = "sri_artifact", columnDefinition = "VARCHAR(50)", nullable = true)
     public String getSriArtifact() {
         return sriArtifact;
     }

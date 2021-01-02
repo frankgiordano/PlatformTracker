@@ -83,14 +83,14 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">SRI Artifact</label>
                     <div class="col-sm-6">
-                        <input type="text" name="sriArtifact" class="form-control" ng-model="resolution.sriArtifact">
+                        <input type="text" name="sriArtifact" maxlength="50" class="form-control" ng-model="resolution.sriArtifact">
                     </div>
                 </div>
                 <div class="form-group" ng-class="{ 'has-error' : resolutionForm.description.$invalid && submitted }">
                     <label class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-6">
                         <textarea required type="text" style="resize:vertical" name="description" class="form-control" rows="5"
-                            ng-model="resolution.description" ng-required="descriptionRequired">
+                            ng-model="resolution.description" maxlength="4000" ng-required="descriptionRequired">
                         </textarea>
                         <p ng-show="resolutionForm.description.$error.required" class="help-block">Required.</p>
                     </div>
