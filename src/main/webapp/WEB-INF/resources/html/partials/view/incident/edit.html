@@ -124,16 +124,17 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Business Description</label>
                     <div class="col-sm-7">
-                        <textarea type="text" style="resize:vertical" name="businessDescription" class="form-control" rows="5"
-                            ng-model="incident.summary"></textarea>
+                        <textarea type="text" style="resize:vertical" name="businessDescription" maxlength="4000"
+                            class="form-control" rows="5" ng-model="incident.summary"></textarea>
                     </div>
                 </div>
                 <div class="form-group"
                     ng-class="{ 'has-error' : incidentForm.technicalDescription.$invalid && submitted }">
                     <label class="col-sm-2 control-label">Technical Description</label>
                     <div class="col-sm-7">
-                        <textarea required type="text" style="resize:vertical" name="technicalDescription" class="form-control" rows="5"
-                            ng-model="incident.description" ng-required="technicalDescriptionRequired">
+                        <textarea required type="text" style="resize:vertical" name="technicalDescription"
+                            maxlength="1000" class="form-control" rows="5" ng-model="incident.description"
+                            ng-required="technicalDescriptionRequired">
                         </textarea>
                         <p ng-show="incidentForm.technicalDescription.$error.required" class="help-block">Required.</p>
                     </div>
@@ -192,10 +193,13 @@
                                             <tr ng-repeat="item in chronologies | orderBy: 'dateTime'">
                                                 <td>{{item.id}}</td>
                                                 <td>{{item.dateTime | dateFormat}}</td>
-                                                <td ng-show="!item.editMode" style="white-space:pre-wrap; word-wrap:break-word">{{item.description}}</td>
+                                                <td ng-show="!item.editMode"
+                                                    style="white-space:pre-wrap; word-wrap:break-word">
+                                                    {{item.description}}</td>
                                                 <td ng-show="item.editMode">
-                                                    <textarea cols="50" style="resize:vertical" type="text" style="resize:vertical" class="form-control" rows="3" maxlength=2048
-                                                        ng-model="item.description">
+                                                    <textarea cols="50" style="resize:vertical" type="text"
+                                                        style="resize:vertical" class="form-control" rows="3"
+                                                        maxlength=2048 ng-model="item.description">
                                                     </textarea>
                                                 </td>
                                                 <td>{{item.recordedBy}}</td>
@@ -206,7 +210,8 @@
                                                     </a>
                                                 </td>
                                                 <td ng-show="!disableButton && item.editMode">
-                                                    <a href="#" style="text-decoration: none;" class="" onclick="event.preventDefault()"
+                                                    <a href="#" style="text-decoration: none;" class=""
+                                                        onclick="event.preventDefault()"
                                                         ng-click="submitChronology(item)">
                                                         <span class="glyphicon glyphicon-floppy-disk"></span>
                                                     </a>
@@ -260,7 +265,8 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Description</label>
                                     <div class="col-sm-7">
-                                        <textarea type="text" style="resize:vertical" maxlength=2048 class="form-control" rows="3"
+                                        <textarea type="text" style="resize:vertical" maxlength=2048
+                                            class="form-control" rows="3"
                                             ng-model="createChronology.chronDescription"></textarea>
                                     </div>
                                 </div>
@@ -286,15 +292,15 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Issue</label>
                             <div class="col-sm-7">
-                                <textarea type="text" style="resize:vertical" name="issue" class="form-control" rows="2"
-                                    ng-model="incident.issue"></textarea>
+                                <textarea type="text" style="resize:vertical" name="issue" maxlength="512"
+                                    class="form-control" rows="2" ng-model="incident.issue"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Corrective Action</label>
                             <div class="col-sm-7">
-                                <textarea type="text" style="resize:vertical" name="correctiveAction" class="form-control" rows="4"
-                                    ng-model="incident.correctiveAction"></textarea>
+                                <textarea type="text" style="resize:vertical" name="correctiveAction" maxlength="2048"
+                                    class="form-control" rows="4" ng-model="incident.correctiveAction"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -305,8 +311,8 @@
                                         <table class="table table-responsive" class="form-control">
                                             <tr ng-repeat="action in actions | filter:filterAction">
                                                 <td class="editable-content table-responsive">
-                                                    <textarea type="text" style="resize:vertical" class="form-control" rows="3"
-                                                        ng-model="action.name"></textarea>
+                                                    <textarea type="text" style="resize:vertical" maxlength="2000"
+                                                        class="form-control" rows="3" ng-model="action.name"></textarea>
                                                 </td>
                                                 <td><button type="button" ng-click="deleteAction(action.id)"
                                                         class="btn btn-primary pull-right form-control">Delete Action
@@ -340,8 +346,8 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Customer Impact</label>
                             <div class="col-sm-7">
-                                <textarea type="text" style="resize:vertical" name="customerImpact" class="form-control" rows="5"
-                                    ng-model="incident.customerImpact"></textarea>
+                                <textarea type="text" style="resize:vertical" name="customerImpact" maxlength="1000"
+                                    class="form-control" rows="5" ng-model="incident.customerImpact"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
