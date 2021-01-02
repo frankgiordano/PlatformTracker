@@ -62,9 +62,20 @@
                     <tr class="btn-link" dir-paginate="group in data.results|orderBy:sortKey:reverse|itemsPerPage:10"
                         total-items="data.totalCount" ng-click="select(group)">
                         <td>{{group.id}}</td>
-                        <td>{{group.name}}</td>
-                        <td>{{group.description + " " | addEllipsis}}</td>
-                        <td>{{group.status}}</td>
+                        <td>
+                            <div my-qtip qtip-content="{{group.name}}">
+                                {{group.name | addEllipsis}}
+                            </div>
+                        </td>
+                        <td>
+                            <div my-qtip qtip-content="{{group.description}}">
+                                {{group.description | addEllipsis}}
+                            </div>
+                        <td>
+                            <div my-qtip qtip-content="{{group.status}}">
+                                {{group.status | addEllipsis}}
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
