@@ -121,7 +121,7 @@ public class Project {
         this.id = id;
     }
 
-    @Column(name = "name", columnDefinition = "VARCHAR(128)", nullable = false)
+    @Column(name = "name", columnDefinition = "VARCHAR(50)", nullable = false)
     public String getName() {
         return name;
     }
@@ -263,6 +263,7 @@ public class Project {
         this.wikiType = wikiType;
     }
 
+    @Column(name = "jira_id", columnDefinition = "VARCHAR(20)", nullable = false)
     public String getJiraId() {
         return jiraId;
     }
