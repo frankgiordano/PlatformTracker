@@ -109,7 +109,8 @@
                     <td>{{incident.status}}</td>
                     <td>{{incident.severity}}</td>
                     <td>
-                        <div my-qtip qtip-content="{{incident.description + ' ' + incident.summary}}">
+                        <div style="word-break: break-all" my-qtip
+                            qtip-content="{{incident.description + ' ' + incident.summary}}">
                             {{incident.description + " " + incident.summary | addEllipsis}}
                         </div>
                     </td>

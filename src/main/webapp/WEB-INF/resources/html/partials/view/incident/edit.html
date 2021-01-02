@@ -29,7 +29,7 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Current Group</label>
-                    <div class="col-sm-3 form-control-static">{{groupModel.currentGroupName}}</div>
+                    <div style="word-break: break-all" class="col-sm-3 form-control-static">{{groupModel.currentGroupName}}</div>
                     <label class="col-sm-1 control-label">Reassign Grp</label>
                     <div class="col-sm-3">
                         <input type="text" name="group" ng-model="groupModel.selectedNewGroup"
@@ -171,7 +171,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-2">Description</label>
-                                <div class="col-md-7 form-control-static">
+                                <div style="word-break: break-all" class="col-md-7 form-control-static">
                                     {{incident.description + " " + incident.summary}}
                                 </div>
                             </div>
