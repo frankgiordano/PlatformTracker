@@ -105,7 +105,11 @@
                 <tr class="btn-link" dir-paginate="incident in data.results|orderBy:sortKey:reverse|itemsPerPage:10"
                     total-items="data.totalCount" ng-click="select('incident', incident)" current-page="currentPage">
                     <td>{{incident.id}}</td>
-                    <td>{{incident.tag}}</td>
+                    <td>
+                        <div style="word-break: break-all">
+                            {{incident.tag}}
+                        </div>
+                    </td>
                     <td>{{incident.status}}</td>
                     <td>{{incident.severity}}</td>
                     <td>
