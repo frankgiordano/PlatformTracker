@@ -263,7 +263,7 @@ public class Project {
         this.wikiType = wikiType;
     }
 
-    @Column(name = "jira_id", columnDefinition = "VARCHAR(20)", nullable = false)
+    @Column(name = "jira_id", columnDefinition = "VARCHAR(20)", nullable = true)
     public String getJiraId() {
         return jiraId;
     }
