@@ -704,8 +704,9 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
                     }
                     $scope.waiting(false);
                 }, function error(response) {
-                    if (response.includes("OptimisticLockException")) {
+                    if (response && response.includes("OptimisticLockException")) {
                         $scope.errorMessages = $rootScope.INCIDENT_VERSION_ERROR_MSG;
+                        $scope.waiting(false);
                         return;
                     }
                     $scope.waiting(false);
@@ -721,7 +722,7 @@ app.controller('IncidentController', function ($rootScope, $scope, $filter, Inci
                     $scope.waiting(false);
                 },
                 function error(response) {
-                    if (response.includes("OptimisticLockException")) {
+                    if (response && response.includes("OptimisticLockException")) {
                         $scope.errorMessages = $rootScope.INCIDENT_VERSION_ERROR_MSG;
                         $scope.waiting(false);
                         return;
