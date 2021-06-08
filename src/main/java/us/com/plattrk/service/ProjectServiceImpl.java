@@ -12,6 +12,8 @@ import us.com.plattrk.api.model.Project;
 import us.com.plattrk.repository.ProjectRepository;
 import us.com.plattrk.api.model.PageWrapper;
 
+import javax.persistence.OptimisticLockException;
+
 @Service(value = "ProjectService")
 public class ProjectServiceImpl implements ProjectService {
     
@@ -37,7 +39,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
-    public Project saveProject(Project project) {
+    public Project saveProject(Project project) throws OptimisticLockException {
         return projectRepository.saveProject(project);
     }
 

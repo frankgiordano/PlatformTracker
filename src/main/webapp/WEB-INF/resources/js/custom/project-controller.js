@@ -384,6 +384,7 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
         var project = {
             "id": $scope.project.id,
             "name": $scope.project.name,
+            "version": $scope.project.version,
             "owner": $scope.project.owner,
             "isHighPriority": $scope.project.isHighPriority,
             "description": $scope.project.description,
@@ -413,13 +414,23 @@ app.controller('ProjectController', function ($rootScope, $scope, ProjectService
                     }
                     $scope.back = true;
                     $scope.waiting(false);
+                    postProjectSave();
                     return;
                 }
             },
-            function error() {
+            function error(response) {
+                if (response && response.includes("OptimisticLockException")) {
+                    $scope.errorMessages = $rootScope.PROJECT_VERSION_ERROR_MSG;
+                    $scope.waiting(false);
+                    return;
+                }
                 $scope.errorMessages = $rootScope.PROJECT_SAVE_ERROR_MSG;
                 $scope.waiting(false);
             });
+    };
+
+    var postProjectSave = function () {
+        $scope.project.version++;
     };
 
     // just do this for required fields that are not defaulted dropdown fields.

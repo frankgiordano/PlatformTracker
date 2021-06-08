@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
@@ -79,7 +80,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public Project saveProject(Project project) {
+    public Project saveProject(Project project) throws OptimisticLockException {
         try {
             if (project.getId() == null) {
                 em.persist(project);

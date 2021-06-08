@@ -3,22 +3,7 @@ package us.com.plattrk.api.model;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.QueryHint;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -30,12 +15,12 @@ import us.com.plattrk.util.JsonDateMinusTimeDeserializer;
 @Cacheable(true)
 @NamedQueries({
         @NamedQuery(name = Project.FIND_ALL_PROJECTS,
-                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owner, pr.description, pr.ecdeId, pr.status, pr.estEffort, " +
+                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.version, pr.name, pr.owner, pr.description, pr.ecdeId, pr.status, pr.estEffort, " +
                         "pr.actualEffort, pr.actualCompletionDate, pr.estCompletionDate, pr.pdlcStatus, pr.recordingDate, pr.statusChangeDate, pr.wikiType, " +
                         "pr.jiraId, pr.confluenceId) from Project as pr order by pr.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
         @NamedQuery(name = Project.FIND_ALL_PROJECTS_BY_CRITERIA,
-                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.name, pr.owner, pr.description, pr.ecdeId, pr.status, pr.estEffort, " +
+                query = "Select new us.com.plattrk.api.model.Project(pr.id, pr.version, pr.name, pr.owner, pr.description, pr.ecdeId, pr.status, pr.estEffort, " +
                         "pr.actualEffort, pr.actualCompletionDate, pr.estCompletionDate, pr.pdlcStatus, pr.recordingDate, pr.statusChangeDate, pr.wikiType, " +
                         "pr.jiraId, pr.confluenceId) from Project as pr where lower(pr.name) LIKE (:name) order by pr.name",
                 hints = {@QueryHint(name = "org.hibernate.cacheable", value = "false")}),
@@ -54,6 +39,7 @@ public class Project {
     public static final String FIND_ALL_PROJECTS_COUNT = "findAllProjectsCount";
 
     private Long id;
+    private Long version;
     private String name;
     private String owner;
     private int isHighPriority;
@@ -82,13 +68,14 @@ public class Project {
         this.description = description;
     }
 
-    public Project(Long id, String name, String owner, String description,
+    public Project(Long id, Long version, String name, String owner, String description,
                    Long ecdeId, ReferenceData status, Long estEffort,
                    Long actualEffort, Date actualCompletionDate,
                    Date estCompletionDate, ReferenceData pdlcStatus,
                    Date recordingDate, Date statusChangeDate, ReferenceData wikiType,
                    String jiraId, int confluenceId) {
         this.id = id;
+        this.version = version;
         this.owner = owner;
         this.name = name;
         this.description = description;
@@ -119,6 +106,16 @@ public class Project {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Version
+    @Column(name = "version")
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     @Column(name = "name", columnDefinition = "VARCHAR(50)", nullable = false)
@@ -284,6 +281,7 @@ public class Project {
     public String toString() {
         return "Project{" +
                 "id=" + id +
+                ", version=" + version +
                 ", name='" + name + '\'' +
                 ", owner='" + owner + '\'' +
                 ", isHighPriority=" + isHighPriority +
