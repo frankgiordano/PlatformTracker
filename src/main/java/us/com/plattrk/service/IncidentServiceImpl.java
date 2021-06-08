@@ -195,7 +195,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
         Report report = (Report) wac.getBean("Report");
 
-        if ("auto".equals(address.getAddress().toLowerCase())) {
+        if ("auto".equalsIgnoreCase(address.getAddress())) {
             return report.generateWeeklyReport(incidents, calendars.getPreviousWeekDate(),
                     calendars.getPreviousDayDate(), null);
         }
