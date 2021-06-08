@@ -16,6 +16,8 @@ import us.com.plattrk.api.model.Project;
 import us.com.plattrk.service.ProjectService;
 import us.com.plattrk.api.model.PageWrapper;
 
+import javax.persistence.OptimisticLockException;
+
 @RestController
 @RequestMapping(value = "/project")
 public class ProjectController {
@@ -43,7 +45,7 @@ public class ProjectController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json")
-    public Project saveProject(@RequestBody Project project) {
+    public Project saveProject(@RequestBody Project project) throws OptimisticLockException {
         return projectService.saveProject(project);
     }
 

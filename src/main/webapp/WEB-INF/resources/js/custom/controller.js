@@ -102,6 +102,7 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
     $rootScope.REQUIRED_FIELDS_CHRONOLOGY_MSG = CHECK_REQUIRED_FIELDS_MSG + "Date Time and Description.";
     $rootScope.PROJECT_LINK_RESOLUTON_MSG = "Linking Resolution(s) to Project failed.";
     $rootScope.INCIDENT_VERSION_MSG = "Editing an older Incident detail version, please reload Incident detail from search page and try again.";
+    $rootScope.PROJECT_VERSION_MSG = "Editing an older Project detail version, please reload Project detail from search page and try again.";
 
     $rootScope.PRODUCT_SAVE_ERROR_MSG = "PRODUCT" + SAVE_ERROR_MSG + GENERIC_ERROR_MSG;
     $rootScope.PROJECT_SAVE_ERROR_MSG = "PROJECT" + SAVE_ERROR_MSG + GENERIC_ERROR_MSG;
@@ -112,6 +113,7 @@ app.controller('MainController', function ($route, $rootScope, $scope, $location
     $rootScope.INCIDENT_GROUP_SAVE_ERROR_MSG = "GROUP" + SAVE_ERROR_MSG + GENERIC_ERROR_MSG;
     $rootScope.PROJECT_LINK_RESOLUTON_ERROR_MSG = "PROJECT_LINK_RESOLUTON" + SAVE_ERROR_MSG + $rootScope.PROJECT_LINK_RESOLUTON_MSG;
     $rootScope.INCIDENT_VERSION_ERROR_MSG = "INCIDENT_VERSION" + SAVE_ERROR_MSG + $rootScope.INCIDENT_VERSION_MSG;
+    $rootScope.PROJECT_VERSION_ERROR_MSG = "PROJECT_VERSION" + SAVE_ERROR_MSG + $rootScope.PROJECT_VERSION_MSG;
     $rootScope.REPORT_SAVE_ERROR_MSG = "REPORT" + GENERATE_ERROR_MSG + GENERIC_ERROR_MSG;
 
     $scope.linkClicked = function (link) {

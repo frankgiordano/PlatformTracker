@@ -63,8 +63,8 @@ app.service('ProjectService', function ($http, $q, ReferenceDataService) {
             .success(function (response) {
                 d.resolve(response);
             })
-            .error(function () {
-                d.reject();
+            .error(function (data) {
+                d.reject(data);
             });
 
         return d.promise;
