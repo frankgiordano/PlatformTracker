@@ -22,6 +22,7 @@ import java.time.ZoneId;
 import java.util.*;
 
 import javax.mail.SendFailedException;
+import javax.persistence.OptimisticLockException;
 import javax.servlet.ServletContext;
 
 @Service(value = "IncidentService")
@@ -63,7 +64,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
 
     @Override
     @Transactional
-    public Incident saveIncident(Incident incident) {
+    public Incident saveIncident(Incident incident) throws OptimisticLockException {
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
         MailService mailService = (MailService) wac.getBean("mailService");
         Incident result;
