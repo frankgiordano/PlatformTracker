@@ -327,13 +327,20 @@ public class IncidentResolution {
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", horizon=" + horizon +
+                ", horizonName='" + horizonName + '\'' +
                 ", actualCompletionDate=" + actualCompletionDate +
                 ", incidentGroup=" + incidentGroup +
+                ", incidentGroupName='" + incidentGroupName + '\'' +
                 ", owner='" + owner + '\'' +
+                ", projectId=" + projectId +
+                ", resolutionProject=" + resolutionProject +
+                ", resolutionProjectName='" + resolutionProjectName + '\'' +
                 ", sriArtifact='" + sriArtifact + '\'' +
                 ", estCompletionDate=" + estCompletionDate +
                 ", status=" + status +
+                ", statusName='" + statusName + '\'' +
                 ", type=" + type +
+                ", typeName='" + typeName + '\'' +
                 '}';
     }
 
