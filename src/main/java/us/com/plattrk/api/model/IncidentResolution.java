@@ -235,7 +235,7 @@ public class IncidentResolution {
     }
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "resolution_project_id")
+    @JoinColumn(name = "project_id", referencedColumnName = "project_id")
     public Project getResolutionProject() {
         return this.resolutionProject;
     }
