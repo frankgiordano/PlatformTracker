@@ -16,7 +16,7 @@
         <hibernate.version>5.3.6.Final</hibernate.version>
         <hibernate.entity.manager.version>5.3.6.Final</hibernate.entity.manager.version>
         <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
-        <hibernate.ehcache.version>5.3.6.Final</hibernate.ehcache.version>
+        <hibernate.ehcache.version>5.4.24.Final</hibernate.ehcache.version>
         <jta.version>1.1</jta.version>
         <slf4j.version>1.6.6</slf4j.version>
         <cglib.version>2.2.2</cglib.version>
