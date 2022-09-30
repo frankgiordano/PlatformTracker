@@ -33,8 +33,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     @SuppressWarnings("unchecked")
     public List<Product> getProducts() {
-        List<Product> myResult = em.createNamedQuery(Product.FIND_ALL_PRODUCTS).getResultList();
-        return myResult;
+        return (List<Product>) em.createNamedQuery(Product.FIND_ALL_PRODUCTS).getResultList();
     }
 
     @Override
@@ -105,8 +104,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public List<Product> getActiveProducts() {
         TypedQuery<Product> query = em.createNamedQuery(Product.FIND_ALL_ACTIVE_PRODUCTS, Product.class);
-        List<Product> myResult = query.getResultList();
-        return myResult;
+        return query.getResultList();
     }
 
     private static Consumer<Product> lambdaWrapper(Consumer<Product> consumer) {

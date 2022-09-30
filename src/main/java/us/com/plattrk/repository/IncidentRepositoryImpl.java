@@ -215,8 +215,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     public Set<IncidentGroup> getGroups() {
         @SuppressWarnings("unchecked")
         List<IncidentGroup> myResult = em.createNamedQuery(Incident.FIND_ALL_GROUPS).getResultList();
-        Set<IncidentGroup> groups = new HashSet<IncidentGroup>(myResult);
-        return groups;
+        return new HashSet<IncidentGroup>(myResult);
     }
 
     @Override

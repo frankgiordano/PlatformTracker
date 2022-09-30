@@ -34,8 +34,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     @Override
     @SuppressWarnings("unchecked")
     public List<Project> getProjects() {
-        List<Project> myResult = em.createNamedQuery(Project.FIND_ALL_PROJECTS).getResultList();
-        return myResult;
+        return (List<Project>) em.createNamedQuery(Project.FIND_ALL_PROJECTS).getResultList();
     }
 
     @Override
