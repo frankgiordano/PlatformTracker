@@ -16,11 +16,11 @@ public class ActiveDirectory {
 
     private static final Logger LOG = LoggerFactory.getLogger(ActiveDirectory.class);
 
-    private Properties properties;
+    private final Properties properties;
     private DirContext dirContext;
-    private SearchControls searchCtls;
-    private String[] returnAttributes = { "member", "memberof" };
-    private String baseFilter = "(&(objectCategory=group)(name=PLATTRK_ADM))";
+    private final SearchControls searchCtls;
+    private final String[] returnAttributes = { "member", "memberof" };
+    private final String baseFilter = "(&(objectCategory=group)(name=PLATTRK_ADM))";
 
     public ActiveDirectory(String username, String password, String domainUrl, String contextFactory) {
         properties = new Properties();

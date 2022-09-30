@@ -36,12 +36,12 @@ public class ReportImpl implements Report {
     @Autowired
     private Properties appProperties;
 
-    private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-    private DecimalFormat decimalFormatPercent = new DecimalFormat("#0.0000");
-    private List<Double> totalDowntimeALL = new ArrayList<>();
-    private List<Long> totalDowntimeCLOUDALL = new ArrayList<>();
-    private List<Long> totalDowntimeTRIVINALL = new ArrayList<>();
-    private List<Long> totalDowntimeEXTALL = new ArrayList<>();
+    private final DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+    private final DecimalFormat decimalFormatPercent = new DecimalFormat("#0.0000");
+    private final List<Double> totalDowntimeALL = new ArrayList<>();
+    private final List<Long> totalDowntimeCLOUDALL = new ArrayList<>();
+    private final List<Long> totalDowntimeTRIVINALL = new ArrayList<>();
+    private final List<Long> totalDowntimeEXTALL = new ArrayList<>();
 
     public ReportImpl() {
     }
