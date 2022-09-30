@@ -51,16 +51,17 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         QueryResult<Project> queryResult;
         Map<String, String> columnInfo = new HashMap<>();
 
+        String queryName;
+        String queryCountName;
         if (isNameEmpty) {
-            String queryName = Project.FIND_ALL_PROJECTS;
-            String queryCountName = Project.FIND_ALL_PROJECTS_COUNT;
-            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
+            queryName = Project.FIND_ALL_PROJECTS;
+            queryCountName = Project.FIND_ALL_PROJECTS_COUNT;
         } else {
-            String queryName = Project.FIND_ALL_PROJECTS_BY_CRITERIA;
-            String queryCountName = Project.FIND_ALL_PROJECTS_COUNT_BY_CRITERIA;
+            queryName = Project.FIND_ALL_PROJECTS_BY_CRITERIA;
+            queryCountName = Project.FIND_ALL_PROJECTS_COUNT_BY_CRITERIA;
             columnInfo.put("name", name);
-            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         }
+        queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
 
         return new PageWrapper<Project>(queryResult.result, queryResult.total);
     }
