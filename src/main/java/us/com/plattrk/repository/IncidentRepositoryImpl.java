@@ -175,10 +175,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     @Override
     public boolean isIncidentOpen(Long id) {
         Incident incident = em.find(Incident.class, id);
-        if ("Open".equals(incident.getStatus())) {
-            return true;
-        }
-        return false;
+        return "Open".equals(incident.getStatus());
     }
 
     @Override
