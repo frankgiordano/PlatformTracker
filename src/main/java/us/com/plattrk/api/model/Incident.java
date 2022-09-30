@@ -438,8 +438,8 @@ public class Incident {
     @ManyToOne(cascade = CascadeType.PERSIST)
     //(cascade = CascadeType.ALL)  this cause a delete to go and delete its parent group also - hence, removed.
     @JoinColumn(name = "group_id")
-    // used Persist so that parent group can be update during persist this is the case where in incident
-    public IncidentGroup getIncidentGroup() { // create screen specifying a non existing Group will create the group and take the incident description
+    // used Persist so that parent group can be updated during persist this is the case where in incident
+    public IncidentGroup getIncidentGroup() { // create screen specifying a non-existing Group will create the group and take the incident description
         return incidentGroup;                  // for group description which is required to be filled.
     }
 

@@ -110,7 +110,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     }
 
     //    @Scheduled(cron="*/10 * * * * ?")  //
-    public void notificationCheckLegacy() {  // this was original design lets call it legacy now..
+    public void notificationCheckLegacy() {  // this was original design lets call it legacy now...
         List<Incident> openIncidents = incidentRepository.getOpenIncidents();
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 

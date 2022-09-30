@@ -70,7 +70,7 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
         alertDuration = earlyAlert + alert;
         startTime = new Date();
 
-        // keep executing this thread until incident is closed..		
+        // keep executing this thread until incident is closed...
         while (incidentRepository.isIncidentOpen(incident.getId())) {
 
             if (isOnHours() && isWeekDay()) {
@@ -102,7 +102,7 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
                         // somehow restarted due to a problem or normally for maintenance while an
                         // incident is still open; as such multiple update notifications in quick
                         // succession can be spawned and cause a major spam issue. 
-                        // As a result, check that the startTime is greater then the latest
+                        // As a result, check that the startTime is greater than the latest
                         // chronology date, if so handle this situation differently 
 
                         if (!doOnceAfterRestart && startTime.getTime() >= mySortedChrons.get(mySortedChrons.size() - 1).getDateTime().getTime()) {
@@ -198,8 +198,8 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
         this.incident = incident;
     }
 
-    // this is called when we are starting the thread via spring container, the default constructor is used
-    // and we need to set the properties here or we could have set the properties in application context xml
+    // this is called when we are starting the thread via spring container, the default constructor is used,
+    // and we need to set the properties here, or we could have set the properties in application context xml
     // bean definition for NotificationThread.
     @Override
     public void setAppProperties(Properties appProperties) {
