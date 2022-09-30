@@ -27,7 +27,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     @SuppressWarnings("unchecked")
     public Set<Incident> getIncidents() {
         List<Incident> myResult = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS).getResultList();
-        return new HashSet<Incident>(myResult);
+        return new HashSet<>(myResult);
     }
 
     @Override
@@ -210,7 +210,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     public Set<IncidentGroup> getGroups() {
         @SuppressWarnings("unchecked")
         List<IncidentGroup> myResult = em.createNamedQuery(Incident.FIND_ALL_GROUPS).getResultList();
-        return new HashSet<IncidentGroup>(myResult);
+        return new HashSet<>(myResult);
     }
 
     @Override

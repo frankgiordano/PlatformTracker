@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentMap;
 @Scope("singleton")
 public class ReferenceDataServiceImpl implements ReferenceDataService {
 
-    private static final ConcurrentMap<Long, List<ReferenceData>> referenceData = new ConcurrentHashMap<Long, List<ReferenceData>>();
+    private static final ConcurrentMap<Long, List<ReferenceData>> referenceData = new ConcurrentHashMap<>();
 
     @Autowired
     private ReferenceDataRepository referenceDataRepository;

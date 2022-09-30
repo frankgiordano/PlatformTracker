@@ -75,7 +75,7 @@ public class RCARepositoryImpl implements RCARepository {
             queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         }
 
-        return new PageWrapper<RCA>(queryResult.result, queryResult.total);
+        return new PageWrapper<>(queryResult.result, queryResult.total);
     }
 
     @Override

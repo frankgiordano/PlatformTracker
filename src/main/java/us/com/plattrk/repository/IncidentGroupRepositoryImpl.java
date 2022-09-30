@@ -33,7 +33,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
     public Set<IncidentGroup> getGroups() {
         @SuppressWarnings("unchecked")
         List<IncidentGroup> myResult = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS).getResultList();
-        return new HashSet<IncidentGroup>(myResult);
+        return new HashSet<>(myResult);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
             total = (long) query.getSingleResult();
         }
 
-        return new PageWrapper<IncidentGroup>(result, total);
+        return new PageWrapper<>(result, total);
     }
 
     @Override
