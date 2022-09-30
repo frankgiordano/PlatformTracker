@@ -50,16 +50,17 @@ public class ProductRepositoryImpl implements ProductRepository {
         QueryResult<Product> queryResult;
         Map<String, String> columnInfo = new HashMap<>();
 
+        String queryName;
+        String queryCountName;
         if (isNameEmpty) {
-            String queryName = Product.FIND_ALL_PRODUCTS;
-            String queryCountName = Product.FIND_ALL_PRODUCTS_COUNT;
-            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
+            queryName = Product.FIND_ALL_PRODUCTS;
+            queryCountName = Product.FIND_ALL_PRODUCTS_COUNT;
         } else {
-            String queryName = Product.FIND_ALL_PRODUCTS_BY_CRITERIA;
-            String queryCountName = Product.FIND_ALL_PRODUCTS_COUNT_BY_CRITERIA;
+            queryName = Product.FIND_ALL_PRODUCTS_BY_CRITERIA;
+            queryCountName = Product.FIND_ALL_PRODUCTS_COUNT_BY_CRITERIA;
             columnInfo.put("name", name);
-            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         }
+        queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
 
         return new PageWrapper<Product>(queryResult.result, queryResult.total);
     }
