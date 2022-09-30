@@ -50,9 +50,9 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
         super(true);
         this.incident = incident;
         this.appProperties = appProperties;
-        this.earlyAlert = Long.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
-        this.alert = Long.valueOf(appProperties.getProperty("AlertInSecondsOffset", "300"));
-        this.escalatedAlert = Long.valueOf(appProperties.getProperty("EscalatedAlertInSeconds", "6600"));
+        this.earlyAlert = Long.parseLong(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
+        this.alert = Long.parseLong(appProperties.getProperty("AlertInSecondsOffset", "300"));
+        this.escalatedAlert = Long.parseLong(appProperties.getProperty("EscalatedAlertInSeconds", "6600"));
         this.mailService = new MailServiceImpl(new MailJavaImpl(new MailJavaFormatImpl()));
     }
 
@@ -204,9 +204,9 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
     @Override
     public void setAppProperties(Properties appProperties) {
         this.appProperties = appProperties;
-        this.earlyAlert = Long.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
-        this.alert = Long.valueOf(appProperties.getProperty("AlertInSecondsOffset", "300"));
-        this.escalatedAlert = Long.valueOf(appProperties.getProperty("EscalatedAlertInSeconds", "6600"));
+        this.earlyAlert = Long.parseLong(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
+        this.alert = Long.parseLong(appProperties.getProperty("AlertInSecondsOffset", "300"));
+        this.escalatedAlert = Long.parseLong(appProperties.getProperty("EscalatedAlertInSeconds", "6600"));
     }
 
     @Override
