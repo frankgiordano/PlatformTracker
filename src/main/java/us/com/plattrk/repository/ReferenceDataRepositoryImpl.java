@@ -18,7 +18,7 @@ public class ReferenceDataRepositoryImpl implements ReferenceDataRepository {
     public List<ReferenceData> getReferenceDataByGroupId(Long groupId) {
         TypedQuery<ReferenceData> query = em.createNamedQuery(ReferenceData.FIND_REFERENCES_BY_GROUP_ID, ReferenceData.class);
         return query.setParameter("groupId", groupId).getResultList();
-    };
+    }
 
     public ReferenceData getReferenceData(Long id) {
         ReferenceData reference = em.find(ReferenceData.class, id);
