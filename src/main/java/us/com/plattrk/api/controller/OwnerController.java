@@ -20,7 +20,7 @@ public class OwnerController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/ownersInfo", method = RequestMethod.GET, produces = "application/json")
-    public List<OwnerInfo> getOwnerList() throws Exception {
+    public List<OwnerInfo> getOwnerList() {
         return ownerService.getOwnerList();
     }
 
