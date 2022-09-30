@@ -105,10 +105,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
 
     @Override
     public List<IncidentResolution> saveResolutions(List<IncidentResolution> resolutions) {
-        resolutions.forEach(lambdaWrapper(resolution -> {
-            em.merge(resolution);
-        }, resolutions));
-
+        resolutions.forEach(lambdaWrapper(resolution -> em.merge(resolution), resolutions));
         return resolutions;
     }
 

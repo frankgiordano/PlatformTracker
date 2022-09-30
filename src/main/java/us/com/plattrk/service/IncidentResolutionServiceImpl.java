@@ -88,9 +88,7 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
 
     private void updateIncomingResolutions(List<IncidentResolutionVO> resolutions, List<IncidentResolution> result) {
         List<Long> ids = new ArrayList<>();
-        result.forEach(item -> {
-            ids.add(item.getId());
-        });
+        result.forEach(item -> ids.add(item.getId()));
         resolutions.forEach(item -> {
             if (!ids.contains(item.getId()))
                 resolutions.remove(item);
