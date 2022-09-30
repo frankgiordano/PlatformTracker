@@ -170,7 +170,7 @@ public class MailJavaImpl implements Mail {
         List<String> productEmailDistroArray = new ArrayList<>();
         products.forEach(i -> {
             Optional<String> prop = Optional.ofNullable(appProperties.getProperty(i.getShortName()));
-            prop.ifPresent((item -> productEmailDistroArray.add(item)));
+            prop.ifPresent((productEmailDistroArray::add));
         });
         return productEmailDistroArray;
     }

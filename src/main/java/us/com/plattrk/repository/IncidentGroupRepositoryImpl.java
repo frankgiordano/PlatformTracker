@@ -133,8 +133,8 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
     @Override
     @SuppressWarnings("unchecked")
     public List<IncidentGroup> deleteAllOrphanGroups() {
-        Predicate<IncidentGroup> isEmptyResolutions = group -> isEmptyGroupResolutions(group);
-        Predicate<IncidentGroup> isEmptyRootCauses = group -> isEmptyGroupRootCause(group);
+        Predicate<IncidentGroup> isEmptyResolutions = this::isEmptyGroupResolutions;
+        Predicate<IncidentGroup> isEmptyRootCauses = this::isEmptyGroupRootCause;
         Predicate<IncidentGroup> isEmptyIncidents = group -> group.getIncidents().isEmpty();
 
         List<IncidentGroup> myResult = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS_RELATIONS).getResultList();
