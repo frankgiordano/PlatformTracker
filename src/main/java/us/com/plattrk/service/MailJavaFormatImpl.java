@@ -58,7 +58,7 @@ public class MailJavaFormatImpl implements MailFormat {
     @Override
     public String generateBodyFormat(boolean isReport) {
 
-        String body = "";
+        String body;
         boolean multipleProducts = false;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 

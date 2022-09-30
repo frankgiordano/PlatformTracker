@@ -9,7 +9,7 @@ import java.util.List;
 public class MailUtil {
 
     public static String getAllEmailAddresses(List<String> allEmailAddresses) {
-        StringBuilder buffer = null;
+        StringBuilder buffer;
         Iterator<String> iterator = allEmailAddresses.iterator();
         if (allEmailAddresses.size() > 1) {
             buffer = new StringBuilder(iterator.next());

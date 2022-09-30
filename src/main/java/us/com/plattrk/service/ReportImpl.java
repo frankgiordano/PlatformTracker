@@ -125,8 +125,8 @@ public class ReportImpl implements Report {
         String subject = appProperties.getProperty("SUBJECTMSG", "") + "Service Level Monitoring was executed at "
                 + dateFormat.format(new Date());
         String body = "Weekly Production Report";
-        String CLOUD = "";
-        String EXT = "";
+        String CLOUD;
+        String EXT;
 
         if (System.getProperty("os.name").startsWith("Windows")) {
             file = "c:\\WeeklyReport.xlsx";
@@ -220,8 +220,8 @@ public class ReportImpl implements Report {
 
             int sectionCount = 3;
             boolean matchFound = false;
-            String compareCurrent = null;
-            String compareIncoming = null;
+            String compareCurrent;
+            String compareIncoming;
 
             for (Product product : products) {
 
@@ -430,8 +430,8 @@ public class ReportImpl implements Report {
         String fileName = "IncidentReportByProducts.xlsx";
         StringBuilder subject = new StringBuilder();
         String body = "Incident Report By Product(s) and Date Range, Production Report";
-        String CLOUD = "";
-        String EXT = "";
+        String CLOUD;
+        String EXT;
 
         if (System.getProperty("os.name").startsWith("Windows")) {
             file = "c:\\IncidentReportByProducts.xlsx";
@@ -525,8 +525,8 @@ public class ReportImpl implements Report {
 
             int sectionCount = 3;
             boolean matchFound = false;
-            String compareCurrent = null;
-            String compareIncoming = null;
+            String compareCurrent;
+            String compareIncoming;
             HashMap<String, Boolean> cacheIncomingProducts = new HashMap<>();
             List<Product> summaryProducts = new ArrayList<>();
 
