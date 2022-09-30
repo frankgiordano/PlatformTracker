@@ -41,8 +41,6 @@ public class MailSocketImpl implements Mail {
         } catch (IOException e) {
             LOG.error("MailSocketImpl::send - email during incident create failed to send {}", e.getMessage());
         }
-
-        return;
     }
 
     @Override
@@ -88,7 +86,6 @@ public class MailSocketImpl implements Mail {
                 break;
             default:
                 output = null;
-                return;
         }
     }
 

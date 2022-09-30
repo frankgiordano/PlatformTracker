@@ -162,7 +162,6 @@ public class MailJavaImpl implements Mail {
                 allEmailAddresses.remove(i);
             }
         }
-        return;
     }
 
     @Override
