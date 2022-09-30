@@ -48,7 +48,7 @@ public class RCCategory {
     @Override
     public RCCategory clone() {
         RCCategory instance = new RCCategory(name);
-        CopyUtil.copyPropertyies(instance, this);
+        CopyUtil.copyProperties(instance, this);
         return instance;
     }
 

@@ -49,7 +49,7 @@ public class CopyUtil {
         return obj;
     }
 
-    public static Object copyPropertyies(Object dest, Object orig) {
+    public static Object copyProperties(Object dest, Object orig) {
         PropertyUtilsBean util = new PropertyUtilsBean();
         try {
             util.copyProperties(dest, orig);

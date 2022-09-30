@@ -48,7 +48,7 @@ public class SolutionType {
     @Override
     public SolutionType clone() {
         SolutionType instance = new SolutionType(name);
-        CopyUtil.copyPropertyies(instance, this);
+        CopyUtil.copyProperties(instance, this);
         return instance;
     }
 

@@ -48,7 +48,7 @@ public class Severity {
     @Override
     public Severity clone() {
         Severity instance = new Severity(name);
-        CopyUtil.copyPropertyies(instance, this);
+        CopyUtil.copyProperties(instance, this);
         return instance;
     }
 

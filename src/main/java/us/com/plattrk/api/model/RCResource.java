@@ -48,7 +48,7 @@ public class RCResource {
     @Override
     public RCResource clone() {
         RCResource instance = new RCResource(name);
-        CopyUtil.copyPropertyies(instance, this);
+        CopyUtil.copyProperties(instance, this);
         return instance;
     }
 

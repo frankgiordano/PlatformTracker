@@ -48,7 +48,7 @@ public class ResType {
     @Override
     public ResType clone() {
         ResType instance = new ResType(name);
-        CopyUtil.copyPropertyies(instance, this);
+        CopyUtil.copyProperties(instance, this);
         return instance;
     }
 

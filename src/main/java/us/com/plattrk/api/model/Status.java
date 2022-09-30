@@ -53,7 +53,7 @@ public class Status {
     @Override
     public Status clone() {
         Status instance = new Status(name);
-        CopyUtil.copyPropertyies(instance, this);
+        CopyUtil.copyProperties(instance, this);
         return instance;
     }
 

@@ -53,7 +53,7 @@ public class PDLCStatus {
     @Override
     public PDLCStatus clone() {
         PDLCStatus instance= new PDLCStatus(name);
-        CopyUtil.copyPropertyies(instance, this);
+        CopyUtil.copyProperties(instance, this);
         return instance;		
     }
 

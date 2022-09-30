@@ -48,7 +48,7 @@ public class Locus {
     @Override
     public Locus clone() {
         Locus instance = new Locus(name);
-        CopyUtil.copyPropertyies(instance, this);
+        CopyUtil.copyProperties(instance, this);
         return instance;
     }
 

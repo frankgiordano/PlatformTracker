@@ -47,7 +47,7 @@ public class AlertedBy {
     @Override
     public AlertedBy clone() {
         AlertedBy instance = new AlertedBy(name);
-        CopyUtil.copyPropertyies(instance, this);
+        CopyUtil.copyProperties(instance, this);
         return instance;
     }
 
