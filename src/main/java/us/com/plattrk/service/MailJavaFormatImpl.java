@@ -33,12 +33,11 @@ public class MailJavaFormatImpl implements MailFormat {
     public void initialize(Incident incident) {
 
         StringBuilder productsStringTemp = new StringBuilder();
-        List<Product> products = new ArrayList<>();
 
         testmsg = appProperties.getProperty("SUBJECTMSG", "");
 
         this.setIncident(incident);
-        products.addAll(incident.getProducts());
+        List<Product> products = new ArrayList<>(incident.getProducts());
         products.sort(Comparator.comparing(Product::getIncidentName, String::compareToIgnoreCase));
 
         for (int i = 0; i < products.size(); i++) {

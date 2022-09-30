@@ -44,8 +44,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public void sendDailyReport(Properties appProperties, String body, String subject) {
         try {
-            List<String> allEmailAddresses = new ArrayList<>();
-            allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty("Outages").split(",")));
+            List<String> allEmailAddresses = new ArrayList<>(Arrays.asList(appProperties.getProperty("Outages").split(",")));
             mail.setAllEmailAddresses(allEmailAddresses);
             mail.setSubject(subject);
             mail.setBody(body);
