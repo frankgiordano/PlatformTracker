@@ -2,7 +2,7 @@ package us.com.plattrk.api.model;
 
 public class IncidentResolutionVO {
 
-    public class Operation {
+    public static class Operation {
         public static final int ATTACH = 1;
         public static final int REMOVE = 2;
     }

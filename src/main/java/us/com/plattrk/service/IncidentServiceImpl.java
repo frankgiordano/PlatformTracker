@@ -354,7 +354,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         return false;
     }
 
-    private class SetWeekPrevCalendars {
+    private static class SetWeekPrevCalendars {
         private final int week;
         private final int previous;
         private Date previousWeekDate;
