@@ -13,23 +13,15 @@ public class NotificationTimeFrame {
     public boolean isWeekEnd() {
         Calendar c = Calendar.getInstance();
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-        if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
-            return true;
-        }
-
-        return false;
+        return dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY;
     }
 
     public boolean isWeekDay() {
         Calendar c = Calendar.getInstance();
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-        if (dayOfWeek == Calendar.MONDAY || dayOfWeek == Calendar.TUESDAY ||
+        return dayOfWeek == Calendar.MONDAY || dayOfWeek == Calendar.TUESDAY ||
                 dayOfWeek == Calendar.WEDNESDAY || dayOfWeek == Calendar.THURSDAY
-                || dayOfWeek == Calendar.FRIDAY) {
-            return true;
-        }
-
-        return false;
+                || dayOfWeek == Calendar.FRIDAY;
     }
 
     public void checkWeekDayAfterHours() {
