@@ -73,7 +73,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
             queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         }
 
-        return new PageWrapper<Incident>(queryResult.result, queryResult.total);
+        return new PageWrapper<>(queryResult.result, queryResult.total);
     }
 
     @Override

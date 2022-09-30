@@ -61,7 +61,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
         queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
 
-        return new PageWrapper<Product>(queryResult.result, queryResult.total);
+        return new PageWrapper<>(queryResult.result, queryResult.total);
     }
 
     @Override

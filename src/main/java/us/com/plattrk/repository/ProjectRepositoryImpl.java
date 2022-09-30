@@ -62,7 +62,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         }
         queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
 
-        return new PageWrapper<Project>(queryResult.result, queryResult.total);
+        return new PageWrapper<>(queryResult.result, queryResult.total);
     }
 
     @Override
