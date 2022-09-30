@@ -61,16 +61,14 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
     public Set<IncidentChronology> getChronologies() {
         @SuppressWarnings("unchecked")
         List<IncidentChronology> myResult = em.createNamedQuery(IncidentChronology.FIND_ALL_INCIDENT_CHRONOLOGY).getResultList();
-        Set<IncidentChronology> chronologies = new HashSet<IncidentChronology>(myResult);
-        return chronologies;
+        return new HashSet<IncidentChronology>(myResult);
     }
 
     @Override
     public Set<IncidentChronology> getChronologiesPerIncident(Long id) {
         @SuppressWarnings("unchecked")
         List<IncidentChronology> myResult = em.createNamedQuery(IncidentChronology.FIND_ALL_CHRONOLOGY_PER_INCIDENT).setParameter("id", id).getResultList();
-        Set<IncidentChronology> chronologies = new HashSet<IncidentChronology>(myResult);
-        return chronologies;
+        return new HashSet<IncidentChronology>(myResult);
     }
 
     @Override

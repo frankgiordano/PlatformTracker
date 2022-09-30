@@ -35,8 +35,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
     @Override
     @SuppressWarnings("unchecked")
     public List<IncidentResolution> getResolutions() {
-        List<IncidentResolution> myResult = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS).getResultList();
-        return myResult;
+        return (List<IncidentResolution>) em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS).getResultList();
     }
 
     @Override

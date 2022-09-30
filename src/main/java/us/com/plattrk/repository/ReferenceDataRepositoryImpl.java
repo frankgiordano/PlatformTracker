@@ -21,8 +21,7 @@ public class ReferenceDataRepositoryImpl implements ReferenceDataRepository {
     }
 
     public ReferenceData getReferenceData(Long id) {
-        ReferenceData reference = em.find(ReferenceData.class, id);
-        return reference;
+        return em.find(ReferenceData.class, id);
     }
 
 }

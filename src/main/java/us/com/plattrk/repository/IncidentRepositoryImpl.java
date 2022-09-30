@@ -31,8 +31,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     @SuppressWarnings("unchecked")
     public Set<Incident> getIncidents() {
         List<Incident> myResult = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS).getResultList();
-        Set<Incident> incidents = new HashSet<Incident>(myResult);
-        return incidents;
+        return new HashSet<Incident>(myResult);
     }
 
     @Override

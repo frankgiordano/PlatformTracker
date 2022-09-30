@@ -36,8 +36,7 @@ public class RCARepositoryImpl implements RCARepository {
     @Override
     @SuppressWarnings("unchecked")
     public List<RCAVO> getRCAs() {
-        List<RCAVO> myResult = em.createNamedQuery(RCA.FIND_ALL_RCAS).getResultList();
-        return myResult;
+        return (List<RCAVO>) em.createNamedQuery(RCA.FIND_ALL_RCAS).getResultList();
     }
 
     @Override
