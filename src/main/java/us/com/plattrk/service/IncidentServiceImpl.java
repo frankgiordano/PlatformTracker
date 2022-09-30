@@ -242,10 +242,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
     @Override
     public boolean isToggleAutoWeeklyReport() {
         File toggleFile = new File(fileName());
-        if (toggleFile.exists()) {
-            return true;
-        }
-        return false;
+        return toggleFile.exists();
     }
 
     @Override
