@@ -86,7 +86,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 em.merge(product);
             }
         } catch (PersistenceException e) {
-            LOG.error("ProductRepositoryImpl::saveProduct - failure saving product {}, msg {}", product.toString(), e.getMessage());
+            LOG.error("ProductRepositoryImpl::saveProduct - failure saving product {}, msg {}", product, e.getMessage());
             throw (e);
         }
 

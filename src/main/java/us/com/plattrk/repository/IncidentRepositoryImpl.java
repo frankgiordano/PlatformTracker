@@ -165,7 +165,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
                 }
             }
         } catch (PersistenceException e) {
-            LOG.error("IncidentRepositoryImpl::saveIncident - failure saving product {}, msg {}", incident.toString(), e.getMessage());
+            LOG.error("IncidentRepositoryImpl::saveIncident - failure saving product {}, msg {}", incident, e.getMessage());
             throw (e);
         }
 
