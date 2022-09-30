@@ -1,21 +1,16 @@
 package us.com.plattrk.api.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import us.com.plattrk.api.model.Incident;
+import us.com.plattrk.api.model.IncidentGroup;
+import us.com.plattrk.api.model.PageWrapper;
+import us.com.plattrk.service.IncidentGroupService;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import us.com.plattrk.api.model.Incident;
-import us.com.plattrk.api.model.IncidentGroup;
-import us.com.plattrk.service.IncidentGroupService;
-import us.com.plattrk.api.model.PageWrapper;
 
 @RestController
 @RequestMapping(value = "/group")

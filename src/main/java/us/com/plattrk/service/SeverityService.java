@@ -1,8 +1,8 @@
 package us.com.plattrk.service;
 
-import java.util.List;
-
 import us.com.plattrk.api.model.Severity;
+
+import java.util.List;
 
 public interface SeverityService {
 

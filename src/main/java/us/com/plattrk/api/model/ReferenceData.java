@@ -1,8 +1,7 @@
 package us.com.plattrk.api.model;
 
-import java.io.Serializable;
-
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Reference_Data")

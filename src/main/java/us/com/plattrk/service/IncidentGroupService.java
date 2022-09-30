@@ -1,12 +1,12 @@
 package us.com.plattrk.service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentGroup;
 import us.com.plattrk.api.model.PageWrapper;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface IncidentGroupService {
 

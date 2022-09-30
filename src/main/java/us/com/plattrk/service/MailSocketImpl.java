@@ -1,21 +1,16 @@
 package us.com.plattrk.service;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.util.MailUtil;
+
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.Socket;
+import java.util.*;
 
 public class MailSocketImpl implements Mail {
 
@@ -46,8 +41,6 @@ public class MailSocketImpl implements Mail {
         } catch (IOException e) {
             LOG.error("MailSocketImpl::send - email during incident create failed to send {}", e.getMessage());
         }
-
-        return;
     }
 
     @Override
@@ -93,7 +86,6 @@ public class MailSocketImpl implements Mail {
                 break;
             default:
                 output = null;
-                return;
         }
     }
 

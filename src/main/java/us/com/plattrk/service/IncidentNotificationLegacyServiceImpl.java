@@ -1,11 +1,8 @@
 package us.com.plattrk.service;
 
-import java.util.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentChronology;
 import us.com.plattrk.repository.IncidentChronologyRepository;
@@ -13,6 +10,7 @@ import us.com.plattrk.repository.IncidentRepository;
 import us.com.plattrk.service.Mail.Type;
 
 import javax.mail.SendFailedException;
+import java.util.*;
 
 public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame implements Runnable, IncidentNotificationLegacyService {
 
@@ -52,9 +50,9 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
         super(true);
         this.incident = incident;
         this.appProperties = appProperties;
-        this.earlyAlert = Long.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
-        this.alert = Long.valueOf(appProperties.getProperty("AlertInSecondsOffset", "300"));
-        this.escalatedAlert = Long.valueOf(appProperties.getProperty("EscalatedAlertInSeconds", "6600"));
+        this.earlyAlert = Long.parseLong(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
+        this.alert = Long.parseLong(appProperties.getProperty("AlertInSecondsOffset", "300"));
+        this.escalatedAlert = Long.parseLong(appProperties.getProperty("EscalatedAlertInSeconds", "6600"));
         this.mailService = new MailServiceImpl(new MailJavaImpl(new MailJavaFormatImpl()));
     }
 
@@ -72,7 +70,7 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
         alertDuration = earlyAlert + alert;
         startTime = new Date();
 
-        // keep executing this thread until incident is closed..		
+        // keep executing this thread until incident is closed...
         while (incidentRepository.isIncidentOpen(incident.getId())) {
 
             if (isOnHours() && isWeekDay()) {
@@ -104,7 +102,7 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
                         // somehow restarted due to a problem or normally for maintenance while an
                         // incident is still open; as such multiple update notifications in quick
                         // succession can be spawned and cause a major spam issue. 
-                        // As a result, check that the startTime is greater then the latest
+                        // As a result, check that the startTime is greater than the latest
                         // chronology date, if so handle this situation differently 
 
                         if (!doOnceAfterRestart && startTime.getTime() >= mySortedChrons.get(mySortedChrons.size() - 1).getDateTime().getTime()) {
@@ -200,15 +198,15 @@ public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame
         this.incident = incident;
     }
 
-    // this is called when we are starting the thread via spring container, the default constructor is used
-    // and we need to set the properties here or we could have set the properties in application context xml
+    // this is called when we are starting the thread via spring container, the default constructor is used,
+    // and we need to set the properties here, or we could have set the properties in application context xml
     // bean definition for NotificationThread.
     @Override
     public void setAppProperties(Properties appProperties) {
         this.appProperties = appProperties;
-        this.earlyAlert = Long.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
-        this.alert = Long.valueOf(appProperties.getProperty("AlertInSecondsOffset", "300"));
-        this.escalatedAlert = Long.valueOf(appProperties.getProperty("EscalatedAlertInSeconds", "6600"));
+        this.earlyAlert = Long.parseLong(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
+        this.alert = Long.parseLong(appProperties.getProperty("AlertInSecondsOffset", "300"));
+        this.escalatedAlert = Long.parseLong(appProperties.getProperty("EscalatedAlertInSeconds", "6600"));
     }
 
     @Override

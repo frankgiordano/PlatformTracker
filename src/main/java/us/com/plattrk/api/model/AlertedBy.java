@@ -1,13 +1,8 @@
 package us.com.plattrk.api.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import us.com.plattrk.util.CopyUtil;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Alerted_By")
@@ -47,7 +42,7 @@ public class AlertedBy {
     @Override
     public AlertedBy clone() {
         AlertedBy instance = new AlertedBy(name);
-        CopyUtil.copyPropertyies(instance, this);
+        CopyUtil.copyProperties(instance, this);
         return instance;
     }
 

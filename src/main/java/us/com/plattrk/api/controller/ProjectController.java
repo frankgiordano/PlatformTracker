@@ -1,22 +1,17 @@
 package us.com.plattrk.api.controller;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import us.com.plattrk.api.model.PageWrapper;
 import us.com.plattrk.api.model.Project;
 import us.com.plattrk.service.ProjectService;
-import us.com.plattrk.api.model.PageWrapper;
 
 import javax.persistence.OptimisticLockException;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/project")

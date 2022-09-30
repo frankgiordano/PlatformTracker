@@ -1,24 +1,22 @@
 package us.com.plattrk.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import us.com.plattrk.api.model.IncidentResolution;
+import us.com.plattrk.api.model.PageWrapper;
+import us.com.plattrk.api.model.QueryResult;
+import us.com.plattrk.util.RepositoryUtil;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import us.com.plattrk.api.model.IncidentResolution;
-import us.com.plattrk.api.model.PageWrapper;
-import us.com.plattrk.api.model.QueryResult;
-import us.com.plattrk.util.RepositoryUtil;
 
 @Repository
 public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepository {
@@ -35,8 +33,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
     @Override
     @SuppressWarnings("unchecked")
     public List<IncidentResolution> getResolutions() {
-        List<IncidentResolution> myResult = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS).getResultList();
-        return myResult;
+        return (List<IncidentResolution>) em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS).getResultList();
     }
 
     @Override
@@ -77,7 +74,7 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
             queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         }
 
-        return new PageWrapper<IncidentResolution>(queryResult.result, queryResult.total);
+        return new PageWrapper<>(queryResult.result, queryResult.total);
     }
 
     @Override
@@ -105,18 +102,14 @@ public class IncidentResolutionRepositoryImpl implements IncidentResolutionRepos
 
     @Override
     public List<IncidentResolution> saveResolutions(List<IncidentResolution> resolutions) {
-        resolutions.forEach(lambdaWrapper(resolution -> {
-            em.merge(resolution);
-        }, resolutions));
-
+        resolutions.forEach(lambdaWrapper(resolution -> em.merge(resolution), resolutions));
         return resolutions;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<IncidentResolution> getGroupResolutions(Long id) {
-        List<IncidentResolution> myResult = em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_PER_GROUP).setParameter("pid", id).getResultList();
-        return myResult;
+        return (List<IncidentResolution>) em.createNamedQuery(IncidentResolution.FIND_ALL_RESOLUTIONS_PER_GROUP).setParameter("pid", id).getResultList();
     }
 
     @Override

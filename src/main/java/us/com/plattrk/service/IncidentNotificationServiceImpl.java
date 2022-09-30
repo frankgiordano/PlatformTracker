@@ -11,7 +11,7 @@ import us.com.plattrk.service.Mail.Type;
 
 import javax.mail.SendFailedException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Properties;
 
 public class IncidentNotificationServiceImpl extends NotificationTimeFrame implements IncidentNotificationService {
 
@@ -63,7 +63,7 @@ public class IncidentNotificationServiceImpl extends NotificationTimeFrame imple
             throw new IllegalStateException("No Incident set.");
 
         boolean sentAlert = false;
-        int earlyAlertInSecs = Integer.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
+        int earlyAlertInSecs = Integer.parseInt(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
 
         Notification notification = getNotification();
         if (notification != null) {
@@ -99,8 +99,8 @@ public class IncidentNotificationServiceImpl extends NotificationTimeFrame imple
             throw new IllegalStateException("No Incident set.");
 
         boolean sentAlert = false;
-        int earlyAlertInSecs = Integer.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
-        int alertOffSetInSecs = Integer.valueOf(appProperties.getProperty("AlertInSecondsOffset", "300"));
+        int earlyAlertInSecs = Integer.parseInt(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
+        int alertOffSetInSecs = Integer.parseInt(appProperties.getProperty("AlertInSecondsOffset", "300"));
 
         if (alertOffSetInSecs > earlyAlertInSecs)
             throw new IllegalStateException("alertInSecondsOffset should be less than earlyAlertInSeconds");
@@ -147,8 +147,8 @@ public class IncidentNotificationServiceImpl extends NotificationTimeFrame imple
             throw new IllegalStateException("No Incident set.");
 
         boolean sentAlert = false;
-        int escalatedAlertInSecs = Integer.valueOf(appProperties.getProperty("EscalatedAlertInSeconds", "6600"));
-        int earlyAlertInSecs = Integer.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
+        int escalatedAlertInSecs = Integer.parseInt(appProperties.getProperty("EscalatedAlertInSeconds", "6600"));
+        int earlyAlertInSecs = Integer.parseInt(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
 
         if (escalatedAlertInSecs < earlyAlertInSecs)
             throw new IllegalStateException("escalatedAlertInSeconds should be more than earlyAlertInSeconds");

@@ -1,24 +1,23 @@
 package us.com.plattrk.service;
 
-import java.io.FileOutputStream;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import us.com.plattrk.api.model.EmailAddress;
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentReportByProduct;
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.repository.ProductRepository;
+
+import java.io.FileOutputStream;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service("Report")
 public class ReportImpl implements Report {
@@ -36,12 +35,12 @@ public class ReportImpl implements Report {
     @Autowired
     private Properties appProperties;
 
-    private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-    private DecimalFormat decimalFormatPercent = new DecimalFormat("#0.0000");
-    private List<Double> totalDowntimeALL = new ArrayList<>();
-    private List<Long> totalDowntimeCLOUDALL = new ArrayList<>();
-    private List<Long> totalDowntimeTRIVINALL = new ArrayList<>();
-    private List<Long> totalDowntimeEXTALL = new ArrayList<>();
+    private final DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+    private final DecimalFormat decimalFormatPercent = new DecimalFormat("#0.0000");
+    private final List<Double> totalDowntimeALL = new ArrayList<>();
+    private final List<Long> totalDowntimeCLOUDALL = new ArrayList<>();
+    private final List<Long> totalDowntimeTRIVINALL = new ArrayList<>();
+    private final List<Long> totalDowntimeEXTALL = new ArrayList<>();
 
     public ReportImpl() {
     }
@@ -126,8 +125,8 @@ public class ReportImpl implements Report {
         String subject = appProperties.getProperty("SUBJECTMSG", "") + "Service Level Monitoring was executed at "
                 + dateFormat.format(new Date());
         String body = "Weekly Production Report";
-        String CLOUD = "";
-        String EXT = "";
+        String CLOUD;
+        String EXT;
 
         if (System.getProperty("os.name").startsWith("Windows")) {
             file = "c:\\WeeklyReport.xlsx";
@@ -221,8 +220,8 @@ public class ReportImpl implements Report {
 
             int sectionCount = 3;
             boolean matchFound = false;
-            String compareCurrent = null;
-            String compareIncoming = null;
+            String compareCurrent;
+            String compareIncoming;
 
             for (Product product : products) {
 
@@ -431,8 +430,8 @@ public class ReportImpl implements Report {
         String fileName = "IncidentReportByProducts.xlsx";
         StringBuilder subject = new StringBuilder();
         String body = "Incident Report By Product(s) and Date Range, Production Report";
-        String CLOUD = "";
-        String EXT = "";
+        String CLOUD;
+        String EXT;
 
         if (System.getProperty("os.name").startsWith("Windows")) {
             file = "c:\\IncidentReportByProducts.xlsx";
@@ -526,8 +525,8 @@ public class ReportImpl implements Report {
 
             int sectionCount = 3;
             boolean matchFound = false;
-            String compareCurrent = null;
-            String compareIncoming = null;
+            String compareCurrent;
+            String compareIncoming;
             HashMap<String, Boolean> cacheIncomingProducts = new HashMap<>();
             List<Product> summaryProducts = new ArrayList<>();
 

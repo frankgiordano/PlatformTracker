@@ -1,24 +1,22 @@
 package us.com.plattrk.repository;
 
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import us.com.plattrk.api.model.Incident;
+import us.com.plattrk.api.model.IncidentGroup;
+import us.com.plattrk.api.model.PageWrapper;
+import us.com.plattrk.util.RepositoryUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import us.com.plattrk.api.model.Incident;
-import us.com.plattrk.api.model.IncidentGroup;
-import us.com.plattrk.api.model.PageWrapper;
-import us.com.plattrk.util.RepositoryUtil;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Repository
 public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
@@ -35,8 +33,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
     public Set<IncidentGroup> getGroups() {
         @SuppressWarnings("unchecked")
         List<IncidentGroup> myResult = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS).getResultList();
-        Set<IncidentGroup> groups = new HashSet<IncidentGroup>(myResult);
-        return groups;
+        return new HashSet<>(myResult);
     }
 
     @Override
@@ -97,7 +94,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
             total = (long) query.getSingleResult();
         }
 
-        return new PageWrapper<IncidentGroup>(result, total);
+        return new PageWrapper<>(result, total);
     }
 
     @Override
@@ -126,7 +123,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
                 em.merge(group);
             }
         } catch (PersistenceException e) {
-            LOG.error("IncidentGroupRepositoryImpl::saveGroup - failure saving group {}, msg {}", group.toString(), e.getMessage());
+            LOG.error("IncidentGroupRepositoryImpl::saveGroup - failure saving group {}, msg {}", group, e.getMessage());
             throw (e);
         }
 
@@ -136,8 +133,8 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
     @Override
     @SuppressWarnings("unchecked")
     public List<IncidentGroup> deleteAllOrphanGroups() {
-        Predicate<IncidentGroup> isEmptyResolutions = group -> isEmptyGroupResolutions(group);
-        Predicate<IncidentGroup> isEmptyRootCauses = group -> isEmptyGroupRootCause(group);
+        Predicate<IncidentGroup> isEmptyResolutions = this::isEmptyGroupResolutions;
+        Predicate<IncidentGroup> isEmptyRootCauses = this::isEmptyGroupRootCause;
         Predicate<IncidentGroup> isEmptyIncidents = group -> group.getIncidents().isEmpty();
 
         List<IncidentGroup> myResult = em.createNamedQuery(IncidentGroup.FIND_ALL_INCIDENT_GROUPS_RELATIONS).getResultList();

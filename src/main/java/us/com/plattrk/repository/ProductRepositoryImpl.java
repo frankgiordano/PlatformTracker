@@ -1,22 +1,23 @@
 package us.com.plattrk.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import us.com.plattrk.api.model.PageWrapper;
+import us.com.plattrk.api.model.Product;
+import us.com.plattrk.api.model.QueryResult;
+import us.com.plattrk.util.RepositoryUtil;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
-
-import javax.persistence.*;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import us.com.plattrk.api.model.Product;
-import us.com.plattrk.api.model.PageWrapper;
-import us.com.plattrk.api.model.QueryResult;
-import us.com.plattrk.util.RepositoryUtil;
 
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
@@ -33,8 +34,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     @SuppressWarnings("unchecked")
     public List<Product> getProducts() {
-        List<Product> myResult = em.createNamedQuery(Product.FIND_ALL_PRODUCTS).getResultList();
-        return myResult;
+        return (List<Product>) em.createNamedQuery(Product.FIND_ALL_PRODUCTS).getResultList();
     }
 
     @Override
@@ -50,18 +50,19 @@ public class ProductRepositoryImpl implements ProductRepository {
         QueryResult<Product> queryResult;
         Map<String, String> columnInfo = new HashMap<>();
 
+        String queryName;
+        String queryCountName;
         if (isNameEmpty) {
-            String queryName = Product.FIND_ALL_PRODUCTS;
-            String queryCountName = Product.FIND_ALL_PRODUCTS_COUNT;
-            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
+            queryName = Product.FIND_ALL_PRODUCTS;
+            queryCountName = Product.FIND_ALL_PRODUCTS_COUNT;
         } else {
-            String queryName = Product.FIND_ALL_PRODUCTS_BY_CRITERIA;
-            String queryCountName = Product.FIND_ALL_PRODUCTS_COUNT_BY_CRITERIA;
+            queryName = Product.FIND_ALL_PRODUCTS_BY_CRITERIA;
+            queryCountName = Product.FIND_ALL_PRODUCTS_COUNT_BY_CRITERIA;
             columnInfo.put("name", name);
-            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         }
+        queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
 
-        return new PageWrapper<Product>(queryResult.result, queryResult.total);
+        return new PageWrapper<>(queryResult.result, queryResult.total);
     }
 
     @Override
@@ -85,7 +86,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 em.merge(product);
             }
         } catch (PersistenceException e) {
-            LOG.error("ProductRepositoryImpl::saveProduct - failure saving product {}, msg {}", product.toString(), e.getMessage());
+            LOG.error("ProductRepositoryImpl::saveProduct - failure saving product {}, msg {}", product, e.getMessage());
             throw (e);
         }
 
@@ -104,8 +105,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public List<Product> getActiveProducts() {
         TypedQuery<Product> query = em.createNamedQuery(Product.FIND_ALL_ACTIVE_PRODUCTS, Product.class);
-        List<Product> myResult = query.getResultList();
-        return myResult;
+        return query.getResultList();
     }
 
     private static Consumer<Product> lambdaWrapper(Consumer<Product> consumer) {

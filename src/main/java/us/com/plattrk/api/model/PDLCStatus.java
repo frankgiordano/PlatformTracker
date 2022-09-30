@@ -1,13 +1,8 @@
 package us.com.plattrk.api.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import us.com.plattrk.util.CopyUtil;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "PDLC_Status")
@@ -53,7 +48,7 @@ public class PDLCStatus {
     @Override
     public PDLCStatus clone() {
         PDLCStatus instance= new PDLCStatus(name);
-        CopyUtil.copyPropertyies(instance, this);
+        CopyUtil.copyProperties(instance, this);
         return instance;		
     }
 

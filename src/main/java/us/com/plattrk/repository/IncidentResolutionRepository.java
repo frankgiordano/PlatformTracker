@@ -1,11 +1,11 @@
 package us.com.plattrk.repository;
 
+import us.com.plattrk.api.model.IncidentResolution;
+import us.com.plattrk.api.model.PageWrapper;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import us.com.plattrk.api.model.IncidentResolution;
-import us.com.plattrk.api.model.PageWrapper;
 
 public interface IncidentResolutionRepository {
 

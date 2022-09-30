@@ -1,15 +1,14 @@
 package us.com.plattrk.service;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentChronology;
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.repository.IncidentChronologyRepository;
 import us.com.plattrk.service.Mail.Type;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class MailJavaFormatImpl implements MailFormat {
 
@@ -23,7 +22,7 @@ public class MailJavaFormatImpl implements MailFormat {
 
     private StringBuilder productsString = new StringBuilder();
 
-    private LinkedList<IncidentChronology> chronologiesSortedByStartTime = new LinkedList<>();
+    private final LinkedList<IncidentChronology> chronologiesSortedByStartTime = new LinkedList<>();
 
     private String testmsg = ""; // used to put special message indicator i.e. TEST MSG
 
@@ -34,12 +33,11 @@ public class MailJavaFormatImpl implements MailFormat {
     public void initialize(Incident incident) {
 
         StringBuilder productsStringTemp = new StringBuilder();
-        List<Product> products = new ArrayList<>();
 
         testmsg = appProperties.getProperty("SUBJECTMSG", "");
 
         this.setIncident(incident);
-        products.addAll(incident.getProducts());
+        List<Product> products = new ArrayList<>(incident.getProducts());
         products.sort(Comparator.comparing(Product::getIncidentName, String::compareToIgnoreCase));
 
         for (int i = 0; i < products.size(); i++) {
@@ -60,7 +58,7 @@ public class MailJavaFormatImpl implements MailFormat {
     @Override
     public String generateBodyFormat(boolean isReport) {
 
-        String body = "";
+        String body;
         boolean multipleProducts = false;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 

@@ -1,21 +1,19 @@
 package us.com.plattrk.api.model;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.*;
-
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import us.com.plattrk.util.JsonDateTimeDeserializer;
 import us.com.plattrk.util.JsonDateTimeSerializer;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Incident")
@@ -440,8 +438,8 @@ public class Incident {
     @ManyToOne(cascade = CascadeType.PERSIST)
     //(cascade = CascadeType.ALL)  this cause a delete to go and delete its parent group also - hence, removed.
     @JoinColumn(name = "group_id")
-    // used Persist so that parent group can be update during persist this is the case where in incident
-    public IncidentGroup getIncidentGroup() { // create screen specifying a non existing Group will create the group and take the incident description
+    // used Persist so that parent group can be updated during persist this is the case where in incident
+    public IncidentGroup getIncidentGroup() { // create screen specifying a non-existing Group will create the group and take the incident description
         return incidentGroup;                  // for group description which is required to be filled.
     }
 

@@ -1,23 +1,21 @@
 package us.com.plattrk.repository;
 
-import java.util.*;
-import java.util.function.Consumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import us.com.plattrk.api.model.IncidentResolution;
+import us.com.plattrk.api.model.PageWrapper;
+import us.com.plattrk.api.model.Project;
+import us.com.plattrk.api.model.QueryResult;
+import us.com.plattrk.util.RepositoryUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import us.com.plattrk.api.model.IncidentResolution;
-import us.com.plattrk.api.model.Project;
-import us.com.plattrk.api.model.PageWrapper;
-import us.com.plattrk.api.model.QueryResult;
-import us.com.plattrk.util.RepositoryUtil;
+import java.util.*;
+import java.util.function.Consumer;
 
 @Repository
 public class ProjectRepositoryImpl implements ProjectRepository {
@@ -34,8 +32,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     @Override
     @SuppressWarnings("unchecked")
     public List<Project> getProjects() {
-        List<Project> myResult = em.createNamedQuery(Project.FIND_ALL_PROJECTS).getResultList();
-        return myResult;
+        return (List<Project>) em.createNamedQuery(Project.FIND_ALL_PROJECTS).getResultList();
     }
 
     @Override
@@ -51,18 +48,19 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         QueryResult<Project> queryResult;
         Map<String, String> columnInfo = new HashMap<>();
 
+        String queryName;
+        String queryCountName;
         if (isNameEmpty) {
-            String queryName = Project.FIND_ALL_PROJECTS;
-            String queryCountName = Project.FIND_ALL_PROJECTS_COUNT;
-            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
+            queryName = Project.FIND_ALL_PROJECTS;
+            queryCountName = Project.FIND_ALL_PROJECTS_COUNT;
         } else {
-            String queryName = Project.FIND_ALL_PROJECTS_BY_CRITERIA;
-            String queryCountName = Project.FIND_ALL_PROJECTS_COUNT_BY_CRITERIA;
+            queryName = Project.FIND_ALL_PROJECTS_BY_CRITERIA;
+            queryCountName = Project.FIND_ALL_PROJECTS_COUNT_BY_CRITERIA;
             columnInfo.put("name", name);
-            queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         }
+        queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
 
-        return new PageWrapper<Project>(queryResult.result, queryResult.total);
+        return new PageWrapper<>(queryResult.result, queryResult.total);
     }
 
     @Override
@@ -89,7 +87,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 em.merge(project);
             }
         } catch (PersistenceException e) {
-            LOG.error("ProjectRepositoryImpl::saveProject - failure saving product {}, msg {}", project.toString(), e.getMessage());
+            LOG.error("ProjectRepositoryImpl::saveProject - failure saving product {}, msg {}", project, e.getMessage());
             throw (e);
         }
 

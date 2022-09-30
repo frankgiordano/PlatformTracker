@@ -1,28 +1,21 @@
 package us.com.plattrk.service;
 
-import java.util.*;
-
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.SendFailedException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.util.MailUtil;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.util.*;
 
 public class MailJavaImpl implements Mail {
 
@@ -90,7 +83,7 @@ public class MailJavaImpl implements Mail {
             }
 
             Transport.send(message);
-            LOG.info("MailJavaImpl::send - email sent {}", message.toString());
+            LOG.info("MailJavaImpl::send - email sent {}", message);
 
         } catch (MessagingException e) {
             LOG.error("MailJavaImpl::send - sending email failure {}", e.getMessage());
@@ -169,7 +162,6 @@ public class MailJavaImpl implements Mail {
                 allEmailAddresses.remove(i);
             }
         }
-        return;
     }
 
     @Override
@@ -177,7 +169,7 @@ public class MailJavaImpl implements Mail {
         List<String> productEmailDistroArray = new ArrayList<>();
         products.forEach(i -> {
             Optional<String> prop = Optional.ofNullable(appProperties.getProperty(i.getShortName()));
-            prop.ifPresent((item -> productEmailDistroArray.add(item)));
+            prop.ifPresent((productEmailDistroArray::add));
         });
         return productEmailDistroArray;
     }

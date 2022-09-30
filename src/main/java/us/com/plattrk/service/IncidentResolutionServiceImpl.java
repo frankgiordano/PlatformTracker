@@ -1,24 +1,23 @@
 package us.com.plattrk.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import us.com.plattrk.api.model.IncidentResolution;
+import us.com.plattrk.api.model.IncidentResolutionVO;
+import us.com.plattrk.api.model.PageWrapper;
+import us.com.plattrk.api.model.Project;
+import us.com.plattrk.repository.IncidentResolutionRepository;
+import us.com.plattrk.repository.ProjectRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import us.com.plattrk.api.model.IncidentResolution;
-import us.com.plattrk.api.model.IncidentResolutionVO;
-import us.com.plattrk.api.model.Project;
-import us.com.plattrk.repository.IncidentResolutionRepository;
-import us.com.plattrk.repository.ProjectRepository;
-import us.com.plattrk.api.model.PageWrapper;
 
 @Service(value = "IncidentResolutionService")
 public class IncidentResolutionServiceImpl implements IncidentResolutionService {
@@ -88,9 +87,7 @@ public class IncidentResolutionServiceImpl implements IncidentResolutionService 
 
     private void updateIncomingResolutions(List<IncidentResolutionVO> resolutions, List<IncidentResolution> result) {
         List<Long> ids = new ArrayList<>();
-        result.forEach(item -> {
-            ids.add(item.getId());
-        });
+        result.forEach(item -> ids.add(item.getId()));
         resolutions.forEach(item -> {
             if (!ids.contains(item.getId()))
                 resolutions.remove(item);

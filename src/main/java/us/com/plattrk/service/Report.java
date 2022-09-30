@@ -1,11 +1,11 @@
 package us.com.plattrk.service;
 
-import java.util.Date;
-import java.util.List;
-
 import us.com.plattrk.api.model.EmailAddress;
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentReportByProduct;
+
+import java.util.Date;
+import java.util.List;
 
 public interface Report {
 

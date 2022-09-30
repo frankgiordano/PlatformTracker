@@ -1,19 +1,15 @@
 package us.com.plattrk.repository;
 
-import java.util.*;
-import java.util.function.Consumer;
-
-import javax.persistence.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import us.com.plattrk.api.model.*;
-import us.com.plattrk.api.model.PageWrapper;
-import us.com.plattrk.api.model.QueryResult;
 import us.com.plattrk.util.RepositoryUtil;
+
+import javax.persistence.*;
+import java.util.*;
+import java.util.function.Consumer;
 
 @Repository
 public class IncidentRepositoryImpl implements IncidentRepository {
@@ -31,8 +27,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     @SuppressWarnings("unchecked")
     public Set<Incident> getIncidents() {
         List<Incident> myResult = em.createNamedQuery(Incident.FIND_ALL_INCIDENTS).getResultList();
-        Set<Incident> incidents = new HashSet<Incident>(myResult);
-        return incidents;
+        return new HashSet<>(myResult);
     }
 
     @Override
@@ -73,7 +68,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
             queryResult = repositoryUtil.getQueryResult(isOwnerEmpty, owner, columnInfo, pageIndex, queryName, queryCountName, TYPE);
         }
 
-        return new PageWrapper<Incident>(queryResult.result, queryResult.total);
+        return new PageWrapper<>(queryResult.result, queryResult.total);
     }
 
     @Override
@@ -165,7 +160,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
                 }
             }
         } catch (PersistenceException e) {
-            LOG.error("IncidentRepositoryImpl::saveIncident - failure saving product {}, msg {}", incident.toString(), e.getMessage());
+            LOG.error("IncidentRepositoryImpl::saveIncident - failure saving product {}, msg {}", incident, e.getMessage());
             throw (e);
         }
 
@@ -175,10 +170,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     @Override
     public boolean isIncidentOpen(Long id) {
         Incident incident = em.find(Incident.class, id);
-        if ("Open".equals(incident.getStatus())) {
-            return true;
-        }
-        return false;
+        return "Open".equals(incident.getStatus());
     }
 
     @Override
@@ -218,8 +210,7 @@ public class IncidentRepositoryImpl implements IncidentRepository {
     public Set<IncidentGroup> getGroups() {
         @SuppressWarnings("unchecked")
         List<IncidentGroup> myResult = em.createNamedQuery(Incident.FIND_ALL_GROUPS).getResultList();
-        Set<IncidentGroup> groups = new HashSet<IncidentGroup>(myResult);
-        return groups;
+        return new HashSet<>(myResult);
     }
 
     @Override

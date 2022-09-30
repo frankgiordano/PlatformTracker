@@ -1,9 +1,9 @@
 package us.com.plattrk.repository;
 
-import java.util.Set;
-
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentChronology;
+
+import java.util.Set;
 
 public interface IncidentChronologyRepository {
 

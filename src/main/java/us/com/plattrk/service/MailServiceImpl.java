@@ -1,16 +1,15 @@
 package us.com.plattrk.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.com.plattrk.api.model.EmailAddress;
 import us.com.plattrk.api.model.Incident;
 
 import javax.mail.SendFailedException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 
 public class MailServiceImpl implements MailService {
 
@@ -45,8 +44,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public void sendDailyReport(Properties appProperties, String body, String subject) {
         try {
-            List<String> allEmailAddresses = new ArrayList<>();
-            allEmailAddresses.addAll(Arrays.asList(appProperties.getProperty("Outages").split(",")));
+            List<String> allEmailAddresses = new ArrayList<>(Arrays.asList(appProperties.getProperty("Outages").split(",")));
             mail.setAllEmailAddresses(allEmailAddresses);
             mail.setSubject(subject);
             mail.setBody(body);

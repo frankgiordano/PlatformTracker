@@ -1,8 +1,8 @@
 package us.com.plattrk.repository;
 
-import java.util.List;
-
 import us.com.plattrk.api.model.ReferenceData;
+
+import java.util.List;
 
 public interface ReferenceDataRepository {
 

@@ -1,13 +1,12 @@
 package us.com.plattrk.service;
 
+import us.com.plattrk.api.model.Incident;
+import us.com.plattrk.api.model.Product;
+
+import javax.mail.SendFailedException;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-
-import javax.mail.SendFailedException;
-
-import us.com.plattrk.api.model.Incident;
-import us.com.plattrk.api.model.Product;
 
 public interface Mail {
     
