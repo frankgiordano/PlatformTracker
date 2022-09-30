@@ -102,7 +102,7 @@ public class RCARepositoryImpl implements RCARepository {
                 em.merge(rca);
             }
         } catch (PersistenceException e) {
-            LOG.error("RCARepositoryImpl::saveRCA - failure saving root cause {}, msg {}", rca.toString(), e.getMessage());
+            LOG.error("RCARepositoryImpl::saveRCA - failure saving root cause {}, msg {}", rca, e.getMessage());
             throw (e);
         }
 

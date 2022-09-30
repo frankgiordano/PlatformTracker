@@ -126,7 +126,7 @@ public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {
                 em.merge(group);
             }
         } catch (PersistenceException e) {
-            LOG.error("IncidentGroupRepositoryImpl::saveGroup - failure saving group {}, msg {}", group.toString(), e.getMessage());
+            LOG.error("IncidentGroupRepositoryImpl::saveGroup - failure saving group {}, msg {}", group, e.getMessage());
             throw (e);
         }
 

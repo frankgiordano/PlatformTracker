@@ -37,7 +37,7 @@ public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepos
             // because the associated incident exist when persist is done.. needs to be a merge instead..
             em.merge(chronology);
         } catch (PersistenceException e) {
-            LOG.error("IncidentChronologyRepositoryImpl::saveIncidentChronology - failure saving chronology {}, msg {}", chronology.toString(), e.getMessage());
+            LOG.error("IncidentChronologyRepositoryImpl::saveIncidentChronology - failure saving chronology {}, msg {}", chronology, e.getMessage());
             throw (e);
         }
 

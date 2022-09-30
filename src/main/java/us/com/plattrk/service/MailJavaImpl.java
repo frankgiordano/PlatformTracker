@@ -90,7 +90,7 @@ public class MailJavaImpl implements Mail {
             }
 
             Transport.send(message);
-            LOG.info("MailJavaImpl::send - email sent {}", message.toString());
+            LOG.info("MailJavaImpl::send - email sent {}", message);
 
         } catch (MessagingException e) {
             LOG.error("MailJavaImpl::send - sending email failure {}", e.getMessage());
