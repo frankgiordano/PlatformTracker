@@ -63,7 +63,7 @@ public class IncidentNotificationServiceImpl extends NotificationTimeFrame imple
             throw new IllegalStateException("No Incident set.");
 
         boolean sentAlert = false;
-        int earlyAlertInSecs = Integer.valueOf(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
+        int earlyAlertInSecs = Integer.parseInt(appProperties.getProperty("EarlyAlertInSeconds", "3300"));
 
         Notification notification = getNotification();
         if (notification != null) {
