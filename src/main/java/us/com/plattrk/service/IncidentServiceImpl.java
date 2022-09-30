@@ -361,7 +361,8 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         private final int week;
         private final int previous;
         private Date previousWeekDate;
-
+        private Date previousDayDate;
+        
         public SetWeekPrevCalendars(int week, int previous) {
             this.week = week;
             this.previous = previous;
@@ -374,8 +375,6 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         public Date getPreviousDayDate() {
             return previousDayDate;
         }
-
-        private Date previousDayDate;
 
         public SetWeekPrevCalendars invoke() {
             Calendar calWeekly = Calendar.getInstance();
