@@ -1,25 +1,23 @@
 package us.com.plattrk.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import us.com.plattrk.api.model.PageWrapper;
+import us.com.plattrk.api.model.QueryResult;
+import us.com.plattrk.api.model.RCA;
+import us.com.plattrk.api.model.RCAVO;
+import us.com.plattrk.util.RepositoryUtil;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import us.com.plattrk.api.model.RCA;
-import us.com.plattrk.api.model.RCAVO;
-import us.com.plattrk.api.model.PageWrapper;
-import us.com.plattrk.api.model.QueryResult;
-import us.com.plattrk.util.RepositoryUtil;
 
 @Repository
 public class RCARepositoryImpl implements RCARepository {

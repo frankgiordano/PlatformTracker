@@ -1,11 +1,8 @@
 package us.com.plattrk.service;
 
-import java.util.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentChronology;
 import us.com.plattrk.repository.IncidentChronologyRepository;
@@ -13,6 +10,7 @@ import us.com.plattrk.repository.IncidentRepository;
 import us.com.plattrk.service.Mail.Type;
 
 import javax.mail.SendFailedException;
+import java.util.*;
 
 public class IncidentNotificationLegacyServiceImpl extends NotificationTimeFrame implements Runnable, IncidentNotificationLegacyService {
 

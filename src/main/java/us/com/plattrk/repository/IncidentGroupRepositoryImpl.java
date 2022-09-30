@@ -1,24 +1,22 @@
 package us.com.plattrk.repository;
 
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import us.com.plattrk.api.model.Incident;
+import us.com.plattrk.api.model.IncidentGroup;
+import us.com.plattrk.api.model.PageWrapper;
+import us.com.plattrk.util.RepositoryUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import us.com.plattrk.api.model.Incident;
-import us.com.plattrk.api.model.IncidentGroup;
-import us.com.plattrk.api.model.PageWrapper;
-import us.com.plattrk.util.RepositoryUtil;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Repository
 public class IncidentGroupRepositoryImpl implements IncidentGroupRepository {

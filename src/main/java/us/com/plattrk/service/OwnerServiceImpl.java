@@ -1,9 +1,5 @@
 package us.com.plattrk.service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -11,8 +7,11 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-
 import us.com.plattrk.api.model.OwnerInfo;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @Service(value = "OwnerService")
 @Scope("singleton")

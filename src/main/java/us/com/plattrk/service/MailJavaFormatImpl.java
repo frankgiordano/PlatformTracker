@@ -1,15 +1,14 @@
 package us.com.plattrk.service;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentChronology;
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.repository.IncidentChronologyRepository;
 import us.com.plattrk.service.Mail.Type;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class MailJavaFormatImpl implements MailFormat {
 

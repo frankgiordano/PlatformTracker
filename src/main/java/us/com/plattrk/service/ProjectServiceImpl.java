@@ -1,18 +1,16 @@
 package us.com.plattrk.service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import us.com.plattrk.api.model.PageWrapper;
 import us.com.plattrk.api.model.Project;
 import us.com.plattrk.repository.ProjectRepository;
-import us.com.plattrk.api.model.PageWrapper;
 
 import javax.persistence.OptimisticLockException;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service(value = "ProjectService")
 public class ProjectServiceImpl implements ProjectService {

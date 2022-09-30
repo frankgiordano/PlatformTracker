@@ -1,12 +1,12 @@
 package us.com.plattrk.service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import us.com.plattrk.api.model.IncidentResolution;
 import us.com.plattrk.api.model.IncidentResolutionVO;
 import us.com.plattrk.api.model.PageWrapper;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public interface IncidentResolutionService {
     

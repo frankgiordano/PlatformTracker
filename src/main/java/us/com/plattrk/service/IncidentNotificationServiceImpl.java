@@ -11,7 +11,7 @@ import us.com.plattrk.service.Mail.Type;
 
 import javax.mail.SendFailedException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Properties;
 
 public class IncidentNotificationServiceImpl extends NotificationTimeFrame implements IncidentNotificationService {
 

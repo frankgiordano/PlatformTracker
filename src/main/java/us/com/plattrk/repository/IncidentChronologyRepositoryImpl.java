@@ -1,23 +1,20 @@
 package us.com.plattrk.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import us.com.plattrk.api.model.Incident;
+import us.com.plattrk.api.model.IncidentChronology;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-
-import org.springframework.transaction.annotation.Transactional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
-
-import us.com.plattrk.api.model.Incident;
-import us.com.plattrk.api.model.IncidentChronology;
 
 @Repository
 public class IncidentChronologyRepositoryImpl implements IncidentChronologyRepository {

@@ -1,12 +1,11 @@
 package us.com.plattrk.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import us.com.plattrk.api.model.Severity;
 import us.com.plattrk.repository.SeverityRepository;
+
+import java.util.List;
 
 @Service(value = "SeverityService")
 public class SeverityServiceImpl implements SeverityService {

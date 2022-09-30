@@ -1,24 +1,23 @@
 package us.com.plattrk.service;
 
-import java.io.FileOutputStream;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import us.com.plattrk.api.model.EmailAddress;
 import us.com.plattrk.api.model.Incident;
 import us.com.plattrk.api.model.IncidentReportByProduct;
 import us.com.plattrk.api.model.Product;
 import us.com.plattrk.repository.ProductRepository;
+
+import java.io.FileOutputStream;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service("Report")
 public class ReportImpl implements Report {

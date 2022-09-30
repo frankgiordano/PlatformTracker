@@ -1,13 +1,12 @@
 package us.com.plattrk.repository;
 
-import java.util.List;
+import org.springframework.stereotype.Repository;
+import us.com.plattrk.api.model.ReferenceData;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-
-import org.springframework.stereotype.Repository;
-import us.com.plattrk.api.model.ReferenceData;
+import java.util.List;
 
 @Repository
 public class ReferenceDataRepositoryImpl implements ReferenceDataRepository {

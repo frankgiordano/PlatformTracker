@@ -1,29 +1,26 @@
 package us.com.plattrk.service;
 
-import org.springframework.scheduling.annotation.Scheduled;
-import us.com.plattrk.api.model.*;
-import us.com.plattrk.repository.IncidentRepository;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import us.com.plattrk.api.model.PageWrapper;
+import us.com.plattrk.api.model.*;
+import us.com.plattrk.repository.IncidentRepository;
 import us.com.plattrk.repository.NotificationRepository;
 
+import javax.mail.SendFailedException;
+import javax.persistence.OptimisticLockException;
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
-
-import javax.mail.SendFailedException;
-import javax.persistence.OptimisticLockException;
-import javax.servlet.ServletContext;
 
 @Service(value = "IncidentService")
 public class IncidentServiceImpl implements IncidentService, ServletContextAware {
@@ -362,7 +359,7 @@ public class IncidentServiceImpl implements IncidentService, ServletContextAware
         private final int previous;
         private Date previousWeekDate;
         private Date previousDayDate;
-        
+
         public SetWeekPrevCalendars(int week, int previous) {
             this.week = week;
             this.previous = previous;

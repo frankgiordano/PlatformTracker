@@ -1,12 +1,12 @@
 package us.com.plattrk.repository;
 
+import us.com.plattrk.api.model.PageWrapper;
+import us.com.plattrk.api.model.RCA;
+import us.com.plattrk.api.model.RCAVO;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import us.com.plattrk.api.model.RCA;
-import us.com.plattrk.api.model.RCAVO;
-import us.com.plattrk.api.model.PageWrapper;
 
 public interface RCARepository {
     

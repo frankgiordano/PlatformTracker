@@ -1,8 +1,8 @@
 package us.com.plattrk.service;
 
-import java.util.Set;
-
 import us.com.plattrk.api.model.IncidentChronology;
+
+import java.util.Set;
 
 public interface IncidentChronologyService {
 

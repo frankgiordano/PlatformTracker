@@ -1,8 +1,8 @@
 package us.com.plattrk.service;
 
-import java.util.List;
-
 import us.com.plattrk.api.model.ReferenceData;
+
+import java.util.List;
 
 public interface ReferenceDataService {
 

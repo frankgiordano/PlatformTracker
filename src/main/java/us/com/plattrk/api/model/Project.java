@@ -1,14 +1,13 @@
 package us.com.plattrk.api.model;
 
-import java.util.Date;
-import java.util.Set;
-
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import us.com.plattrk.util.JsonDateMinusTimeDeserializer;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "Resolution_Project")

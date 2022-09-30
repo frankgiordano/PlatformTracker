@@ -6,7 +6,6 @@ import us.com.plattrk.api.model.QueryResult;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 import java.util.List;
 import java.util.Map;
 

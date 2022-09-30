@@ -1,19 +1,15 @@
 package us.com.plattrk.repository;
 
-import java.util.*;
-import java.util.function.Consumer;
-
-import javax.persistence.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import us.com.plattrk.api.model.*;
-import us.com.plattrk.api.model.PageWrapper;
-import us.com.plattrk.api.model.QueryResult;
 import us.com.plattrk.util.RepositoryUtil;
+
+import javax.persistence.*;
+import java.util.*;
+import java.util.function.Consumer;
 
 @Repository
 public class IncidentRepositoryImpl implements IncidentRepository {

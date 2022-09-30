@@ -1,7 +1,8 @@
 package us.com.plattrk.service;
 
 import us.com.plattrk.api.model.Incident;
-import java.util.*;
+
+import java.util.Properties;
 
 public interface IncidentNotificationLegacyService {
 

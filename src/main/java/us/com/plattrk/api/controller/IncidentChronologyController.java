@@ -1,13 +1,12 @@
 package us.com.plattrk.api.controller;
 
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import us.com.plattrk.api.model.IncidentChronology;
 import us.com.plattrk.service.IncidentChronologyService;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/chronology")

@@ -1,10 +1,9 @@
 package us.com.plattrk.api.model;
 
-import javax.persistence.*;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import us.com.plattrk.util.JsonDateMinusTimeDeserializer;
 
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity

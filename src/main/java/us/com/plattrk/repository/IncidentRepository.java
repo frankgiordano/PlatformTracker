@@ -1,9 +1,8 @@
 package us.com.plattrk.repository;
 
-import java.util.*;
-
 import us.com.plattrk.api.model.*;
-import us.com.plattrk.api.model.PageWrapper;
+
+import java.util.*;
 
 public interface IncidentRepository {
 

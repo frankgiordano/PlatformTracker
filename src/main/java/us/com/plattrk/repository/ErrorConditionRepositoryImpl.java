@@ -1,14 +1,12 @@
 package us.com.plattrk.repository;
 
-import java.util.List;
+import org.springframework.stereotype.Repository;
+import us.com.plattrk.api.model.ErrorCondition;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-
-import org.springframework.stereotype.Repository;
-
-import us.com.plattrk.api.model.ErrorCondition;
+import java.util.List;
 
 @Repository
 public class ErrorConditionRepositoryImpl implements ErrorConditionRepository {
